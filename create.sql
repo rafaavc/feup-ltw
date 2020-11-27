@@ -24,12 +24,13 @@ CREATE TABLE Pet (
     species TEXT NOT NULL,
     size TEXT NOT NULL,
     color TEXT NOT NULL,
-    location TEXT NOT NULL
+    location TEXT NOT NULL,
+    description TEXT NOT NULL
 );
 
 CREATE TABLE PetPhoto (
     petId INTEGER NOT NULL REFERENCES Pet ON DELETE CASCADE,
-    url TEXT NOT NULL
+    id INTEGER PRIMARY KEY
 );
 
 CREATE TABLE ListPet (
@@ -54,7 +55,7 @@ CREATE TABLE Post (
     userId INTEGER NOT NULL REFERENCES User ON DELETE CASCADE,
     question TEXT NOT NULL,
     description TEXT NOT NULL,
-    answerToPostID INTEGER REFERENCES Post ON DELETE SET NULL -- If answerToPostID is NULL, the post is not an answer. It it is != NULL, the post is an answer to the referenced post, and should be represented accordingly. 
+    answerToPostID INTEGER REFERENCES Post ON DELETE SET NULL -- If answerToPostID is NULL, the post is not an answer. It it is != NULL, the post is an answer to the referenced post, and should be represented accordingly.
 );
 
 
