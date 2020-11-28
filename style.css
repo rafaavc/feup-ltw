@@ -33,9 +33,10 @@ body > header {
     align-items: center;
     color: var(--lightTextColor);
     z-index: 1000;
+    transition: all .3s;
 }
 
-body > header a, body > section.indexCover > div > footer > a {
+body > header a {
     color: var(--lightTextColor);
     text-decoration: none;
 }
@@ -58,7 +59,7 @@ body > header > nav > ul > li {
     margin-right: 0.5rem;
     display: inline-block;
 }
-body > header > nav > ul > li > a, body > section.indexCover > div > footer > a {
+body > header > nav > ul > li > a, a.simpleButton {
     display: inline-block;
     padding: 0.5rem 1rem;
     transition: background-color .3s, color .3s;
@@ -78,14 +79,35 @@ body > header > nav > ul > li:last-child {
     margin: 0;
 }
 
+body > header.filledMenu {
+    background-color: var(--darkTextColor);
+}
+
 .contrastButton {
     background-color: var(--accentColor);
     transition: all .2s;
+    color: var(--lightTextColor);
+    text-decoration: none;
 }
 
 .contrastButton:hover {
     color: var(--lightTextColor);
     background-color: var(--accentColorDarker);
+}
+
+body > section {
+    padding: 7rem var(--rightLeftPadding) 7rem var(--rightLeftPadding);
+    width: 100%;
+    height: auto;
+}
+body > section > img {
+    width: 100%;
+}
+
+body > section.simpleGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
 }
 
 body > section.indexCover:before {
@@ -103,16 +125,78 @@ body > section.indexCover:before {
 body > section.indexCover {
     background-color: rgba(0, 0, 0, 0.6);
     position: relative;
-    width: 100%;
-    height: auto;
-    padding-top: 6rem; /*temporary*/
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 2rem;
     color: var(--lightTextColor);
-    padding: 10rem var(--rightLeftPadding) 7rem var(--rightLeftPadding);
 }
 
-body > section.indexCover > img {
-    width: 100%;
+body > section:first-of-type {
+    padding-top: 10rem;
 }
+
+.petGrid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    grid-gap: 2rem;
+}
+
+.petGrid > .arrow {
+    cursor: pointer;
+}
+
+.arrow {
+    width: 1rem;
+    height: 1rem;
+    border-top: 0.25rem solid var(--darkTextColor);
+    border-right: 0.25rem solid var(--darkTextColor);
+}
+
+.arrow:before {
+    width: 1rem;
+    height: 1rem;
+    content: '';
+}
+
+.arrow.right {
+    transform: rotate(45deg);
+}
+.arrow.left {
+    transform: rotate(-135deg);
+}
+
+.petGridContent {
+    width: 100%;
+    overflow-x: hidden;
+    white-space: nowrap;
+    scroll-behavior: smooth;
+}
+
+.petGridContent > article {
+    border: 1px solid rgb(209, 209, 209);
+    display: inline-block;
+    margin-right: 1rem;
+    border-radius: 1rem;
+}
+
+.petGridContent > article > .image {
+    border-top-right-radius: inherit;
+    border-top-left-radius: inherit;
+}
+
+.petGridContent > article > .image ~ * {
+    margin: 1rem;
+}
+
+.petGridContent > article:last-of-type {
+    margin: 0;
+}
+
+.petGridContent > article > .image {
+    background: url('images/cuteCat.jpeg');
+    background-size: cover;
+    background-position: 50% 50%;
+    height: 10rem;
+    width: 100%;
+    content: '';
+
+}
+
