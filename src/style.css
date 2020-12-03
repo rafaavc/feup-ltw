@@ -12,6 +12,8 @@ body {
     --accentColorDarker: rgb(3, 152, 189); 
     --darkTextColor: rgb(12, 12, 12);
     --lightTextColor: rgb(245, 245, 245);
+    --footerTopColor: rgb(49, 49, 49);
+    --footerBottomColor: rgb(38, 38, 38);
     --menuItemHoverBG: rgba(245, 245, 245, .5);
     margin: 0;
     color: var(--darkTextColor);
@@ -132,9 +134,9 @@ body > section:first-of-type {
     padding-top: 10rem;
 }
 
-.petGrid {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    .petGrid {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
     align-items: center;
     grid-gap: 2rem;
 }
@@ -199,4 +201,64 @@ body > section:first-of-type {
     content: '';
 
 }
+
+footer > p {
+    background-color: var(--footerBottomColor);
+    color: var(--lightTextColor);
+    padding: 3em var(--rightLeftPadding) 3em var(--rightLeftPadding);
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+footer > section {
+    padding: 3em var(--rightLeftPadding) 3em var(--rightLeftPadding);
+    background-color: var(--footerTopColor);
+    color: var(--lightTextColor);
+    display: grid;
+    grid-template-columns: 75% 25%;
+    grid-template-rows: auto;
+}
+
+footer > section > div > nav > ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+footer > section > nav > ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+footer > section > nav > ul > li > a{
+    color: var(--lightTextColor);
+    text-decoration: none;
+}
+
+footer > section > div > nav > ul > li > a{
+    color: var(--lightTextColor);
+    text-decoration: none;
+}
+
+#footerMainMenu > ul > li {
+    margin-bottom: 0.3em;
+}
+
+#footerContactUs > header > h3 {
+    color: var(--accentColor);
+}
+
+#footerSessionMenu {
+    margin-top: 2em;
+}
+
+#footerSessionMenu > ul {
+    display: flex;
+}
+
+#footerSessionMenu > ul > li:first-child::after{
+    content: "\00a0\00a0\00a0/\00a0\00a0\00a0";
+}
+
 
