@@ -1,0 +1,73 @@
+.petProfile {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1;
+	position: relative;	
+}
+
+.petProfile img {
+	margin-left: 5rem;
+	grid-column-end: span 1;
+	border-radius: 50%;
+	width: 70%;
+}
+
+.petProfile div {
+	grid-column-end: span 1;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 2fr 1fr 1fr;
+}
+
+.petProfile header h3 {
+	padding-top: 2rem;
+	margin: 0;
+	grid-column-end: span 1;
+	font-size: 4rem;
+}
+
+.petProfile header h4 {
+	margin: 3rem 0;
+	grid-column-end: span 1;
+	font-size: 2rem;
+}
+
+.petProfile p {
+	grid-column-end: span 1;
+}
+
+.petProfile footer {
+	padding-left: 10rem;
+	grid-column-end: span 1;
+	display: grid;
+	grid-template-columns: 1fr 1fr  1fr 1fr;
+	grid-template-rows: 1fr;
+}
+
+.petProfile footer input {
+	grid-column-end: span 1;
+	display: inline-block;
+	height: 50px;
+	margin: 0 1rem;
+}
+
+.petProfile footer #favorite {
+	border-color: var(--accentColor);
+	border-style: solid;
+}
+
+.petProfile footer #adopt {
+	border: none;
+	background-color: var(--accentColor);
+}
+
+#petPhotos{
+	background-image: url('../../images/cuteDoggos.jpeg');
+	background-size: cover;
+	
+	height: 50rem;
+	width: 50rem;
+	background-position: 50%;
+
+	margin: 0 auto;
+}
