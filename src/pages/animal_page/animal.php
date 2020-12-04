@@ -14,8 +14,8 @@
 	<?php
 	include_once(dirname(__FILE__) . '/../../templates/common/header.php'); ?>
 	<section class='petProfile'>
-		<img src='../../images/cuteDoggos.jpeg'>
-		<div>
+		<div id="petProfileImage"> </div>
+		<div id="petInfo">
 			<header>
 				<h3>Dogs name, age</h3>
 				<h4>White Golden Retriver, 100cm </h4>
@@ -29,6 +29,21 @@
 	</section>
 
 	<div id="petPhotos"></div>
+
+	<section id="comments">
+		<h4>Comments:</h4>
+		<article class="comment">
+			<img src='../../images/rafaProfilePic.jpg' />
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vestibulum mi a velit ...</p>
+			<span class="user">rafaavc</span>
+			<span class="date">15:32 04/12/2020</span>
+		</article>
+		<form action='#'>
+			<h4>Add Comment:</h4>
+			<textarea name="text"></textarea>
+		</form>
+	</section>
+
 
 	<?php
 	include_once(dirname(__FILE__) . '/../../templates/common/footer.php');

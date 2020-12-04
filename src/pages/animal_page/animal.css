@@ -2,17 +2,24 @@
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	grid-template-rows: 1;
-	position: relative;	
+	position: relative;
 }
 
-.petProfile img {
-	margin-left: 5rem;
-	grid-column-end: span 1;
+.petProfile #petProfileImage {
+	background-image: url('../../images/cuteDoggos.jpeg');
+	background-size: cover;
+	background-position: 50%;
+
+	height: 30rem;
+	width: 30rem;
 	border-radius: 50%;
-	width: 70%;
+
+	margin: 0 auto;
+
+	grid-column-end: span 1;
 }
 
-.petProfile div {
+.petProfile #petInfo {
 	grid-column-end: span 1;
 	display: grid;
 	grid-template-columns: 1fr;
@@ -64,10 +71,46 @@
 #petPhotos{
 	background-image: url('../../images/cuteDoggos.jpeg');
 	background-size: cover;
-	
-	height: 50rem;
-	width: 50rem;
+
+	height: 40rem;
+	width: 40rem;
 	background-position: 50%;
 
 	margin: 0 auto;
+}
+
+#comments h4 {
+	margin: 3rem 0;
+	grid-column-end: span 1;
+	font-size: 2rem;
+}
+
+.comment {
+	font-size: 1.2rem;
+	display: grid;
+	grid-template-columns: 1fr 7fr;
+	grid-template-rows: 3fr 1fr;
+}
+
+.comment img {
+	grid-column-end: span 1;
+	width: 5rem;
+	border-radius: 50%;
+	margin: 1rem auto;
+}
+
+.comment .user {
+	margin: 0 auto;
+	font-style: italic;
+	font-size: 1.5rem;
+}
+
+.comment .date {
+	text-align: right;
+}
+
+#comments form textarea{
+	width: 100%;
+	height: 10rem;
+	font-size: 1.2rem;
 }
