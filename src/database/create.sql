@@ -7,7 +7,6 @@ CREATE TABLE User (
     password TEXT NOT NULL,
     birthdate DATE NOT NULL,
     mail TEXT NOT NULL UNIQUE,
-    profilePhoto INTEGER NOT NULL,
     description TEXT
 );
 
@@ -104,8 +103,14 @@ INSERT INTO PetColor(name) VALUES("Black and White");
 INSERT INTO PetColor(name) VALUES("Black and Brown");
 INSERT INTO PetColor(name) VALUES("Brown and White");
 
-INSERT INTO User(name, username, password, birthdate, mail, profilePhoto) VALUES("John Lewis", "johnalewis", "supersecure", DATE("1998-08-10"), "johnalewis@placeholder.com", 1);
+INSERT INTO User(name, username, password, birthdate, mail) VALUES("John Lewis", "johnalewis", "supersecure", DATE("1998-08-10"), "johnalewis@placeholder.com");
+INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("Rafael Cristino", "rafaavc", "mypassword", DATE("2000-08-28"), "rafaavc@mail.com",
+    "A humble man who is 'carregating' its LTW group project.");
+INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("Xavier Pisco", "xamas", "safest", DATE("2000-10-29"), "xamas@mail.com",
+    "A bad group teammate who just wanna be 'carregated'.");
+
 INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, profilePhoto) VALUES(1, "Shark", DATE("2019-01-20"), NULL, 1, 1, 1, "Amsterdam", NULL);
+
 INSERT INTO PetPhoto(petId, photoId) VALUES(1, 1);
 UPDATE Pet SET profilePhoto = 1 WHERE id = 1;
 
