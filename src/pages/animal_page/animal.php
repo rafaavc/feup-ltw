@@ -47,6 +47,7 @@
 		<form action='#'>
 			<h4>Add Comment:</h4>
 			<textarea name="text"></textarea>
+			<input type="submit"/>
 		</form>
 	</section>
 

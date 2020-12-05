@@ -61,11 +61,13 @@
 .petProfile footer #favorite {
 	border-color: var(--accentColor);
 	border-style: solid;
+	cursor: pointer;
 }
 
 .petProfile footer #adopt {
 	border: none;
 	background-color: var(--accentColor);
+	cursor: pointer;
 }
 
 #petPhotos{
@@ -123,4 +125,11 @@
 #comments form textarea{
 	width: 100%;
 	height: 10rem;
+}
+
+#comments form input {
+	background-color: var(--accentColor);
+	border: none;
+	margin: 1rem 0;
+	padding: 1rem;
 }
