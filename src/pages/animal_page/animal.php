@@ -18,7 +18,7 @@
 		<div id="petInfo">
 			<header>
 				<h3>Dogs name, age</h3>
-				<h4>White Golden Retriver, 100cm </h4>
+				<h4>White Golden Retriver, 100cm, Location </h4>
 			</header>
 			<p>Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam no suscipit quaerendum. At nam minimum ponderum. Est audiam animal molestiae te.</p>
 			<footer>
@@ -32,6 +32,12 @@
 
 	<section id="comments">
 		<h4>Comments:</h4>
+		<article class="comment">
+			<img src='../../images/rafaProfilePic.jpg' />
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vestibulum mi a velit ...</p>
+			<span class="user">rafaavc</span>
+			<span class="date">15:32 04/12/2020</span>
+		</article>
 		<article class="comment">
 			<img src='../../images/rafaProfilePic.jpg' />
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vestibulum mi a velit ...</p>

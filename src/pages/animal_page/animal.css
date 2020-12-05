@@ -94,6 +94,9 @@
 	display: grid;
 	grid-template-columns: 1fr 7fr;
 	grid-template-rows: 3fr 1fr;
+	margin-bottom: 3rem;
+	border-bottom: solid;
+	border-width: 0.1rem;
 }
 
 .comment img {
@@ -111,6 +114,10 @@
 
 .comment .date {
 	text-align: right;
+}
+
+#comments form {
+	margin-top: 5rem;
 }
 
 #comments form textarea{
