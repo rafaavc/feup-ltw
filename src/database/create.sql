@@ -7,7 +7,8 @@ CREATE TABLE User (
     password TEXT NOT NULL,
     birthdate DATE NOT NULL,
     mail TEXT NOT NULL UNIQUE,
-    profilePhoto INTEGER NOT NULL
+    profilePhoto INTEGER NOT NULL,
+    description TEXT
 );
 
 CREATE TABLE List (
@@ -89,9 +90,19 @@ INSERT INTO PetSpecie(name) VALUES("Turtle");
 INSERT INTO PetRace(specieId, name) VALUES(1, "Rottweiler");
 INSERT INTO PetRace(specieId, name) VALUES(1, "Husky");
 INSERT INTO PetRace(specieId, name) VALUES(1, "Golden Retriever");
+INSERT INTO PetRace(specieId, name) VALUES(2, "Sphynx");
+INSERT INTO PetRace(specieId, name) VALUES(2, "Ohter");
 
+INSERT INTO PetSize(name) VALUES("Small");
 INSERT INTO PetSize(name) VALUES("Medium");
+INSERT INTO PetSize(name) VALUES("Large");
+
+INSERT INTO PetColor(name) VALUES("White");
 INSERT INTO PetColor(name) VALUES("Brown");
+INSERT INTO PetColor(name) VALUES("Black");
+INSERT INTO PetColor(name) VALUES("Black and White");
+INSERT INTO PetColor(name) VALUES("Black and Brown");
+INSERT INTO PetColor(name) VALUES("Brown and White");
 
 INSERT INTO User(name, username, password, birthdate, mail, profilePhoto) VALUES("John Lewis", "johnalewis", "supersecure", DATE("1998-08-10"), "johnalewis@placeholder.com", 1);
 INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, profilePhoto) VALUES(1, "Shark", DATE("2019-01-20"), NULL, 1, 1, 1, "Amsterdam", NULL);
