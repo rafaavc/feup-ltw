@@ -109,7 +109,7 @@ INSERT INTO User(name, username, password, birthdate, mail, description) VALUES(
 INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("Xavier Pisco", "xamas", "safest", DATE("2000-10-29"), "xamas@mail.com",
     "A bad group teammate who just wanna be 'carregated'.");
 INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("João Diogo Romão", "TsarkFC", "marktsubasa", DATE("2000-06-22"), "tsarkfc@mail.com",
-    "This one doesn't even know there is a project");
+    "I didn't even knew there is a project");
 
 INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location) VALUES(1, "Boby", DATE("2019-01-20"), NULL, 1, 2, 3, "Amsterdam");
 INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location) VALUES(1, "Snoop", DATE("2013-06-13"), NULL, 3, 3, 7, "Amsterdam");
