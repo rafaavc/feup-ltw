@@ -108,6 +108,8 @@ INSERT INTO User(name, username, password, birthdate, mail, description) VALUES(
     "A humble man who is 'carregating' its LTW group project.");
 INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("Xavier Pisco", "xamas", "safest", DATE("2000-10-29"), "xamas@mail.com",
     "A bad group teammate who just wanna be 'carregated'.");
+INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("João Diogo Romão", "TsarkFC", "marktsubasa", DATE("2000-06-22"), "tsarkfc@mail.com",
+    "This one doesn't even know there is a project");
 
 INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, profilePhoto) VALUES(1, "Shark", DATE("2019-01-20"), NULL, 1, 1, 1, "Amsterdam", NULL);
 
