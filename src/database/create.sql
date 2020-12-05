@@ -118,6 +118,14 @@ INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location) VA
 INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location) VALUES(4, "Bicho", DATE("2000-1-30"), NULL, 4, 2, 4, "Repeses");
 
 INSERT INTO PetPhoto(petId, photoId) VALUES(1, 1);
-UPDATE Pet SET profilePhoto = 1 WHERE id = 1;
+INSERT INTO PetPhoto(petId, photoId) VALUES(2, 2);
+INSERT INTO PetPhoto(petId, photoId) VALUES(3, 3);
+INSERT INTO PetPhoto(petId, photoId) VALUES(4, 4);
+INSERT INTO PetPhoto(petId, photoId) VALUES(5, 5);
+INSERT INTO PetPhoto(petId, photoId) VALUES(1, 6);
+INSERT INTO PetPhoto(petId, photoId) VALUES(1, 7);
+INSERT INTO PetPhoto(petId, photoId) VALUES(2, 8);
+INSERT INTO PetPhoto(petId, photoId) VALUES(4, 9);
+
 
 
