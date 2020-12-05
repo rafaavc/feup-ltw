@@ -1,7 +1,7 @@
 PRAGMA foreign_keys = ON;
 
 CREATE TABLE User (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY, -- Used for photos on usersProfilePictures folder
     name TEXT NOT NULL,
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE List (
 );
 
 CREATE TABLE Pet (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY, -- Used for profilePhoto on petProfilePictures folder
     userId INTEGER NOT NULL REFERENCES User ON DELETE CASCADE, -- Listed for adoption
     name TEXT,   -- may not have a name
     birthdate DATE NOT NULL,
@@ -90,7 +90,6 @@ INSERT INTO PetRace(specieId, name) VALUES(1, "Rottweiler");
 INSERT INTO PetRace(specieId, name) VALUES(1, "Husky");
 INSERT INTO PetRace(specieId, name) VALUES(1, "Golden Retriever");
 INSERT INTO PetRace(specieId, name) VALUES(2, "Sphynx");
-INSERT INTO PetRace(specieId, name) VALUES(2, "Ohter");
 
 INSERT INTO PetSize(name) VALUES("Small");
 INSERT INTO PetSize(name) VALUES("Medium");
@@ -102,6 +101,7 @@ INSERT INTO PetColor(name) VALUES("Black");
 INSERT INTO PetColor(name) VALUES("Black and White");
 INSERT INTO PetColor(name) VALUES("Black and Brown");
 INSERT INTO PetColor(name) VALUES("Brown and White");
+INSERT INTO PetColor(name) VALUES("Gold");
 
 INSERT INTO User(name, username, password, birthdate, mail) VALUES("John Lewis", "johnalewis", "supersecure", DATE("1998-08-10"), "johnalewis@placeholder.com");
 INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("Rafael Cristino", "rafaavc", "mypassword", DATE("2000-08-28"), "rafaavc@mail.com",
@@ -111,7 +111,11 @@ INSERT INTO User(name, username, password, birthdate, mail, description) VALUES(
 INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("João Diogo Romão", "TsarkFC", "marktsubasa", DATE("2000-06-22"), "tsarkfc@mail.com",
     "This one doesn't even know there is a project");
 
-INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, profilePhoto) VALUES(1, "Shark", DATE("2019-01-20"), NULL, 1, 1, 1, "Amsterdam", NULL);
+INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location) VALUES(1, "Boby", DATE("2019-01-20"), NULL, 1, 2, 3, "Amsterdam");
+INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location) VALUES(1, "Snoop", DATE("2013-06-13"), NULL, 3, 3, 7, "Amsterdam");
+INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location) VALUES(3, "Malaquias", DATE("2020-08-25"), NULL, 2, 1, 4, "Moita do Boi");
+INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location) VALUES(2, "Garfield", DATE("2017-12-14"), 2, NULL, 2, 7, "Cucujães");
+INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location) VALUES(4, "Bicho", DATE("2000-1-30"), NULL, 4, 2, 4, "Repeses");
 
 INSERT INTO PetPhoto(petId, photoId) VALUES(1, 1);
 UPDATE Pet SET profilePhoto = 1 WHERE id = 1;
