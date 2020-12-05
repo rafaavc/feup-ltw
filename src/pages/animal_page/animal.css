@@ -66,8 +66,6 @@
 
 .petProfile footer #adopt {
 	border: none;
-	background-color: var(--accentColor);
-	cursor: pointer;
 }
 
 #petPhotos{
@@ -128,8 +126,8 @@
 }
 
 #comments form input {
-	background-color: var(--accentColor);
 	border: none;
 	margin: 1rem 0;
 	padding: 1rem;
+	font-size: 1.3rem;
 }

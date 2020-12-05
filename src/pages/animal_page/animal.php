@@ -23,7 +23,7 @@
 			<p>Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam no suscipit quaerendum. At nam minimum ponderum. Est audiam animal molestiae te.</p>
 			<footer>
 				<input type="button" id="favorite" value="Add to Favorites" />
-				<input type="button" id="adopt" value="Adopt it" />
+				<input type="button" id="adopt" class="contrastButton" value="Adopt it" />
 			</footer>
 		</div>
 	</section>
@@ -47,7 +47,7 @@
 		<form action='#'>
 			<h4>Add Comment:</h4>
 			<textarea name="text"></textarea>
-			<input type="submit"/>
+			<input type="submit" class="contrastButton"/>
 		</form>
 	</section>
 
