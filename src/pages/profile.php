@@ -4,8 +4,8 @@
     <title>To The Rescue!</title>
     <link rel="stylesheet" href="../../myProjects/webProject/icofont/css/icofont.min.css">
     <link rel="stylesheet" type="text/css" href="../../style.css" />
-	<link rel="stylesheet" type="text/css" href="profile.css" />
-    <script src="../../scripts.js" defer></script>
+	<link rel="stylesheet" type="text/css" href="../css/profile.css" />
+    <script src="../../javascript/scripts.js" defer></script>
 </head>
 
 <body>

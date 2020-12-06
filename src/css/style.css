@@ -120,7 +120,7 @@ body > section.indexCover:before {
     height: 100%;
     content: '';
     z-index: -1;
-    background-image: url("images/indexCoverBG.jpg");
+    background-image: url("../images/indexCoverBG.jpg");
     background-size: cover;
 }
 
@@ -193,7 +193,7 @@ body > section:first-of-type {
 }
 
 .petGridContent > article > .image {
-    background: url('images/cuteCat.jpeg');
+    background: url('../images/cuteCat.jpeg');
     background-size: cover;
     background-position: 50% 50%;
     height: 10rem;
