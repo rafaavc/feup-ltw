@@ -1,26 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>To The Rescue!</title>
-    <link rel="stylesheet" href="myProjects/webProject/icofont/css/icofont.min.css">
-    <link rel="stylesheet" type="text/css" href="style.css" />
-    <script src="scripts.js" defer></script>
-</head>
-
-<body>
 <?php
-include_once("templates/common/header.php");
-include_once("templates/index/index_cover.php");
-include_once("templates/index/index_follow_up.php");
-?>
-<section>
-    <h1>Meet Our Pets</h1>
-    <?php include_once("templates/show_pets.php");?>
-</section>
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-<?php
-include_once("templates/common/footer.php");
-?>
+$rootUrl = sprintf(
+    "%s://%s:%s",
+    isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+    $_SERVER['SERVER_NAME'],
+    $_SERVER['SERVER_PORT']
+);
 
-</body>
-</html>
+include_once(dirname(__FILE__)."/control/db.php");
+include_once(dirname(__FILE__)."/pages/index.php");
+?>
