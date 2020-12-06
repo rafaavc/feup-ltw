@@ -1,36 +1,54 @@
 @import url("../../style.css");
 
 .profile_header {
-    display: flex;
-    padding-left: calc(var(--rightLeftPadding) + 5vw);
-    padding-right: calc(var(--rightLeftPadding) + 5vw);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-gap: 2rem;
+    align-items: center;
+
+    padding-left: calc(var(--rightLeftPadding) );
+    padding-right: calc(var(--rightLeftPadding) );
 }
 
 .profile_header > img {
-    flex-basis: 35rem;
     border-radius: 50%;
-    max-width: 12.5%;
-    height: auto;
-    margin-right: 3rem;
+    max-width: 10vw;
+    height: 10vw;
 }
 
-.profile_header > div {
-    display: grid;
-    grid-template-columns: 80% 20%;
-    grid-template-areas: "text button";
+.petlist {
+    padding-top: 0;
 }
 
-.profile_header > div > footer {
-    grid-area: button;
+#list-select {
+    padding: 8px 12px;
+    color: #333333;
+    background-color: #eeeeee;
+    border: 1px solid #dddddd;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: auto 1rem;
+    font-family: 'Lora', serif;
+
+    /* no default arrow*/
+    /*appearance: none;*/
 }
 
-.profile_header > div > footer > a.simpleButton {
-    float: center;
-    text-align: center;
-    margin-left: 2rem;
+
+#list-select:hover {
+    outline: none;
+    border: 1px solid #bbbbbb;
 }
 
+#list-select option:hover {
+    background-color: #333333;
+}
+
+#select {
+    display: flex;
+    align-items: center;
+}
 
 * {
-    /*border: solid; */
+    /*border: 1px solid;*/
 }
