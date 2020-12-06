@@ -102,12 +102,12 @@ INSERT INTO PetColor(name) VALUES("Brown and White");
 INSERT INTO PetColor(name) VALUES("Gold");
 
 INSERT INTO User(name, username, password, birthdate, mail) VALUES("John Lewis", "johnalewis", "supersecure", DATE("1998-08-10"), "johnalewis@placeholder.com");
-INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("Rafael Cristino", "rafaavc", "mypassword", DATE("2000-08-28"), "rafaavc@mail.com",
-    "A humble man who is 'carregating' its LTW group project.");
-INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("Xavier Pisco", "xamas", "safest", DATE("2000-10-29"), "xamas@mail.com",
-    "A bad group teammate who just wanna be 'carregated'.");
-INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("João Diogo Romão", "TsarkFC", "marktsubasa", DATE("2000-06-22"), "tsarkfc@mail.com",
-    "I didn't even knew there is a project");
+INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("Rafael Cristino", "rafaavc", "$2y$10$iOGAgqhjw0YK2O/xsr0KpOR1YloVXontN7AkdC8S6spFmof.x2yZq", DATE("2000-08-28"), "rafaavc@mail.com",
+    "A humble man who is 'carregating' its LTW group project.");  -- PW: mypassword
+INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("Xavier Pisco", "xamas", "$2y$10$dZtzuf9IWnDFzYUL34P8oe5hCAeAFogH1pd3Et8D2smhUJG4VZMLO", DATE("2000-10-29"), "xamas@mail.com",
+    "A bad group teammate who just wanna be 'carregated'.");  -- PW: safest
+INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("João Diogo Romão", "TsarkFC", "$2y$10$jIDBFmD0.YdhEmabyHLS..VBlCSpdEm/VX8qibLw/riql44HAoTTe", DATE("2000-06-22"), "tsarkfc@mail.com",
+    "I didn't even knew there is a project");  -- PW: marktsubasa
 
 INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location) VALUES(1, "Boby", DATE("2019-01-20"), NULL, 1, 2, 3, "Amsterdam");
 INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location) VALUES(1, "Snoop", DATE("2013-06-13"), NULL, 3, 3, 7, "Amsterdam");

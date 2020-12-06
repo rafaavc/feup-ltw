@@ -1,5 +1,4 @@
 <?php
-
   /**
    * A singleton representing the app connection 
    * to the database.

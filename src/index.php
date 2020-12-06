@@ -9,6 +9,7 @@ $rootUrl = sprintf(
     $_SERVER['SERVER_PORT']
 );
 
-include_once(dirname(__FILE__)."/control/db.php");
+include_once(dirname(__FILE__)."/control/api/api.php");
+
 include_once(dirname(__FILE__)."/pages/index.php");
 ?>

@@ -5,12 +5,11 @@ import signal
 
 def refresh():
     subprocess.call(["./refresh"])
-    print("Refresh")
-
+    print("## Refreshed CSS")
 
 previous = {}
 
-def listenForChanges():
+def pollForChanges():
     while True:
         refreshed = False
         for filename in os.listdir('css/components'):
@@ -36,7 +35,9 @@ try:
     if newpid == 0:
         subprocess.call(["php", "-S", "localhost:8001"])
     else:
-        listenForChanges()
+        pollForChanges()
 except KeyboardInterrupt:
     os.kill(newpid, signal.SIGTERM)
     print("Bye!")
+
+    
