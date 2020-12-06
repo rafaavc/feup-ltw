@@ -1,0 +1,3 @@
+cd css
+python3 build.py -m
+cd ..

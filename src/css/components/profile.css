@@ -1,0 +1,19 @@
+.profile_header {
+    display: flex;
+    justify-content: space-around;
+}
+
+.profile_header >img {
+    padding-left: 10rem;
+    flex-basis: 35rem;
+}
+
+.profile_header > div {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    grid-template-areas: "text button";
+}
+
+.profile_header > div > footer {
+    grid-area: button;
+}
