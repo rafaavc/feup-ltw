@@ -1,5 +1,5 @@
 <section class="profile_header">
-    <img src="images/cuteDoggos.jpeg" />
+    <img src="../../images/cuteDoggos.jpeg" alt="avatar"/>
     <div>
         <header>
             <h2>User name</h2>
