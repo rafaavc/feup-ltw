@@ -133,6 +133,10 @@ INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES (3
     "Where is 'Moita do Boi'?", DATE("2020-11-25 20:15:45"), NULL);
 INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES (3, 2,
     "Is it male or female?", DATE("2020-12-01 16:06:41"), NULL);
-INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES (3, 1,
-    "It's a male.", DATE("2020-12-01 22:10:06", 4);
+INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES (3, 3,
+    "It's a male.", DATE("2020-12-01 22:10:06"), 4);
 
+INSERT INTO ProposedToAdopt(userId, petId) VALUES(2, 3);
+
+INSERT INTO Adopted(userId, petId) VALUES(3, 1);
+INSERT INTO Adopted(userId, petId) VALUES(4, 4);
