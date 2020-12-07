@@ -47,4 +47,25 @@
     return $stmt->fetch();
   }
 
+  function getSpecie($specieId){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT name FROM PetSpecie WHERE id=?');
+    $stmt->execute(array($specieId));
+    return $stmt->fetch();
+  }
+
+  function getRace($raceId){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT name FROM PetRace WHERE id=?');
+    $stmt->execute(array($raceId));
+    return $stmt->fetch();
+  }
+
+  function getColor($colorId){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT name FROM PetColor WHERE id=?');
+    $stmt->execute(array($colorId));
+    return $stmt->fetch();
+  }
+
 ?>

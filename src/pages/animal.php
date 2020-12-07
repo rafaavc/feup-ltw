@@ -44,7 +44,7 @@
 					}
 					?>
 				</h3>
-				<h4>White Golden Retriver, 100cm, Location </h4>
+				<h4><?= getColor($pet['color'])['name'] . ' ' . getRace($pet['race'])['name'] . ', ' . $pet['location'] ?></h4>
 			</header>
 			<p>Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam no suscipit quaerendum. At nam minimum ponderum. Est audiam animal molestiae te.</p>
 			<footer>
