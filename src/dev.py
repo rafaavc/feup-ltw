@@ -33,7 +33,7 @@ def pollForChanges():
 newpid = os.fork()
 try:
     if newpid == 0:
-        subprocess.call(["php", "-S", "localhost:8001"])
+        subprocess.call(["php", "-S", "localhost:8000", "index.php"])
     else:
         pollForChanges()
 except KeyboardInterrupt:

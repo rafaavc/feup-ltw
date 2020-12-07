@@ -1,7 +1,8 @@
 <?php
+// this is the id of the pet to show as given in the router: $GLOBALS['id'];
 include_once(dirname(__FILE__) . '/../templates/common/header.php'); ?>
 <section class='petProfile'>
-	<img src='../../images/cuteDoggos.jpeg'>
+	<img src='<?=getRootURL()?>/images/cuteDoggos.jpeg'>
 	<div>
 		<header>
 			<h3>Dogs name, age</h3>
