@@ -1,5 +1,5 @@
 <section class="profile_header">
-    <img src="../../images/cuteDoggos.jpeg"/>
+    <img src="<?=getRootURL()?>/images/cuteDoggos.jpeg" />
     <div>
         <header>
             <h2>User name</h2>
