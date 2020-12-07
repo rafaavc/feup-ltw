@@ -15,11 +15,15 @@ function handle() {
         $req = isset($_GET['req']) ? $_GET['req'] : "index";
     }
 
+    hitTarget(findTarget($req));
+    return true;
+}
+
+function findTarget($req) {
     $routes = json_decode(file_get_contents('control/routes.json'));
 
-    if (property_exists($routes, $req)) {
-        hitTarget($routes->$req);
-        return true;
+    if (property_exists($routes, $req) && !(strpos($req, ":") !== false)) {
+        return $routes->$req;
     }
 
     $reqParts = explode("/", $req);
@@ -59,20 +63,17 @@ function handle() {
         $GLOBALS[$key] = $value;
     }
 
-    hitTarget($destination);
-    return true;
+    return $destination;
 }
 
+function hitTarget($target) {
+    require_once($target);
+}
 
 function error404() {
     http_response_code(404);
     hitTarget("pages/404.php");
     exit();
-}
-
-
-function hitTarget($target) {
-    require_once($target);
 }
 
 ?>
