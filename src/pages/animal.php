@@ -44,7 +44,13 @@
 					}
 					?>
 				</h3>
-				<h4><?= getColor($pet['color'])['name'] . ' ' . getRace($pet['race'])['name'] . ', ' . $pet['location'] ?></h4>
+				<h4><?php
+				if ($pet['race'] != null) {
+					echo getColor($pet['color'])['name'] . ' ' . getRace($pet['race'])['name'] . ', ' . $pet['location'];
+				} else if ($pet['specie'] != null) {
+					echo getColor($pet['color'])['name'] . ' ' . getSpecie($pet['specie'])['name'] . ', ' . $pet['location'];
+				}
+				 ?></h4>
 			</header>
 			<p>Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam no suscipit quaerendum. At nam minimum ponderum. Est audiam animal molestiae te.</p>
 			<footer>
