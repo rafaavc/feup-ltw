@@ -1,15 +1,15 @@
 <?php
   /**
-   * A singleton representing the app connection 
+   * A singleton representing the app connection
    * to the database.
    */
   class Database {
     private static $instance = NULL;
     private $db = NULL;
-    
+
     /**
-     * Private constructor. Creates a database connection. 
-     * Sets fetch mode to fetch using associative arrays 
+     * Private constructor. Creates a database connection.
+     * Sets fetch mode to fetch using associative arrays
      * and turns on exceptions. Also turns on foreign keys
      * enforcement.
      */
@@ -18,7 +18,7 @@
       $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
       $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       $this->db->query('PRAGMA foreign_keys = ON');
-      if (NULL == $this->db) 
+      if (NULL == $this->db)
         throw new Exception("Failed to open database");
     }
 
@@ -32,12 +32,19 @@
     /**
      * Returns this singleton instance. Creates it if needed.
      */
-    private static function instance() {
+    static function instance() {
       if (NULL == self::$instance) {
         self::$instance = new Database();
       }
       return self::$instance;
     }
+  }
+
+  function getPet($petId){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT * FROM Pet WHERE id=?');
+    $stmt->execute(array($petId));
+    return $stmt->fetch();
   }
 
 ?>

@@ -12,12 +12,38 @@
 <body>
 
 	<?php
-	include_once(dirname(__FILE__) . '/../templates/common/header.php'); ?>
+	include_once(dirname(__FILE__) . '/../control/db.php');
+	$pet = getPet($GLOBALS['id']);
+	include_once(dirname(__FILE__) . '/../templates/common/header.php');
+	?>
 	<section class='petProfile'>
-		<div id="petProfileImage" style="background-image: url(<?='../images/PetProfilePictures/'.$GLOBALS['id'].'.jpg'?>);"> </div>
+		<div id="petProfileImage" style="background-image: url(<?= '../images/PetProfilePictures/' . $pet['id'] . '.jpg' ?>);"> </div>
 		<div id="petInfo">
 			<header>
-				<h3>Dogs name, age</h3>
+				<h3><?= $pet['name'] ?>,
+					<?php
+					$birthDate = explode("-", $pet['birthdate']);
+					//get age from date or birthdate
+					$years = (date("md", date("U", mktime(0, 0, 0, $birthDate[2], $birthDate[1], $birthDate[0]))) > date("md")
+						? ((date("Y") - $birthDate[0]) - 1)
+						: (date("Y") - $birthDate[0]));
+					if ($years > 1) {
+						echo $years . ' years';
+					} else if ($years == 1) {
+						echo $years . ' year';
+					}
+					$months = (date("d", date("U", mktime(0, 0, 0, $birthDate[2], $birthDate[1], $birthDate[0]))) > date("d")
+						? ((date("m") - $birthDate[1]) - 1)
+						: (date("m") - $birthDate[1]));
+					if ($months > 0) {
+						if ($years > 0) {
+							echo ' and ' . $months . ' months';
+						} else {
+							echo $months . ' months';
+						}
+					}
+					?>
+				</h3>
 				<h4>White Golden Retriver, 100cm, Location </h4>
 			</header>
 			<p>Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam no suscipit quaerendum. At nam minimum ponderum. Est audiam animal molestiae te.</p>
