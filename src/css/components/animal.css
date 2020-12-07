@@ -6,7 +6,6 @@
 }
 
 .petProfile #petProfileImage {
-	background-image: url('../../images/cuteDoggos.jpeg');
 	background-size: cover;
 	background-position: 50%;
 
