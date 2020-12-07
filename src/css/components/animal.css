@@ -67,12 +67,8 @@
 	border: none;
 }
 
-#petPhotos{
-	background-image: url('../../images/cuteDoggos.jpeg');
-	background-size: cover;
-
+.petPhotos{
 	height: 40rem;
-	width: 40rem;
 	background-position: 50%;
 
 	margin: 0 auto;

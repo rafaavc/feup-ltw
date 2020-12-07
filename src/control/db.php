@@ -68,4 +68,11 @@
     return $stmt->fetch();
   }
 
+  function getPetPhotos($petId){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT photoId FROM PetPhoto WHERE petId=?');
+    $stmt->execute(array($petId));
+    return $stmt->fetchAll();
+  }
+
 ?>
