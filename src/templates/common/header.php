@@ -1,3 +1,6 @@
+<?php
+include_once(dirname(__FILE__)."/doc_header.php");
+?>
 <header>
     <a href="#"><h1>To The Rescue!</h1></a>
     <nav id="mainMenu">

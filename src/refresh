@@ -1,0 +1,4 @@
+#!/bin/sh
+cd css
+python3 build.py
+cd ..
