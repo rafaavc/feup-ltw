@@ -56,18 +56,20 @@ for ($i = 0; $i < count($photos); $i++) {
 
 <section id="comments">
 	<h4>Comments:</h4>
-	<article class="comment">
-		<img src='../../images/rafaProfilePic.jpg' />
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vestibulum mi a velit ...</p>
-		<span class="user">rafaavc</span>
-		<span class="date">15:32 04/12/2020</span>
-	</article>
-	<article class="comment">
-		<img src='../../images/rafaProfilePic.jpg' />
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vestibulum mi a velit ...</p>
-		<span class="user">rafaavc</span>
-		<span class="date">15:32 04/12/2020</span>
-	</article>
+	<?php
+	$posts = getPosts($pet['id']);
+	for ($i = 0; $i < count($posts); $i++) {
+		$user = getUser($posts[$i]['userId']); ?>
+		<article class="comment">
+			<img src='../../images/userProfilePictures/<?= $user['id'] ?>.jpg' />
+			<p><?= $posts[$i]['description'] ?></p>
+			<span class="user"><?= $user['name'] ?></span>
+			<span class="date"><?= $posts[$i]['postDate'] ?></span>
+		</article>
+
+	<?php
+	}
+	?>
 	<form action='#'>
 		<h4>Add Comment:</h4>
 		<textarea name="text"></textarea>

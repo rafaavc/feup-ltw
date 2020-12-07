@@ -75,4 +75,17 @@
     return $stmt->fetchAll();
   }
 
+  function getPosts($petId){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT * FROM Post WHERE petId=?');
+    $stmt->execute(array($petId));
+    return $stmt->fetchAll();
+  }
+
+  function getUser($userId){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT * FROM User WHERE id=?');
+    $stmt->execute(array($userId));
+    return $stmt->fetch();
+  }
 ?>

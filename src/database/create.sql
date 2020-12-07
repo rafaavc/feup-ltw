@@ -75,7 +75,7 @@ CREATE TABLE Post (
     petId INTEGER NOT NULL REFERENCES Pet ON DELETE CASCADE,
     userId INTEGER NOT NULL REFERENCES User ON DELETE CASCADE,
     description TEXT NOT NULL,
-    postDate DATE NOT NULL,
+    postDate TEXT NOT NULL,
     answerToPostID INTEGER REFERENCES Post ON DELETE SET NULL -- If answerToPostID is NULL, the post is not an answer. It it is != NULL, the post is an answer to the referenced post, and should be represented accordingly.
 );
 
@@ -132,15 +132,15 @@ INSERT INTO PetPhoto(petId, photoId) VALUES(2, 8);
 INSERT INTO PetPhoto(petId, photoId) VALUES(4, 9);
 
 INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES (1, 3,
-    "Is there any way to get this dog to Portugal? Any pet transporter that works in both countries?", DATE("2020-12-05  13:05:54"), NULL);
+    "Is there any way to get this dog to Portugal? Any pet transporter that works in both countries?", "2020-12-05  13:05:54", NULL);
 INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES (1, 1,
-    "Yes, that's not a proble, there is a pet transportation company that works here. It's called CCPS", DATE("2020-12-06 10:18:31"), 1);
+    "Yes, that's not a proble, there is a pet transportation company that works here. It's called CCPS", "2020-12-06 10:18:31", 1);
 INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES (3, 4,
-    "Where is 'Moita do Boi'?", DATE("2020-11-25 20:15:45"), NULL);
+    "Where is 'Moita do Boi'?", "2020-11-25 20:15:45", NULL);
 INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES (3, 2,
-    "Is it male or female?", DATE("2020-12-01 16:06:41"), NULL);
+    "Is it male or female?", "2020-12-01 16:06:41", NULL);
 INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES (3, 3,
-    "It's a male.", DATE("2020-12-01 22:10:06"), 4);
+    "It's a male.", "2020-12-01 22:10:06", 4);
 
 INSERT INTO ProposedToAdopt(userId, petId) VALUES(2, 3);
 
