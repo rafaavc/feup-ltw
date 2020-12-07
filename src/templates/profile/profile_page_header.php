@@ -6,8 +6,8 @@
             <h4>Brief</h4>
         </header>
         <p>Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam no suscipit quaerendum. At nam minimum ponderum. Est audiam animal molestiae te. Ex duo eripuit mentitum.</p>
-        <footer>
-            <a href="#" class="simpleButton contrastButton">Edit Profile</a>
-        </footer>
     </div>
+    <aside>
+        <a href="#" class="simpleButton contrastButton">Edit Profile</a>
+    </aside>
 </section>

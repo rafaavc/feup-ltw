@@ -134,9 +134,9 @@ body > section:first-of-type {
     padding-top: 10rem;
 }
 
-    .petGrid {
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
+.petGrid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     grid-gap: 2rem;
 }
