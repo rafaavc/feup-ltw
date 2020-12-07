@@ -4,7 +4,7 @@ $pet = getPet($GLOBALS['id']);
 include_once(dirname(__FILE__) . '/../templates/common/header.php');
 ?>
 <section class='petProfile'>
-	<div id="petProfileImage" style="background-image: url(<?= '../images/PetProfilePictures/' . $pet['id'] . '.jpg' ?>);"> </div>
+	<div id="petProfileImage" style="background-image: url(<?= '../images/petProfilePictures/' . $pet['id'] . '.jpg' ?>);"> </div>
 	<div id="petInfo">
 		<header>
 			<h3><?= $pet['name'] ?>,
