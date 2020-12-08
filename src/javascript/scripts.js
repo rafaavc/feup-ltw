@@ -7,15 +7,23 @@ function getHeader() {
 
 function scrollHandler() {
     const offsetFromTop = 30;
-    if (window.scrollY > 30 && !menuState) {
-        const menu = getHeader();
-        menuState = true;
-        menu.classList.add('filledMenu');
-    } else if (window.scrollY <= 30 && menuState) {
-        const menu = getHeader();
-        menuState = false;
-        menu.classList.remove('filledMenu');
+    if (window.scrollY > offsetFromTop && !menuState) {
+        showMenuBackground();
+    } else if (window.scrollY <= offsetFromTop && menuState) {
+        hideMenuBackground();
     }
+}
+
+function showMenuBackground() {
+    const menu = getHeader();
+    menuState = true;
+    menu.classList.add('filledMenu');
+}
+
+function hideMenuBackground() {
+    const menu = getHeader();
+    menuState = false;
+    menu.classList.remove('filledMenu');
 }
 
 function movePetGrid(petGrid, right) {
@@ -26,7 +34,12 @@ function movePetGrid(petGrid, right) {
 }
 
 function initWebsite() {
-    window.addEventListener('scroll', scrollHandler);
+    if (document.querySelector('section:first-of-type.indexCover') != null) {
+        window.addEventListener('scroll', scrollHandler);
+        scrollHandler(); // In case the webpage shows up already scrolled
+    } else {
+        showMenuBackground();
+    }
     const rightArrows = document.querySelectorAll('.petGrid > .arrow.right');
     const leftArrows = document.querySelectorAll('.petGrid > .arrow.left');
 
