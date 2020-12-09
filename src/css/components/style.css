@@ -134,6 +134,12 @@ body > section:first-of-type {
     padding-top: 10rem;
 }
 
+.error-message {
+    color: darkred;
+    font-size: 0.9em;
+
+}
+
 .petGrid {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
