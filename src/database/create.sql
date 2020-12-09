@@ -108,7 +108,7 @@ INSERT INTO User(name, username, password, birthdate, mail, description) VALUES(
 INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("Xavier Pisco", "xamas", "$2y$10$dZtzuf9IWnDFzYUL34P8oe5hCAeAFogH1pd3Et8D2smhUJG4VZMLO", DATE("2000-10-29"), "xamas@mail.com",
     "A bad group teammate who just wanna be 'carregated'.");  -- PW: safest
 INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("João Diogo Romão", "TsarkFC", "$2y$10$jIDBFmD0.YdhEmabyHLS..VBlCSpdEm/VX8qibLw/riql44HAoTTe", DATE("2000-06-22"), "tsarkfc@mail.com",
-    "I didn't even knew there is a project");  -- PW: marktsubasa
+    "I didn't even know there was a project");  -- PW: marktsubasa
 
 INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description) VALUES(1, "Boby", DATE("2019-01-20"), NULL, 1, 2, 3, "Amsterdam",
     "A good boy, well trained and really chill with kids.");
