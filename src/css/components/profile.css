@@ -61,22 +61,19 @@
     display: inline-block;
 }
 
-.textButtonPair p, .textButtonPair .edit{
-    display: inline-block;
-}
-
-.textButtonPair > p{
-    margin-right: 2.5rem;
-}
-
-/* #editProfile {
+.textButtonPair .edit {
     display: none;
-} */
+}
 
-/* .profile_header > aside > label {
+#bio {
+    display: flex;
+    align-items: center;
+}
+
+.profile_header > aside > label {
     position: relative;
     left: 2rem;
-} */
+}
 
 nav#menu label.hamburger {
     display: block;

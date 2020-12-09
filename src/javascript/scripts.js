@@ -34,5 +34,25 @@ function initWebsite() {
     for (const leftArrow of leftArrows) leftArrow.addEventListener('click', () => movePetGrid(leftArrow.parentElement, false));
 }
 
+function editOptions() {
+    let editProfileLabel = document.querySelector("#editProfileLabel > a");
+    let editProfile = document.getElementById("editProfile");
+
+    let editFields = document.querySelectorAll(".textButtonPair .edit");
+    console.log(editFields);
+    
+
+    if (editProfile.checked) {
+         editProfileLabel.innerHTML = "Save changes";
+         editFields.forEach(e => e.style.display = "inline-block");
+    }
+    else {
+        editProfileLabel.innerHTML = "Edit profile";
+        editFields.forEach(e => e.style.display = "none");
+    } 
+
+    console.log(editProfile);
+}
+
 
 initWebsite();
