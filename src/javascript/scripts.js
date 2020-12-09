@@ -33,6 +33,17 @@ function movePetGrid(petGrid, right) {
     }
 }
 
+
+function sendGetRequest(whereTo, params, onload) {
+    const req = new XMLHttpRequest();
+    req.open('GET', whereTo + "/" + params.join('/'));
+    req.onload = onload;
+    req.send();
+}
+
+sendGetRequest("api/existence", ["username", "rafaavc"]);
+sendGetRequest("api/existence", ["email", "rafaavc@mail.com"]);
+
 function initWebsite() {
     if (document.querySelector('section:first-of-type.indexCover') != null) {
         window.addEventListener('scroll', scrollHandler);

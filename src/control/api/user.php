@@ -1,6 +1,7 @@
 <?php
 
 namespace API;
+use Router;
 use Database;
 
 function login($username, $password) {
@@ -26,12 +27,7 @@ function register($name, $username, $password, $birthdate, $mail, $description) 
     return true;
 }
 
-function usernameExists($username) {
-    $stmt = Database::db()->prepare("SELECT id FROM User WHERE username = :username");
-    $stmt->bindParam(':username', $username);
-    $stmt->execute();
 
-    return $stmt->fetch() == false ? false : true;
-}
+
 
 ?>

@@ -8,7 +8,7 @@ function handle() {
         $req = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
         $req = $req != "/" ? substr($req, 1, strlen($req)-1) : "index";
 
-        if (file_exists($_SERVER['DOCUMENT_ROOT'].'/'.$req)) {
+        if (file_exists($_SERVER['DOCUMENT_ROOT'].'/'.$req)) { // serves the file
             return false;
         }
     } else {   // apache

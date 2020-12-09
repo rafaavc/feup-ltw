@@ -1,9 +1,7 @@
 <footer>
-    <section>
-        <div class="footerPages">
-            <header>
-                <h3>Pages</h3>
-            </header>
+    <div>
+        <section class="footerPages">
+            <h3>Pages</h3>
             <nav id="footerMainMenu">
                 <ul>
                     <li><a href="#">About</a></li>
@@ -12,11 +10,9 @@
                     <li><a href="#">Help</a></li>
                 </ul>
             </nav>
-        </div>
-        <div id="footerContactUs">
-            <header>
-                <h3>Contact us:</h3>
-            </header>
+        </section>
+        <section id="footerContactUs">
+            <h3>Contact us:</h3>
             <nav>
                 <ul>
                     <li><a href="#">Invalidemail@nowhere.com</a></li>
@@ -25,14 +21,14 @@
                     <li><a href="#">Help</a></li>
                 </ul>
             </nav>
-        </div>
+        </section>
         <nav id="footerSessionMenu">
             <ul>
                 <li><a href="#">Sign In</a></li>
                 <li><a href="#">Sign Up</a></li>
             </ul>
         </nav>
-    </section>
+    </div>
     <p>To The Rescue &copy; 2020</p>
 </footer>
 <?php
