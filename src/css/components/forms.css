@@ -2,15 +2,19 @@ form > input {
     display: block;
 }
 
-form > input {
+form > input, form > textarea {
     margin-bottom: 1rem;
 }
 
-form > input:last-child {
+form > input:last-child, form > textarea:last-child {
     margin-bottom: 0;
 }
 
-form > input[type="text"], form > input[type="password"] {
+form > input[type="text"], 
+form > input[type="password"], 
+form > input[type="email"], 
+form > input[type="date"],
+textarea {
     border: 1px solid #c0c0c0;
     border-radius: 1rem;
     padding: 0.5rem 1rem;
@@ -20,7 +24,15 @@ form > input[type="text"], form > input[type="password"] {
     font-family: inherit;
 }
 
-form > input[type="text"]:focus, form > input[type="password"]:focus {
+textarea {
+    resize: vertical;
+}
+
+form > input[type="text"]:focus, 
+form > input[type="password"]:focus, 
+form > input[type="email"]:focus, 
+form > input[type="date"]:focus,
+textarea:focus {
     border: 1px solid var(--accentColor);
 }
 
