@@ -47,24 +47,56 @@ function initWebsite() {
     for (const leftArrow of leftArrows) leftArrow.addEventListener('click', () => movePetGrid(leftArrow.parentElement, false));
 }
 
-function editOptions() {
+function editProfile() {
     let editProfileLabel = document.querySelector("#editProfileLabel > a");
     let editProfile = document.getElementById("editProfile");
+    let inconLabels = document.querySelectorAll(".textButtonPair > label");
+
+    console.log(inconLabels);
 
     let editFields = document.querySelectorAll(".textButtonPair .edit");
     console.log(editFields);
-    
+
 
     if (editProfile.checked) {
-         editProfileLabel.innerHTML = "Save changes";
-         editFields.forEach(e => e.style.display = "inline-block");
+        editProfileLabel.innerHTML = "Save changes";
+        editFields.forEach(field => field.style.display = "inline-block");
+        inconLabels.forEach(label => label.innerHTML = "Edit");
     }
     else {
         editProfileLabel.innerHTML = "Edit profile";
-        editFields.forEach(e => e.style.display = "none");
-    } 
+        editFields.forEach(field => field.style.display = "none");
+    }
 
     console.log(editProfile);
+}
+
+function showField(inputForm, inputId) {
+    console.log(inputForm, inputId);
+    let editButton = document.getElementById(inputId);
+    editButton.style.display = "none";
+
+    let editButtonLabel = document.querySelector("label[for=" + inputId + "]");
+    editButtonLabel.style.display = "none";
+
+    let editForm = document.getElementById(inputForm);
+    editForm.style.display = "block";
+}
+
+function confirmName() {
+
+}
+
+function confirmUsername() {
+
+}
+
+function confirmEmail() {
+
+}
+
+function resetSelection() {
+    console.log();
 }
 
 

@@ -61,7 +61,7 @@
     display: inline-block;
 }
 
-.textButtonPair .edit {
+.textButtonPair form, .textButtonPair .edit {
     display: none;
 }
 
