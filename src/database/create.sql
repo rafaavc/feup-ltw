@@ -27,7 +27,8 @@ CREATE TABLE Pet (
     race INTEGER REFERENCES PetRace ON DELETE SET NULL,
     size INTEGER NOT NULL REFERENCES PetSize ON DELETE SET NULL,
     color INTEGER NOT NULL REFERENCES PetColor ON DELETE SET NULL,
-    location TEXT NOT NULL
+    location TEXT NOT NULL,
+    description TEXT NOT NULL
 );
 
 CREATE TABLE PetColor (
@@ -74,7 +75,7 @@ CREATE TABLE Post (
     petId INTEGER NOT NULL REFERENCES Pet ON DELETE CASCADE,
     userId INTEGER NOT NULL REFERENCES User ON DELETE CASCADE,
     description TEXT NOT NULL,
-    postDate DATE NOT NULL,
+    postDate TEXT NOT NULL,
     answerToPostID INTEGER REFERENCES Post ON DELETE SET NULL -- If answerToPostID is NULL, the post is not an answer. It it is != NULL, the post is an answer to the referenced post, and should be represented accordingly.
 );
 
@@ -109,11 +110,16 @@ INSERT INTO User(name, username, password, birthdate, mail, description) VALUES(
 INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("João Diogo Romão", "TsarkFC", "$2y$10$jIDBFmD0.YdhEmabyHLS..VBlCSpdEm/VX8qibLw/riql44HAoTTe", DATE("2000-06-22"), "tsarkfc@mail.com",
     "I didn't even knew there is a project");  -- PW: marktsubasa
 
-INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location) VALUES(1, "Boby", DATE("2019-01-20"), NULL, 1, 2, 3, "Amsterdam");
-INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location) VALUES(1, "Snoop", DATE("2013-06-13"), NULL, 3, 3, 7, "Amsterdam");
-INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location) VALUES(3, "Husky", DATE("2020-08-25"), NULL, 2, 1, 4, "Moita do Boi");
-INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location) VALUES(2, "Garfield", DATE("2017-12-14"), 2, NULL, 2, 7, "Cucujães");
-INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location) VALUES(4, "Bicho", DATE("2000-01-30"), NULL, 4, 2, 4, "Repeses");
+INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description) VALUES(1, "Boby", DATE("2019-01-20"), NULL, 1, 2, 3, "Amsterdam",
+    "A good boy, well trained and really chill with kids.");
+INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description) VALUES(1, "Snoop", DATE("2013-06-13"), NULL, 3, 3, 7, "Amsterdam",
+    "This is a calm dog that just wanna play. The older she gets the less she runs, but her spirit never gets old.");
+INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description) VALUES(3, "Husky", DATE("2020-08-25"), NULL, 2, 1, 4, "Moita do Boi",
+    "A pure breed husky, really young so he is has a lot of energy!");
+INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description) VALUES(2, "Garfield", DATE("2017-12-14"), 2, NULL, 2, 7, "Cucujães",
+    "A cat that just looks like garfield, especially since he got a bit chubbier!");
+INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description) VALUES(4, "Bicho", DATE("2000-01-30"), NULL, 4, 2, 4, "Repeses",
+    "This cat is getting old so it doesn't have a lot of energy but still is a good companion to people who spend most their time at home.");
 
 INSERT INTO PetPhoto(petId, photoId) VALUES(1, 1);
 INSERT INTO PetPhoto(petId, photoId) VALUES(2, 2);
@@ -126,15 +132,15 @@ INSERT INTO PetPhoto(petId, photoId) VALUES(2, 8);
 INSERT INTO PetPhoto(petId, photoId) VALUES(4, 9);
 
 INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES (1, 3,
-    "Is there any way to get this dog to Portugal? Any pet transporter that works in both countries?", DATE("2020-12-05  13:05:54"), NULL);
+    "Is there any way to get this dog to Portugal? Any pet transporter that works in both countries?", "2020-12-05  13:05:54", NULL);
 INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES (1, 1,
-    "Yes, that's not a proble, there is a pet transportation company that works here. It's called CCPS", DATE("2020-12-06 10:18:31"), 1);
+    "Yes, that's not a proble, there is a pet transportation company that works here. It's called CCPS", "2020-12-06 10:18:31", 1);
 INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES (3, 4,
-    "Where is 'Moita do Boi'?", DATE("2020-11-25 20:15:45"), NULL);
+    "Where is 'Moita do Boi'?", "2020-11-25 20:15:45", NULL);
 INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES (3, 2,
-    "Is it male or female?", DATE("2020-12-01 16:06:41"), NULL);
+    "Is it male or female?", "2020-12-01 16:06:41", NULL);
 INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES (3, 3,
-    "It's a male.", DATE("2020-12-01 22:10:06"), 4);
+    "It's a male.", "2020-12-01 22:10:06", 4);
 
 INSERT INTO ProposedToAdopt(userId, petId) VALUES(2, 3);
 
