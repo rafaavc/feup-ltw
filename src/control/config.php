@@ -18,7 +18,7 @@ function import($callingFile, $module) {
     require_once(dirname($callingFile).'/'.$module);
 }
 
+import(__FILE__, "session.php");
 import(__FILE__, "api/api.php");
-import(__FILE__, "router.php");
 
 ?>

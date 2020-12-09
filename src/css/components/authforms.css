@@ -1,0 +1,5 @@
+section.authForm {
+    text-align: center;
+    padding-left: calc(var(--rightLeftPadding) );
+    padding-right: calc(var(--rightLeftPadding) );
+}
