@@ -70,11 +70,38 @@ function hitTarget($target) {
     require_once($target);
 }
 
+function getPostParameter($name) {
+    return isset($_POST[$name]) ? $_POST[$name] : null;
+}
+
+function getPostParameters($names) {
+    $res = array();
+    foreach ($names as $name) {
+        $value = getPostParameter($name);
+        if ($value == null) return null;
+        $res[$name] = $value;
+    }
+    return $res;
+}
+
 function error404() {
     http_response_code(404);
     hitTarget("pages/404.php");
     exit();
 }
+
+function sendTo($location) {
+    header("Location: ".$location);
+    exit();
+}
+
+function goBack() {
+    if (!isset($_SERVER['HTTP_REFERER'])) error404();
+    sendTo($_SERVER['HTTP_REFERER']);
+    exit();
+}
+
+
 
 ?>
 
