@@ -2,5 +2,10 @@
     "index": "pages/index.php",
     "pet/:id": "pages/animal.php",
     "user/:username": "pages/profile.php",
-    "api/user": "control/api/api.php"
+    "api/user": "control/api/api.php",
+    "signin": "pages/login.php",
+
+    "action/signin": "control/actions/login.php",
+    "action/signup": "control/actions/register.php"
+
 }

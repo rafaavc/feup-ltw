@@ -1,0 +1,54 @@
+form > input {
+    display: block;
+}
+
+form > input {
+    margin-bottom: 1rem;
+}
+
+form > input:last-child {
+    margin-bottom: 0;
+}
+
+form > input[type="text"], form > input[type="password"] {
+    border: 1px solid #c0c0c0;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    outline: none;
+    width: 100%;
+    transition: border .2s;
+    font-family: inherit;
+}
+
+form > input[type="text"]:focus, form > input[type="password"]:focus {
+    border: 1px solid var(--accentColor);
+}
+
+form > input[type="submit"] {
+    width: 100%;
+    background-color: var(--accentColor);
+    border: none;
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    color: white;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color .2s;
+    outline: none;
+}
+form > input[type="submit"]:hover {
+    background-color: var(--accentColorDarker);
+}
+
+section.authForm {
+    padding-left: calc(var(--rightLeftPadding) );
+    padding-right: calc(var(--rightLeftPadding) );
+    max-width: 50rem;
+}
+
+section.authForm > form > label {
+    display: none;
+}
+
+
+
