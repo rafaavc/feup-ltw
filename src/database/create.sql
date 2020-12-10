@@ -129,7 +129,7 @@ INSERT INTO PetPhoto(petId, photoId) VALUES(5, 5);
 INSERT INTO PetPhoto(petId, photoId) VALUES(1, 6);
 INSERT INTO PetPhoto(petId, photoId) VALUES(1, 7);
 INSERT INTO PetPhoto(petId, photoId) VALUES(2, 8);
-INSERT INTO PetPhoto(petId, photoId) VALUES(4, 9);
+INSERT INTO PetPhoto(petId, photoId) VALUES(5, 9);
 
 INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES (1, 3,
     "Is there any way to get this dog to Portugal? Any pet transporter that works in both countries?", "2020-12-05  13:05:54", NULL);
