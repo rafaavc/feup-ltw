@@ -7,6 +7,7 @@
     "discover": "pages/discover.php",
 
     "api/existence/:type/:value": "control/api/existence.php",
+    "api/search/:what/:specie/:value": "control/api/search.php",
 
     "action/signin": "control/actions/login.php",
     "action/signup": "control/actions/register.php",

@@ -27,8 +27,35 @@ include_once(dirname(__FILE__) ."/../templates/tiles.php");
     } ?>
     </div>
 </section>
+<script>
+
+function updateUsers(users) {
+    const userSection = document.querySelector('#userResults > div');
+    userSection.innerHTML = "";
+    for (user of users) {
+        userSection.innerHTML += <?='`'?><?php displayUserTile(getRootUrl().'/images/userProfilePictures/${user.id}.jpg', '${user.name}', '${user.description==null ? "" : user.description}', '${user.petCount}'." <i class='icofont-cat-dog'></i>")?><?='`'?>;
+    }
+}
+function updatePets(pets) {
+    const petSection = document.querySelector('#petResults > div');
+    petSection.innerHTML = "";
+    for (pet of pets) {
+        petSection.innerHTML += <?='`'?><?php displayPetTile(getRootUrl().'/images/petProfilePictures/${pet.id}.jpg', '${pet.name}', '${pet.description}', "no stats")?><?='`'?>;
+    }
+}
+
+function handleSearch() {
+    sendGetRequest("api/search", [document.getElementById('type').value, document.getElementById('species').value, document.getElementById('search').value], function() {
+        const res = JSON.parse(this.responseText);
+            console.log(res);
+        if (res.users != undefined) updateUsers(res.users);
+        if (res.pets != undefined) updatePets(res.pets);
+    });
+}
+</script>
 
 <?php
 include_once(dirname(__FILE__) ."/../templates/common/footer.php");
 ?>
+
 
