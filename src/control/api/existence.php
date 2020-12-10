@@ -34,7 +34,8 @@ function handleRequest() {
         responseJSON(array('value' => emailExists($value)));
 
     } else {
-        Router\error404();
+        http_response_code(400); // BAD REQUEST
+        exit();
     }
 }
 

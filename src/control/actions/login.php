@@ -12,7 +12,7 @@ if (API\login($parameters['username'], $parameters['password'])) {
     Router\sendTo(getRootURL());
 } else {
     Session\setMessage(Session\error(), 'Wrong username or password.');
-    Router\goBack();
+    Router\sendBack();
 }
 
 ?>

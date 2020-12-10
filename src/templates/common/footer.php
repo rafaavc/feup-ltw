@@ -24,8 +24,13 @@
         </section>
         <nav id="footerSessionMenu">
             <ul>
-                <li><a href="#">Sign In</a></li>
-                <li><a href="#">Sign Up</a></li>
+                <?php if ($loggedInUser == false) { ?>
+                    <li><a href="<?=getRootUrl()?>/signin">Sign In</a></li>
+                    <li><a href="<?=getRootUrl()?>/signup">Sign Up</a></li>
+                <?php } else { ?>
+                    <li><a href="<?=getRootUrl()?>/action/signout">Sign Out</a></li>
+                    <li><a href="<?=getRootUrl()?>/user/<?=$loggedInUser['username']?>">My Profile</a></li>
+                <?php } ?>
             </ul>
         </nav>
     </div>

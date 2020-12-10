@@ -8,6 +8,7 @@
     "api/existence/:type/:value": "control/api/existence.php",
 
     "action/signin": "control/actions/login.php",
-    "action/signup": "control/actions/register.php"
+    "action/signup": "control/actions/register.php",
+    "action/signout": "control/actions/logout.php"
 
 }

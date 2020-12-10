@@ -12,7 +12,7 @@ function &initAction($parameters) {
 
     if ($res == null) {
         http_response_code(400); // BAD REQUEST
-        Session\setLastMessage(Session\error(), 'Bad request.');
+        //Session\setLastMessage(Session\error(), 'Bad request.');
         exit();
     }
     return $res;

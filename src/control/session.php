@@ -1,5 +1,6 @@
 <?php
 namespace Session;
+use API;
 
 session_start();
 
@@ -18,6 +19,11 @@ function error() { return 'error'; }
 
 function setMessage($type, $message) {
     $_SESSION['message'] = array('type' => $type, 'content' => $message);
+}
+
+function getAuthenticatedUser() {
+    if (!isset($_SESSION['username'])) return false;
+    return API\getUser($_SESSION['username']);
 }
 
 ?>

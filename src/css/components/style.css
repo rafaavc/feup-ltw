@@ -12,8 +12,8 @@ body {
     --accentColorDarker: rgb(3, 152, 189); 
     --darkTextColor: rgb(12, 12, 12);
     --lightTextColor: rgb(245, 245, 245);
-    --footerTopColor: rgb(49, 49, 49);
-    --footerBottomColor: rgb(38, 38, 38);
+    --footerTopColor: rgb(32, 32, 32);
+    --footerBottomColor: var(--darkTextColor);
     --menuItemHoverBG: rgba(245, 245, 245, .5);
     margin: 0;
     color: var(--darkTextColor);
@@ -65,6 +65,7 @@ body > header > nav > ul > li > a, a.simpleButton {
     display: inline-block;
     padding: 0.5rem 1rem;
     transition: background-color .3s, color .3s;
+    border-radius: 1rem;
 }
 
 body > header > nav > ul > li > a.active {
@@ -207,17 +208,25 @@ body > section:first-of-type {
     content: '';
 
 }
+body {
+    position: relative;
+}
+body > footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
 
-footer > p {
+body > footer > p {
     background-color: var(--footerBottomColor);
     color: var(--lightTextColor);
-    padding: 3em var(--rightLeftPadding) 3em var(--rightLeftPadding);
+    padding: 1.5rem var(--rightLeftPadding) 1.5rem var(--rightLeftPadding);
     margin-bottom: 0;
     margin-top: 0;
 }
 
-footer > div {
-    padding: 3em var(--rightLeftPadding) 3em var(--rightLeftPadding);
+body > footer > div {
+    padding: 3rem var(--rightLeftPadding) 3rem var(--rightLeftPadding);
     background-color: var(--footerTopColor);
     color: var(--lightTextColor);
     display: grid;
@@ -225,24 +234,24 @@ footer > div {
     grid-template-rows: auto;
 }
 
-footer > div > section > nav > ul {
+body > footer > div > section > nav > ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-footer > div > nav > ul {
+body > footer > div > nav > ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-footer > div > nav > ul > li > a{
+body > footer > div > nav > ul > li > a{
     color: var(--lightTextColor);
     text-decoration: none;
 }
 
-footer > div > section > nav > ul > li > a{
+body > footer > div > section > nav > ul > li > a{
     color: var(--lightTextColor);
     text-decoration: none;
 }
