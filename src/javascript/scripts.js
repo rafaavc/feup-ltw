@@ -45,27 +45,30 @@ function initWebsite() {
 
     for (const rightArrow of rightArrows) rightArrow.addEventListener('click', () => movePetGrid(rightArrow.parentElement, true));
     for (const leftArrow of leftArrows) leftArrow.addEventListener('click', () => movePetGrid(leftArrow.parentElement, false));
+
+    let closeButtons = document.querySelectorAll(".textButtonPair form .close");
+    closeButtons.forEach(closeButton => closeButton.addEventListener('click', (event) => {
+        event.preventDefault();
+    }))
 }
 
 function editProfile() {
     let editProfileLabel = document.querySelector("#editProfileLabel > a");
     let editProfile = document.getElementById("editProfile");
-    let inconLabels = document.querySelectorAll(".textButtonPair > label");
     let forms = document.querySelectorAll(".textButtonPair form");
     let editFields = document.querySelectorAll(".textButtonPair .edit");
+    let initialFields = document.querySelectorAll(".textButtonPair > div");
 
     if (editProfile.checked) {
-        editProfileLabel.innerHTML = "Save changes";
+        editProfileLabel.innerHTML = "Close edition";
         editFields.forEach(field => field.style.display = "inline-block");
-        inconLabels.forEach(label => label.innerHTML = "Edit");
     }
     else {
         editProfileLabel.innerHTML = "Edit profile";
         editFields.forEach(field => field.style.display = "none");
         forms.forEach(form => form.style.display = "none");
+        initialFields.forEach(field => field.id == "bio" ? field.style.display = "flex" : field.style.display = "block");
     }
-
-    console.log(editProfile);
 }
 
 function showField(inputForm, inputId) {
@@ -73,11 +76,15 @@ function showField(inputForm, inputId) {
     edit.style.display = "none";
 
     let editForm = document.getElementById(inputForm);
-    editForm.style.display = "block";
+    editForm.style.display = "flex";
+
+    let formText = document.querySelector("#" + inputForm + " input[type='text']");
+    formText.value = "name";
 }
 
 function resetSelection(inputForm, inputId) {
     let form = document.getElementById(inputForm);
+    form.reset();
     form.style.display = "none";
 
     let edit = document.getElementById(inputId);
