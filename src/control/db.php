@@ -47,6 +47,13 @@
     return $stmt->fetch();
   }
 
+  function getAllPets(){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT * FROM Pet');
+    $stmt->execute(array());
+    return $stmt->fetchAll();
+  }
+
   function getSpecie($specieId){
     $db = Database::instance()->db();
     $stmt = $db->prepare('SELECT name FROM PetSpecie WHERE id=?');
@@ -85,6 +92,27 @@
   function getUser($userId){
     $db = Database::instance()->db();
     $stmt = $db->prepare('SELECT * FROM User WHERE id=?');
+    $stmt->execute(array($userId));
+    return $stmt->fetch();
+  }
+
+  function getUserByUsername($username){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT * FROM User WHERE username=?');
+    $stmt->execute(array($username));
+    return $stmt->fetch();
+  }
+
+  function getUserPets($userId){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT * FROM Pet WHERE userId=?');
+    $stmt->execute(array($userId));
+    return $stmt->fetchAll();
+  }
+
+  function getUserLists($userId){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT * FROM List WHERE userId=?');
     $stmt->execute(array($userId));
     return $stmt->fetch();
   }

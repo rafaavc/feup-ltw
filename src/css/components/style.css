@@ -199,7 +199,7 @@ body > section:first-of-type {
 }
 
 .petGridContent > article > .image {
-    background: url('../images/cuteCat.jpeg');
+    /* background: url('../images/cuteCat.jpeg'); */
     background-size: cover;
     background-position: 50% 50%;
     height: 10rem;
