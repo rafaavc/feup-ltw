@@ -45,20 +45,13 @@
     align-items: center;
 }
 
-.textButtonPair > h2 {
+.textButtonPair > div > h2 {
     margin-bottom: 0.2rem;
-}
-
-.textButtonPair > h4:first-of-type {
-    margin-top: 0.2rem;
-}
-
-.textButtonPair h2, .textButtonPair .edit{
     display: inline-block;
 }
 
-.textButtonPair h4, .textButtonPair .edit{
-    display: inline-block;
+.profile_header > div > header > section:last-of-type {
+    margin-top: 1.5rem;
 }
 
 .textButtonPair form, .textButtonPair .edit {

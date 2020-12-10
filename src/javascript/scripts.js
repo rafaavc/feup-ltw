@@ -51,12 +51,8 @@ function editProfile() {
     let editProfileLabel = document.querySelector("#editProfileLabel > a");
     let editProfile = document.getElementById("editProfile");
     let inconLabels = document.querySelectorAll(".textButtonPair > label");
-
-    console.log(inconLabels);
-
+    let forms = document.querySelectorAll(".textButtonPair form");
     let editFields = document.querySelectorAll(".textButtonPair .edit");
-    console.log(editFields);
-
 
     if (editProfile.checked) {
         editProfileLabel.innerHTML = "Save changes";
@@ -66,37 +62,26 @@ function editProfile() {
     else {
         editProfileLabel.innerHTML = "Edit profile";
         editFields.forEach(field => field.style.display = "none");
+        forms.forEach(form => form.style.display = "none");
     }
 
     console.log(editProfile);
 }
 
 function showField(inputForm, inputId) {
-    console.log(inputForm, inputId);
-    let editButton = document.getElementById(inputId);
-    editButton.style.display = "none";
-
-    let editButtonLabel = document.querySelector("label[for=" + inputId + "]");
-    editButtonLabel.style.display = "none";
+    let edit = document.getElementById(inputId);
+    edit.style.display = "none";
 
     let editForm = document.getElementById(inputForm);
     editForm.style.display = "block";
 }
 
-function confirmName() {
+function resetSelection(inputForm, inputId) {
+    let form = document.getElementById(inputForm);
+    form.style.display = "none";
 
-}
-
-function confirmUsername() {
-
-}
-
-function confirmEmail() {
-
-}
-
-function resetSelection() {
-    console.log();
+    let edit = document.getElementById(inputId);
+    edit.style.display = inputId == "bio" ? "flex" : "inline-block";
 }
 
 
