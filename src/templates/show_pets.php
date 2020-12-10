@@ -1,7 +1,7 @@
 <div class="petGrid">
     <div class="arrow left"></div>
     <div class="petGridContent">
-        <article>
+        <article class="tile">
             <div class="image"></div>
             <header>
                 <h4>Bill</h4>
@@ -11,18 +11,7 @@
                 <a class="simpleButton contrastButton" href="#">Meet Bill</a>
             </footer>
         </article>
-        <article>
-            <div class="image"></div>
-
-            <header>
-                <h4>Bill</h4>
-            </header>
-            <p>Bill is an awesome companion</p>
-            <footer>
-                <a class="simpleButton contrastButton" href="#">Meet Bill</a>
-            </footer>
-        </article>
-        <article>
+        <article class="tile">
             <div class="image"></div>
 
             <header>
@@ -33,7 +22,7 @@
                 <a class="simpleButton contrastButton" href="#">Meet Bill</a>
             </footer>
         </article>
-        <article>
+        <article class="tile">
             <div class="image"></div>
 
             <header>
@@ -44,7 +33,7 @@
                 <a class="simpleButton contrastButton" href="#">Meet Bill</a>
             </footer>
         </article>
-        <article>
+        <article class="tile">
             <div class="image"></div>
 
             <header>
@@ -55,7 +44,18 @@
                 <a class="simpleButton contrastButton" href="#">Meet Bill</a>
             </footer>
         </article>
-        <article>
+        <article class="tile">
+            <div class="image"></div>
+
+            <header>
+                <h4>Bill</h4>
+            </header>
+            <p>Bill is an awesome companion</p>
+            <footer>
+                <a class="simpleButton contrastButton" href="#">Meet Bill</a>
+            </footer>
+        </article>
+        <article class="tile">
             <div class="image"></div>
             <header>
                 <h4>Bill</h4>

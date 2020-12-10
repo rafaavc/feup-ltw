@@ -1,0 +1,26 @@
+
+#petResults > div, #userResults > div {
+    display: flex;
+}
+
+#petResults > h2, #userResults > h2 {
+    page-break-after: always;
+}
+
+#petResults {
+    padding-bottom: 0;
+}
+
+.searchResult {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 1rem;
+}
+
+.searchResultImage {
+    width: 10rem;
+    height: 10rem;
+    border-radius: 50%;
+}
+
+

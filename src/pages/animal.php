@@ -1,4 +1,5 @@
 <?php
+$GLOBALS['section'] = 'discover';
 include_once(dirname(__FILE__) . '/../control/db.php');
 $pet = getPet($GLOBALS['id']);
 include_once(dirname(__FILE__) . '/../templates/common/header.php');

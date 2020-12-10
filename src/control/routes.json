@@ -4,7 +4,7 @@
     "user/:username": "pages/profile.php",
     "signin": "pages/login.php",
     "signup": "pages/register.php",
-    "pets": "pages/pets.php",
+    "discover": "pages/discover.php",
 
     "api/existence/:type/:value": "control/api/existence.php",
 

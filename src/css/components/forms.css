@@ -65,13 +65,17 @@ section.authForm {
     max-width: 50rem;
 }
 
-form.searchForm {
+section.searchForm {
+    background-color: #d2f2fa;
+}
+
+section.searchForm > form {
     display: grid;
     grid-template-columns: 5fr 1fr 1fr;
     grid-gap: 1rem;
 }
 
-form.searchForm > * {
+section.searchForm > form > * {
     margin: 0;
 }
 
