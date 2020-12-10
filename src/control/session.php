@@ -23,7 +23,7 @@ function setMessage($type, $message) {
 
 function getAuthenticatedUser() {
     if (!isset($_SESSION['username'])) return false;
-    return API\getUser($_SESSION['username']);
+    return API\getUserByUsername($_SESSION['username']);
 }
 
 ?>

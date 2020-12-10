@@ -1,7 +1,11 @@
 <?php
 include_once(dirname(__FILE__) . '/../control/db.php');
-$pet = getPet($GLOBALS['id']);
 include_once(dirname(__FILE__) . '/../templates/common/header.php');
+require_once(dirname(__FILE__)."/../control/api/pet.php");
+
+
+use API;
+$pet = API\getPet($GLOBALS['id']);
 ?>
 <section class='petProfile'>
 	<div id="petProfileImage" style="background-image: url(<?= '../images/petProfilePictures/' . $pet['id'] . '.jpg' ?>);"> </div>
@@ -33,22 +37,22 @@ include_once(dirname(__FILE__) . '/../templates/common/header.php');
 			</h3>
 			<h4><?php
 				if ($pet['race'] != null) {
-					echo getColor($pet['color'])['name'] . ' ' . getRace($pet['race'])['name'] . ', ' . $pet['location'];
+					echo API\getColor($pet['color'])['name'] . ' ' . API\getRace($pet['race'])['name'] . ', ' . $pet['location'];
 				} else if ($pet['specie'] != null) {
-					echo getColor($pet['color'])['name'] . ' ' . getSpecie($pet['specie'])['name'] . ', ' . $pet['location'];
+					echo API\getColor($pet['color'])['name'] . ' ' . API\getSpecie($pet['specie'])['name'] . ', ' . $pet['location'];
 				}
 				?></h4>
 		</header>
 		<p><?= $pet['description'] ?></p>
 		<footer>
-			<input type="button" id="favorite" value="Add to Favorites" />
-			<input type="button" id="adopt" class="contrastButton" value="Adopt it" />
+			<input type="button" id="favorite" class="simpleButton" value="Add to Favorites" />
+			<input type="button" id="adopt" class="simpleButton contrastButton" value="Adopt it" />
 		</footer>
 	</div>
 </section>
 
 <?php
-$photos = getPetPhotos($pet['id']);
+$photos = API\getPetPhotos($pet['id']);
 for ($i = 0; $i < count($photos); $i++) {
 	echo '<img class="petPhotos" src="../images/petPictures/' . $photos[$i]['photoId'] . '.jpg"></img>';
 }
@@ -57,13 +61,13 @@ for ($i = 0; $i < count($photos); $i++) {
 <section id="comments">
 	<h4>Comments:</h4>
 	<?php
-	$posts = getPosts($pet['id']);
+	$posts = API\getPosts($pet['id']);
 	for ($i = 0; $i < count($posts); $i++) {
-		$user = getUser($posts[$i]['userId']); ?>
+		$user = API\getUserById($posts[$i]['userId']);?>
 		<article class="comment">
 			<img src='../../images/userProfilePictures/<?= $user['id'] ?>.jpg' />
 			<p><?= $posts[$i]['description'] ?></p>
-			<span class="user"><?= $user['name'] ?></span>
+			<span class="user"><?= $user['shortName'] ?></span>
 			<span class="date"><?= $posts[$i]['postDate'] ?></span>
 		</article>
 

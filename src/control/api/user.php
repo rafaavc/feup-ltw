@@ -28,11 +28,24 @@ function register($name, $username, $password, $birthdate, $mail, $description) 
     return true;
 }
 
-function getUser($username) {
+function getUserByUsername($username) {
     $stmt = Database::db()->prepare("SELECT * FROM User WHERE username = :username");
     $stmt->bindParam(':username', $username);
     $stmt->execute();
-    
+
+    $user = $stmt->fetch();
+    if ($user == false) return false;
+    $splittedName = explode(' ', $user['name']);
+    $user['shortName'] = sizeof($splittedName) > 1 ? $splittedName[0]." ".$splittedName[sizeof($splittedName)-1] : $user['name'];
+
+    return $user;
+}
+
+function getUserById($userId){
+    $stmt = Database::db()->prepare("SELECT * FROM User WHERE id = :id");
+    $stmt->bindParam(':id', $userId);
+    $stmt->execute();
+
     $user = $stmt->fetch();
     if ($user == false) return false;
     $splittedName = explode(' ', $user['name']);

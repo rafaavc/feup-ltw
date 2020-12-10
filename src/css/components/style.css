@@ -8,8 +8,8 @@
 
 body {
     --rightLeftPadding: 10vw;
-    --accentColor: rgb(90, 208, 237); 
-    --accentColorDarker: rgb(3, 152, 189); 
+    --accentColor: rgb(90, 208, 237);
+    --accentColorDarker: rgb(3, 152, 189);
     --darkTextColor: rgb(12, 12, 12);
     --lightTextColor: rgb(245, 245, 245);
     --footerTopColor: rgb(32, 32, 32);
@@ -65,7 +65,6 @@ body > header > nav > ul > li > a, a.simpleButton {
     display: inline-block;
     padding: 0.5rem 1rem;
     transition: background-color .3s, color .3s;
-    border-radius: 1rem;
 }
 
 body > header > nav > ul > li > a.active {
@@ -73,7 +72,7 @@ body > header > nav > ul > li > a.active {
 }
 
 body > header > nav > ul > li > a:hover {
-    color: var(--darkTextColor); 
+    color: var(--darkTextColor);
     backdrop-filter: blur(10px);
     background-color: var(--menuItemHoverBG);
 }
@@ -97,6 +96,11 @@ body > header.filledMenu {
     color: var(--lightTextColor);
     background-color: var(--accentColorDarker);
 }
+
+.simpleButton {
+    border-radius: 1rem;
+}
+
 
 body > section {
     padding: 7rem var(--rightLeftPadding) 7rem var(--rightLeftPadding);
