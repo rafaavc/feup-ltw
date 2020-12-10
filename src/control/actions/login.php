@@ -1,6 +1,7 @@
 <?php 
 
 require_once(dirname(__FILE__)."/action.php");
+require_once(dirname(__FILE__)."/../api/user.php");
 
 $parameters = initAction(['username', 'password']);
 
@@ -11,7 +12,7 @@ if (API\login($parameters['username'], $parameters['password'])) {
     Router\sendTo(getRootURL());
 } else {
     Session\setMessage(Session\error(), 'Wrong username or password.');
-    Router\goBack();
+    Router\sendBack();
 }
 
 ?>

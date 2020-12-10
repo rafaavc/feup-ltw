@@ -33,6 +33,14 @@ function movePetGrid(petGrid, right) {
     }
 }
 
+
+function sendGetRequest(whereTo, params, onload) {
+    const req = new XMLHttpRequest();
+    req.open('GET', whereTo + "/" + params.join('/'));
+    req.onload = onload;
+    req.send();
+}
+
 function initWebsite() {
     if (document.querySelector('section:first-of-type.indexCover') != null) {
         window.addEventListener('scroll', scrollHandler);
@@ -40,6 +48,11 @@ function initWebsite() {
     } else {
         showMenuBackground();
     }
+
+    // these two lines make sure that the footer is always at the bottom
+    document.body.style.minHeight = window.innerHeight + "px";
+    document.body.style.paddingBottom = document.querySelector('body > footer').clientHeight + "px";
+
     const rightArrows = document.querySelectorAll('.petGrid > .arrow.right');
     const leftArrows = document.querySelectorAll('.petGrid > .arrow.left');
 
