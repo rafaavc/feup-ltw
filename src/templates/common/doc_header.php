@@ -1,6 +1,6 @@
 <?php global $rootUrl; ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 	<title>To The Rescue!</title>
 	<link rel="stylesheet" href="<?=$rootUrl?>/fonts/icofont/icofont.min.css">
