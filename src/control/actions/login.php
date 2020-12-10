@@ -1,6 +1,7 @@
 <?php 
 
 require_once(dirname(__FILE__)."/action.php");
+require_once(dirname(__FILE__)."/../api/user.php");
 
 $parameters = initAction(['username', 'password']);
 
