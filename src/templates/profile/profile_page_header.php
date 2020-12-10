@@ -1,3 +1,6 @@
+<?php
+?>
+
 <section class="profile_header">
     <img src="<?=getRootURL()?>/images/userProfilePictures/<?=$user['id']?>.jpg" />
     <div>

@@ -1,5 +1,6 @@
 <?php
 $user = getUserByUsername($GLOBALS['username']);
+$userLists = getUserLists($user['id']);
 include_once(dirname(__FILE__) . "/../templates/common/header.php");
 include_once(dirname(__FILE__) . "/../templates/profile/profile_page_header.php");
 include_once(dirname(__FILE__) . "/../templates/show_pets.php");
@@ -16,9 +17,13 @@ include_once(dirname(__FILE__) . "/../templates/show_pets.php");
             <h1>Lists:</h1>
         </label>
         <select name="pets" id="list-select">
-            <option value="favorites">Favorites</option>
-            <option value="cat">Cat</option>
-            <option value="hamster">Hamster</option>
+            <?php
+            foreach($userLists as $userList) {
+            ?>
+                <option value="<?=htmlentities($userList['title'])?>"><?=htmlentities($userList['title'])?></option>
+            <?php
+            }
+            ?>
         </select>
     </div>
     <?php //showPetList() ?> 

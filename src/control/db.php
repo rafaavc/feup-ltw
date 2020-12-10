@@ -114,6 +114,6 @@
     $db = Database::instance()->db();
     $stmt = $db->prepare('SELECT * FROM List WHERE userId=?');
     $stmt->execute(array($userId));
-    return $stmt->fetch();
+    return $stmt->fetchAll();
   }
 ?>

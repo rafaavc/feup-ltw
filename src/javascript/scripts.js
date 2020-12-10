@@ -79,7 +79,9 @@ function showField(inputForm, inputId) {
     editForm.style.display = "flex";
 
     let formText = document.querySelector("#" + inputForm + " input[type='text']");
-    formText.value = "name";
+    let formValue = document.querySelector("#" + inputId + " :first-child").innerHTML;
+    if (inputId == "username") formValue = formValue.substr(1);
+    formText.value = formValue;
 }
 
 function resetSelection(inputForm, inputId) {
