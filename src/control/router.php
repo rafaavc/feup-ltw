@@ -95,7 +95,7 @@ function sendTo($location) {
     exit();
 }
 
-function goBack() {
+function sendBack() {
     if (!isset($_SERVER['HTTP_REFERER'])) error404();
     sendTo($_SERVER['HTTP_REFERER']);
     exit();

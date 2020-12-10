@@ -12,8 +12,8 @@ body {
     --accentColorDarker: rgb(3, 152, 189); 
     --darkTextColor: rgb(12, 12, 12);
     --lightTextColor: rgb(245, 245, 245);
-    --footerTopColor: rgb(49, 49, 49);
-    --footerBottomColor: rgb(38, 38, 38);
+    --footerTopColor: rgb(32, 32, 32);
+    --footerBottomColor: var(--darkTextColor);
     --menuItemHoverBG: rgba(245, 245, 245, .5);
     margin: 0;
     color: var(--darkTextColor);
@@ -211,13 +211,13 @@ body > section:first-of-type {
 footer > p {
     background-color: var(--footerBottomColor);
     color: var(--lightTextColor);
-    padding: 3em var(--rightLeftPadding) 3em var(--rightLeftPadding);
+    padding: 1.5rem var(--rightLeftPadding) 1.5rem var(--rightLeftPadding);
     margin-bottom: 0;
     margin-top: 0;
 }
 
 footer > div {
-    padding: 3em var(--rightLeftPadding) 3em var(--rightLeftPadding);
+    padding: 3rem var(--rightLeftPadding) 3rem var(--rightLeftPadding);
     background-color: var(--footerTopColor);
     color: var(--lightTextColor);
     display: grid;
