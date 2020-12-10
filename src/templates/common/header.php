@@ -6,8 +6,8 @@ include_once(dirname(__FILE__)."/doc_header.php");
     <a href="<?=getRootUrl()?>"><h1>To The Rescue!</h1></a>
     <nav id="mainMenu">
         <ul>
-            <li><a class="active" href="#">About</a></li>
-            <li><a href="#">Pets</a></li>
+            <li><a class="active" href="<?=getRootUrl()?>">Home</a></li>
+            <li><a href="<?=getRootURL()?>/pets">Pets</a></li>
             <li><a href="#">Contact</a></li>
             <li><a href="#">Help</a></li>
         </ul>

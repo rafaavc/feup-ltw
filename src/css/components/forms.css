@@ -2,11 +2,15 @@ form > input {
     display: block;
 }
 
-form > input, form > textarea {
+form > label {
+    display: none;
+}
+
+form > input, form > textarea, form > select {
     margin-bottom: 1rem;
 }
 
-form > input:last-child, form > textarea:last-child {
+form > input:last-child, form > textarea:last-child, form > select:last-child {
     margin-bottom: 0;
 }
 
@@ -14,7 +18,8 @@ form > input[type="text"],
 form > input[type="password"], 
 form > input[type="email"], 
 form > input[type="date"],
-textarea {
+textarea,
+select {
     border: 1px solid #c0c0c0;
     border-radius: 1rem;
     padding: 0.5rem 1rem;
@@ -22,6 +27,7 @@ textarea {
     width: 100%;
     transition: border .2s;
     font-family: inherit;
+    background-color: var(--lightTextColor)
 }
 
 textarea {
@@ -32,7 +38,8 @@ form > input[type="text"]:focus,
 form > input[type="password"]:focus, 
 form > input[type="email"]:focus, 
 form > input[type="date"]:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
     border: 1px solid var(--accentColor);
 }
 
@@ -58,9 +65,16 @@ section.authForm {
     max-width: 50rem;
 }
 
-section.authForm > form > label {
-    display: none;
+form.searchForm {
+    display: grid;
+    grid-template-columns: 5fr 1fr 1fr;
+    grid-gap: 1rem;
 }
+
+form.searchForm > * {
+    margin: 0;
+}
+
 
 
 
