@@ -23,7 +23,7 @@ include_once(dirname(__FILE__) ."/../templates/tiles.php");
     <header><h2>Our Users</h2></header>
     <div>
     <?php foreach($users as $user) {
-        displayUserTile(getRootUrl().'/images/userProfilePictures/'.$user['id'].'.jpg', $user['name'], $user['description'], $user['petCount']." pets");
+        displayUserTile(getRootUrl().'/images/userProfilePictures/'.$user['id'].'.jpg', $user['name'], $user['description'], $user['petCount']." <i class='icofont-cat-dog'></i>");
     } ?>
     </div>
 </section>

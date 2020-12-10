@@ -55,8 +55,8 @@ function initWebsite() {
 
     const firstSection = document.querySelector('body > section:first-of-type');
     const fsPaddingTop = window.getComputedStyle(firstSection).getPropertyValue('padding-top');
-    
-    firstSection.style.paddingTop = 'calc('+ document.querySelector('body > header').offsetHeight + "px + "+fsPaddingTop + ")";
+
+    firstSection.style.paddingTop = (document.querySelector('body > header').offsetHeight + parseInt(fsPaddingTop)) + "px";
 
 
     const rightArrows = document.querySelectorAll('.petGrid > .arrow.right');
