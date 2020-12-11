@@ -1,0 +1,78 @@
+
+.ss-parent {
+    box-sizing: border-box;
+
+    position: relative;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.ss-child {
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+	left: -100%;
+}
+
+.ss-child > div {
+	margin: 0 auto;
+	width: 50%;
+}
+
+.ss-nav {
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+.ss-disappearToLeft {
+    animation: ss-disappearToLeftAnimation .5s forwards;
+}
+
+.ss-disappearToRight {
+    animation: ss-disappearToRightAnimation .5s forwards;
+}
+
+.ss-appearFromRight {
+    animation: ss-appearFromRightAnimation .5s forwards;
+}
+
+.ss-appearFromLeft {
+    animation: ss-appearFromLeftAnimation .5s forwards;
+}
+
+@keyframes ss-disappearToLeftAnimation {
+    100% {
+        left: -100%;
+    }
+}
+
+@keyframes ss-disappearToRightAnimation {
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes ss-appearFromRightAnimation {
+    0% {
+        left: 100%;
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes ss-appearFromLeftAnimation {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 0;
+    }
+}

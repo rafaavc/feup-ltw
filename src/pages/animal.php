@@ -1,10 +1,11 @@
 <?php
 include_once(dirname(__FILE__) . '/../control/db.php');
 include_once(dirname(__FILE__) . '/../templates/common/header.php');
-require_once(dirname(__FILE__)."/../control/api/pet.php");
+?> <script src="<?= $rootUrl ?>/javascript/slider.js"></script>
+<?php
+require_once(dirname(__FILE__) . "/../control/api/pet.php");
 
 
-use API;
 $pet = API\getPet($GLOBALS['id']);
 ?>
 <section class='petProfile'>
@@ -50,20 +51,31 @@ $pet = API\getPet($GLOBALS['id']);
 		</footer>
 	</div>
 </section>
+<div id="mySlider" class="ss-parent">
 
-<?php
-$photos = API\getPetPhotos($pet['id']);
-for ($i = 0; $i < count($photos); $i++) {
-	echo '<img class="petPhotos" src="../images/petPictures/' . $photos[$i]['photoId'] . '.jpg"></img>';
-}
-?>
+	<?php
+	$photos = API\getPetPhotos($pet['id']);
+	for ($i = 0; $i < count($photos); $i++) {
+	?>
+		<div class="ss-child">
+			<div style="background: url(<?= getRootURL() ?>/images/petPictures/<?= $photos[$i]['photoId'] ?>.jpg); background-size: cover; background-position: 50%"> </div>
+
+		</div>
+	<?php
+	}
+	?>
+</div>
+<script>
+	const slider = new SimpleSlider("mySlider", 3000, "40rem");
+	slider.start();
+</script>
 
 <section id="comments">
 	<h4>Comments:</h4>
 	<?php
 	$posts = API\getPosts($pet['id']);
 	for ($i = 0; $i < count($posts); $i++) {
-		$user = API\getUserById($posts[$i]['userId']);?>
+		$user = API\getUserById($posts[$i]['userId']); ?>
 		<article class="comment">
 			<img src='../../images/userProfilePictures/<?= $user['id'] ?>.jpg' />
 			<p><?= $posts[$i]['description'] ?></p>
