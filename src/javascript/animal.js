@@ -46,14 +46,4 @@ function receiveComment() {
 	article.append(date);
 
 	document.querySelector('#comments').insertBefore(article, commentForm);
-	console.log(article);
-	/*
-		<article class="comment">
-				<img src='../../images/userProfilePictures/<?= $user['id'] ?>.jpg' />
-				<p><?= $posts[$i]['description'] ?></p>
-				<span class="user"><?= $user['shortName'] ?></span>
-				<span class="date"><?= $posts[$i]['postDate'] ?></span>
-			</article>
-
-	*/
 }
