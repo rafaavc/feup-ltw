@@ -147,3 +147,5 @@ INSERT INTO ProposedToAdopt(userId, petId) VALUES(2, 3);
 
 INSERT INTO Adopted(userId, petId) VALUES(3, 1);
 INSERT INTO Adopted(userId, petId) VALUES(4, 4);
+
+
