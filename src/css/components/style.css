@@ -10,6 +10,7 @@ body {
     --rightLeftPadding: 10vw;
     --accentColor: rgb(90, 208, 237);
     --accentColorDarker: rgb(3, 152, 189);
+    --accentColorLighter: #d2f2fa;
     --darkTextColor: rgb(12, 12, 12);
     --lightTextColor: rgb(245, 245, 245);
     --footerTopColor: rgb(32, 32, 32);

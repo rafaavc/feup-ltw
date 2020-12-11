@@ -33,7 +33,7 @@
 }
 
 .ss-nav > button {
-	background-color: rgb(221, 221, 221);
+	background-color: var(--lightTextColor);
 	border: none;
 	border-radius: 50%;
 
@@ -49,12 +49,16 @@
 }
 
 .ss-nav > button:hover {
-	background-color: rgb(255, 255, 255);
+	background-color: var(--accentColorLighter);
 	cursor: pointer;
 }
 
 .ss-nav > button.active {
-	background-color: grey;
+	background-color: var(--accentColor);
+}
+
+.ss-nav > button.active:hover {
+	background-color: var(--accentColorDarker);
 }
 
 .ss-disappearToLeft {
