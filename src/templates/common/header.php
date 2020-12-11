@@ -1,15 +1,16 @@
 <?php
 require_once(dirname(__FILE__)."/../../control/api/user.php");
 include_once(dirname(__FILE__)."/doc_header.php");
+$section = isset($GLOBALS['section']) ? $GLOBALS['section'] : "home";
 ?>
 <header>
     <a href="<?=getRootUrl()?>"><h1>To The Rescue!</h1></a>
     <nav id="mainMenu">
         <ul>
-            <li><a class="active" href="#">About</a></li>
-            <li><a href="#">Pets</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">Help</a></li>
+            <li><a <?=$section == 'home' ? 'class="active"' : ''?> href="<?=getRootUrl()?>">Home</a></li>
+            <li><a <?=$section == 'discover' ? 'class="active"' : ''?> href="<?=getRootURL()?>/discover">Discover</a></li>
+            <li><a <?=$section == 'contact' ? 'class="active"' : ''?> href="#">Contact</a></li>
+            <li><a <?=$section == 'help' ? 'class="active"' : ''?> href="#">Help</a></li>
         </ul>
     </nav>
     <nav id="sessionMenu">

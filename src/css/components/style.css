@@ -35,7 +35,7 @@ body > header {
     align-items: center;
     color: var(--lightTextColor);
     z-index: 1000;
-    transition: all .3s;
+    transition: background-color .3s;
 }
 
 body > header a {
@@ -99,10 +99,12 @@ body > header.filledMenu {
 }
 
 body > section {
-    padding: 7rem var(--rightLeftPadding) 7rem var(--rightLeftPadding);
+    padding: 3rem var(--rightLeftPadding) 3rem var(--rightLeftPadding);
+    margin-bottom: 1rem;
     width: 100%;
     height: auto;
 }
+
 body > section > img {
     width: 100%;
 }
@@ -131,9 +133,6 @@ body > section.indexCover {
     color: var(--lightTextColor);
 }
 
-body > section:first-of-type {
-    padding-top: 10rem;
-}
 
 .error-message {
     color: darkred;
@@ -179,27 +178,27 @@ body > section:first-of-type {
     scroll-behavior: smooth;
 }
 
-.petGridContent > article {
+article.tile {
     border: 1px solid rgb(209, 209, 209);
     display: inline-block;
     margin-right: 1rem;
     border-radius: 1rem;
 }
 
-.petGridContent > article > .image {
+article.tile > .image {
     border-top-right-radius: inherit;
     border-top-left-radius: inherit;
 }
 
-.petGridContent > article > .image ~ * {
+article.tile > .image ~ * {
     margin: 1rem;
 }
 
-.petGridContent > article:last-of-type {
+article.tile article:last-of-type {
     margin: 0;
 }
 
-.petGridContent > article > .image {
+article.tile > .image {
     background: url('../images/cuteCat.jpeg');
     background-size: cover;
     background-position: 50% 50%;
