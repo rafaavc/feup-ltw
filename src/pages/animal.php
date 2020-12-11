@@ -46,10 +46,12 @@ $pet = API\getPet($GLOBALS['id']);
 				?></h4>
 		</header>
 		<p><?= $pet['description'] ?></p>
-		<footer>
-			<input type="button" id="favorite" class="simpleButton" value="Add to Favorites" />
-			<input type="button" id="adopt" class="simpleButton contrastButton" value="Adopt it" />
-		</footer>
+		<?php if (Session\isAuthenticated()) { ?>
+			<footer>
+				<input type="button" id="favorite" class="simpleButton" value="Add to Favorites" />
+				<input type="button" id="adopt" class="simpleButton contrastButton" value="Adopt it" />
+			</footer>
+		<?php } ?>
 	</div>
 </section>
 <div id="mySlider" class="ss-parent">
@@ -87,12 +89,21 @@ $pet = API\getPet($GLOBALS['id']);
 
 	<?php
 	}
+	if (Session\isAuthenticated()) {
 	?>
-	<form action='#'>
-		<h4>Add Comment:</h4>
-		<textarea name="text"></textarea>
-		<input type="submit" class="contrastButton" />
-	</form>
+		<form action='#'>
+			<h4>Add Comment:</h4>
+			<textarea name="text"></textarea>
+			<input type="submit" class="contrastButton" />
+		</form>
+	<?php } else {
+	?>
+		<h4>To add a comment:</h4>
+		<ul>
+			<li><a href="<?= getRootUrl() ?>/signin" class="simpleButton">Sign In</a></li>
+			<li><a href="<?= getRootUrl() ?>/signup" class="simpleButton contrastButton">Sign Up</a></li>
+		</ul>
+	<?php } ?>
 </section>
 
 
