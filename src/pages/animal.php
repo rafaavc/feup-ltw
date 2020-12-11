@@ -39,9 +39,9 @@ $pet = API\getPet($GLOBALS['id']);
 			</h3>
 			<h4><?php
 				if ($pet['race'] != null) {
-					echo API\getColor($pet['color'])['name'] . ' ' . API\getRace($pet['race'])['name'] . ', ' . $pet['location'];
+					echo $pet['color'] . ' ' . $pet['race'] . ', ' . $pet['location'];
 				} else if ($pet['specie'] != null) {
-					echo API\getColor($pet['color'])['name'] . ' ' . API\getSpecie($pet['specie'])['name'] . ', ' . $pet['location'];
+					echo $pet['color'] . ' ' . $pet['specie'] . ', ' . $pet['location'];
 				}
 				?></h4>
 		</header>

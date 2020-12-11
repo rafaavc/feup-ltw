@@ -6,32 +6,10 @@ use Database;
 function getPet($petId)
 {
 	$db = Database::instance()->db();
-	$stmt = $db->prepare('SELECT * FROM Pet WHERE id=?');
+	$stmt = $db->prepare('SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, PetRace.name as race
+							FROM (((Pet JOIN PetColor on(Pet.color = PetColor.id)) JOIN PetSize ON(Pet.size = PetSize.id)) LEFT JOIN PetSpecie ON(Pet.specie = PetSpecie.id)) LEFT JOIN PetRace ON(Pet.race = PetRace.id)
+							WHERE Pet.id = ?');
 	$stmt->execute(array($petId));
-	return $stmt->fetch();
-}
-
-function getSpecie($specieId)
-{
-	$db = Database::instance()->db();
-	$stmt = $db->prepare('SELECT name FROM PetSpecie WHERE id=?');
-	$stmt->execute(array($specieId));
-	return $stmt->fetch();
-}
-
-function getRace($raceId)
-{
-	$db = Database::instance()->db();
-	$stmt = $db->prepare('SELECT name FROM PetRace WHERE id=?');
-	$stmt->execute(array($raceId));
-	return $stmt->fetch();
-}
-
-function getColor($colorId)
-{
-	$db = Database::instance()->db();
-	$stmt = $db->prepare('SELECT name FROM PetColor WHERE id=?');
-	$stmt->execute(array($colorId));
 	return $stmt->fetch();
 }
 
