@@ -2,14 +2,16 @@
 $GLOBALS['section'] = 'discover';
 include_once(dirname(__FILE__) . '/../control/db.php');
 include_once(dirname(__FILE__) . '/../templates/common/header.php');
-?> <script src="<?= $rootUrl ?>/javascript/slider.js"></script>
+?>
+<script src="<?= getRootURL() ?>/javascript/slider.js"></script>
+<script src="<?= getRootURL() ?>/javascript/animal.js" defer></script>
 <?php
 require_once(dirname(__FILE__) . "/../control/api/pet.php");
 
 
 $pet = API\getPet($GLOBALS['id']);
 ?>
-<section class='petProfile'>
+<section class='petProfile' data-id="<?= $pet['id']?>">
 	<div id="petProfileImage" style="background-image: url(<?= '../images/petProfilePictures/' . $pet['id'] . '.jpg' ?>);"> </div>
 	<div id="petInfo">
 		<header>
@@ -90,10 +92,11 @@ $pet = API\getPet($GLOBALS['id']);
 	<?php
 	}
 	if (Session\isAuthenticated()) {
+		$user = Session\getAuthenticatedUser();
 	?>
-		<form action='#'>
+		<form>
 			<h4>Add Comment:</h4>
-			<textarea name="text"></textarea>
+			<textarea name="text" data-user="<?= $user['id'] ?>" ></textarea>
 			<input type="submit" class="contrastButton" />
 		</form>
 	<?php } else {
