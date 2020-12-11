@@ -64,6 +64,7 @@ $pet = API\getPet($GLOBALS['id']);
 	<?php
 	}
 	?>
+	<div class="ss-nav"></div>
 </div>
 <script>
 	const slider = new SimpleSlider("mySlider", 3000, "40rem");
