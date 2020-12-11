@@ -54,5 +54,17 @@ function getUserById($userId){
     return $user;
 }
 
+function getUsers() {
+    $stmt = Database::db()->prepare(
+        "SELECT *
+        FROM User
+            JOIN (
+                SELECT userId, count(userId) as petCount FROM Pet GROUP BY userId
+            ) ON(id=userId) 
+        ORDER BY petCount DESC");
+    $stmt->execute();
+    return $stmt;
+}
+
 
 ?>

@@ -1,4 +1,5 @@
 <?php
+$GLOBALS['section'] = 'discover';
 include_once(dirname(__FILE__) . '/../control/db.php');
 include_once(dirname(__FILE__) . '/../templates/common/header.php');
 ?> <script src="<?= $rootUrl ?>/javascript/slider.js"></script>

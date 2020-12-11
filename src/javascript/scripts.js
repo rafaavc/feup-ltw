@@ -53,6 +53,12 @@ function initWebsite() {
     document.body.style.minHeight = window.innerHeight + "px";
     document.body.style.paddingBottom = document.querySelector('body > footer').clientHeight + "px";
 
+    const firstSection = document.querySelector('body > section:first-of-type');
+    const fsPaddingTop = window.getComputedStyle(firstSection).getPropertyValue('padding-top');
+
+    firstSection.style.paddingTop = (document.querySelector('body > header').offsetHeight + parseInt(fsPaddingTop)) + "px";
+
+
     const rightArrows = document.querySelectorAll('.petGrid > .arrow.right');
     const leftArrows = document.querySelectorAll('.petGrid > .arrow.left');
 

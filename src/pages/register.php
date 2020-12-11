@@ -1,5 +1,5 @@
 <?php
-
+$GLOBALS['section'] = 'signup';
 include_once(dirname(__FILE__) ."/../templates/common/header.php");
 ?>
 
