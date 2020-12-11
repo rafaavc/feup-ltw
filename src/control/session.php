@@ -26,4 +26,8 @@ function getAuthenticatedUser() {
     return API\getUserByUsername($_SESSION['username']);
 }
 
+function isAuthenticated(){
+    return isset($_SESSION['username']);
+}
+
 ?>
