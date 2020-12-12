@@ -2,11 +2,6 @@
 $GLOBALS['section'] = 'discover';
 include_once(dirname(__FILE__) . '/../control/db.php');
 include_once(dirname(__FILE__) . '/../templates/common/header.php');
-?>
-<script src="<?= getRootURL() ?>/javascript/slider.js"></script>
-<script src="<?= getRootURL() ?>/javascript/animal.js" defer></script>
-
-<?php
 require_once(dirname(__FILE__) . "/../control/api/pet.php");
 
 $pet = API\getPet($GLOBALS['id']);
@@ -72,10 +67,6 @@ $posts = API\getPosts($pet['id']);
 	?>
 	<div class="ss-nav"></div>
 </div>
-<script>
-	const slider = new SimpleSlider("mySlider", 3000, "30vw");
-	slider.start();
-</script>
 <section id="comments">
 	<h4>Comments</h4>
 	<?php if (sizeof($posts) == 0) { ?>
@@ -110,7 +101,4 @@ $posts = API\getPosts($pet['id']);
 </section>
 
 
-<?php
-include_once(dirname(__FILE__) . '/../templates/common/footer.php');
-
-?>
+<?php include_once(dirname(__FILE__) . '/../templates/common/footer.php'); ?>
