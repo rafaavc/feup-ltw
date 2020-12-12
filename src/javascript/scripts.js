@@ -40,9 +40,9 @@ function sendGetRequest(whereTo, params, onload) {
     req.send();
 }
 
-function sendPostRequest(whereTo, params, data, onload) {
+function sendPostRequest(whereTo, data, onload) {
     const req = new XMLHttpRequest();
-    req.open('POST', whereTo + "/" + params.join('/'), true);
+    req.open('POST', whereTo, true);
     req.onload = onload;
     req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     req.send(encodeForAjax(data));
@@ -90,15 +90,16 @@ function resetSelection(inputForm, inputId) {
     edit.style.display = inputId == "bio" ? "flex" : "inline-block";
 }
 
-function confirmSelection(rootUrl, inputForm, inputId, currentUsername) {
+function confirmSelection(rootUrl, inputForm, inputId) {
     let formText = document.querySelector("#" + inputForm + " input[type='text']").value;
-    sendPostRequest(rootUrl + "/api/user", [currentUsername], {field: inputId, value: formText}, 
+    sendPostRequest(rootUrl + "/api/user", {field: inputId, value: formText}, 
     function() {
         if (parseInt(this.responseText)) {
             let newValue = escapeHtml(formText);
+            console.log(inputId);
             if (inputId == "username") newValue = "@" + newValue;
-            document.querySelector("#" + inputId).children[0].innerHTML = escapeHtml(formText);
-            
+            document.querySelector("#" + inputId).children[0].innerHTML = newValue;
+
             resetSelection(inputForm, inputId);
         }
     });
@@ -144,9 +145,8 @@ function initWebsite() {
     for (const leftArrow of leftArrows) leftArrow.addEventListener('click', () => movePetGrid(leftArrow.parentElement, false));
 
     // edit profile
-    let editProfile = document.getElementById("editProfile");
-    console.log(editProfile);
-    //editProfile.addEventListener('click', () => editProfile()); ?editProfile not a function?
+    // let editProfile = document.getElementById("editProfile");
+    // editProfile.addEventListener('click', () => editProfile()); ?editProfile not a function?
 
     let sections = document.querySelectorAll(".textButtonPair");
     for (let section of sections) {
@@ -163,6 +163,22 @@ function initWebsite() {
     confirmButtons.forEach(confirmButton => confirmButton.addEventListener('click', (event) => {
         event.preventDefault();
     }));
+
+    let lists = document.getElementById('lists');
+    for (let i = 1; i < lists.children.length; i++){
+        lists.children[i].style.display = "none";
+    }
+
+    let listSelect = document.getElementById('list-select');
+    listSelect.addEventListener('change', () => {
+        for (let option of listSelect.options) {
+            console.log(option.value - 1, listSelect.options.selectedIndex);
+            if (option.value - 1 == listSelect.options.selectedIndex) {
+                lists.children[option.value - 1].style.display = 'grid';
+            }
+            else lists.children[option.value - 1].style.display = 'none';
+        }
+    });
 }
 
 initWebsite();

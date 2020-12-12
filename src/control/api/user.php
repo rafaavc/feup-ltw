@@ -47,7 +47,7 @@ function getUser($username) {
 
 function updateName($name) {
     $stmt = Database::db()->prepare("UPDATE User SET name = :name WHERE username = :username AND name <> :name");
-    $stmt->bindParam(':username', $GLOBALS['usernameApi']);
+    $stmt->bindParam(':username', $GLOBALS['username']);
     $stmt->bindParam(':name', $name);
     $stmt->execute();
     return $stmt->rowCount();
@@ -56,18 +56,21 @@ function updateName($name) {
 function updateUsername($username) {
     if (usernameExists($username)) return 0;
     $stmt = Database::db()->prepare("UPDATE User SET username = :newUsername WHERE username = :username");
-    $stmt->bindParam(':username', $GLOBALS['usernameApi']);
-    $stmt->bindParam(':newUsername', $GLOBALS['usernameApi']);
+    $stmt->bindParam(':username', $GLOBALS['username']);
+    $stmt->bindParam(':newUsername', $username);
     $stmt->execute();
-    $GLOBALS['usernameApi'] = $username;
+
+    $GLOBALS['username'] = $username;
     $_SESSION['username'] = $username;
+
     return $stmt->rowCount();
 }
 
 function updateMail($mail) {
+    echo $GLOBALS['username'];
     if (emailExists($mail)) return 0;
     $stmt = Database::db()->prepare("UPDATE User SET mail = :mail WHERE username = :username");
-    $stmt->bindParam(':username', $GLOBALS['usernameApi']);
+    $stmt->bindParam(':username', $GLOBALS['username']);
     $stmt->bindParam(':mail', $mail);
     $stmt->execute();
     return $stmt->rowCount();
@@ -75,7 +78,7 @@ function updateMail($mail) {
 
 function updateBio($bio) {
     $stmt = Database::db()->prepare("UPDATE User SET description = :description WHERE username = :username AND description <> :description");
-    $stmt->bindParam(':username', $GLOBALS['usernameApi']);
+    $stmt->bindParam(':username', $GLOBALS['username']);
     $stmt->bindParam(':description', $bio);
     $stmt->execute();
     return $stmt->rowCount();
@@ -84,9 +87,10 @@ function updateBio($bio) {
 function handleUpdateRequest() {
     $method = $_SERVER['REQUEST_METHOD'];
 
-    if ($method == 'POST') {
+    if ($method == 'POST' && isset($_POST['field']) && isset($_POST['value'])) {
         $field = $_POST['field'];
         $value = $_POST['value'];
+        echo $_SESSION['username'];
 
         $response = 0;
         //TODO: filter input
@@ -100,6 +104,8 @@ function handleUpdateRequest() {
 }
 
 // use getAuthenticatedUser() ?
-if (isset($GLOBALS['usernameApi'])) {
-    handleUpdateRequest();
-}
+// if (isset($GLOBALS['username'])) {
+//     handleUpdateRequest();
+// }
+
+handleUpdateRequest();

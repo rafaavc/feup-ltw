@@ -79,18 +79,6 @@ nav#menu label.hamburger {
     width: 58em;
 }
 
-.icofont-ui-edit:before {
-    content: "\ec55";
-}
-
-.icofont-ui-check:before {
-    content: "\ec4b";
-}
-
-.iconfont-ui-close:before {
-    content: "\ec4f";
-}
-
 * {
     /* border: 1px solid; */
 }

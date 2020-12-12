@@ -1,10 +1,12 @@
 <?php
 include_once(dirname(__FILE__)."/../control/api/user.php");
-$user = API\getUser($GLOBALS['usernameProfile']);
-$userLists = getUserLists($user['id']);
 include_once(dirname(__FILE__) . "/../templates/common/header.php");
+
+$user = API\getUser($GLOBALS['username']);
 include_once(dirname(__FILE__) . "/../templates/profile/profile_page_header.php");
 include_once(dirname(__FILE__) . "/../templates/show_pets.php");
+
+$userLists = getUserLists($user['id']);
 ?>
 
 <section class="petlist">
@@ -21,13 +23,21 @@ include_once(dirname(__FILE__) . "/../templates/show_pets.php");
             <?php
             foreach($userLists as $userList) {
             ?>
-                <option value="<?=htmlentities($userList['title'])?>"><?=htmlentities($userList['title'])?></option>
+                <option value="<?=htmlentities($userList['id'])?>"><?=htmlentities($userList['title'])?></option>
             <?php
             }
             ?>
         </select>
     </div>
-    <?php //showPetList() ?> 
+    <div id="lists">
+        <?php
+        foreach($userLists as $userList){
+        ?>
+            <div name="<?=$userList['title']?>"><?=showPetList(getListPets($userList))?></div>
+        <?php
+        } 
+        ?>
+    </div>
 </section>
 
 <?php
