@@ -5,15 +5,18 @@ include_once(dirname(__FILE__) . '/../templates/common/header.php');
 ?>
 <script src="<?= getRootURL() ?>/javascript/slider.js"></script>
 <script src="<?= getRootURL() ?>/javascript/animal.js" defer></script>
+
 <?php
 require_once(dirname(__FILE__) . "/../control/api/pet.php");
 
-
 $pet = API\getPet($GLOBALS['id']);
+$photos = API\getPetPhotos($pet['id']);
+$posts = API\getPosts($pet['id']);
 ?>
+
 <section class='petProfile' data-id="<?= $pet['id'] ?>">
-	<div id="petProfileImage" style="background-image: url(<?= '../images/petProfilePictures/' . $pet['id'] . '.jpg' ?>);"> </div>
-	<div id="petInfo">
+	<div style="background-image: url(<?= '../images/petProfilePictures/' . $pet['id'] . '.jpg' ?>);"> </div>
+	<div>
 		<header>
 			<h3><?= $pet['name'] ?>,
 				<?php
@@ -50,16 +53,14 @@ $pet = API\getPet($GLOBALS['id']);
 		<p><?= $pet['description'] ?></p>
 		<?php if (Session\isAuthenticated()) { ?>
 			<footer>
-				<input type="button" id="favorite" class="simpleButton" value="Add to Favorites" />
-				<input type="button" id="adopt" class="simpleButton contrastButton" value="Adopt it" />
+				<button class="simpleButton">Add to favorites</button>
+				<button class="simpleButton contrastButton">Adopt</button>
 			</footer>
 		<?php } ?>
 	</div>
 </section>
 <div id="mySlider" class="ss-parent">
-
 	<?php
-	$photos = API\getPetPhotos($pet['id']);
 	for ($i = 0; $i < count($photos); $i++) {
 	?>
 		<div class="ss-child">
@@ -72,36 +73,35 @@ $pet = API\getPet($GLOBALS['id']);
 	<div class="ss-nav"></div>
 </div>
 <script>
-	const slider = new SimpleSlider("mySlider", 3000, "40rem");
+	const slider = new SimpleSlider("mySlider", 3000, "30vw");
 	slider.start();
 </script>
-
 <section id="comments">
-	<h4>Comments:</h4>
-	<?php
-	$posts = API\getPosts($pet['id']);
-	for ($i = 0; $i < count($posts); $i++) {
-		$user = API\getUserById($posts[$i]['userId']); ?>
-		<article class="comment">
-			<img src='../../images/userProfilePictures/<?= $user['id'] ?>.jpg' />
-			<p><?= $posts[$i]['description'] ?></p>
-			<span class="user"><?= $user['shortName'] ?></span>
-			<span class="date"><?= $posts[$i]['postDate'] ?></span>
-		</article>
+	<h4>Comments</h4>
+	<?php if (sizeof($posts) == 0) { ?>
+		<p>This pet has no comments yet.</p>
+	<?php } else {
+		for ($i = 0; $i < count($posts); $i++) {
+			$user = API\getUserById($posts[$i]['userId']); ?>
+			<article class="comment">
+				<div class="image" style="background-image: url('../../images/userProfilePictures/<?= $user['id'] ?>.jpg')"></div>
+				<p><?= $posts[$i]['description'] ?></p>
+				<span class="user"><?= $user['shortName'] ?></span>
+				<span class="date"><?= $posts[$i]['postDate'] ?></span>
+			</article>
 
-	<?php
+	<?php }
 	}
 	if (Session\isAuthenticated()) {
 		$user = Session\getAuthenticatedUser();
 	?>
 		<form>
-			<h4>Add Comment:</h4>
+			<h4>Add Comment</h4>
 			<textarea name="text"></textarea>
 			<input type="submit" class="contrastButton" />
 		</form>
-	<?php } else {
-	?>
-		<h4>To add a comment:</h4>
+	<?php } else { ?>
+		<h4>To add a comment</h4>
 		<ul>
 			<li><a href="<?= getRootUrl() ?>/signin" class="simpleButton">Sign In</a></li>
 			<li><a href="<?= getRootUrl() ?>/signup" class="simpleButton contrastButton">Sign Up</a></li>
@@ -114,6 +114,3 @@ $pet = API\getPet($GLOBALS['id']);
 include_once(dirname(__FILE__) . '/../templates/common/footer.php');
 
 ?>
-</body>
-
-</html>
