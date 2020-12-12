@@ -40,7 +40,7 @@ function sendGetRequest(whereTo, params, onload) {
     req.send();
 }
 
-function sendPostRequest(whereTo, params, onload, data) {
+function sendPostRequest(whereTo, params, data, onload) {
     const req = new XMLHttpRequest();
     req.open('POST', whereTo + "/" + params.join('/'), true);
     req.onload = onload;
@@ -92,13 +92,37 @@ function resetSelection(inputForm, inputId) {
 
 function confirmSelection(rootUrl, inputForm, inputId, currentUsername) {
     let formText = document.querySelector("#" + inputForm + " input[type='text']").value;
-    sendPostRequest(rootUrl + "/api/user", [currentUsername], function() {console.log(this.responseText);}, {field: inputId, value: formText});
+    sendPostRequest(rootUrl + "/api/user", [currentUsername], {field: inputId, value: formText}, 
+    function() {
+        if (parseInt(this.responseText)) {
+            let newValue = escapeHtml(formText);
+            if (inputId == "username") newValue = "@" + newValue;
+            document.querySelector("#" + inputId).children[0].innerHTML = escapeHtml(formText);
+            
+            resetSelection(inputForm, inputId);
+        }
+    });
 }
 
 function encodeForAjax(data) {
-return Object.keys(data).map(function(k){
-    return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
-}).join('&')
+    return Object.keys(data).map(function(k){
+        return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
+    }).join('&');
+}
+
+
+function escapeHtml(string) {
+    let entityMap = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': '&quot;',
+        "'": '&#39;',
+        "/": '&#x2F;'
+    };
+    return String(string).replace(/[&<>"'\/]/g, function (s) {
+        return entityMap[s];
+    });
 }
 
 function initWebsite() {

@@ -50,7 +50,7 @@ function updateName($name) {
     $stmt->bindParam(':username', $GLOBALS['usernameApi']);
     $stmt->bindParam(':name', $name);
     $stmt->execute();
-    echo $stmt->rowCount();
+    return $stmt->rowCount();
 }
 
 function updateUsername($username) {
@@ -61,7 +61,7 @@ function updateUsername($username) {
     $stmt->execute();
     $GLOBALS['usernameApi'] = $username;
     $_SESSION['username'] = $username;
-    echo $stmt->rowCount();
+    return $stmt->rowCount();
 }
 
 function updateMail($mail) {
@@ -70,7 +70,7 @@ function updateMail($mail) {
     $stmt->bindParam(':username', $GLOBALS['usernameApi']);
     $stmt->bindParam(':mail', $mail);
     $stmt->execute();
-    echo $stmt->rowCount();
+    return $stmt->rowCount();
 }
 
 function updateBio($bio) {
@@ -78,7 +78,7 @@ function updateBio($bio) {
     $stmt->bindParam(':username', $GLOBALS['usernameApi']);
     $stmt->bindParam(':description', $bio);
     $stmt->execute();
-    echo $stmt->rowCount();
+    return $stmt->rowCount();
 }
 
 function handleUpdateRequest() {
@@ -88,10 +88,14 @@ function handleUpdateRequest() {
         $field = $_POST['field'];
         $value = $_POST['value'];
 
-        if ($field == "name") updateName($value);
-        else if ($field == "username") updateUsername($value);
-        else if ($field == "mail") updateMail($value);
-        else if ($field == "bio") updateBio($value);
+        $response = 0;
+        //TODO: filter input
+        if ($field == "name") $response = updateName($value);
+        else if ($field == "username") $response = updateUsername($value);
+        else if ($field == "mail") $response = updateMail($value);
+        else if ($field == "bio") $response = updateBio($value);
+
+        echo $response;
     }
 }
 
