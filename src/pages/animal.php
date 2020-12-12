@@ -1,4 +1,7 @@
 <?php
+
+use function API\getProposedToAdopt;
+
 $GLOBALS['section'] = 'discover';
 include_once(dirname(__FILE__) . '/../control/db.php');
 include_once(dirname(__FILE__) . '/../templates/common/header.php');
@@ -51,7 +54,14 @@ $pet = API\getPet($GLOBALS['id']);
 		<?php if (Session\isAuthenticated()) { ?>
 			<footer>
 				<input type="button" id="favorite" class="simpleButton" value="Add to Favorites" />
-				<input type="button" id="adopt" class="simpleButton contrastButton" value="Adopt it" />
+				<?php
+				$proposedToAdopt = getProposedToAdopt(Session\getAuthenticatedUser()['id'], $pet['id']);
+
+				if (count($proposedToAdopt) == 0) { ?>
+					<input type="button" id="adopt" class="simpleButton contrastButton" value="Adopt it" />
+				<?php
+				}
+				?>
 			</footer>
 		<?php } ?>
 	</div>

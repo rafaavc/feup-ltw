@@ -60,10 +60,17 @@ function getUsers() {
         FROM User
             JOIN (
                 SELECT userId, count(userId) as petCount FROM Pet GROUP BY userId
-            ) ON(id=userId) 
+            ) ON(id=userId)
         ORDER BY petCount DESC");
     $stmt->execute();
     return $stmt;
+}
+
+function getProposedToAdopt($userId, $petId){
+    $stmt = Database::db()->prepare("SELECT * FROM ProposedToAdopt WHERE userId = ? AND petId = ?");
+    $stmt->execute(array($userId, $petId));
+
+    return $stmt->fetchAll();
 }
 
 

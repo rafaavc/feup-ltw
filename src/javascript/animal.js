@@ -1,8 +1,15 @@
 let commentForm = document.querySelector('#comments > form');
+let adoptButton = document.querySelector('.petProfile footer #adopt');
 
 commentForm.addEventListener('submit', function (event) {
 	submitComment(event);
 });
+
+if (adoptButton != null) {
+	adoptButton.addEventListener('click', function (event) {
+		proposeToAdoptPet(event);
+	});
+}
 
 function submitComment(event) {
 	event.preventDefault(event);
@@ -14,7 +21,7 @@ function submitComment(event) {
 
 	let request = new XMLHttpRequest();
 	request.addEventListener('load', receiveComment);
-	request.open("post", "/control/api/post.php", true);
+	request.open("post", "/control/actions/post.php", true);
 	request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	request.send(encodeForAjax({ petId: petId, comment: comment }));
 }
@@ -45,4 +52,25 @@ function receiveComment() {
 	article.append(date);
 
 	document.querySelector('#comments').insertBefore(article, commentForm);
+}
+
+function proposeToAdoptPet(event) {
+	event.preventDefault(event);
+
+	let petId = document.querySelector('.petProfile').attributes['data-id'].value;
+
+	let request = new XMLHttpRequest();
+	request.addEventListener('load', removeAdoptButton);
+	request.open("post", "/control/actions/proposeToAdopt.php", true);
+	request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	request.send(encodeForAjax({ petId: petId }));
+}
+
+function removeAdoptButton() {
+	let proposeToAdopt = JSON.parse(this.responseText);
+
+	if (proposeToAdopt.userId != null && proposeToAdopt.petId != null) {
+		document.querySelector('.petProfile footer #adopt').remove();
+		adoptButton.remove();
+	}
 }

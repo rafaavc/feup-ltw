@@ -61,10 +61,13 @@
 	border-color: var(--accentColor);
 	border-style: solid;
 	cursor: pointer;
+	outline: none;
 }
 
 .petProfile footer #adopt {
 	border: none;
+	cursor: pointer;
+	outline: none;
 }
 
 .petPhotos{
