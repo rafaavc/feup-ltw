@@ -69,8 +69,7 @@ function proposeToAdoptPet(event) {
 function removeAdoptButton() {
 	let proposeToAdopt = JSON.parse(this.responseText);
 
-	if (proposeToAdopt.userId != null && proposeToAdopt.petId != null) {
-		document.querySelector('.petProfile footer #adopt').remove();
+	if (proposeToAdopt.length === 1) {
 		adoptButton.remove();
 	}
 }
