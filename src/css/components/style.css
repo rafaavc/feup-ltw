@@ -11,6 +11,7 @@ body {
     --accentColor: rgb(90, 208, 237);
     --accentColorDarker: rgb(3, 152, 189);
     --accentColorLighter: #d2f2fa;
+    --lightGrey: #e6e6e6;
     --darkTextColor: rgb(12, 12, 12);
     --lightTextColor: rgb(245, 245, 245);
     --footerTopColor: rgb(32, 32, 32);
@@ -86,9 +87,22 @@ body > header.filledMenu {
     background-color: var(--darkTextColor);
 }
 
+.simpleButton {
+    border-radius: 1rem;
+    transition: color.2s, background-color .2s;
+    color: var(--darkTextColor);
+    text-decoration: none;
+}
+
+.simpleButton:hover {
+    color: var(--lightTextColor);
+    background-color: var(--darkTextColor);
+    border-radius: 1rem;
+}
+
 .contrastButton {
     background-color: var(--accentColor);
-    transition: all .2s;
+    transition: color .2s, background-color .2s;
     color: var(--lightTextColor);
     text-decoration: none;
 }
@@ -98,8 +112,13 @@ body > header.filledMenu {
     background-color: var(--accentColorDarker);
 }
 
-.simpleButton {
-    border-radius: 1rem;
+button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
 }
 
 
@@ -137,6 +156,20 @@ body > section.indexCover {
     position: relative;
     color: var(--lightTextColor);
 }
+
+.loading {
+    border: 0.2rem solid var(--accentColorLighter);
+    border-top: 0.2rem solid var(--accentColor);
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
 
 .error-message {

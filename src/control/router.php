@@ -27,17 +27,15 @@ function findTarget($req) {
     }
 
     $reqParts = explode("/", $req);
-    $inputVars = array();
-    $destination = "";
-    $foundMatch = false;
+    $inputVars = null;
+    $target = null;
 
-    foreach($routes as $route => $target) {
+    foreach($routes as $route => $currentTarget) {
         $routeParts = explode("/", $route);
-        $foundMatch = true;
 
         if (sizeof($reqParts) === sizeof($routeParts)) {   // same number of parts
             $inputVars = array();
-            $destination = $target;
+            $foundMatch = true;
 
             foreach($routeParts as $i => $part) {
                 if ($part[0] === ':') {    // if found input variale
@@ -48,26 +46,27 @@ function findTarget($req) {
                 }
             }
 
-            if ($foundMatch) break;
-
-        } else {
-            $foundMatch = false;
+            if ($foundMatch) {
+                $target = $currentTarget;
+                break;
+            }
         }
     }
 
-    if (!$foundMatch) {   // if no match is found, 404 ERROR
-        error404();
-    }
+    if ($target === null) error404();   // if no match is found, 404 ERROR
 
     foreach($inputVars as $key => $value) {   // stores the input vars in the globals
         $GLOBALS[$key] = $value;
     }
 
-    return $destination;
+    return $target;
 }
 
 function hitTarget($target) {
-    require_once($target);
+    if (property_exists($target, 'js')) {
+        $GLOBALS['js'] = $target->js;
+    }
+    require_once($target->destination);
 }
 
 function getPostParameter($name) {

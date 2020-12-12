@@ -147,3 +147,5 @@ class SimpleSlider {
 		clearInterval(this.interval.obj);
 	}
 }
+
+export default SimpleSlider;
