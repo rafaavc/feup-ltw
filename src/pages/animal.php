@@ -58,6 +58,9 @@ $posts = API\getPosts($pet['id']);
 				if (count($proposedToAdopt) == 0) { ?>
 					<button id="adopt" class="simpleButton contrastButton">Adopt</button>
 				<?php
+				} else { ?>
+					<p>You've proposed to adopt! <button id="cancel" class="simpleButton contrastButton">Cancel</button></p>
+				<?php
 				}
 				?>
 			</footer>
@@ -81,7 +84,7 @@ $posts = API\getPosts($pet['id']);
 	<h4>Comments</h4>
 	<?php if (sizeof($posts) == 0) { ?>
 		<p>This pet has no comments yet.</p>
-	<?php } else {
+		<?php } else {
 		for ($i = 0; $i < count($posts); $i++) {
 			$user = API\getUserById($posts[$i]['userId']); ?>
 			<article class="comment">
@@ -91,11 +94,11 @@ $posts = API\getPosts($pet['id']);
 				<span class="date"><?= $posts[$i]['postDate'] ?></span>
 			</article>
 
-	<?php }
+		<?php }
 	}
 	if (Session\isAuthenticated()) {
 		$user = Session\getAuthenticatedUser();
-	?>
+		?>
 		<form>
 			<h4>Add Comment</h4>
 			<textarea name="text"></textarea>

@@ -61,15 +61,26 @@ slider.start();
 function proposeToAdoptPet(event) {
 	event.preventDefault(event);
 
-	let petId = document.querySelector('.petProfile').attributes['data-id'].value;
+	const petId = document.querySelector('.petProfile').attributes['data-id'].value;
 
 	sendPostRequest(getRootUrl() + "/control/api/proposeToAdopt.php", { petId: petId }, removeAdoptButton);
 }
 
 function removeAdoptButton() {
-	let proposeToAdopt = JSON.parse(this.responseText);
+	const proposeToAdopt = JSON.parse(this.responseText);
 
 	if (proposeToAdopt.length === 1) {
 		adoptButton.remove();
+		const button = document.createElement('button');
+
+		button.id = "cancel";
+		button.className = "simpleButton contrastButton";
+		button.innerHTML = "Cancel";
+
+		const paragraph = document.createElement('p');
+		paragraph.innerHTML = "You've proposed to adopt! " + button.outerHTML;
+
+		document.querySelector('.petProfile footer').appendChild(paragraph);
+		/*<p>You've proposed to adopt! <button id="cancel" class="simpleButton contrastButton">Cancel</button></p>*/
 	}
 }
