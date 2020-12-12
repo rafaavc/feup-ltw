@@ -1,7 +1,9 @@
 import { sendGetRequest } from '../ajax.js'
 import { createTile } from '../tile.js'
 import { makeLoading } from '../loading.js'
+import { initWebsite } from '../init.js'
 
+initWebsite();
 
 const userSection = document.querySelector('#userResults > div');
 const petSection = document.querySelector('#petResults > div');

@@ -1,23 +1,23 @@
 {
     "index": {
         "destination": "pages/index.php",
-        "js": "init.js"
+        "js": "pages/generic.js"
     },
     "pet/:id": {
         "destination": "pages/animal.php",
-        "js": "init.js"
+        "js": "pages/generic.js"
     },
     "user/:username": {
         "destination": "pages/profile.php",
-        "js": "init.js"
+        "js": "pages/generic.js"
     },
     "signin": {
         "destination": "pages/login.php",
-        "js": "init.js"
+        "js": "pages/generic.js"
     },
     "signup": {
         "destination": "pages/register.php",
-        "js": "init.js"
+        "js": "pages/register.js"
     },
     "discover": {
         "destination": "pages/discover.php",
