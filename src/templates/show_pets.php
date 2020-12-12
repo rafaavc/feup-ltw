@@ -7,7 +7,7 @@ function showPetList($pets) {
         <?php
         foreach($pets as $pet) {
         ?>
-            <article>
+            <article class="tile">
                 <div class="image" style="background-image: url(<?= '../images/petProfilePictures/' . $pet['id'] . '.jpg' ?>);"></div>
                 <header>
                     <h4><?=htmlentities($pet['name'])?></h4>

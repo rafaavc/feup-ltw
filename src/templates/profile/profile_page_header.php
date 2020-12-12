@@ -52,6 +52,6 @@
         <label for="editProfile" id="editProfileLabel">
             <a class="simpleButton contrastButton">Edit Profile</a>
         </label>
-        <input type="checkbox" id="editProfile" onclick="editProfile()"/> 
+        <input type="checkbox" id="editProfile"/> 
     </aside>
 </section>

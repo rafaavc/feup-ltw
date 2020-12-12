@@ -1,5 +1,5 @@
 <?php
-
+$GLOBALS['section'] = 'signup';
 include_once(dirname(__FILE__) ."/../templates/common/header.php");
 ?>
 
@@ -22,13 +22,13 @@ include_once(dirname(__FILE__) ."/../templates/common/header.php");
         <input type="text" id="birthdate" name="birthdate" placeholder="Birthdate" onfocus="(this.type = 'date')" required/>
 
         <label for="mail">E-Mail</label>
-        <input type="email" id="mail" name="mail" placeholder="E-Mail" oninput="onElementChange('mail')" required/>
+        <input type="email" id="mail" name="mail" placeholder="E-Mail" required/>
 
         <label for="description">Bio</label>
         <textarea placeholder="Bio" name="description" id="description"></textarea>
 
         <label for="username">Username</label>
-        <input type="text" id="username" name="username" placeholder="Username" oninput="onElementChange('username')" required/>
+        <input type="text" id="username" name="username" placeholder="Username" required/>
 
         <label for="password">Password</label>
         <input type="password" id="password" name="password" placeholder="Password" required/>
@@ -41,28 +41,3 @@ include_once(dirname(__FILE__) ."/../templates/common/header.php");
 include_once(dirname(__FILE__) ."/../templates/common/footer.php");
 
 ?>
-
-<script>
-function onElementChange(element) {
-    const elementInput = document.getElementById(element);
-    if (elementInput.value == "") {
-        elementInput.previousSibling.remove();
-        return;
-    }
-    sendGetRequest("api/existence", [element, elementInput.value], function() {
-        const res = JSON.parse(this.responseText);
-        const message = res.value ? `The ${element} is already in use.` : `The ${element} is not in use.`;
-        const color = res.value ? "darkred" : "darkgreen";
-        if (elementInput.previousSibling.tagName != 'P') {
-            let el = document.createElement('p');
-            el.innerHTML = message;
-            el.style.fontSize = "0.8em";
-            el.style.color = color;
-            elementInput.parentNode.insertBefore(el, elementInput);
-        } else {
-            elementInput.previousSibling.innerHTML = message;
-            elementInput.previousSibling.style.color = color;
-        }
-    });
-}
-</script>

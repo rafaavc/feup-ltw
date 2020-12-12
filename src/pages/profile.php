@@ -1,4 +1,5 @@
 <?php
+$GLOBALS['section'] = 'profile';
 include_once(dirname(__FILE__)."/../control/api/user.php");
 include_once(dirname(__FILE__) . "/../templates/common/header.php");
 
@@ -7,6 +8,9 @@ include_once(dirname(__FILE__) . "/../templates/profile/profile_page_header.php"
 include_once(dirname(__FILE__) . "/../templates/show_pets.php");
 
 $userLists = getUserLists($user['id']);
+// this is the username of the user to show as given in the router: $GLOBALS['username'];
+include_once(dirname(__FILE__) ."/../templates/common/header.php");
+include_once(dirname(__FILE__) ."/../templates/profile/profile_page_header.php");
 ?>
 
 <section class="petlist">
