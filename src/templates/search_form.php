@@ -1,8 +1,8 @@
 <?php $species = API\getArrayFromSTMT(API\getSpecies(), true); ?>
 <section class="searchForm">
-    <form onsubmit="return false">
+    <form>
         <label for="search">Search</label>
-        <input type="text" id="search" name="search" placeholder="Search" oninput = handleSearch() />
+        <input type="text" id="search" name="search" placeholder="Search" />
 
         <label for="type">Species</label>
         <select name="type" id="type">

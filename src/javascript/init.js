@@ -1,30 +1,5 @@
 
-let menuState = false;
-
-function getHeader() {
-    return document.querySelector('body > header');
-}
-
-function scrollHandler() {
-    const offsetFromTop = 30;
-    if (window.scrollY > offsetFromTop && !menuState) {
-        showMenuBackground();
-    } else if (window.scrollY <= offsetFromTop && menuState) {
-        hideMenuBackground();
-    }
-}
-
-function showMenuBackground() {
-    const menu = getHeader();
-    menuState = true;
-    menu.classList.add('filledMenu');
-}
-
-function hideMenuBackground() {
-    const menu = getHeader();
-    menuState = false;
-    menu.classList.remove('filledMenu');
-}
+import { initHeader } from './header.js'
 
 function movePetGrid(petGrid, right) {
     if (petGrid.children[1] != undefined && petGrid.children[1].className == "petGridContent") {
@@ -33,21 +8,9 @@ function movePetGrid(petGrid, right) {
     }
 }
 
-
-function sendGetRequest(whereTo, params, onload) {
-    const req = new XMLHttpRequest();
-    req.open('GET', whereTo + "/" + params.join('/'));
-    req.onload = onload;
-    req.send();
-}
-
 function initWebsite() {
-    if (document.querySelector('section:first-of-type.indexCover') != null) {
-        window.addEventListener('scroll', scrollHandler);
-        scrollHandler(); // In case the webpage shows up already scrolled
-    } else {
-        showMenuBackground();
-    }
+
+    initHeader();
 
     // these two lines make sure that the footer is always at the bottom
     document.body.style.minHeight = window.innerHeight + "px";
@@ -68,3 +31,7 @@ function initWebsite() {
 
 
 initWebsite();
+
+export const getRootUrl = () => {
+    return window.location.protocol + '//' + window.location.host;
+}
