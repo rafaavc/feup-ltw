@@ -11,7 +11,7 @@ require_once(dirname(__FILE__) . "/../control/api/pet.php");
 
 $pet = API\getPet($GLOBALS['id']);
 ?>
-<section class='petProfile' data-id="<?= $pet['id']?>">
+<section class='petProfile' data-id="<?= $pet['id'] ?>">
 	<div id="petProfileImage" style="background-image: url(<?= '../images/petProfilePictures/' . $pet['id'] . '.jpg' ?>);"> </div>
 	<div id="petInfo">
 		<header>
@@ -96,7 +96,7 @@ $pet = API\getPet($GLOBALS['id']);
 	?>
 		<form>
 			<h4>Add Comment:</h4>
-			<textarea name="text" data-user="<?= $user['id'] ?>" ></textarea>
+			<textarea name="text"></textarea>
 			<input type="submit" class="contrastButton" />
 		</form>
 	<?php } else {

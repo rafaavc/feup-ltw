@@ -8,7 +8,6 @@ function submitComment(event) {
 	event.preventDefault(event);
 
 	let petId = document.querySelector('.petProfile').attributes['data-id'].value;
-	let userId = document.querySelector('form textarea').attributes['data-user'].value;
 	let comment = document.querySelector('form textarea').value;
 
 	if (comment.length < 1) return;
@@ -17,7 +16,7 @@ function submitComment(event) {
 	request.addEventListener('load', receiveComment);
 	request.open("post", "/control/api/post.php", true);
 	request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-	request.send(encodeForAjax({ petId: petId, userId: userId, comment: comment }));
+	request.send(encodeForAjax({ petId: petId, comment: comment }));
 }
 
 function receiveComment() {
