@@ -96,13 +96,6 @@
     return $stmt->fetch();
   }
 
-  function getUserByUsername($username){
-    $db = Database::instance()->db();
-    $stmt = $db->prepare('SELECT * FROM User WHERE username=?');
-    $stmt->execute(array($username));
-    return $stmt->fetch();
-  }
-
   function getUserPets($userId){
     $db = Database::instance()->db();
     $stmt = $db->prepare('SELECT * FROM Pet WHERE userId=?');

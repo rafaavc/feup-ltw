@@ -1,5 +1,6 @@
 <?php
-$user = getUserByUsername($GLOBALS['username']);
+include_once(dirname(__FILE__)."/../control/api/user.php");
+$user = API\getUser($GLOBALS['usernameProfile']);
 $userLists = getUserLists($user['id']);
 include_once(dirname(__FILE__) . "/../templates/common/header.php");
 include_once(dirname(__FILE__) . "/../templates/profile/profile_page_header.php");

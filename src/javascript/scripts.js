@@ -33,7 +33,6 @@ function movePetGrid(petGrid, right) {
     }
 }
 
-
 function sendGetRequest(whereTo, params, onload) {
     const req = new XMLHttpRequest();
     req.open('GET', whereTo + "/" + params.join('/'));
@@ -41,28 +40,13 @@ function sendGetRequest(whereTo, params, onload) {
     req.send();
 }
 
-function initWebsite() {
-    if (document.querySelector('section:first-of-type.indexCover') != null) {
-        window.addEventListener('scroll', scrollHandler);
-        scrollHandler(); // In case the webpage shows up already scrolled
-    } else {
-        showMenuBackground();
-    }
-
-    // these two lines make sure that the footer is always at the bottom
-    document.body.style.minHeight = window.innerHeight + "px";
-    document.body.style.paddingBottom = document.querySelector('body > footer').clientHeight + "px";
-
-    const rightArrows = document.querySelectorAll('.petGrid > .arrow.right');
-    const leftArrows = document.querySelectorAll('.petGrid > .arrow.left');
-
-    for (const rightArrow of rightArrows) rightArrow.addEventListener('click', () => movePetGrid(rightArrow.parentElement, true));
-    for (const leftArrow of leftArrows) leftArrow.addEventListener('click', () => movePetGrid(leftArrow.parentElement, false));
-
-    let closeButtons = document.querySelectorAll(".textButtonPair form .close");
-    closeButtons.forEach(closeButton => closeButton.addEventListener('click', (event) => {
-        event.preventDefault();
-    }))
+function sendPostRequest(whereTo, params, onload, data) {
+    const req = new XMLHttpRequest();
+    req.open('POST', whereTo + "/" + params.join('/'), true);
+    req.onload = onload;
+    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    req.send(encodeForAjax(data));
+    console.log("request sent", encodeForAjax(data));
 }
 
 function editProfile() {
@@ -106,5 +90,55 @@ function resetSelection(inputForm, inputId) {
     edit.style.display = inputId == "bio" ? "flex" : "inline-block";
 }
 
+function confirmSelection(rootUrl, inputForm, inputId, currentUsername) {
+    let formText = document.querySelector("#" + inputForm + " input[type='text']").value;
+    sendPostRequest(rootUrl + "/api/user", [currentUsername], function() {console.log(this.responseText);}, {field: inputId, value: formText});
+}
+
+function encodeForAjax(data) {
+return Object.keys(data).map(function(k){
+    return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
+}).join('&')
+}
+
+function initWebsite() {
+    if (document.querySelector('section:first-of-type.indexCover') != null) {
+        window.addEventListener('scroll', scrollHandler);
+        scrollHandler(); // In case the webpage shows up already scrolled
+    } else {
+        showMenuBackground();
+    }
+
+    // these two lines make sure that the footer is always at the bottom
+    document.body.style.minHeight = window.innerHeight + "px";
+    document.body.style.paddingBottom = document.querySelector('body > footer').clientHeight + "px";
+
+    const rightArrows = document.querySelectorAll('.petGrid > .arrow.right');
+    const leftArrows = document.querySelectorAll('.petGrid > .arrow.left');
+
+    for (const rightArrow of rightArrows) rightArrow.addEventListener('click', () => movePetGrid(rightArrow.parentElement, true));
+    for (const leftArrow of leftArrows) leftArrow.addEventListener('click', () => movePetGrid(leftArrow.parentElement, false));
+
+    // edit profile
+    let editProfile = document.getElementById("editProfile");
+    console.log(editProfile);
+    //editProfile.addEventListener('click', () => editProfile()); ?editProfile not a function?
+
+    let sections = document.querySelectorAll(".textButtonPair");
+    for (let section of sections) {
+        let intialContent = section.children[0];
+        let editForm = section.children[1];
+    }
+
+    let closeButtons = document.querySelectorAll(".textButtonPair form .close");
+    closeButtons.forEach(closeButton => closeButton.addEventListener('click', (event) => {
+        event.preventDefault();
+    }));
+
+    let confirmButtons = document.querySelectorAll(".textButtonPair form .confirm");
+    confirmButtons.forEach(confirmButton => confirmButton.addEventListener('click', (event) => {
+        event.preventDefault();
+    }));
+}
 
 initWebsite();
