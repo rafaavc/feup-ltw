@@ -1,3 +1,3 @@
-import { initWebsite } from '../init'
+import { initWebsite } from '../init.js'
 
 initWebsite();

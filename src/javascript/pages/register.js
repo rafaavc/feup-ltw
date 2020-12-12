@@ -26,8 +26,8 @@ function onElementChange() {
     });
 }
 
-const mail = document.querySelector('.authForm > form > input[name="mail"]');
-const username = document.querySelector('.authForm > form > input[name="username"]');
+const mail = document.getElementById('mail');
+const username = document.getElementById('username');
 
 username.addEventListener('input', onElementChange);
 mail.addEventListener('input', onElementChange);

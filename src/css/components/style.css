@@ -134,8 +134,8 @@ body > section.indexCover {
 }
 
 .loading {
-    border: 0.2rem solid var(--accentColorLighter); /* Light grey */
-    border-top: 0.2rem solid var(--accentColor); /* Blue */
+    border: 0.2rem solid var(--accentColorLighter);
+    border-top: 0.2rem solid var(--accentColor);
     border-radius: 50%;
     width: 2rem;
     height: 2rem;
