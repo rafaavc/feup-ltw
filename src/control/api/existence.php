@@ -20,7 +20,7 @@ function emailExists($mail) {
     return $stmt->fetch() == false ? false : true;
 }
 
-function handleRequest() {
+function handleExistenceRequest() {
     $type = $GLOBALS['type'];
     $value = $GLOBALS['value'];
     $method = $_SERVER['REQUEST_METHOD'];
@@ -40,7 +40,7 @@ function handleRequest() {
 }
 
 if (isset($GLOBALS['type']) && isset($GLOBALS['value'])) {
-    handleRequest();
+    handleExistenceRequest();
 }
 
 ?>

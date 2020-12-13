@@ -64,15 +64,75 @@ function getLastPost($petId){
 }
 
 function getPets() {
-    $stmt = Database::db()->prepare("SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, PetRace.name as race
-                                        FROM (((Pet JOIN PetColor on(Pet.color = PetColor.id)) JOIN PetSize ON(Pet.size = PetSize.id)) LEFT JOIN PetSpecie ON(Pet.specie = PetSpecie.id)) LEFT JOIN PetRace ON(Pet.race = PetRace.id)
-                                        ORDER BY datePosted DESC");
+    $stmt = Database::db()->prepare("SELECT *
+		FROM (
+				SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, null as race FROM
+				(
+					(
+						(Pet JOIN PetColor on(Pet.color = PetColor.id))
+						JOIN PetSize ON(Pet.size = PetSize.id)
+					)
+					JOIN PetSpecie ON(Pet.specie = PetSpecie.id)
+				)
+			UNION
+				SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, PetRace.name as race FROM
+				(
+					(
+						(
+							(Pet JOIN PetColor on(Pet.color = PetColor.id))
+							JOIN PetSize ON(Pet.size = PetSize.id)
+						)
+						JOIN PetRace ON(Pet.race = PetRace.id)
+					)
+					JOIN PetSpecie ON(PetRace.specieId = PetSpecie.id)
+				)
+			) ORDER BY datePosted");
     $stmt->execute();
     return $stmt;
 }
 
+function getUserPets($userId) {
+    $stmt = Database::db()->prepare("SELECT *
+		FROM (
+				SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, null as race FROM
+				(
+					(
+						(Pet JOIN PetColor on(Pet.color = PetColor.id))
+						JOIN PetSize ON(Pet.size = PetSize.id)
+					)
+					JOIN PetSpecie ON(Pet.specie = PetSpecie.id)
+				)
+			UNION
+				SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, PetRace.name as race FROM
+				(
+					(
+						(
+							(Pet JOIN PetColor on(Pet.color = PetColor.id))
+							JOIN PetSize ON(Pet.size = PetSize.id)
+						)
+						JOIN PetRace ON(Pet.race = PetRace.id)
+					)
+					JOIN PetSpecie ON(PetRace.specieId = PetSpecie.id)
+				)
+			) where userId = ?");
+	$stmt->execute(array($userId));
+    return $stmt;
+}
+
+function getUserPetsAdpotionProposals($userId) {
+	$stmt = Database::db()->prepare("SELECT * FROM ProposedToAdopt JOIN Pet ON(id = petId) WHERE Pet.userId = ?");
+	$stmt->execute(array($userId));
+	return $stmt;
+}
+
+function getUserPetsComments($userId) {
+	$stmt = Database::db()->prepare("SELECT * FROM Post JOIN Pet ON(Pet.id = petId) WHERE Pet.userId = ? ORDER BY postDate DESC");
+	$stmt->execute(array($userId));
+	return $stmt;
+}
+
 function getSpecies() {
-    $stmt = Database::db()->prepare("SELECT * FROM PetSpecie ORDER BY name");
+	$stmt = Database::db()->prepare("SELECT * FROM PetSpecie ORDER BY name");
     $stmt->execute();
     return $stmt;
 }

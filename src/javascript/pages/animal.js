@@ -63,7 +63,6 @@ const slider = new SimpleSlider("mySlider", 3000, "30vw");
 slider.start();
 
 
-
 function proposeToAdoptPet(event) {
 	event.preventDefault(event);
 

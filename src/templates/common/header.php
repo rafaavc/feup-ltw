@@ -22,6 +22,7 @@ $section = isset($GLOBALS['section']) ? $GLOBALS['section'] : "home";
                     <li><a href="<?=getRootUrl()?>/signup" class="contrastButton">Sign Up</a></li>
                 <?php } else { ?>
                     <li><a href="<?=getRootUrl()?>/action/signout">Sign Out</a></li>
+                    <li><a href="<?=getRootUrl()?>/pets" class="contrastButton">My Pets</a></li>
                     <li><a href="<?=getRootUrl()?>/user/<?=$loggedInUser['username']?>" class="contrastButton">My Profile</a></li>
                 <?php } ?>
         </ul>

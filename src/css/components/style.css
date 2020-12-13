@@ -223,11 +223,6 @@ article.tile {
     border-radius: 1rem;
 }
 
-article.tile > .image {
-    border-top-right-radius: inherit;
-    border-top-left-radius: inherit;
-}
-
 article.tile > .image ~ * {
     margin: 1rem;
 }
@@ -237,7 +232,8 @@ article.tile article:last-of-type {
 }
 
 article.tile > .image {
-    background: url('../images/cuteCat.jpeg');
+    border-top-right-radius: inherit;
+    border-top-left-radius: inherit;
     background-size: cover;
     background-position: 50% 50%;
     height: 10rem;
@@ -313,4 +309,7 @@ body > footer > div > section > nav > ul > li > a{
     content: "\00a0\00a0\00a0/\00a0\00a0\00a0";
 }
 
+/* * {
+    border: 1px solid;
+} */
 
