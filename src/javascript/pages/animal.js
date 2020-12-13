@@ -69,9 +69,31 @@ function confirmSelection(editForm, inputField) {
 		editForm.style.display = 'none';
 		inputField.style.display = 'flex';
 		if (result.value === true){
-
+			if (inputField.id === 'nameAge') changeNameAge(editForm, inputField, field);
+			else if (inputField.id === 'colorRaceLocation') changeColorRaceLocation(editForm, inputField, field);
+			else if (inputField.id === 'description') changeDescription(editForm, inputField, field);
 		}
 	});
+}
+
+function changeNameAge(editForm, inputField, field) {
+	if (field === 'name'){
+		let name = document.querySelector('#nameAgeForm input[type=text]').value;
+		console.log(editForm);
+		console.log(inputField);
+
+		let string = inputField.querySelector('h3').innerHTML.split(',');
+		string[0] = name;
+		inputField.querySelector('h3').innerHTML = string.join(',');
+	}
+}
+
+function changeColorRaceLocation(editForm, inputField) {
+
+}
+
+function changeDescription(editForm, inputField) {
+
 }
 
 function resetSelection(editForm, inputField) {
@@ -84,7 +106,6 @@ function editPet() {
 	const editButtons = Array.from(document.getElementsByClassName('edit'));
 
 	editButtons.forEach(editButton => {
-		console.log(editButton);
 		editButton.style.display = "flex";
 	});
 
