@@ -64,6 +64,15 @@
     content: "@";
 }
 
+#userPets a {
+    color: inherit;
+    transition: color .2s;
+}
+
+#userPets a:hover {
+    color: var(--accentColorDarker);
+}
+
 /* * {
     border: 1px solid;
 } */

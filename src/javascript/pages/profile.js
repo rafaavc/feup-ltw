@@ -106,8 +106,18 @@ function resetSelection(editForm, inputField) {
 function createTileLists() {
     const user = document.querySelector("#username > strong");
     sendPostRequest(getRootUrl() + "/api/user", {userLists: user.innerHTML}, function() {
-        console.log(this.responseText);
         const res = JSON.parse(this.responseText);
+        const pets = res.pets;
+        const lists = res.lists;
+
+        const petGridContent = document.querySelector('#userPets > .petGrid > .petGridContent');
+        console.log(petGridContent);
+
+        for (const pet of pets) {
+            const tile = createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description, null, false);
+    
+            petGridContent.appendChild(tile);
+        }
     });
 }
 

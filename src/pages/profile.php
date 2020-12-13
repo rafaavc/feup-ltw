@@ -12,10 +12,20 @@ include_once(dirname(__FILE__) . "/../templates/show_pets.php");
 $userLists = API\getUserLists($user['id']);
 ?>
 
+<section id="userPets">
+    <header><h2>Pets</h2></header>
+    <div class="petGrid">
+        <div class="arrow left"></div>
+        <div class="petGridContent"></div>
+        <div class="arrow right"></div>
+    </div>
+</section>
+
 <section class="petlist">
     <h1>Pets</h1>
     <?php showPetList(API\getUserPets($user['id'])) ?>
 </section>
+
 
 <section class="petlist">
     <div id="select">
@@ -26,12 +36,14 @@ $userLists = API\getUserLists($user['id']);
             <?php
             foreach($userLists as $userList) {
             ?>
-                <option value="<?=htmlentities($userList['id'])?>"><?=htmlentities($userList['title'])?></option>
+                <option value="<?htmlentities($userList['id'])?>"><?htmlentities($userList['title'])?></option>
             <?php
             }
             ?>
         </select>
     </div>
+
+
     <div id="lists">
         <?php
         foreach($userLists as $userList){
@@ -41,6 +53,7 @@ $userLists = API\getUserLists($user['id']);
         } 
         ?>
     </div>
+       
 </section>
 
 <?php
