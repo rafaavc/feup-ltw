@@ -131,13 +131,6 @@ function getProposedToAdopt($userId, $petId){
     return $stmt->fetchAll();
 }
 
-function getUserPets($userId){
-    $db = Database::instance()->db();
-    $stmt = $db->prepare('SELECT * FROM Pet WHERE userId=?');
-    $stmt->execute(array($userId));
-    return $stmt->fetchAll();
-}
-
 function getUserLists($userId){
     $db = Database::instance()->db();
     $stmt = $db->prepare('SELECT * FROM List WHERE userId=?');

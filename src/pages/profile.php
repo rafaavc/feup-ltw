@@ -1,6 +1,7 @@
 <?php
 $GLOBALS['section'] = 'profile';
 include_once(dirname(__FILE__)."/../control/api/user.php");
+include_once(dirname(__FILE__)."/../control/api/pet.php");
 include_once(dirname(__FILE__) . "/../templates/common/header.php");
 
 $user = API\getUserByUsername($GLOBALS['username']);

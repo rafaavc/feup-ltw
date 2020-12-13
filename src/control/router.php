@@ -66,7 +66,11 @@ function hitTarget($target) {
     if (property_exists($target, 'js')) {
         $GLOBALS['js'] = $target->js;
     }
-    require_once($target->destination);
+    hitDestination($target->destination);
+}
+
+function hitDestination($destination) {
+    require_once($destination);
 }
 
 function getPostParameter($name) {
@@ -85,7 +89,7 @@ function getPostParameters($names) {
 
 function error404() {
     http_response_code(404);
-    hitTarget("pages/404.php");
+    hitDestination("pages/404.php");
     exit();
 }
 
