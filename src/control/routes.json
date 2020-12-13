@@ -23,6 +23,10 @@
         "destination": "pages/discover.php",
         "js": "pages/discover.js"
     },
+    "pets": {
+        "destination": "pages/pet_management.php",
+        "js": "pages/generic.js"
+    },
 
 
     "api/existence/:type/:value": {
