@@ -4,10 +4,16 @@ use function API\getProposedToAdopt;
 
 $GLOBALS['section'] = 'discover';
 include_once(dirname(__FILE__) . '/../control/db.php');
-include_once(dirname(__FILE__) . '/../templates/common/header.php');
 require_once(dirname(__FILE__) . "/../control/api/pet.php");
 
 $pet = API\getPet($GLOBALS['id']);
+if ($pet == false) {
+	include_once(dirname(__FILE__) . "/404.php");
+	die();
+}
+
+include_once(dirname(__FILE__) . '/../templates/common/header.php');
+
 $photos = API\getPetPhotos($pet['id']);
 $posts = API\getPosts($pet['id']);
 ?>
