@@ -49,7 +49,7 @@
         </section>
     </div>
     <?php
-    if (isset($_SESSION['username'])) {
+    if (isset($_SESSION['username']) && $user['username'] == $_SESSION['username']) {
     ?>
         <aside>
             <label for="editProfile" id="editProfileLabel">

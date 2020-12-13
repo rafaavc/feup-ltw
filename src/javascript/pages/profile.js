@@ -9,23 +9,22 @@ let forms = Array.from(document.getElementsByClassName('textButtonPair'));
 forms.forEach(form => {
     let inputField = form.children[0];
     let editForm = form.children[1];
-    let input = editForm.querySelector("input[type='text']");
     
     let edit = inputField.getElementsByClassName("edit");
-    edit[0].addEventListener('click', (event) => {
-        showSelection(editForm.id, inputField.id);
+    edit[0].addEventListener('click', () => {
+        showSelection(editForm, inputField);
     });
 
     let confirm = editForm.getElementsByClassName("confirm");
     confirm[0].addEventListener('click', (event) => {
         event.preventDefault();
-        confirmSelection(editForm.id, inputField.id);
+        confirmSelection(editForm, inputField);
     });
 
     let close = editForm.getElementsByClassName("close");
     close[0].addEventListener('click', (event) => {
         event.preventDefault();
-        resetSelection(editForm.id, inputField.id);
+        resetSelection(editForm, inputField);
     });
     
 });
@@ -65,44 +64,40 @@ function editProfile() {
     }
 }
 
-function showSelection(inputForm, inputId) {
-    let edit = document.getElementById(inputId);
-    edit.style.display = "none";
-
-    let editForm = document.getElementById(inputForm);
+function showSelection(editForm, inputField) {
     editForm.style.display = "flex";
+    inputField.style.display = "none";
 
-    let formText = document.querySelector("#" + inputForm + " input[type='text']");
-    let formValue = document.querySelector("#" + inputId + " :first-child").innerHTML;
-    if (inputId == "username") formValue = formValue.substr(1);
+    let formText = editForm.querySelector("input[type='text']");
+    let formValue = inputField.children[0].innerHTML;
+    if (inputField.id == "username") formValue = formValue.substr(1);
     formText.value = formValue;
 }
 
-function resetSelection(inputForm, inputId) {
-    let form = document.getElementById(inputForm);
-    form.reset();
-    form.style.display = "none";
-
-    let edit = document.getElementById(inputId);
-    edit.style.display = inputId == "bio" ? "flex" : "inline-block";
-}
-
-function confirmSelection(inputForm, inputId) {
-    let formText = document.querySelector("#" + inputForm + " input[type='text']").value;
-    sendPostRequest(getRootUrl() + "/api/user", {field: inputId, value: formText}, 
+function confirmSelection(editForm, inputField) {
+    let formText = editForm.querySelector("input[type='text']").value;
+    sendPostRequest(getRootUrl() + "/api/user", {field: inputField.id, value: formText}, 
     function() {
         if (parseInt(this.responseText)) {
             let newValue = escapeHtml(formText);
-            if (inputId == "username") newValue = "@" + newValue;
-            document.querySelector("#" + inputId).children[0].innerHTML = newValue;
+            if (inputField.id == "username") newValue = "@" + newValue;
+            inputField.children[0].innerHTML = newValue;
 
-            resetSelection(inputForm, inputId);
+            resetSelection(editForm, inputField);
         }
+        else if (parseInt(this.responseText) == 0) 
+            resetSelection(editForm, inputField);
         else {
             console.log(this.responseText);
             window.location = this.responseText;
         }
     });
+}
+
+function resetSelection(editForm, inputField) {
+    editForm.style.display = "none";
+
+    inputField.style.display = inputField.id == "bio" ? "flex" : "inline-block";
 }
 
 function escapeHtml(string) {
