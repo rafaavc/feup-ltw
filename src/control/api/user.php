@@ -5,6 +5,8 @@ namespace API;
 use Router;
 use Database;
 
+use function Router\sendTo;
+
 include_once(dirname(__FILE__)."/existence.php");
 
 
@@ -45,9 +47,21 @@ function getUser($username) {
     return $user;
 }
 
+function getUsers() {
+    $stmt = Database::db()->prepare(
+        "SELECT *
+        FROM User
+            JOIN (
+                SELECT userId, count(userId) as petCount FROM Pet GROUP BY userId
+            ) ON(id=userId) 
+        ORDER BY petCount DESC");
+    $stmt->execute();
+    return $stmt;
+}
+
 function updateName($name) {
     $stmt = Database::db()->prepare("UPDATE User SET name = :name WHERE username = :username AND name <> :name");
-    $stmt->bindParam(':username', $GLOBALS['username']);
+    $stmt->bindParam(':username', $_SESSION['username']);
     $stmt->bindParam(':name', $name);
     $stmt->execute();
     return $stmt->rowCount();
@@ -56,21 +70,19 @@ function updateName($name) {
 function updateUsername($username) {
     if (usernameExists($username)) return 0;
     $stmt = Database::db()->prepare("UPDATE User SET username = :newUsername WHERE username = :username");
-    $stmt->bindParam(':username', $GLOBALS['username']);
+    $stmt->bindParam(':username', $_SESSION['username']);
     $stmt->bindParam(':newUsername', $username);
     $stmt->execute();
 
-    $GLOBALS['username'] = $username;
     $_SESSION['username'] = $username;
 
-    return $stmt->rowCount();
+    return getRootURL(). "/user". "/" . $username;
 }
 
 function updateMail($mail) {
-    echo $GLOBALS['username'];
     if (emailExists($mail)) return 0;
     $stmt = Database::db()->prepare("UPDATE User SET mail = :mail WHERE username = :username");
-    $stmt->bindParam(':username', $GLOBALS['username']);
+    $stmt->bindParam(':username', $_SESSION['username']);
     $stmt->bindParam(':mail', $mail);
     $stmt->execute();
     return $stmt->rowCount();
@@ -78,7 +90,7 @@ function updateMail($mail) {
 
 function updateBio($bio) {
     $stmt = Database::db()->prepare("UPDATE User SET description = :description WHERE username = :username AND description <> :description");
-    $stmt->bindParam(':username', $GLOBALS['username']);
+    $stmt->bindParam(':username', $_SESSION['username']);
     $stmt->bindParam(':description', $bio);
     $stmt->execute();
     return $stmt->rowCount();
@@ -90,10 +102,9 @@ function handleUpdateRequest() {
     if ($method == 'POST' && isset($_POST['field']) && isset($_POST['value'])) {
         $field = $_POST['field'];
         $value = $_POST['value'];
-        echo $_SESSION['username'];
 
         $response = 0;
-        //TODO: filter input
+
         if ($field == "name") $response = updateName($value);
         else if ($field == "username") $response = updateUsername($value);
         else if ($field == "mail") $response = updateMail($value);
@@ -101,18 +112,6 @@ function handleUpdateRequest() {
 
         echo $response;
     }
-}
-
-function getUsers() {
-    $stmt = Database::db()->prepare(
-        "SELECT *
-        FROM User
-            JOIN (
-                SELECT userId, count(userId) as petCount FROM Pet GROUP BY userId
-            ) ON(id=userId) 
-        ORDER BY petCount DESC");
-    $stmt->execute();
-    return $stmt;
 }
 
 // use getAuthenticatedUser() ?

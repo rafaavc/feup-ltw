@@ -1,19 +1,34 @@
-import { initWebsite } from '../init.js'
-
-console.log("profile page");
+import { getRootUrl, initWebsite } from '../init.js'
+import { sendPostRequest } from '../ajax.js'
 
 let editProfileButton = document.getElementById("editProfile");
-editProfileButton.addEventListener('click', editProfile);
+if (editProfileButton != null)
+    editProfileButton.addEventListener('click', editProfile);
 
-let closeButtons = document.querySelectorAll(".textButtonPair form .close");
-closeButtons.forEach(closeButton => closeButton.addEventListener('click', (event) => {
-    event.preventDefault();
-}));
+let forms = Array.from(document.getElementsByClassName('textButtonPair'));
+forms.forEach(form => {
+    let inputField = form.children[0];
+    let editForm = form.children[1];
+    let input = editForm.querySelector("input[type='text']");
+    
+    let edit = inputField.getElementsByClassName("edit");
+    edit[0].addEventListener('click', (event) => {
+        showSelection(editForm.id, inputField.id);
+    });
 
-let confirmButtons = document.querySelectorAll(".textButtonPair form .confirm");
-confirmButtons.forEach(confirmButton => confirmButton.addEventListener('click', (event) => {
-    event.preventDefault();
-}));
+    let confirm = editForm.getElementsByClassName("confirm");
+    confirm[0].addEventListener('click', (event) => {
+        event.preventDefault();
+        confirmSelection(editForm.id, inputField.id);
+    });
+
+    let close = editForm.getElementsByClassName("close");
+    close[0].addEventListener('click', (event) => {
+        event.preventDefault();
+        resetSelection(editForm.id, inputField.id);
+    });
+    
+});
 
 let lists = document.getElementById('lists');
 for (let i = 1; i < lists.children.length; i++){
@@ -23,10 +38,8 @@ for (let i = 1; i < lists.children.length; i++){
 let listSelect = document.getElementById('list-select');
 listSelect.addEventListener('change', () => {
     for (let option of listSelect.options) {
-        console.log(option.value - 1, listSelect.options.selectedIndex);
-        if (option.value - 1 == listSelect.options.selectedIndex) {
+        if (option.value - 1 == listSelect.options.selectedIndex)
             lists.children[option.value - 1].style.display = 'grid';
-        }
         else lists.children[option.value - 1].style.display = 'none';
     }
 });
@@ -52,7 +65,7 @@ function editProfile() {
     }
 }
 
-function showField(inputForm, inputId) {
+function showSelection(inputForm, inputId) {
     let edit = document.getElementById(inputId);
     edit.style.display = "none";
 
@@ -74,23 +87,35 @@ function resetSelection(inputForm, inputId) {
     edit.style.display = inputId == "bio" ? "flex" : "inline-block";
 }
 
-function confirmSelection(rootUrl, inputForm, inputId) {
+function confirmSelection(inputForm, inputId) {
     let formText = document.querySelector("#" + inputForm + " input[type='text']").value;
-    sendPostRequest(rootUrl + "/api/user", {field: inputId, value: formText}, 
+    sendPostRequest(getRootUrl() + "/api/user", {field: inputId, value: formText}, 
     function() {
         if (parseInt(this.responseText)) {
             let newValue = escapeHtml(formText);
-            console.log(inputId);
             if (inputId == "username") newValue = "@" + newValue;
             document.querySelector("#" + inputId).children[0].innerHTML = newValue;
 
             resetSelection(inputForm, inputId);
         }
+        else {
+            console.log(this.responseText);
+            window.location = this.responseText;
+        }
     });
 }
 
-function encodeForAjax(data) {
-    return Object.keys(data).map(function(k){
-        return encodeURIComponent(k) + '=' + encodeURIComponent(data[k])
-    }).join('&');
+function escapeHtml(string) {
+    let entityMap = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': '&quot;',
+        "'": '&#39;',
+        "/": '&#x2F;'
+    };
+
+    return String(string).replace(/[&<>"'\/]/g, function (s) {
+        return entityMap[s];
+    });
 }
