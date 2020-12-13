@@ -54,13 +54,13 @@ function editProfile() {
 
     if (editProfile.checked) {
         editProfileLabel.innerHTML = "Close edition";
-        editFields.forEach(field => field.style.display = "inline-block");
+        editFields.forEach(field => field.style.display = "flex");
     }
     else {
         editProfileLabel.innerHTML = "Edit profile";
         editFields.forEach(field => field.style.display = "none");
         forms.forEach(form => form.style.display = "none");
-        initialFields.forEach(field => field.id == "bio" ? field.style.display = "flex" : field.style.display = "block");
+        initialFields.forEach(field => field.style.display = "flex");
     }
 }
 
@@ -68,14 +68,25 @@ function showSelection(editForm, inputField) {
     editForm.style.display = "flex";
     inputField.style.display = "none";
 
-    let formText = editForm.querySelector("input[type='text']");
+    let formText;
     let formValue = inputField.children[0].innerHTML;
     if (inputField.id == "username") formValue = formValue.substr(1);
+
+    if (inputField.id == "bio")
+        formText = editForm.querySelector("textarea");
+    else
+        formText = editForm.querySelector("input[type='text']");
+
     formText.value = formValue;
 }
 
 function confirmSelection(editForm, inputField) {
-    let formText = editForm.querySelector("input[type='text']").value;
+    let formText
+    if (inputField.id == "bio")
+        formText = editForm.querySelector("textarea").value;
+    else
+        formText = editForm.querySelector("input[type='text']").value;
+    
     sendPostRequest(getRootUrl() + "/api/user", {field: inputField.id, value: formText}, 
     function() {
         if (parseInt(this.responseText)) {
@@ -87,17 +98,14 @@ function confirmSelection(editForm, inputField) {
         }
         else if (parseInt(this.responseText) == 0) 
             resetSelection(editForm, inputField);
-        else {
-            console.log(this.responseText);
+        else 
             window.location = this.responseText;
-        }
     });
 }
 
 function resetSelection(editForm, inputField) {
     editForm.style.display = "none";
-
-    inputField.style.display = inputField.id == "bio" ? "flex" : "inline-block";
+    inputField.style.display = "flex";
 }
 
 function escapeHtml(string) {

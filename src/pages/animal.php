@@ -12,7 +12,7 @@ $photos = API\getPetPhotos($pet['id']);
 $posts = API\getPosts($pet['id']);
 ?>
 
-<section class='petProfile' data-id="<?= $pet['id'] ?>">
+<section class='profile_header' data-id="<?= $pet['id'] ?>">
 	<div style="background-image: url(<?= '../images/petProfilePictures/' . $pet['id'] . '.jpg' ?>);"> </div>
 	<div>
 		<header>

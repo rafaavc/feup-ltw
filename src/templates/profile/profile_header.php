@@ -1,10 +1,10 @@
 <section class="profile_header">
-    <img src="<?=getRootURL()?>/images/userProfilePictures/<?=$user['id']?>.jpg" />
+    <div style="background-image: url(<?= '../images/userProfilePictures/' . $user['id'] . '.jpg' ?>);"> </div>
     <div>
         <header>
             <section class="textButtonPair">
                 <div id="name">
-                    <h2><?=htmlentities($user['name'])?></h2>
+                    <h3><?=htmlentities($user['name'])?></h3>
                     <button class="edit" id="nameEdit"><i class="icofont-ui-edit"></i></button> 
                 </div>
                 <form id="nameForm">
@@ -26,7 +26,7 @@
             </section>
             <section class="textButtonPair">
                 <div id="mail">
-                    <strong><?=htmlentities($user['mail']) ?></strong>
+                    <p><?=htmlentities($user['mail']) ?></p>
                     <button class="edit" id="mailEdit"><i class="icofont-ui-edit"></i></button>
                 </div>
                 <form id="mailForm">
@@ -42,22 +42,22 @@
                 <button class="edit" id="bioEdit"><i class="icofont-ui-edit"></i></button>
             </div>
             <form id="bioForm">
-                <input type="text" />
+                <textarea name="text"></textarea>
                 <button class="confirm" name="bioConfirm"><i class="icofont-ui-check"></i></button> 
                 <button class="close" name="bioClose"><i class="icofont-ui-close"></i></button>
             </form>
         </section>
-    </div>
     <?php
-    if (isset($_SESSION['username']) && $user['username'] == $_SESSION['username']) {
+    if (Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username']) {
     ?>
-        <aside>
+        <footer>
+            <input type="checkbox" id="editProfile"/>
             <label for="editProfile" id="editProfileLabel">
                 <a class="simpleButton contrastButton">Edit Profile</a>
             </label>
-            <input type="checkbox" id="editProfile"/> 
-        </aside>
+        </footer>
     <?php
     }
     ?>
+    </div>
 </section>

@@ -1,21 +1,5 @@
 @import url("../../style.css");
 
-.profile_header {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    grid-gap: 2rem;
-    align-items: center;
-
-    padding-left: calc(var(--rightLeftPadding) );
-    padding-right: calc(var(--rightLeftPadding) );
-}
-
-.profile_header > img {
-    border-radius: 50%;
-    max-width: 10vw;
-    height: 10vw;
-}
-
 .petlist {
     padding-top: 0;
 }
@@ -45,40 +29,37 @@
     align-items: center;
 }
 
-.textButtonPair > div > h2 {
-    margin-bottom: 0.2rem;
-    display: inline-block;
-}
-
-.profile_header > div > header > section:last-of-type {
-    margin-top: 1.5rem;
-}
-
-.textButtonPair form, .textButtonPair .edit {
-    display: none;
-} 
-
-#bio {
+.textButtonPair > div{
     display: flex;
     align-items: center;
 }
 
-.profile_header > aside > label {
-    position: relative;
-    left: 2rem;
+.textButtonPair form, .textButtonPair .edit {
+    display: none;
 }
 
-nav#menu label.hamburger {
-    display: block;
+.profile_header footer label {
     position: relative;
-    top: -1.3em;
-    background-color: #2A2F33;
-    color: white;
-    padding: 1em;
+    right: 2rem;
+    cursor: pointer;
+}
+
+.textButtonPair form > input[type="text"], .textButtonPair form > textarea {
+    width: auto;
     margin-bottom: 0;
-    width: 58em;
 }
 
-* {
-    /* border: 1px solid; */
+.textButtonPair button {
+    margin-left: 0.5rem;
+    background-color: transparent;
+    transition: color .2s;
+
 }
+
+.textButtonPair button:hover {
+    color: var(--accentColor);
+}
+
+/* * {
+    border: 1px solid;
+} */
