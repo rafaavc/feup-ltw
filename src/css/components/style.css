@@ -223,11 +223,6 @@ article.tile {
     border-radius: 1rem;
 }
 
-article.tile > .image {
-    border-top-right-radius: inherit;
-    border-top-left-radius: inherit;
-}
-
 article.tile > .image ~ * {
     margin: 1rem;
 }
@@ -236,8 +231,9 @@ article.tile article:last-of-type {
     margin: 0;
 }
 
-.petGridContent > article > .image {
-    /* background: url('../images/cuteCat.jpeg'); */
+article.tile > .image {
+    border-top-right-radius: inherit;
+    border-top-left-radius: inherit;
     background-size: cover;
     background-position: 50% 50%;
     height: 10rem;
