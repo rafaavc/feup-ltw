@@ -11,10 +11,12 @@ if ($pet == false) {
 }
 
 include_once(dirname(__FILE__) . '/../templates/common/header.php');
-include_once(dirname(__FILE__) . '/../templates/animal/animal_page_petProfile.php');
 
 $photos = API\getPetPhotos($pet['id']);
 $posts = API\getPosts($pet['id']);
+$user = Session\getAuthenticatedUser();
+
+include_once(dirname(__FILE__) . '/../templates/animal/animal_page_petProfile.php');
 ?>
 
 <div id="mySlider" class="ss-parent">
