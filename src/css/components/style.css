@@ -8,8 +8,10 @@
 
 body {
     --rightLeftPadding: 10vw;
-    --accentColor: rgb(90, 208, 237); 
-    --accentColorDarker: rgb(3, 152, 189); 
+    --accentColor: rgb(90, 208, 237);
+    --accentColorDarker: rgb(3, 152, 189);
+    --accentColorLighter: #d2f2fa;
+    --lightGrey: #e6e6e6;
     --darkTextColor: rgb(12, 12, 12);
     --lightTextColor: rgb(245, 245, 245);
     --footerTopColor: rgb(32, 32, 32);
@@ -65,7 +67,6 @@ body > header > nav > ul > li > a, a.simpleButton {
     display: inline-block;
     padding: 0.5rem 1rem;
     transition: background-color .3s, color .3s;
-    border-radius: 1rem;
 }
 
 body > header > nav > ul > li > a.active {
@@ -73,7 +74,7 @@ body > header > nav > ul > li > a.active {
 }
 
 body > header > nav > ul > li > a:hover {
-    color: var(--darkTextColor); 
+    color: var(--darkTextColor);
     backdrop-filter: blur(10px);
     background-color: var(--menuItemHoverBG);
 }
@@ -86,9 +87,22 @@ body > header.filledMenu {
     background-color: var(--darkTextColor);
 }
 
+.simpleButton {
+    border-radius: 1rem;
+    transition: color.2s, background-color .2s;
+    color: var(--darkTextColor);
+    text-decoration: none;
+}
+
+.simpleButton:hover {
+    color: var(--lightTextColor);
+    background-color: var(--darkTextColor);
+    border-radius: 1rem;
+}
+
 .contrastButton {
     background-color: var(--accentColor);
-    transition: all .2s;
+    transition: color .2s, background-color .2s;
     color: var(--lightTextColor);
     text-decoration: none;
 }
@@ -97,6 +111,16 @@ body > header.filledMenu {
     color: var(--lightTextColor);
     background-color: var(--accentColorDarker);
 }
+
+button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    outline: none;
+    border: none;
+    font-family: inherit;
+    font-size: inherit;
+}
+
 
 body > section {
     padding: 3rem var(--rightLeftPadding) 3rem var(--rightLeftPadding);

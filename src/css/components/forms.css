@@ -66,7 +66,7 @@ section.authForm {
 }
 
 section.searchForm {
-    background-color: #d2f2fa;
+    background-color: var(--accentColorLighter);
 }
 
 section.searchForm > form {
