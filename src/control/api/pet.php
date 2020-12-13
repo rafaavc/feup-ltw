@@ -11,21 +11,21 @@ function getPet($petId)
 									SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, null as race FROM
 									(
 										(
-											(Pet JOIN PetColor on(Pet.color = PetColor.id)) 
+											(Pet JOIN PetColor on(Pet.color = PetColor.id))
 											JOIN PetSize ON(Pet.size = PetSize.id)
-										) 
+										)
 										JOIN PetSpecie ON(Pet.specie = PetSpecie.id)
 									)
-								UNION 
+								UNION
 									SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, PetRace.name as race FROM
 									(
 										(
 											(
-												(Pet JOIN PetColor on(Pet.color = PetColor.id)) 
+												(Pet JOIN PetColor on(Pet.color = PetColor.id))
 												JOIN PetSize ON(Pet.size = PetSize.id)
-											) 
+											)
 											JOIN PetRace ON(Pet.race = PetRace.id)
-										) 
+										)
 										JOIN PetSpecie ON(PetRace.specieId = PetSpecie.id)
 									)
 								)
@@ -75,6 +75,12 @@ function getSpecies() {
     $stmt = Database::db()->prepare("SELECT * FROM PetSpecie ORDER BY name");
     $stmt->execute();
     return $stmt;
+}
+
+function getAdopted($petId) {
+	$stmt = Database::db()->prepare("SELECT * FROM Adopted JOIN User on (User.id = userId) WHERE petId = ?");
+	$stmt->execute(array($petId));
+	return $stmt->fetch();
 }
 
 

@@ -1,7 +1,5 @@
 <?php
 
-use function API\getProposedToAdopt;
-
 $GLOBALS['section'] = 'discover';
 include_once(dirname(__FILE__) . '/../control/db.php');
 require_once(dirname(__FILE__) . "/../control/api/pet.php");
@@ -59,13 +57,21 @@ $posts = API\getPosts($pet['id']);
 			<footer>
 				<button id="favorite" class="simpleButton">Add to favorites</button>
 				<?php
-				$proposedToAdopt = getProposedToAdopt(Session\getAuthenticatedUser()['id'], $pet['id']);
+				$adopted = API\getAdopted($pet['id']);
 
-				if (count($proposedToAdopt) == 0) { ?>
-					<button id="adopt" class="simpleButton contrastButton">Adopt</button>
+				if ($adopted == false) {
+
+					$proposedToAdopt = API\getProposedToAdopt(Session\getAuthenticatedUser()['id'], $pet['id']);
+
+					if (count($proposedToAdopt) == 0) { ?>
+						<button id="adopt" class="simpleButton contrastButton">Adopt</button>
+					<?php
+					} else { ?>
+						<p>You've proposed to adopt! <button id="cancel" class="simpleButton contrastButton">Cancel</button></p>
 				<?php
+					}
 				} else { ?>
-					<p>You've proposed to adopt! <button id="cancel" class="simpleButton contrastButton">Cancel</button></p>
+					<p>This pet was adopted by <?= $adopted['name'] ?></p>
 				<?php
 				}
 				?>
