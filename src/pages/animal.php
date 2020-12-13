@@ -60,9 +60,7 @@ $posts = API\getPosts($pet['id']);
 				<?php
 				} else { ?>
 					<p>You've proposed to adopt! <button id="cancel" class="simpleButton contrastButton">Cancel</button></p>
-				<?php
-				}
-				?>
+				<?php } ?>
 			</footer>
 		<?php } ?>
 	</div>

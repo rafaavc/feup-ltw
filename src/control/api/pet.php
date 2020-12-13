@@ -118,15 +118,15 @@ function getUserPets($userId) {
     return $stmt;
 }
 
-function getUserPetsAdpotionProposals($userId) {
-	$stmt = Database::db()->prepare("SELECT * FROM ProposedToAdopt JOIN Pet ON(id = petId) WHERE Pet.userId = ?");
+function getUserPetsOpenAdoptionProposals($userId) {
+	$stmt = Database::db()->prepare("SELECT User.name as propUserName, User.username as propUserUsername, User.id as propUserId, Pet.name as petName, Pet.id as petId FROM ProposedToAdopt JOIN Pet ON(Pet.id = ProposedToAdopt.petId) JOIN User ON(ProposedToAdopt.userId = User.id) WHERE Pet.userId = ?");
 	$stmt->execute(array($userId));
 	return $stmt;
 }
 
 function getUserPetsComments($userId) {
-	$stmt = Database::db()->prepare("SELECT * FROM Post JOIN Pet ON(Pet.id = petId) WHERE Pet.userId = ? ORDER BY postDate DESC");
-	$stmt->execute(array($userId));
+	$stmt = Database::db()->prepare("SELECT Pet.name as petName, Pet.id as petId, User.name as creatorName, User.username as creatorUsername, User.id as creatorId, Post.description as content, postDate FROM (Post JOIN Pet ON(Pet.id = petId)) JOIN User ON(User.id = Post.userId) WHERE Pet.userId = ? AND User.id != ? ORDER BY postDate DESC");
+	$stmt->execute(array($userId, $userId));
 	return $stmt;
 }
 

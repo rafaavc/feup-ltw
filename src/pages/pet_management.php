@@ -3,50 +3,63 @@
     require_once(dirname(__FILE__)."/../templates/common/header.php"); 
 
     $user = Session\getAuthenticatedUser();
+
+    if (!$user) { ?>
+        <section>
+            <h3>To manage your pets, <a href="<?=getRootUrl()?>/signin">sign in</a>.</h3>
+        </section>
+    
+    <?php } else { 
+
     $pets = API\getUserPets($user['id']);
-    $petsAdoptionProposals = API\getUserPetsAdpotionProposals($user['id']);
-    $petsComments = API\getUserPetsComments($user['id']);
+    $petsAdoptionProposals = API\getArrayFromSTMT(API\getUserPetsOpenAdoptionProposals($user['id']), true);
+    $petsComments = API\getArrayFromSTMT(API\getUserPetsComments($user['id']), 10);
 ?>
 
-<section>
+<section class="petManagement">
     <h2>Your Pets</h2>
     <a href="<?=getRootUrl()?>/pet/add" class="simpleButton contrastButton"><i class="icofont-ui-add"></i> Add Pet</a>
-    <table>
+
     <?php foreach($pets as $pet) { ?>
-        <tr>
-            <td><?=$pet['name']?></td>
-            <td><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>/edit"><i class="icofont-ui-edit"></i></a></td>
-            <td><a><i class="icofont-ui-delete"></i></a></td>
-        </tr>
+        <div class="petManagementPets">
+            <p><?=$pet['name']?></p>
+            <p><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>/edit"><i class="icofont-ui-edit"></i></a></p>
+            <p><a><i class="icofont-ui-delete"></i></a></p>
+        </div>
     <?php } ?>
-    </table>
+    </table>        
 </section>
 
-<section>
+<section class="petManagement">
     <h2>Adoption Proposals</h2>
-    <table>
-    <?php foreach($petsAdoptionProposals as $pet) { ?>
-        <tr>
-            <td><?=$pet['name']?></td>
-            <td><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>/edit"><i class="icofont-ui-edit"></i></a></td>
-            <td><a><i class="icofont-ui-delete"></i></a></td>
-        </tr>
+    <?php foreach($petsAdoptionProposals as $proposal) { ?>
+        <div class="petManagementAdoption">
+            <p><a href="<?=getRootUrl()?>/user/<?=$proposal['propUserUsername']?>"><?=$proposal['propUserName']?></a> wants to adopt <a href="<?=getRootUrl()?>/pet/<?=$proposal['petId']?>"><?=$proposal['petName']?></a></p>
+            <p><a href="<?=getRootUrl()?>/pet/<?=$proposal['id']?>/edit"><i class="icofont-ui-check"></i></a></p>
+            <p><a><i class="icofont-ui-close"></i></a></p>
+        </div>
     <?php } ?>
-    </table>
 </section>
 
-<section>
+<section class="petManagement">
     <h2>Recent Comments</h2>
-    <table>
-    <?php foreach($petsComments as $pet) { ?>
-        <tr>
-            <td><?=$pet['name']?></td>
-            <td><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>/edit"><i class="icofont-ui-edit"></i></a></td>
-            <td><a><i class="icofont-ui-delete"></i></a></td>
-        </tr>
+    <?php if ($petsComments == false) { ?>
+        <p>There are no recent comments.</p>
+    <?php } else { ?>
+    <?php foreach($petsComments as $comment) { 
+        if ($comment['creatorUsername'] == $user['username']) continue; ?>
+        <div class="petManagementComments">
+            <div class="image" style="background-image: url('../../images/userProfilePictures/<?= $comment['creatorId'] ?>.jpg')"></div>
+            <div>
+                <p><a href="<?=getRootUrl()?>/user/<?=$comment['creatorUsername']?>"><?=$comment['creatorName']?></a> on pet <a href="<?=getRootUrl()?>/pet/<?=$comment['petId']?>"><?=$comment['petName']?></a>:</p>
+                <p><?=$comment['content']?></p>
+            </div>
+            <p><?=elapsedTime(strtotime($comment['postDate']))?> ago</p>
+        </div>
     <?php } ?>
-    </table>
+    <?php } ?>
 </section>
+<?php } ?>
 
 <?php require_once(dirname(__FILE__)."/../templates/common/footer.php"); ?>
 
