@@ -1,8 +1,11 @@
 <?php
 
 namespace API;
-use Router;
+
 use Database;
+
+include_once(dirname(__FILE__)."/existence.php");
+
 
 function login($username, $password) {
     $stmt = Database::db()->prepare("SELECT password FROM User WHERE username = :username");
@@ -49,7 +52,7 @@ function getUserById($userId){
     $user = $stmt->fetch();
     if ($user == false) return false;
     $splittedName = explode(' ', $user['name']);
-    $user['shortName'] = sizeof($splittedName) > 1 ? $splittedName[0]." ".$splittedName[sizeof($splittedName)-1] : $user['name'];
+    $user['shortName'] = sizeof($splittedName) > 1 ? $splittedName[0] . " " . $splittedName[sizeof($splittedName) - 1] : $user['name'];
 
     return $user;
 }
@@ -66,6 +69,61 @@ function getUsers() {
     return $stmt;
 }
 
+function updateName($name) {
+    $stmt = Database::db()->prepare("UPDATE User SET name = :name WHERE username = :username AND name <> :name");
+    $stmt->bindParam(':username', $_SESSION['username']);
+    $stmt->bindParam(':name', $name);
+    $stmt->execute();
+    return $stmt->rowCount();
+}
+
+function updateUsername($username) {
+    if (usernameExists($username)) return 0;
+    $stmt = Database::db()->prepare("UPDATE User SET username = :newUsername WHERE username = :username");
+    $stmt->bindParam(':username', $_SESSION['username']);
+    $stmt->bindParam(':newUsername', $username);
+    $stmt->execute();
+
+    $_SESSION['username'] = $username;
+
+    return getRootURL(). "/user". "/" . $username;
+}
+
+function updateMail($mail) {
+    if (emailExists($mail)) return 0;
+    $stmt = Database::db()->prepare("UPDATE User SET mail = :mail WHERE username = :username");
+    $stmt->bindParam(':username', $_SESSION['username']);
+    $stmt->bindParam(':mail', $mail);
+    $stmt->execute();
+    return $stmt->rowCount();
+}
+
+function updateBio($bio) {
+    $stmt = Database::db()->prepare("UPDATE User SET description = :description WHERE username = :username AND description <> :description");
+    $stmt->bindParam(':username', $_SESSION['username']);
+    $stmt->bindParam(':description', $bio);
+    $stmt->execute();
+    return $stmt->rowCount();
+}
+
+function handleUpdateRequest() {
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    if ($method == 'POST' && isset($_POST['field']) && isset($_POST['value'])) {
+        $field = $_POST['field'];
+        $value = $_POST['value'];
+
+        $response = 0;
+
+        if ($field == "name") $response = updateName($value);
+        else if ($field == "username") $response = updateUsername($value);
+        else if ($field == "mail") $response = updateMail($value);
+        else if ($field == "bio") $response = updateBio($value);
+
+        echo $response;
+    }
+}
+
 function getProposedToAdopt($userId, $petId){
     $stmt = Database::db()->prepare("SELECT * FROM ProposedToAdopt WHERE userId = ? AND petId = ?");
     $stmt->execute(array($userId, $petId));
@@ -73,5 +131,25 @@ function getProposedToAdopt($userId, $petId){
     return $stmt->fetchAll();
 }
 
+function getUserPets($userId){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT * FROM Pet WHERE userId=?');
+    $stmt->execute(array($userId));
+    return $stmt->fetchAll();
+}
 
-?>
+function getUserLists($userId){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT * FROM List WHERE userId=?');
+    $stmt->execute(array($userId));
+    return $stmt->fetchAll();
+}
+
+function getListPets($list){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT id, userId, name, birthdate, specie, race, size, color, location, description FROM ListPet, Pet WHERE listId=? AND Pet.id = ListPet.petId');
+    $stmt->execute(array($list['id']));
+    return $stmt->fetchAll();
+}
+
+handleUpdateRequest();

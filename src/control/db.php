@@ -40,4 +40,10 @@
     }
   }
 
+  function getAllPets(){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT * FROM Pet');
+    $stmt->execute(array());
+    return $stmt->fetchAll();
+  }
 ?>

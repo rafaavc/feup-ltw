@@ -50,7 +50,7 @@ function searchUsers($value) {
     return $users;
 }
 
-function handleRequest() {
+function handleSearchRequest() {
     $what = $GLOBALS['what'];
     $specie = $GLOBALS['specie'];
     $value = $GLOBALS['value'];
@@ -70,7 +70,7 @@ function handleRequest() {
 }
 
 if (isset($GLOBALS['what']) && isset($GLOBALS['specie']) && isset($GLOBALS['value'])) {
-    handleRequest();
+    handleSearchRequest();
 }
 
 ?>
