@@ -1,6 +1,6 @@
 import { getRootUrl } from './init.js'
 
-export const createTile = (url, imageUrl, title, footer, description, extraSection) => {
+export const createTile = (url, imageUrl, title, footer, description, extraSection, slider) => {
     const aNode = document.createElement("a");
     aNode.href = document.body.dataset.rootUrl + '/' + url;
 

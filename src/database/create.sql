@@ -103,7 +103,7 @@ INSERT INTO PetColor(name) VALUES("Black and Brown");
 INSERT INTO PetColor(name) VALUES("Brown and White");
 INSERT INTO PetColor(name) VALUES("Gold");
 
-INSERT INTO User(name, username, password, birthdate, mail) VALUES("John Lewis", "johnalewis", "supersecure", DATE("1998-08-10"), "johnalewis@placeholder.com");
+INSERT INTO User(name, username, password, birthdate, mail) VALUES("John Lewis", "johnalewis", "$2y$10$u2wqpAM5ntWNjnEdZReqEOT7Xqu.1VjLYyAFQNwV3INcGoWDe0EWa", DATE("1998-08-10"), "johnalewis@placeholder.com");
 INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("Rafael Cristino", "rafaavc", "$2y$10$iOGAgqhjw0YK2O/xsr0KpOR1YloVXontN7AkdC8S6spFmof.x2yZq", DATE("2000-08-28"), "rafaavc@mail.com",
     "A humble man who is 'carregating' its LTW group project.");  -- PW: mypassword
 INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("Xavier Pisco", "xamas", "$2y$10$dZtzuf9IWnDFzYUL34P8oe5hCAeAFogH1pd3Et8D2smhUJG4VZMLO", DATE("2000-10-29"), "xamas@mail.com",

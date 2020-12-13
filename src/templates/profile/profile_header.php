@@ -15,7 +15,7 @@
             </section>
             <section class="textButtonPair">
                 <div id="username">
-                    <strong>@<?=htmlentities($user['username']) ?></strong>
+                    <strong><?=htmlentities($user['username']) ?></strong>
                     <button class="edit" id="usernameEdit"><i class="icofont-ui-edit"></i></button>
                 </div>
                 <form id="usernameForm">

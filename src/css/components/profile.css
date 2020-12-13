@@ -53,11 +53,15 @@
     margin-left: 0.5rem;
     background-color: transparent;
     transition: color .2s;
-
+    color: var(--accentColorDarker);
 }
 
 .textButtonPair button:hover {
-    color: var(--accentColor);
+    color: var(--darkTextColor);
+}
+
+#username > strong::before{
+    content: "@";
 }
 
 /* * {
