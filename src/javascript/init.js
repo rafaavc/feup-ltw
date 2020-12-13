@@ -18,6 +18,13 @@ export const initWebsite = () => {
         setTimeout(() => window.scrollBy(0, -headerHeight-100), 10);
     }
 
+    const dateInputs = document.querySelectorAll('input[name*="date"]');
+    if (dateInputs != null) {
+        dateInputs.forEach((input) => input.addEventListener('focus', function() {
+            this.type = "date";
+        }));
+    }
+
     // these two lines make sure that the footer is always at the bottom
     document.body.style.minHeight = window.innerHeight + "px";
     document.body.style.paddingBottom = document.querySelector('body > footer').clientHeight + "px";

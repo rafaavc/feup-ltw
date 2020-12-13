@@ -136,5 +136,45 @@ function getSpecies() {
     return $stmt;
 }
 
+function getSizes() {
+	$stmt = Database::db()->prepare("SELECT * FROM PetSize ORDER BY name");
+    $stmt->execute();
+    return $stmt;
+}
+
+function getColors() {
+	$stmt = Database::db()->prepare("SELECT * FROM PetColor ORDER BY name");
+    $stmt->execute();
+    return $stmt;
+}
+
+function getSpeciesRaces($specieId) {
+	$stmt = Database::db()->prepare("SELECT * FROM PetRace WHERE specieId = ? ORDER BY name");
+	$stmt->execute(array($specieId));
+	return $stmt;
+}
+
+function handleSpeciesRequest() {
+    $what = $GLOBALS['what'];
+    $arg1 = $GLOBALS['arg1'];
+
+    $method = $_SERVER['REQUEST_METHOD'];
+    if ($what == 'races' && $method == 'GET') {
+        responseJSON(array('races' => getArrayFromSTMT(getSpeciesRaces($arg1), true)));
+
+    } /*else if ($type == 'mail' && $method == 'GET') {
+
+        responseJSON(array('value' => emailExists($value)));
+
+    }*/ else {
+        http_response_code(400); // BAD REQUEST
+        exit();
+    }
+}
+
+if (isset($GLOBALS['what']) && isset($GLOBALS['arg1'])) {
+    handleSpeciesRequest();
+}
+
 
 ?>

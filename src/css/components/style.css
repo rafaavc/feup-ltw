@@ -137,8 +137,13 @@ button {
     border: none;
     font-family: inherit;
     font-size: inherit;
+    vertical-align: middle;
 }
 
+button > i {
+    font-size: 0.8em;
+    margin-right: 0.6rem;
+}
 
 body > section {
     padding: 3rem var(--rightLeftPadding) 3rem var(--rightLeftPadding);
@@ -325,6 +330,12 @@ body > footer > div > section > nav > ul > li > a{
 
 #footerSessionMenu > ul > li:first-child::after{
     content: "\00a0\00a0\00a0/\00a0\00a0\00a0";
+}
+
+.simple-2column-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: 1rem;
 }
 
 /* * {

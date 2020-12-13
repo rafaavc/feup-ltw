@@ -6,7 +6,7 @@ form > label {
     display: none;
 }
 
-form > input, form > textarea, form > select {
+form > input, form > textarea, form > select, form[name=addPet] .simple-2column-grid {
     margin-bottom: 1rem;
 }
 
@@ -28,6 +28,11 @@ select {
     transition: border .2s;
     font-family: inherit;
     background-color: var(--lightTextColor)
+}
+
+form button {
+    border: 1px solid #c0c0c0;
+    font-size: 0.9em;
 }
 
 textarea {
