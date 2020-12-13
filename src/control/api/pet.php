@@ -85,8 +85,8 @@ function getPets() {
 					) 
 					JOIN PetSpecie ON(PetRace.specieId = PetSpecie.id)
 				)
-			)");
-		$stmt->execute();
+			) ORDER BY datePosted");
+    $stmt->execute();
     return $stmt;
 }
 
@@ -129,7 +129,6 @@ function getUserPetsComments($userId) {
 	$stmt->execute(array($userId));
 	return $stmt;
 }
-
 
 function getSpecies() {
 	$stmt = Database::db()->prepare("SELECT * FROM PetSpecie ORDER BY name");

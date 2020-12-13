@@ -11,6 +11,17 @@ export const sendGetRequest = (whereTo, params, onload) => {
     req.send();
 }
 
+/*
+export function sendPostRequest(whereTo, data, onload) {
+    const req = new XMLHttpRequest();
+    req.open('POST', whereTo, true);
+    req.onload = onload;
+    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    req.send(encodeForAjax(data));
+    console.log("request sent", encodeForAjax(data));
+}
+*/
+
 export const sendPostRequest = (whereTo, params, onload) => {
     const request = new XMLHttpRequest();
 	request.addEventListener('load', onload);
