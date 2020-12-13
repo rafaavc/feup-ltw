@@ -7,7 +7,9 @@ const commentForm = document.querySelector('#comments > form');
 const adoptButton = document.querySelector('#adopt');
 const cancelButton = document.querySelector('#cancel');
 
-commentForm.addEventListener('submit', submitComment);
+if (commentForm != null) {
+	commentForm.addEventListener('submit', submitComment);
+}
 
 if (adoptButton != null) {
 	adoptButton.addEventListener('click', proposeToAdoptPet);
@@ -98,10 +100,10 @@ function cancelProposeToAdoptPet(event) {
 	sendPostRequest(getRootUrl() + "/control/api/cancelProposeToAdopt.php", { petId: petId }, changeCancelButton);
 }
 
-function changeCancelButton(event){
+function changeCancelButton(event) {
 	const proposeToAdopt = JSON.parse(this.responseText);
 
-	if(proposeToAdopt.length === 0){
+	if (proposeToAdopt.length === 0) {
 		document.querySelector('.petProfile footer > p').remove();
 		const button = document.createElement('button');
 
