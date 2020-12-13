@@ -46,7 +46,7 @@ div.petManagementPets > p, div.petManagementAdoption > p {
 }
 
 div.petManagementComments {
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr auto auto;
 }
 
 div.petManagementAdoption {
