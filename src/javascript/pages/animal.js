@@ -69,7 +69,7 @@ function proposeToAdoptPet(event) {
 
 	const petId = document.querySelector('.petProfile').attributes['data-id'].value;
 
-	sendPostRequest(getRootUrl() + "/control/api/proposeToAdopt.php", { petId: petId }, changeAdoptButton);
+	sendPostRequest(getRootUrl() + "/control/api/proposeToAdopt.php", { petId: petId, value: 'adopt' }, changeAdoptButton);
 }
 
 function changeAdoptButton() {
@@ -97,7 +97,7 @@ function cancelProposeToAdoptPet(event) {
 
 	const petId = document.querySelector('.petProfile').attributes['data-id'].value;
 
-	sendPostRequest(getRootUrl() + "/control/api/cancelProposeToAdopt.php", { petId: petId }, changeCancelButton);
+	sendPostRequest(getRootUrl() + "/control/api/proposeToAdopt.php", { petId: petId, value: 'cancel' }, changeCancelButton);
 }
 
 function changeCancelButton(event) {
