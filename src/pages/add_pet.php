@@ -40,7 +40,7 @@
                     </select>
                 </div>
                 <div>
-                    <button class="simpleButton" id="addSpeciesButton"><i class="icofont-ui-add"></i>Species</button>
+                    <button class="simpleButton" id="addSpeciesButton" data-entity="Specie"><i class="icofont-ui-add"></i>Specie</button>
                 </div>
             </div>
 
@@ -51,7 +51,7 @@
                     </select>
                 </div>
                 <div>
-                    <button class="simpleButton" id="addSizeButton"><i class="icofont-ui-add"></i>Race</button>
+                    <button class="simpleButton" id="addRaceButton" data-entity="Race"><i class="icofont-ui-add"></i>Race</button>
                 </div>
             </div>
 
@@ -66,7 +66,7 @@
                     </select>
                 </div>
                 <div>
-                    <button class="simpleButton" id="addSizeButton"><i class="icofont-ui-add"></i>Size</button>
+                    <button class="simpleButton" id="addSizeButton" data-entity="Size"><i class="icofont-ui-add"></i>Size</button>
                 </div>
             </div>
             
@@ -81,7 +81,7 @@
                     </select>
                 </div>
                 <div>
-                    <button class="simpleButton" id="addColorButton"><i class="icofont-ui-add"></i>Color</button>
+                    <button class="simpleButton" id="addColorButton" data-entity="Color"><i class="icofont-ui-add"></i>Color</button>
                 </div>
             </div>
 
