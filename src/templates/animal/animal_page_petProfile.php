@@ -63,7 +63,7 @@
 					<button class="edit" id="descriptionEdit"><i class="icofont-ui-edit"></i></button>
 				</div>
 				<form id="descriptionForm">
-					<input type="textarea" value="<?= $pet['description'] ?>" />
+					<input type="textarea" id="descriptionInput" value="<?= $pet['description'] ?>" />
 					<button class="confirm" name="descriptionConfirm"><i class="icofont-ui-check"></i></button>
 					<button class="close" name="descriptionClose"><i class="icofont-ui-close"></i></button>
 				</form>

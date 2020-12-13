@@ -37,9 +37,9 @@ forms.forEach(form => {
 	});
 
 	let confirm = Array.from(editForm.getElementsByClassName("confirm"));
-	confirm.forEach(confirmButton => confirmButton.addEventListener('click', (event) => {
+	confirm.forEach(confirmButton => confirmButton.addEventListener('click', function(event) {
 		event.preventDefault();
-		confirmSelection(editForm, inputField);
+		confirmSelection.bind(this)(editForm, inputField);
 	}));
 
 	let close = editForm.getElementsByClassName("close");
@@ -58,12 +58,20 @@ function showSelection(editForm, inputField) {
 }
 
 function confirmSelection(editForm, inputField) {
-	let formText = editForm.querySelector("input[type='text']");
-	if (formText === null) {
-		formText = editForm.querySelector("input[type=textarea]");
-	}
-	console.log(formText.value);
-	//sendPostRequest(getRootUrl() + "/api/user", {field: inputField.id, value: formText}, null);
+	const petId = document.querySelector('.petProfile').dataset.id;
+	const field = this.attributes['name'].value.split('Confirm')[0];
+
+	let formText = document.getElementById(field + 'Input');
+
+	sendPostRequest(getRootUrl() + "/control/api/pet.php", {field: field, value: formText.value == '' ? null : formText.value, petId: petId},
+	function() {
+		const result = JSON.parse(this.responseText);
+		editForm.style.display = 'none';
+		inputField.style.display = 'flex';
+		if (result.value === true){
+
+		}
+	});
 }
 
 function resetSelection(editForm, inputField) {
@@ -91,6 +99,14 @@ function closeEditPet() {
 		console.log(editButton);
 		editButton.style.display = "none";
 	});
+
+    let forms = document.querySelectorAll(".textButtonPair form");
+    let editFields = document.querySelectorAll(".textButtonPair .edit");
+    let initialFields = document.querySelectorAll(".textButtonPair > div");
+
+	editFields.forEach(field => field.style.display = "none");
+	forms.forEach(form => form.style.display = "none");
+	initialFields.forEach(field => field.id == "bio" ? field.style.display = "flex" : field.style.display = "block");
 
 	editPetButton.style.display = 'inline';
 	closeEditPetButton.style.display = 'none';

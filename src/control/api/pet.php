@@ -144,4 +144,66 @@ function getAdopted($petId) {
 }
 
 
-?>
+function updatePetName($petId, $petName) {
+	$stmt = Database::db()->prepare("UPDATE Pet SET name = ? WHERE id = ?");
+	$result['value'] = $stmt->execute(array($petName, $petId));
+	return $result;
+}
+
+function updatePetColor($petId, $petColor) {
+	$stmt = Database::db()->prepare("SELECT * FROM PetColor WHERE name = ?");
+	$stmt->execute(array($petColor));
+	$color = $stmt->fetch()['id'];
+	$stmt = Database::db()->prepare("UPDATE Pet SET color = ? WHERE id = ?");
+	$result['value'] = $stmt->execute(array($color, $petId));
+	return $result;
+}
+
+function updatePetSpecies($petId, $petSpecie) {
+	$stmt = Database::db()->prepare("SELECT * FROM PetSpecie WHERE name = ?");
+	$stmt->execute(array($petSpecie));
+	$species = $stmt->fetch()['id'];
+	$stmt = Database::db()->prepare("UPDATE Pet SET specie = ? WHERE id = ?");
+	$result['value'] = $stmt->execute(array($species, $petId));
+	return $result;
+}
+
+function updatePetRace($petId, $petRace) {
+	$stmt = Database::db()->prepare("SELECT * FROM PetRace WHERE name = ?");
+	$stmt->execute(array($petRace));
+	$race = $stmt->fetch()['id'];
+	$stmt = Database::db()->prepare("UPDATE Pet SET race = ? WHERE id = ?");
+	$result['value'] = $stmt->execute(array($race, $petId));
+	return $result;
+}
+
+function updatePetDescription($petId, $petDescription) {
+	$stmt = Database::db()->prepare("UPDATE Pet SET description = ? WHERE id = ?");
+	$result['value'] = $stmt->execute(array($petDescription, $petId));
+	return $result;
+}
+
+function updatePetLocation($petId, $petLocation) {
+	$stmt = Database::db()->prepare("UPDATE Pet SET location = ? WHERE id = ?");
+	$result['value'] = $stmt->execute(array($petLocation, $petId));
+	return $result;
+}
+
+function handlePetUpdateRequest() {
+	$method = $_SERVER['REQUEST_METHOD'];
+
+	if ($method == 'POST' && isset($_POST['field']) && isset($_POST['value']) && isset($_POST['petId'])){
+		$field = $_POST['field'];
+		$value = $_POST['value'];
+		$petId = $_POST['petId'];
+
+		if ($field == 'name') echo json_encode(updatePetName($petId, $value));
+		else if ($field == 'species') echo json_encode(updatePetSpecies($petId, $value));
+		else if ($field == 'race') echo json_encode(updatePetRace($petId, $value));
+		else if ($field == 'color') echo json_encode(updatePetColor($petId, $value));
+		else if ($field == 'description') echo json_encode(updatePetDescription($petId, $value));
+		else if ($field == 'location') echo json_encode(updatePetLocation($petId, $value));
+	}
+}
+
+handlePetUpdateRequest();
