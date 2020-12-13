@@ -3,7 +3,8 @@ import { createTile } from '../tile.js'
 import { makeLoading } from '../loading.js'
 import './generic.js'
 
-
+document.getElementById('userResults').appendChild(document.createElement('div'));
+document.getElementById('petResults').appendChild(document.createElement('div'));
 const userSection = document.querySelector('#userResults > div');
 const petSection = document.querySelector('#petResults > div');
 
