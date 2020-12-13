@@ -11,6 +11,12 @@ const movePetGrid = (petGrid, right) => {
 export const initWebsite = () => {
 
     initHeader();
+    const headerHeight = document.querySelector('body > header').offsetHeight;
+
+    // if there is a fragment in the url, scroll a bit up because of the header
+    if (window.location.hash.substr(1) != "") {
+        setTimeout(() => window.scrollBy(0, -headerHeight-100), 10);
+    }
 
     // these two lines make sure that the footer is always at the bottom
     document.body.style.minHeight = window.innerHeight + "px";
@@ -19,7 +25,8 @@ export const initWebsite = () => {
     const firstSection = document.querySelector('body > section:first-of-type');
     const fsPaddingTop = window.getComputedStyle(firstSection).getPropertyValue('padding-top');
 
-    firstSection.style.paddingTop = (document.querySelector('body > header').offsetHeight + parseInt(fsPaddingTop)) + "px";
+
+    firstSection.style.paddingTop = (headerHeight + parseInt(fsPaddingTop)) + "px";
 
 
     const rightArrows = document.querySelectorAll('.petGrid > .arrow.right');
