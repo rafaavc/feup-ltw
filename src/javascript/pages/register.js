@@ -1,7 +1,5 @@
 import { sendGetRequest } from '../ajax.js'
-import { initWebsite } from '../init.js'
-
-initWebsite();
+import './generic.js'
 
 function onElementChange() {
     const elementInput = this;

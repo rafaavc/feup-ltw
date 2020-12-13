@@ -1,12 +1,20 @@
 <?php
+
+use function API\getProposedToAdopt;
+
 $GLOBALS['section'] = 'discover';
 include_once(dirname(__FILE__) . '/../control/db.php');
-$pet = getPet($GLOBALS['id']);
 include_once(dirname(__FILE__) . '/../templates/common/header.php');
+require_once(dirname(__FILE__) . "/../control/api/pet.php");
+
+$pet = API\getPet($GLOBALS['id']);
+$photos = API\getPetPhotos($pet['id']);
+$posts = API\getPosts($pet['id']);
 ?>
-<section class='petProfile'>
-	<div id="petProfileImage" style="background-image: url(<?= '../images/petProfilePictures/' . $pet['id'] . '.jpg' ?>);"> </div>
-	<div id="petInfo">
+
+<section class='petProfile' data-id="<?= $pet['id'] ?>">
+	<div style="background-image: url(<?= '../images/petProfilePictures/' . $pet['id'] . '.jpg' ?>);"> </div>
+	<div>
 		<header>
 			<h3><?= $pet['name'] ?>,
 				<?php
@@ -34,55 +42,76 @@ include_once(dirname(__FILE__) . '/../templates/common/header.php');
 			</h3>
 			<h4><?php
 				if ($pet['race'] != null) {
-					echo getColor($pet['color'])['name'] . ' ' . getRace($pet['race'])['name'] . ', ' . $pet['location'];
+					echo $pet['color'] . ' ' . $pet['race'] . ', ' . $pet['location'];
 				} else if ($pet['specie'] != null) {
-					echo getColor($pet['color'])['name'] . ' ' . getSpecie($pet['specie'])['name'] . ', ' . $pet['location'];
+					echo $pet['color'] . ' ' . $pet['specie'] . ', ' . $pet['location'];
 				}
 				?></h4>
 		</header>
 		<p><?= $pet['description'] ?></p>
-		<footer>
-			<input type="button" id="favorite" value="Add to Favorites" />
-			<input type="button" id="adopt" class="contrastButton" value="Adopt it" />
-		</footer>
+		<?php if (Session\isAuthenticated()) { ?>
+			<footer>
+				<button id="favorite" class="simpleButton">Add to favorites</button>
+				<?php
+				$proposedToAdopt = getProposedToAdopt(Session\getAuthenticatedUser()['id'], $pet['id']);
+
+				if (count($proposedToAdopt) == 0) { ?>
+					<button id="adopt" class="simpleButton contrastButton">Adopt</button>
+				<?php
+				} else { ?>
+					<p>You've proposed to adopt! <button id="cancel" class="simpleButton contrastButton">Cancel</button></p>
+				<?php
+				}
+				?>
+			</footer>
+		<?php } ?>
 	</div>
 </section>
-
-<?php
-$photos = getPetPhotos($pet['id']);
-for ($i = 0; $i < count($photos); $i++) {
-	echo '<img class="petPhotos" src="../images/petPictures/' . $photos[$i]['photoId'] . '.jpg"></img>';
-}
-?>
-
-<section id="comments">
-	<h4>Comments:</h4>
+<div id="mySlider" class="ss-parent">
 	<?php
-	$posts = getPosts($pet['id']);
-	for ($i = 0; $i < count($posts); $i++) {
-		$user = getUser($posts[$i]['userId']); ?>
-		<article class="comment">
-			<img src='../../images/userProfilePictures/<?= $user['id'] ?>.jpg' />
-			<p><?= $posts[$i]['description'] ?></p>
-			<span class="user"><?= $user['name'] ?></span>
-			<span class="date"><?= $posts[$i]['postDate'] ?></span>
-		</article>
+	for ($i = 0; $i < count($photos); $i++) {
+	?>
+		<div class="ss-child">
+			<div style="background: url(<?= getRootURL() ?>/images/petPictures/<?= $photos[$i]['photoId'] ?>.jpg); background-size: cover; background-position: 50%"> </div>
 
+		</div>
 	<?php
 	}
 	?>
-	<form action='#'>
-		<h4>Add Comment:</h4>
-		<textarea name="text"></textarea>
-		<input type="submit" class="contrastButton" />
-	</form>
+	<div class="ss-nav"></div>
+</div>
+<section id="comments">
+	<h4>Comments</h4>
+	<?php if (sizeof($posts) == 0) { ?>
+		<p>This pet has no comments yet.</p>
+		<?php } else {
+		for ($i = 0; $i < count($posts); $i++) {
+			$user = API\getUserById($posts[$i]['userId']); ?>
+			<article class="comment">
+				<div class="image" style="background-image: url('../../images/userProfilePictures/<?= $user['id'] ?>.jpg')"></div>
+				<p><?= $posts[$i]['description'] ?></p>
+				<span class="user"><?= $user['shortName'] ?></span>
+				<span class="date"><?= $posts[$i]['postDate'] ?></span>
+			</article>
+
+		<?php }
+	}
+	if (Session\isAuthenticated()) {
+		$user = Session\getAuthenticatedUser();
+		?>
+		<form>
+			<h4>Add Comment</h4>
+			<textarea name="text"></textarea>
+			<input type="submit" class="contrastButton" />
+		</form>
+	<?php } else { ?>
+		<h4>To add a comment</h4>
+		<ul>
+			<li><a href="<?= getRootUrl() ?>/signin" class="simpleButton">Sign In</a></li>
+			<li><a href="<?= getRootUrl() ?>/signup" class="simpleButton contrastButton">Sign Up</a></li>
+		</ul>
+	<?php } ?>
 </section>
 
 
-<?php
-include_once(dirname(__FILE__) . '/../templates/common/footer.php');
-
-?>
-</body>
-
-</html>
+<?php include_once(dirname(__FILE__) . '/../templates/common/footer.php'); ?>

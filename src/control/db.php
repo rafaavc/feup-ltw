@@ -40,80 +40,10 @@
     }
   }
 
-  function getPet($petId){
-    $db = Database::instance()->db();
-    $stmt = $db->prepare('SELECT * FROM Pet WHERE id=?');
-    $stmt->execute(array($petId));
-    return $stmt->fetch();
-  }
-
   function getAllPets(){
     $db = Database::instance()->db();
     $stmt = $db->prepare('SELECT * FROM Pet');
     $stmt->execute(array());
-    return $stmt->fetchAll();
-  }
-
-  function getSpecie($specieId){
-    $db = Database::instance()->db();
-    $stmt = $db->prepare('SELECT name FROM PetSpecie WHERE id=?');
-    $stmt->execute(array($specieId));
-    return $stmt->fetch();
-  }
-
-  function getRace($raceId){
-    $db = Database::instance()->db();
-    $stmt = $db->prepare('SELECT name FROM PetRace WHERE id=?');
-    $stmt->execute(array($raceId));
-    return $stmt->fetch();
-  }
-
-  function getColor($colorId){
-    $db = Database::instance()->db();
-    $stmt = $db->prepare('SELECT name FROM PetColor WHERE id=?');
-    $stmt->execute(array($colorId));
-    return $stmt->fetch();
-  }
-
-  function getPetPhotos($petId){
-    $db = Database::instance()->db();
-    $stmt = $db->prepare('SELECT photoId FROM PetPhoto WHERE petId=?');
-    $stmt->execute(array($petId));
-    return $stmt->fetchAll();
-  }
-
-  function getPosts($petId){
-    $db = Database::instance()->db();
-    $stmt = $db->prepare('SELECT * FROM Post WHERE petId=?');
-    $stmt->execute(array($petId));
-    return $stmt->fetchAll();
-  }
-
-  function getUser($userId){
-    $db = Database::instance()->db();
-    $stmt = $db->prepare('SELECT * FROM User WHERE id=?');
-    $stmt->execute(array($userId));
-    return $stmt->fetch();
-  }
-
-  function getUserPets($userId){
-    $db = Database::instance()->db();
-    $stmt = $db->prepare('SELECT * FROM Pet WHERE userId=?');
-    $stmt->execute(array($userId));
-    return $stmt->fetchAll();
-  }
-
-  function getUserLists($userId){
-    $db = Database::instance()->db();
-    $stmt = $db->prepare('SELECT * FROM List WHERE userId=?');
-    $stmt->execute(array($userId));
-    return $stmt->fetchAll();
-  }
-
-  function getListPets($list){
-    $db = Database::instance()->db();
-    $stmt = $db->prepare('SELECT id, userId, name, birthdate, specie, race, size, color, location, description FROM ListPet, Pet WHERE listId=? AND Pet.id = ListPet.petId');
-    $stmt->execute(array($list['id']));
     return $stmt->fetchAll();
   }
 ?>

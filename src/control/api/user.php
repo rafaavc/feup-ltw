@@ -2,10 +2,7 @@
 
 namespace API;
 
-use Router;
 use Database;
-
-use function Router\sendTo;
 
 include_once(dirname(__FILE__)."/existence.php");
 
@@ -34,9 +31,22 @@ function register($name, $username, $password, $birthdate, $mail, $description) 
     return true;
 }
 
-function getUser($username) {
+function getUserByUsername($username) {
     $stmt = Database::db()->prepare("SELECT * FROM User WHERE username = :username");
     $stmt->bindParam(':username', $username);
+    $stmt->execute();
+
+    $user = $stmt->fetch();
+    if ($user == false) return false;
+    $splittedName = explode(' ', $user['name']);
+    $user['shortName'] = sizeof($splittedName) > 1 ? $splittedName[0]." ".$splittedName[sizeof($splittedName)-1] : $user['name'];
+
+    return $user;
+}
+
+function getUserById($userId){
+    $stmt = Database::db()->prepare("SELECT * FROM User WHERE id = :id");
+    $stmt->bindParam(':id', $userId);
     $stmt->execute();
 
     $user = $stmt->fetch();
@@ -53,7 +63,7 @@ function getUsers() {
         FROM User
             JOIN (
                 SELECT userId, count(userId) as petCount FROM Pet GROUP BY userId
-            ) ON(id=userId) 
+            ) ON(id=userId)
         ORDER BY petCount DESC");
     $stmt->execute();
     return $stmt;
@@ -114,9 +124,32 @@ function handleUpdateRequest() {
     }
 }
 
-// use getAuthenticatedUser() ?
-// if (isset($GLOBALS['username'])) {
-//     handleUpdateRequest();
-// }
+function getProposedToAdopt($userId, $petId){
+    $stmt = Database::db()->prepare("SELECT * FROM ProposedToAdopt WHERE userId = ? AND petId = ?");
+    $stmt->execute(array($userId, $petId));
+
+    return $stmt->fetchAll();
+}
+
+function getUserPets($userId){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT * FROM Pet WHERE userId=?');
+    $stmt->execute(array($userId));
+    return $stmt->fetchAll();
+}
+
+function getUserLists($userId){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT * FROM List WHERE userId=?');
+    $stmt->execute(array($userId));
+    return $stmt->fetchAll();
+}
+
+function getListPets($list){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('SELECT id, userId, name, birthdate, specie, race, size, color, location, description FROM ListPet, Pet WHERE listId=? AND Pet.id = ListPet.petId');
+    $stmt->execute(array($list['id']));
+    return $stmt->fetchAll();
+}
 
 handleUpdateRequest();

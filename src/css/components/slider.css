@@ -1,0 +1,110 @@
+/* https://github.com/rafaavc/simple-slider */
+
+.ss-parent {
+    box-sizing: border-box;
+
+    position: relative;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.ss-child {
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+	left: -100%;
+}
+
+.ss-child > div {
+	margin: 0 auto;
+    width: 30vw;
+	height: 100%;
+}
+
+.ss-nav {
+    box-sizing: border-box;
+
+	position: absolute;
+	text-align: center;
+    width: 100%;
+    bottom: 0.5rem;
+}
+
+.ss-nav > button {
+	background-color: var(--lightTextColor);
+	border: none;
+	border-radius: 50%;
+
+	width: 1rem;
+	height: 1rem;
+
+	margin: 0 .3rem;
+	padding: 0;
+
+	outline: none;
+
+	transition: all .2s;
+}
+
+.ss-nav > button:hover {
+	background-color: var(--accentColorLighter);
+	cursor: pointer;
+}
+
+.ss-nav > button.active {
+	background-color: var(--accentColor);
+}
+
+.ss-nav > button.active:hover {
+	background-color: var(--accentColorDarker);
+}
+
+.ss-disappearToLeft {
+    animation: ss-disappearToLeftAnimation .5s forwards;
+}
+
+.ss-disappearToRight {
+    animation: ss-disappearToRightAnimation .5s forwards;
+}
+
+.ss-appearFromRight {
+    animation: ss-appearFromRightAnimation .5s forwards;
+}
+
+.ss-appearFromLeft {
+    animation: ss-appearFromLeftAnimation .5s forwards;
+}
+
+@keyframes ss-disappearToLeftAnimation {
+    100% {
+        left: -100%;
+    }
+}
+
+@keyframes ss-disappearToRightAnimation {
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes ss-appearFromRightAnimation {
+    0% {
+        left: 100%;
+    }
+
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes ss-appearFromLeftAnimation {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 0;
+    }
+}
