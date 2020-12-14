@@ -149,7 +149,7 @@ INSERT INTO Adopted(userId, petId) VALUES(3, 1);
 INSERT INTO Adopted(userId, petId) VALUES(4, 4);
 
 INSERT INTO List(title, description, public, userId) VALUES ("Favorites", "Does it need description?", 1, 1);
-INSERT INTO List(title, description, public, userId) VALUES ("Dogs", "Does it need description?", 1, 1);
+INSERT INTO List(title, description, public, userId) VALUES ("Dogs", "Does it need description?", 0, 1);
 INSERT INTO List(title, description, public, userId) VALUES ("Empty", "Does it need description?", 1, 1);
 
 INSERT INTO ListPet(listId, petId) VALUES (1, 1);

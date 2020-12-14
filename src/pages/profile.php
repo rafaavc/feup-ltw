@@ -29,9 +29,12 @@ $userLists = API\getUserLists($user['id']);
         <select name="pets" id="list-select">
             <?php
             foreach($userLists as $userList) {
+                if ((Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username'])
+                    || ($userList['public'] == 1)) {
             ?>
                 <option value="<?=htmlentities($userList['id'])?>"><?=htmlentities($userList['title'])?></option>
             <?php
+                }
             }
             ?>
         </select>
@@ -41,6 +44,8 @@ $userLists = API\getUserLists($user['id']);
     <div id="lists">
         <?php
         foreach($userLists as $userList){
+            if ((Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username'])
+                    || ($userList['public'] == 1)) {
         ?>
             <div name="<?=$userList['title']?>" class="petGrid">
                 <div class="arrow left"></div>
@@ -48,6 +53,7 @@ $userLists = API\getUserLists($user['id']);
                 <div class="arrow right"></div>
             </div>
         <?php
+            }
         } 
         ?>
     </div>
