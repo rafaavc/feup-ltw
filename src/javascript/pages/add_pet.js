@@ -75,6 +75,9 @@ function handleFileInput() {
         removeButton.classList.add('remove');
         removeButton.addEventListener('click', function() {
             const buttonIdx = fileInputButtons.findIndex((el) => el.id === lastButtonId);
+            if (addPetForm.dataset.profilePicture === lastButton.files[0].name) {
+                addPetForm.dataset.profilePicture = '';
+            }
             fileInputButtons[buttonIdx].obj.remove();
             this.parentNode.remove();
             
