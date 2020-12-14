@@ -21,24 +21,28 @@ $userLists = API\getUserLists($user['id']);
 </section>
 
 <section id="userList" class="petlist">
-    <div id="select">
-        <label for="list-select">
-            <h1>Lists:</h1>
-        </label>
-        <select name="pets" id="list-select">
-            <?php
-            foreach($userLists as $userList) {
-                if ((Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username'])
-                    || ($userList['public'] == 1)) {
-            ?>
-                <option value="<?=htmlentities($userList['id'])?>"><?=htmlentities($userList['title'])?></option>
-            <?php
+    <div class="simple-2column-grid">
+        <div id="select">
+            <label for="list-select">
+                <h1>Lists:</h1>
+            </label>
+            <select name="pets" id="list-select">
+                <?php
+                foreach($userLists as $userList) {
+                    if ((Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username'])
+                        || ($userList['public'] == 1)) {
+                ?>
+                    <option value="<?=htmlentities($userList['id'])?>"><?=htmlentities($userList['title'])?></option>
+                <?php
+                    }
                 }
-            }
-            ?>
-        </select>
+                ?>
+            </select>
+        </div>
+        <div>
+            <button class="simpleButton" id="addListButton"><i class="icofont-ui-add"></i>New list</button>
+        </div>
     </div>
-
 
     <div id="lists">
         <?php

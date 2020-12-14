@@ -1,6 +1,7 @@
 import { getRootUrl, initWebsite } from '../init.js'
 import { sendPostRequest } from '../ajax.js'
 import { createTile } from '../tile.js'
+//import { toggleAddingMode } from './add_pet.js'
 
 const editProfileButton = document.getElementById("editProfile");
 if (editProfileButton != null)

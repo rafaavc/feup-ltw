@@ -11,6 +11,7 @@ function createPetsTileList() {
         const pets = res.pets;
 
         const petGridContent = document.querySelector('#indexPets > .petGrid > .petGridContent');
+        if (petGridContent == null) return;
 
         for (const pet of pets) {
             const tile = createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description, null, false);
