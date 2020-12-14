@@ -91,6 +91,8 @@
             <div>
                 <div class="photos"></div>
                 <input type="file" name="photos[]" />
+                <button class="simpleButton" id="addPhotoButton"><i class="icofont-ui-add"></i>Photo</button>
+                <p>To select a profile picture, click on one of the pictures you uploaded.</p>
             </div>
         </form>
     </section>

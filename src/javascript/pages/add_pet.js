@@ -24,9 +24,26 @@ function updateRaceSelect() {
     })
 }
 
+const addPetForm = document.querySelector('form[name=addPet]');
 const fileInputButtons = [{ obj: document.querySelector('input[type=file]:last-of-type'), id: 0 }];
 fileInputButtons[0].obj.addEventListener('change', handleFileInput);
+fileInputButtons[0].obj.style.display = "none";
 const photoContainer = document.querySelector('form[name=addPet] > div:last-of-type > div.photos');
+const addPhotoButton = document.getElementById('addPhotoButton');
+addPhotoButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    fileInputButtons[fileInputButtons.length-1].obj.click();
+    console.log(fileInputButtons[fileInputButtons.length-1]);
+});
+
+function updateProfilePic() {
+    const prevProfileImage = document.querySelectorAll('img.profilePicture');
+    prevProfileImage.forEach((pi) => pi.classList.remove('profilePicture'));
+    this.classList.add('profilePicture');
+    const buttonId = parseInt(this.dataset.buttonId);
+    const button = fileInputButtons.find((button) => button.id === buttonId).obj;
+    addPetForm.dataset.profilePicture = button.files[0].name;
+}
 
 function handleFileInput() {
     const lastButton = fileInputButtons[fileInputButtons.length-1].obj;
@@ -35,6 +52,7 @@ function handleFileInput() {
     nextButton.type = "file";
     nextButton.name = lastButton.name;
     nextButton.addEventListener('change', handleFileInput);
+    nextButton.style.display = "none";
 
     lastButton.style.display = "none";
     
@@ -49,12 +67,13 @@ function handleFileInput() {
 
         const image = document.createElement("img");
         image.src = e.target.result;
+        image.addEventListener('click', updateProfilePic);
+        image.dataset.buttonId = lastButtonId;
         imageWrapper.appendChild(image);
 
         const removeButton = document.createElement('div');
         removeButton.classList.add('remove');
         removeButton.addEventListener('click', function() {
-            console.log(fileInputButtons, lastButtonId);
             const buttonIdx = fileInputButtons.findIndex((el) => el.id === lastButtonId);
             fileInputButtons[buttonIdx].obj.remove();
             this.parentNode.remove();
