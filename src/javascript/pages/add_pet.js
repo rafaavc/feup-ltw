@@ -33,7 +33,6 @@ const addPhotoButton = document.getElementById('addPhotoButton');
 addPhotoButton.addEventListener('click', function(e) {
     e.preventDefault();
     fileInputButtons[fileInputButtons.length-1].obj.click();
-    console.log(fileInputButtons[fileInputButtons.length-1]);
 });
 
 function updateProfilePic() {
@@ -76,7 +75,7 @@ function handleFileInput() {
         removeButton.addEventListener('click', function() {
             const buttonIdx = fileInputButtons.findIndex((el) => el.id === lastButtonId);
             if (profilePhotoInput.value === lastButton.files[0].name) {
-                profilePhotoInput = '';
+                profilePhotoInput.value = '';
             }
             fileInputButtons[buttonIdx].obj.remove();
             this.parentNode.remove();
