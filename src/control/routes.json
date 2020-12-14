@@ -45,6 +45,9 @@
     "api/pet/:what/:arg1": {
         "destination": "control/api/pet.php"
     },
+    "api/pet": {
+        "destination": "control/api/pet.php"
+    },
 
 
     "action/signin": {

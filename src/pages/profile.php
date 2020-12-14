@@ -7,7 +7,6 @@ include_once(dirname(__FILE__) . "/../templates/common/header.php");
 $user = API\getUserByUsername($GLOBALS['username']);
 
 include_once(dirname(__FILE__) . "/../templates/profile/profile_header.php");
-include_once(dirname(__FILE__) . "/../templates/show_pets.php");
 
 $userLists = API\getUserLists($user['id']);
 ?>

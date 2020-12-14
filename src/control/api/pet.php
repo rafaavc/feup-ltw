@@ -154,6 +154,14 @@ function getSpeciesRaces($specieId) {
 	return $stmt;
 }
 
+function handleIndexTilesRequest() {
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    if ($method == 'POST') {
+        responseJSON(array('pets' => getArrayFromSTMT(getPets(), $_POST['size'])));
+    }
+}
+
 function handleSpeciesRequest() {
     $what = $GLOBALS['what'];
     $arg1 = $GLOBALS['arg1'];
@@ -176,5 +184,8 @@ if (isset($GLOBALS['what']) && isset($GLOBALS['arg1'])) {
     handleSpeciesRequest();
 }
 
+if (isset($_POST['size'])) {
+	handleIndexTilesRequest();
+}
 
 ?>

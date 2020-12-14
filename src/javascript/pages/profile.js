@@ -113,7 +113,6 @@ function createTileLists() {
         const lists = res.lists;
 
         const petGridContent = document.querySelector('#userPets > .petGrid > .petGridContent');
-        console.log(petGridContent);
 
         for (const pet of pets) {
             const tile = createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description, null, false);
