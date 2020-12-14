@@ -17,6 +17,8 @@ body {
     --footerTopColor: rgb(32, 32, 32);
     --footerBottomColor: var(--darkTextColor);
     --menuItemHoverBG: rgba(245, 245, 245, .5);
+    --confirmColor:  rgb(3, 146, 51);
+    --cancelColor:  rgb(146, 3, 3);
     margin: 0;
     color: var(--darkTextColor);
     font-family: 'Mulish', sans-serif;
@@ -45,6 +47,10 @@ body > header a {
     text-decoration: none;
 }
 
+body > header a:hover {
+    color: var(--lightTextColor);
+}
+
 body > header > a > h1 {
     margin: 0;
 }
@@ -66,6 +72,7 @@ body > header > nav > ul > li {
 body > header > nav > ul > li > a, a.simpleButton {
     display: inline-block;
     padding: 0.5rem 1rem;
+    font-weight: inherit;
     transition: background-color .3s, color .3s;
 }
 
@@ -85,6 +92,17 @@ body > header > nav > ul > li:last-child {
 
 body > header.filledMenu {
     background-color: var(--darkTextColor);
+}
+
+a {
+    text-decoration: none;
+    color: var(--accentColorDarker);
+    transition: color .2s;
+    cursor: pointer;
+}
+
+a:hover {
+    color: var(--darkTextColor);
 }
 
 .simpleButton {
@@ -119,8 +137,13 @@ button {
     border: none;
     font-family: inherit;
     font-size: inherit;
+    vertical-align: middle;
 }
 
+button > i {
+    font-size: 0.8em;
+    margin-right: 0.6rem;
+}
 
 body > section {
     padding: 3rem var(--rightLeftPadding) 3rem var(--rightLeftPadding);
@@ -173,7 +196,7 @@ body > section.indexCover {
 
 
 .error-message {
-    color: darkred;
+    color: var(--cancelColor);
     font-size: 0.9em;
 
 }
@@ -307,6 +330,12 @@ body > footer > div > section > nav > ul > li > a{
 
 #footerSessionMenu > ul > li:first-child::after{
     content: "\00a0\00a0\00a0/\00a0\00a0\00a0";
+}
+
+.simple-2column-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: 1rem;
 }
 
 /* * {
