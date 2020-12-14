@@ -24,7 +24,7 @@ function updateRaceSelect() {
     })
 }
 
-const addPetForm = document.querySelector('form[name=addPet]');
+const profilePhotoInput = document.querySelector('input[type=hidden][name=profilePhoto]');
 const fileInputButtons = [{ obj: document.querySelector('input[type=file]:last-of-type'), id: 0 }];
 fileInputButtons[0].obj.addEventListener('change', handleFileInput);
 fileInputButtons[0].obj.style.display = "none";
@@ -33,7 +33,6 @@ const addPhotoButton = document.getElementById('addPhotoButton');
 addPhotoButton.addEventListener('click', function(e) {
     e.preventDefault();
     fileInputButtons[fileInputButtons.length-1].obj.click();
-    console.log(fileInputButtons[fileInputButtons.length-1]);
 });
 
 function updateProfilePic() {
@@ -42,7 +41,7 @@ function updateProfilePic() {
     this.classList.add('profilePicture');
     const buttonId = parseInt(this.dataset.buttonId);
     const button = fileInputButtons.find((button) => button.id === buttonId).obj;
-    addPetForm.dataset.profilePicture = button.files[0].name;
+    profilePhotoInput.value = button.files[0].name;
 }
 
 function handleFileInput() {
@@ -75,8 +74,8 @@ function handleFileInput() {
         removeButton.classList.add('remove');
         removeButton.addEventListener('click', function() {
             const buttonIdx = fileInputButtons.findIndex((el) => el.id === lastButtonId);
-            if (addPetForm.dataset.profilePicture === lastButton.files[0].name) {
-                addPetForm.dataset.profilePicture = '';
+            if (profilePhotoInput.value === lastButton.files[0].name) {
+                profilePhotoInput.value = '';
             }
             fileInputButtons[buttonIdx].obj.remove();
             this.parentNode.remove();
@@ -130,6 +129,7 @@ function toggleAddingMode(e) {
         const context = this;
         const button = document.createElement('button');
         button.classList.add('simpleButton');
+        button.classList.add('contrastButton');
         button.appendChild(document.createTextNode(`Add ${entity}`));
         button.addEventListener('click', function(e) {
             e.preventDefault();
