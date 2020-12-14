@@ -34,9 +34,13 @@ form input[type=file] {
     font-family: inherit;
 }
 
-form button {
+form button.simpleButton {
     border: 1px solid #c0c0c0;
     font-size: 0.9em;
+}
+
+form button.contrastButton {
+    border: none;
 }
 
 textarea {

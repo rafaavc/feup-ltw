@@ -130,6 +130,7 @@ function toggleAddingMode(e) {
         const context = this;
         const button = document.createElement('button');
         button.classList.add('simpleButton');
+        button.classList.add('contrastButton');
         button.appendChild(document.createTextNode(`Add ${entity}`));
         button.addEventListener('click', function(e) {
             e.preventDefault();
