@@ -10,7 +10,7 @@ form input, form textarea, form select, form[name=addPet] .simple-2column-grid {
     margin-bottom: 1rem;
 }
 
-form > input:last-child, form textarea:last-child, form select:last-child {
+form > input:last-child, form textarea:last-child, form select:last-child, form[name=addPet] .simple-2column-grid input {
     margin-bottom: 0;
 }
 
@@ -34,9 +34,13 @@ form input[type=file] {
     font-family: inherit;
 }
 
-form button {
+form button.simpleButton {
     border: 1px solid #c0c0c0;
     font-size: 0.9em;
+}
+
+form button.contrastButton {
+    border: none;
 }
 
 textarea {

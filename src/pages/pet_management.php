@@ -11,7 +11,7 @@
     
     <?php } else { 
 
-    $pets = API\getUserPets($user['id']);
+    $pets = API\getArrayFromSTMT(API\getUserPets($user['id']), true);
     $petsAdoptionProposals = API\getArrayFromSTMT(API\getUserPetsOpenAdoptionProposals($user['id']), true);
     $petsComments = API\getArrayFromSTMT(API\getUserPetsComments($user['id']), 10);
 ?>
@@ -20,31 +20,40 @@
     <h2>Your Pets</h2>
     <a href="<?=getRootUrl()?>/pet/add" class="simpleButton contrastButton"><i class="icofont-ui-add"></i> Add Pet</a>
 
-    <?php foreach($pets as $pet) { ?>
+    <?php if ($pets == false) { ?>
+        <p>Your pets have no recent comments.</p>
+    <?php } else {
+        foreach($pets as $pet) { ?>
         <div class="petManagementPets">
-            <p><?=$pet['name']?></p>
+            <p><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>"><?=$pet['name']?></a></p>
             <p><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>/edit"><i class="icofont-ui-edit"></i></a></p>
             <p><a><i class="icofont-ui-delete"></i></a></p>
         </div>
-    <?php } ?>
+    <?php } 
+    } ?>
     </table>        
 </section>
 
 <section class="petManagement">
     <h2>Adoption Proposals</h2>
-    <?php foreach($petsAdoptionProposals as $proposal) { ?>
+    <?php if ($petsAdoptionProposals == false) { ?>
+        <p>Your pets have no adoption proposals.</p>
+    <?php } else { 
+        foreach($petsAdoptionProposals as $proposal) { ?>
         <div class="petManagementAdoption">
             <p><a href="<?=getRootUrl()?>/user/<?=$proposal['propUserUsername']?>"><?=$proposal['propUserName']?></a> wants to adopt <a href="<?=getRootUrl()?>/pet/<?=$proposal['petId']?>"><?=$proposal['petName']?></a></p>
             <p><a href="<?=getRootUrl()?>/pet/<?=$proposal['id']?>/edit"><i class="icofont-ui-check"></i></a></p>
             <p><a><i class="icofont-ui-close"></i></a></p>
         </div>
-    <?php } ?>
+    <?php }
+    } ?>
+
 </section>
 
 <section class="petManagement">
     <h2>Recent Comments</h2>
     <?php if ($petsComments == false) { ?>
-        <p>There are no recent comments.</p>
+        <p>Your pets have no recent comments.</p>
     <?php } else { ?>
     <?php foreach($petsComments as $comment) { 
         if ($comment['creatorUsername'] == $user['username']) continue; ?>

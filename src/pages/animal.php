@@ -16,30 +16,7 @@ $posts = API\getPosts($pet['id']);
 	<div style="background-image: url(<?= '../images/petProfilePictures/' . $pet['id'] . '.jpg' ?>);"> </div>
 	<div>
 		<header>
-			<h3><?= $pet['name'] ?>,
-				<?php
-				$birthDate = explode("-", $pet['birthdate']);
-				//get age from date or birthdate
-				$years = (date("md", date("U", mktime(0, 0, 0, $birthDate[2], $birthDate[1], $birthDate[0]))) > date("md")
-					? ((date("Y") - $birthDate[0]) - 1)
-					: (date("Y") - $birthDate[0]));
-				if ($years > 1) {
-					echo $years . ' years';
-				} else if ($years == 1) {
-					echo $years . ' year';
-				}
-				$months = (date("d", date("U", mktime(0, 0, 0, $birthDate[2], $birthDate[1], $birthDate[0]))) > date("d")
-					? ((date("m") - $birthDate[1]) - 1)
-					: (date("m") - $birthDate[1]));
-				if ($months > 0) {
-					if ($years > 0) {
-						echo ' and ' . $months . ' months';
-					} else {
-						echo $months . ' months';
-					}
-				}
-				?>
-			</h3>
+			<h3><?= $pet['name'] ?>, <?=elapsedTime(strtotime($pet['birthdate']))?></h3>
 			<h4><?php
 				if ($pet['race'] != null) {
 					echo $pet['color'] . ' ' . $pet['race'] . ', ' . $pet['location'];

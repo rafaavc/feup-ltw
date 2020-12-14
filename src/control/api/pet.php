@@ -136,16 +136,34 @@ function getSpecies() {
     return $stmt;
 }
 
+function addSpecie($name) {
+	$stmt = Database::db()->prepare("INSERT INTO PetSpecie(name) VALUES(?)");
+	$stmt->execute(array($name));
+	return Database::db()->lastInsertId();
+}
+
 function getSizes() {
 	$stmt = Database::db()->prepare("SELECT * FROM PetSize ORDER BY name");
     $stmt->execute();
     return $stmt;
 }
 
+function addSize($name) {
+	$stmt = Database::db()->prepare("INSERT INTO PetSize(name) VALUES(?)");
+	$stmt->execute(array($name));
+	return Database::db()->lastInsertId();
+}
+
 function getColors() {
 	$stmt = Database::db()->prepare("SELECT * FROM PetColor ORDER BY name");
     $stmt->execute();
     return $stmt;
+}
+
+function addColor($name) {
+	$stmt = Database::db()->prepare("INSERT INTO PetColor(name) VALUES(?)");
+	$stmt->execute(array($name));
+	return Database::db()->lastInsertId();
 }
 
 function getSpeciesRaces($specieId) {
