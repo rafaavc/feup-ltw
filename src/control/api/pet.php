@@ -153,15 +153,25 @@ function updatePetName($petId, $petName) {
 function updatePetColor($petId, $petColor) {
 	$stmt = Database::db()->prepare("SELECT * FROM PetColor WHERE name = ?");
 	$stmt->execute(array($petColor));
+	if ($stmt->fetch() == false) {
+		$tempstmt = Database::db()->prepare("INSERT INTO PetColor(name) VALUES(?)");
+		$tempstmt->execute(array($petColor));
+	}
+	$stmt->execute(array($petColor));
 	$color = $stmt->fetch()['id'];
 	$stmt = Database::db()->prepare("UPDATE Pet SET color = ? WHERE id = ?");
 	$result['value'] = $stmt->execute(array($color, $petId));
 	return $result;
 }
 
-function updatePetSpecies($petId, $petSpecie) {
+function updatePetSpecies($petId, $petSpecies) {
 	$stmt = Database::db()->prepare("SELECT * FROM PetSpecie WHERE name = ?");
-	$stmt->execute(array($petSpecie));
+	$stmt->execute(array($petSpecies));
+	if ($stmt->fetch() == false) {
+		$tempstmt = Database::db()->prepare("INSERT INTO PetSpecie(name) VALUES(?)");
+		$tempstmt->execute(array($petSpecies));
+	}
+	$stmt->execute(array($petSpecies));
 	$species = $stmt->fetch()['id'];
 	$stmt = Database::db()->prepare("UPDATE Pet SET specie = ? WHERE id = ?");
 	$result['value'] = $stmt->execute(array($species, $petId));
@@ -203,7 +213,10 @@ function handlePetUpdateRequest() {
 		else if ($field == 'color') echo json_encode(updatePetColor($petId, $value));
 		else if ($field == 'description') echo json_encode(updatePetDescription($petId, $value));
 		else if ($field == 'location') echo json_encode(updatePetLocation($petId, $value));
+		else if ($field == 'colorRaceLocation') echo json_encode(updatePetColorRaceLocation($petId, $value));
 	}
 }
 
 handlePetUpdateRequest();
+
+?>

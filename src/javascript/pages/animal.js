@@ -37,7 +37,7 @@ forms.forEach(form => {
 	});
 
 	let confirm = Array.from(editForm.getElementsByClassName("confirm"));
-	confirm.forEach(confirmButton => confirmButton.addEventListener('click', function(event) {
+	confirm.forEach(confirmButton => confirmButton.addEventListener('click', function (event) {
 		event.preventDefault();
 		confirmSelection.bind(this)(editForm, inputField);
 	}));
@@ -58,48 +58,96 @@ function showSelection(editForm, inputField) {
 }
 
 function confirmSelection(editForm, inputField) {
-	const petId = document.querySelector('.petProfile').dataset.id;
 	const field = this.attributes['name'].value.split('Confirm')[0];
 
-	let formText = document.getElementById(field + 'Input');
-
-	sendPostRequest(getRootUrl() + "/control/api/pet.php", {field: field, value: formText.value == '' ? null : formText.value, petId: petId},
-	function() {
-		const result = JSON.parse(this.responseText);
-		editForm.style.display = 'none';
-		inputField.style.display = 'flex';
-		if (result.value === true){
-			if (inputField.id === 'nameAge') changeNameAge(editForm, inputField, field);
-			else if (inputField.id === 'colorRaceLocation') changeColorRaceLocation(editForm, inputField, field);
-			else if (inputField.id === 'description') changeDescription(editForm, inputField, field);
-		}
-	});
-}
-
-function changeNameAge(editForm, inputField, field) {
-	if (field === 'name'){
-		let name = document.querySelector('#nameAgeForm input[type=text]').value;
-		console.log(editForm);
-		console.log(inputField);
-
-		let string = inputField.querySelector('h3').innerHTML.split(',');
-		string[0] = name;
-		inputField.querySelector('h3').innerHTML = string.join(',');
+	if (field === 'colorRaceLocation') {
+		changeColorRaceLocation(editForm, inputField);
+	} else if (field === 'name') {
+		changeNameAge(editForm, inputField);
+	} else if (field === 'description') {
+		changeDescription(editForm, inputField);
 	}
 }
 
-function changeColorRaceLocation(editForm, inputField) {
+function changeNameAge(editForm, inputField) {
+	const name = document.querySelector('#nameInput').value;
+	const petId = document.querySelector('.petProfile').dataset.id;
+	let string = inputField.querySelector('h3').innerHTML.split(',');
+	sendPostRequest(getRootUrl() + '/control/api/pet.php', { field: 'name', value: name, petId: petId },
+		function () {
+			const result = JSON.parse(this.responseText);
+			if (result.value === true) {
+				editForm.style.display = 'none';
+				inputField.style.display = 'flex';
+				if (name == '') {
+					if (string.length === 2)
+						inputField.querySelector('h3').innerHTML = string[1];
+					else
+						inputField.querySelector('h3').innerHTML = string[0];
+				} else {
+					if (string.length === 2)
+						inputField.querySelector('h3').innerHTML = name + ', ' + string[1];
+					else
+						inputField.querySelector('h3').innerHTML = name + ', ' + string[0];
+				}
+			}
+		}
+	);
+}
 
+function changeColorRaceLocation(editForm, inputField) {
+	const color = document.querySelector('#colorInput').value;
+	const species = document.querySelector('#raceInput').value;
+	const location = document.querySelector('#locationInput').value;
+
+	if (color != '' && species != '' && location != '') {
+		const petId = document.querySelector('.petProfile').dataset.id;
+		sendPostRequest(getRootUrl() + "/control/api/pet.php", { field: 'color', value: color, petId: petId },
+			function () {
+				const result = JSON.parse(this.responseText);
+				if (result.value === true) {
+					sendPostRequest(getRootUrl() + "/control/api/pet.php", { field: 'species', value: species, petId: petId },
+						function () {
+							const result = JSON.parse(this.responseText);
+							if (result.value === true) {
+								sendPostRequest(getRootUrl() + "/control/api/pet.php", { field: 'location', value: location, petId: petId },
+									function () {
+										if (result.value === true) {
+											editForm.style.display = 'none';
+											inputField.style.display = 'flex';
+											inputField.querySelector('h4').innerHTML = color + ' ' + species + ', ' + location;
+										}
+									}
+								);
+							}
+						}
+					);
+				}
+			}
+		);
+	}
 }
 
 function changeDescription(editForm, inputField) {
+	const description = document.querySelector('#descriptionInput').value;
+	const petId = document.querySelector('.petProfile').dataset.id;
 
+	sendPostRequest(getRootUrl() + '/control/api/pet.php', { field: 'description', value: description, petId: petId },
+		function () {
+			const result = JSON.parse(this.responseText);
+			if (result.value === true) {
+				editForm.style.display = 'none';
+				inputField.style.display = 'flex';
+				inputField.querySelector('p').innerHTML = description;
+			}
+		}
+	);
 }
 
 function resetSelection(editForm, inputField) {
 	editForm.style.display = "none";
 
-	inputField.style.display = inputField.id == "bio" ? "flex" : "inline-block";
+	inputField.style.display = "flex";
 }
 
 function editPet() {
@@ -121,9 +169,9 @@ function closeEditPet() {
 		editButton.style.display = "none";
 	});
 
-    let forms = document.querySelectorAll(".textButtonPair form");
-    let editFields = document.querySelectorAll(".textButtonPair .edit");
-    let initialFields = document.querySelectorAll(".textButtonPair > div");
+	let forms = document.querySelectorAll(".textButtonPair form");
+	let editFields = document.querySelectorAll(".textButtonPair .edit");
+	let initialFields = document.querySelectorAll(".textButtonPair > div");
 
 	editFields.forEach(field => field.style.display = "none");
 	forms.forEach(form => form.style.display = "none");

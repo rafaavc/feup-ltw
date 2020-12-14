@@ -4,7 +4,7 @@
 		<header>
 			<section class="textButtonPair">
 				<div id="nameAge">
-					<h3><?= $pet['name'] ?>,
+					<h3><?= $pet['name'] == null ? '' : $pet['name'] . ',' ?>
 						<?php
 						$birthDate = explode("-", $pet['birthdate']);
 						//get age from date or birthdate
@@ -31,8 +31,8 @@
 					<button class="edit" id="nameAgeEdit"><i class="icofont-ui-edit"></i></button>
 				</div>
 				<form id="nameAgeForm">
-					<input type="text" value="<?= $pet['name'] ?>" />
-					<button class="confirm" id="nameInput" name="nameConfirm"><i class="icofont-ui-check"></i></button>
+					<input type="text" id="nameInput" value="<?= $pet['name'] ?>" />
+					<button class="confirm" name="nameConfirm"><i class="icofont-ui-check"></i></button>
 					<button class="close" name="nameAgeClose"><i class="icofont-ui-close"></i></button>
 				</form>
 			</section>
@@ -49,11 +49,9 @@
 				</div>
 				<form id="colorRaceLocationForm">
 					<input type="text" id="colorInput" value="<?= $pet['color'] ?>" />
-					<button class="confirm" name="colorConfirm"><i class="icofont-ui-check"></i></button>
 					<input type="text" id="raceInput" value="<?= $pet['race'] == null ? $pet['specie'] : $pet['race'] ?>" />
-					<button class="confirm" name="raceConfirm"><i class="icofont-ui-check"></i></button>
 					<input type="text" id="locationInput" value="<?= $pet['location'] ?>" />
-					<button class="confirm" name="locationConfirm"><i class="icofont-ui-check"></i></button>
+					<button class="confirm" name="colorRaceLocationConfirm"><i class="icofont-ui-check"></i></button>
 					<button class="close" name="colorRaceLocationClose"><i class="icofont-ui-close"></i></button>
 				</form>
 			</section>
