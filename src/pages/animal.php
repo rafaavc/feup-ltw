@@ -60,9 +60,7 @@ $posts = API\getPosts($pet['id']);
 				<?php
 				} else { ?>
 					<p>You've proposed to adopt! <button id="cancel" class="simpleButton contrastButton">Cancel</button></p>
-				<?php
-				}
-				?>
+				<?php } ?>
 			</footer>
 		<?php } ?>
 	</div>
@@ -87,11 +85,11 @@ $posts = API\getPosts($pet['id']);
 		<?php } else {
 		for ($i = 0; $i < count($posts); $i++) {
 			$user = API\getUserById($posts[$i]['userId']); ?>
-			<article class="comment">
+			<article class="comment" id="post-<?=$posts[$i]['id']?>">
 				<div class="image" style="background-image: url('../../images/userProfilePictures/<?= $user['id'] ?>.jpg')"></div>
 				<p><?= $posts[$i]['description'] ?></p>
 				<span class="user"><?= $user['shortName'] ?></span>
-				<span class="date"><?= $posts[$i]['postDate'] ?></span>
+				<span class="date"><?= elapsedTime(strtotime($posts[$i]['postDate']))." ago" ?></span>
 			</article>
 
 		<?php }

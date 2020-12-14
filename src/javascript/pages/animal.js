@@ -2,6 +2,7 @@ import SimpleSlider from '../slider.js'
 import { sendPostRequest } from '../ajax.js'
 import './generic.js'
 import { getRootUrl } from '../init.js'
+import { elapsedTime } from '../utils.js'
 
 const commentForm = document.querySelector('#comments > form');
 const adoptButton = document.querySelector('#adopt');
@@ -34,6 +35,7 @@ function receiveComment() {
 
 	const article = document.createElement('article');
 	article.className = 'comment';
+	article.id = `post-${post.id}`;
 
 	const image = document.createElement('div');
 	image.className = 'image';
@@ -49,7 +51,7 @@ function receiveComment() {
 
 	const date = document.createElement('span');
 	date.className = 'date';
-	date.innerHTML = post.postDate;
+	date.innerHTML = elapsedTime(post.postDate) + " ago";
 
 	article.append(image);
 	article.append(paragraph);

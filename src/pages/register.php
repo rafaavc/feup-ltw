@@ -19,7 +19,7 @@ include_once(dirname(__FILE__) ."/../templates/common/header.php");
         <input type="text" id="name" name="name" placeholder="Full Name" required/>
 
         <label for="birthdate">Birthdate</label>
-        <input type="text" id="birthdate" name="birthdate" placeholder="Birthdate" onfocus="(this.type = 'date')" required/>
+        <input type="text" id="birthdate" name="birthdate" placeholder="Birthdate" required/>
 
         <label for="mail">E-Mail</label>
         <input type="email" id="mail" name="mail" placeholder="E-Mail" required/>

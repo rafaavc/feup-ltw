@@ -3,6 +3,10 @@
         "destination": "pages/index.php",
         "js": "pages/generic.js"
     },
+    "pet/add": {
+        "destination": "pages/add_pet.php",
+        "js": "pages/add_pet.js"
+    },
     "pet/:id": {
         "destination": "pages/animal.php",
         "js": "pages/animal.js"
@@ -37,6 +41,9 @@
     },
     "api/search/:what/:specie/:value": {
         "destination": "control/api/search.php"
+    },
+    "api/pet/:what/:arg1": {
+        "destination": "control/api/pet.php"
     },
 
 

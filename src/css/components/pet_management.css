@@ -1,6 +1,69 @@
 
-section > table {
-    margin-top: 2rem;
+section div.image {
+	background-size: cover;
+	background-position: 50%;
+	grid-column-end: span 1;
+	width: 6rem;
+	height: 6rem;
+	border-radius: 50%;
+	margin: 0 auto;
 }
 
+section.petManagement {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+section.petManagement > div {
+    background-color: var(--lightGrey);
+    display: grid;
+    grid-template-rows: auto;
+    padding: 1rem;
+    margin-top: 1rem;
+    grid-gap: 2rem;
+}
+
+section.petManagement > div {
+    background-color: var(--lightGrey);
+    display: grid;
+    grid-template-rows: auto;
+    padding: 1rem;
+    margin-top: 1rem;
+    grid-gap: 2rem;
+    align-items: center;
+}
+
+section.petManagement > div:nth-of-type(2n) {
+    background-color: #fafafa;
+}
+
+div.petManagementPets {
+    grid-template-columns: 1fr auto auto;
+}
+
+div.petManagementPets > p, div.petManagementAdoption > p {
+    margin: 0;
+}
+
+div.petManagementComments {
+    grid-template-columns: auto 1fr auto auto;
+}
+
+div.petManagementAdoption {
+    grid-template-columns: 1fr auto auto;
+}
+
+.petManagement .icofont-ui-check {
+    color:  var(--confirmColor);
+    transition: color .2s;
+}
+
+.petManagement .icofont-ui-close {
+    color: var(--cancelColor);
+    transition: color .2s;
+}
+
+.petManagement .icofont-ui-check:hover, .petManagement .icofont-ui-close:hover {
+    color:  var(--darkTextColor);
+}
 
