@@ -10,7 +10,7 @@ form input, form textarea, form select, form[name=addPet] .simple-2column-grid {
     margin-bottom: 1rem;
 }
 
-form > input:last-child, form textarea:last-child, form select:last-child {
+form > input:last-child, form textarea:last-child, form select:last-child, form[name=addPet] .simple-2column-grid input {
     margin-bottom: 0;
 }
 

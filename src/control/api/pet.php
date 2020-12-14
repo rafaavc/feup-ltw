@@ -136,10 +136,22 @@ function getSpecies() {
     return $stmt;
 }
 
+function addSpecie($name) {
+	$stmt = Database::db()->prepare("INSERT INTO PetSpecie(name) VALUES(?)");
+	$stmt->execute(array($name));
+	return Database::db()->lastInsertId();
+}
+
 function getSizes() {
 	$stmt = Database::db()->prepare("SELECT * FROM PetSize ORDER BY name");
     $stmt->execute();
     return $stmt;
+}
+
+function addSize($name) {
+	$stmt = Database::db()->prepare("INSERT INTO PetSize(name) VALUES(?)");
+	$stmt->execute(array($name));
+	return Database::db()->lastInsertId();
 }
 
 function getColors() {
@@ -148,10 +160,45 @@ function getColors() {
     return $stmt;
 }
 
+function addColor($name) {
+	$stmt = Database::db()->prepare("INSERT INTO PetColor(name) VALUES(?)");
+	$stmt->execute(array($name));
+	return Database::db()->lastInsertId();
+}
+
 function getSpeciesRaces($specieId) {
 	$stmt = Database::db()->prepare("SELECT * FROM PetRace WHERE specieId = ? ORDER BY name");
 	$stmt->execute(array($specieId));
 	return $stmt;
+}
+
+function addSpecieRace($specieId, $raceName) {
+	$stmt = Database::db()->prepare("INSERT INTO PetRace(specieId, name) VALUES(?, ?)");
+	$stmt->execute(array($specieId, $raceName));
+	return Database::db()->lastInsertId();
+}
+
+function addPetPhoto($petId) {
+	$stmt = Database::db()->prepare("INSERT INTO PetPhoto(petId) VALUES(?)");
+	$stmt->execute(array($petId));
+	return Database::db()->lastInsertId();
+}
+
+function addPet($userId, $name, $birthdate, $specie, $race, $size, $color, $location, $description) {
+	$stmt = Database::db()->prepare("INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description, datePosted) VALUES(:userId, :name, :birthdate, :specie, :race, :size, :color, :location, :description, :datePosted)");
+	$stmt->bindParam(':userId', $userId);
+	$stmt->bindParam(':name', $name);
+	$stmt->bindParam(':birthdate', $birthdate);
+	$stmt->bindParam(':specie', $specie);
+	$stmt->bindParam(':race', $race);
+	$stmt->bindParam(':size', $size);
+	$stmt->bindParam(':color', $color);
+	$stmt->bindParam(':location', $location);
+	$stmt->bindParam(':description', $description);
+	$datePosted = date('Y-m-d H:i:s');
+	$stmt->bindParam(':datePosted', $datePosted);
+	$stmt->execute();
+	return Database::db()->lastInsertId();
 }
 
 function handleSpeciesRequest() {

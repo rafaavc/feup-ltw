@@ -14,7 +14,7 @@
                 <p class="<?=$message['type']?>-message"><?=$message['content']?></p>
         <?php } ?>
         
-        <form method="POST" name="addPet" action="<?=getRootURL()?>/control/actions/register.php">
+        <form method="POST" name="addPet" action="<?=getRootURL()?>/control/actions/add_pet.php" enctype="multipart/form-data">
             <div>
                 <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>" />
 
@@ -25,7 +25,7 @@
                 <input type="text" id="birthdate" name="birthdate" min="2000-01-01" max="<?=date('Y-m-d')?>" placeholder="Birthdate" required/>
 
                 <label for="location">Location</label>
-                <input type="email" id="location" name="location" placeholder="Location" required/>
+                <input type="text" id="location" name="location" placeholder="Location" required/>
 
                 <label for="description">Description</label>
                 <textarea placeholder="Description" name="description" id="description"></textarea>
@@ -89,6 +89,7 @@
                 <input type="submit" value="Add Pet" />
             </div>
             <div>
+                <input type="hidden" name="profilePhoto" />
                 <div class="photos"></div>
                 <input type="file" name="photos[]" />
                 <button class="simpleButton" id="addPhotoButton"><i class="icofont-ui-add"></i>Photo</button>

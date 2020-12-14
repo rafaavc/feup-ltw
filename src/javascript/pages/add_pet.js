@@ -24,7 +24,7 @@ function updateRaceSelect() {
     })
 }
 
-const addPetForm = document.querySelector('form[name=addPet]');
+const profilePhotoInput = document.querySelector('input[type=hidden][name=profilePhoto]');
 const fileInputButtons = [{ obj: document.querySelector('input[type=file]:last-of-type'), id: 0 }];
 fileInputButtons[0].obj.addEventListener('change', handleFileInput);
 fileInputButtons[0].obj.style.display = "none";
@@ -42,7 +42,7 @@ function updateProfilePic() {
     this.classList.add('profilePicture');
     const buttonId = parseInt(this.dataset.buttonId);
     const button = fileInputButtons.find((button) => button.id === buttonId).obj;
-    addPetForm.dataset.profilePicture = button.files[0].name;
+    profilePhotoInput.value = button.files[0].name;
 }
 
 function handleFileInput() {
@@ -75,8 +75,8 @@ function handleFileInput() {
         removeButton.classList.add('remove');
         removeButton.addEventListener('click', function() {
             const buttonIdx = fileInputButtons.findIndex((el) => el.id === lastButtonId);
-            if (addPetForm.dataset.profilePicture === lastButton.files[0].name) {
-                addPetForm.dataset.profilePicture = '';
+            if (profilePhotoInput.value === lastButton.files[0].name) {
+                profilePhotoInput = '';
             }
             fileInputButtons[buttonIdx].obj.remove();
             this.parentNode.remove();
