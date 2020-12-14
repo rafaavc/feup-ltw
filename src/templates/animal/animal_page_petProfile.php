@@ -49,10 +49,11 @@
 				</div>
 				<form id="colorRaceLocationForm">
 					<input type="text" id="colorInput" value="<?= $pet['color'] ?>" />
-					<input type="text" id="raceInput" value="<?= $pet['race'] == null ? $pet['specie'] : $pet['race'] ?>" />
+					<input type="text" id="specieInput" value="<?= $pet['specie'] ?>" />
+					<input type="text" id="raceInput" value="<?= $pet['race'] ?>" />
 					<input type="text" id="locationInput" value="<?= $pet['location'] ?>" />
-					<button class="confirm" name="colorRaceLocationConfirm"><i class="icofont-ui-check"></i></button>
-					<button class="close" name="colorRaceLocationClose"><i class="icofont-ui-close"></i></button>
+					<button class="confirm" name="colorSpeciesRaceLocationConfirm"><i class="icofont-ui-check"></i></button>
+					<button class="close" name="colorSpeciesRaceLocationClose"><i class="icofont-ui-close"></i></button>
 				</form>
 			</section>
 			<section class="textButtonPair">

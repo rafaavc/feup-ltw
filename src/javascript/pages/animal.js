@@ -61,8 +61,8 @@ function showSelection(editForm, inputField) {
 function confirmSelection(editForm, inputField) {
 	const field = this.attributes['name'].value.split('Confirm')[0];
 
-	if (field === 'colorRaceLocation') {
-		changeColorRaceLocation(editForm, inputField);
+	if (field === 'colorSpeciesRaceLocation') {
+		changeColorSpecieRaceLocation(editForm, inputField);
 	} else if (field === 'name') {
 		changeNameAge(editForm, inputField);
 	} else if (field === 'description') {
@@ -96,37 +96,28 @@ function changeNameAge(editForm, inputField) {
 	);
 }
 
-function changeColorRaceLocation(editForm, inputField) {
+function changeColorSpecieRaceLocation(editForm, inputField) {
 	const color = document.querySelector('#colorInput').value;
-	const species = document.querySelector('#raceInput').value;
+	const species = document.querySelector('#specieInput').value;
+	const race = document.querySelector('#raceInput').value;
 	const location = document.querySelector('#locationInput').value;
 
-	if (color != '' && species != '' && location != '') {
+	if (color != '' && (species != '' || race != '') && location != '') {
 		const petId = document.querySelector('.petProfile').dataset.id;
-		sendPostRequest(getRootUrl() + "/control/api/pet.php", { field: 'color', value: color, petId: petId },
+		sendPostRequest(getRootUrl() + "/control/api/pet.php", { field: 'colorSpeciesRaceLocation', color: color, species: species, race: race, location: location, petId: petId },
 			function () {
 				const result = JSON.parse(this.responseText);
 				if (result.value === true) {
-					sendPostRequest(getRootUrl() + "/control/api/pet.php", { field: 'species', value: species, petId: petId },
-						function () {
-							const result = JSON.parse(this.responseText);
-							if (result.value === true) {
-								sendPostRequest(getRootUrl() + "/control/api/pet.php", { field: 'location', value: location, petId: petId },
-									function () {
-										if (result.value === true) {
-											editForm.style.display = 'none';
-											inputField.style.display = 'flex';
-											inputField.querySelector('h4').innerHTML = color + ' ' + species + ', ' + location;
-										}
-									}
-								);
-							}
-						}
-					);
+					editForm.style.display = 'none';
+					inputField.style.display = 'flex';
+					const string = race == '' ? species : race;
+					inputField.querySelector('h4').innerHTML = color + ' ' + string + ', ' + location;
+
 				}
 			}
 		);
 	}
+
 }
 
 function changeDescription(editForm, inputField) {

@@ -176,8 +176,14 @@ function updatePetSpecies($petId, $petSpecies) {
 	return $result;
 }
 
-function updatePetRace($petId, $petRace) {
+function updatePetRace($petId, $petRace, $petSpecies) {
 	$stmt = Database::db()->prepare("SELECT * FROM PetRace WHERE name = ?");
+	$stmt->execute(array($petRace));
+	if ($stmt->fetch() == false){
+		$tempstmt = Database::db()->prepare("SELECT * FROM PetSpecie WHERE name = ?");
+		$tempstmt->execute(array($petSpecies));
+		addSpecieRace($tempstmt->fetch()['id'], $petRace);
+	}
 	$stmt->execute(array($petRace));
 	$race = $stmt->fetch()['id'];
 	$stmt = Database::db()->prepare("UPDATE Pet SET race = ? WHERE id = ?");
@@ -197,21 +203,34 @@ function updatePetLocation($petId, $petLocation) {
 	return $result;
 }
 
+function updatePetColorSpeciesRaceLocation($petId, $color, $species, $race, $location){
+	$result['value'] = updatePetColor($petId, $color) && updatePetSpecies($petId, $species) && updatePetRace($petId, $race, $species) && updatePetLocation($petId, $location) == true ? true : false;
+	return $result;
+}
+
 function handlePetUpdateRequest() {
 	$method = $_SERVER['REQUEST_METHOD'];
 
-	if ($method == 'POST' && isset($_POST['field']) && isset($_POST['value']) && isset($_POST['petId'])){
+	if ($method == 'POST' && isset($_POST['field']) && isset($_POST['petId'])){
 		$field = $_POST['field'];
-		$value = $_POST['value'];
+		if (isset($_POST['value']))
+			$value = $_POST['value'];
+		else if (isset($_POST['color']) && isset($_POST['species']) && isset($_POST['race']) && isset($_POST['location'])){
+			$color = $_POST['color'];
+			$species = $_POST['species'];
+			$race = $_POST['race'];
+			$location = $_POST['location'];
+		} else {
+			return;
+		}
 		$petId = $_POST['petId'];
 
 		if ($field == 'name') echo json_encode(updatePetName($petId, $value));
 		else if ($field == 'species') echo json_encode(updatePetSpecies($petId, $value));
-		else if ($field == 'race') echo json_encode(updatePetRace($petId, $value));
 		else if ($field == 'color') echo json_encode(updatePetColor($petId, $value));
 		else if ($field == 'description') echo json_encode(updatePetDescription($petId, $value));
 		else if ($field == 'location') echo json_encode(updatePetLocation($petId, $value));
-		else if ($field == 'colorRaceLocation') echo json_encode(updatePetColorRaceLocation($petId, $value));
+		else if ($field == 'colorSpeciesRaceLocation') echo json_encode(updatePetColorSpeciesRaceLocation($petId, $color, $species, $race, $location));
 	}
 }
 
@@ -301,7 +320,7 @@ function handleSpeciesRequest() {
 if (isset($GLOBALS['what']) && isset($GLOBALS['arg1'])) {
 	handleSpeciesRequest();
 }
-if (isset($_POST['field']) && isset($_POST['value']) && isset($_POST['petId']))
+if (isset($_POST['field']) && isset($_POST['petId']))
 	handlePetUpdateRequest();
 
 
