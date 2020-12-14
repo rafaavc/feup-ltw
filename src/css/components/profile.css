@@ -64,13 +64,21 @@
     content: "@";
 }
 
-#userPets a {
+.tileContainer {
     color: inherit;
     transition: color .2s;
 }
 
-#userPets a:hover {
+.tileContainer:hover {
     color: var(--accentColorDarker);
+}
+
+#list:first-child {
+    margin-bottom: 5rem;
+}
+
+#lists > div:not(:first-of-type) {
+    display: none;
 }
 
 /* * {

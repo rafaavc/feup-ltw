@@ -30,12 +30,14 @@ forms.forEach(form => {
     
 });
 
+const lists = document.getElementById('lists');
 const listSelect = document.getElementById('list-select');
 listSelect.addEventListener('change', () => {
-    for (let option of listSelect.options) {
-        if (option.value - 1 == listSelect.options.selectedIndex)
-            lists.children[option.value - 1].style.display = 'grid';
-        else lists.children[option.value - 1].style.display = 'none';
+    for (let i = 0; i < lists.children.length; i++) {
+        console.log(lists.children[i]);
+        if (i == listSelect.options.selectedIndex)
+            lists.children[i].style.display = 'grid';
+        else lists.children[i].style.display = 'none';
     }
 });
 
@@ -115,8 +117,15 @@ function createTileLists() {
 
         for (const pet of pets) {
             const tile = createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description, null, false);
-    
             petGridContent.appendChild(tile);
+        }
+
+        const listElements = document.querySelectorAll("#lists .petGrid .petGridContent");
+        for (let i = 0; i < listElements.length; i++) {
+            for (const pet of lists[i]) {
+                const tile = createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description, null, false);
+                listElements[i].appendChild(tile);
+            }
         }
     });
 }

@@ -12,7 +12,7 @@ include_once(dirname(__FILE__) . "/../templates/show_pets.php");
 $userLists = API\getUserLists($user['id']);
 ?>
 
-<section id="userPets">
+<section id="userPets" class="petlist">
     <header><h2>Pets</h2></header>
     <div class="petGrid">
         <div class="arrow left"></div>
@@ -21,13 +21,7 @@ $userLists = API\getUserLists($user['id']);
     </div>
 </section>
 
-<section class="petlist">
-    <h1>Pets</h1>
-    <?php showPetList(API\getUserPets($user['id'])) ?>
-</section>
-
-
-<section class="petlist">
+<section id="userList" class="petlist">
     <div id="select">
         <label for="list-select">
             <h1>Lists:</h1>
@@ -36,7 +30,7 @@ $userLists = API\getUserLists($user['id']);
             <?php
             foreach($userLists as $userList) {
             ?>
-                <option value="<?htmlentities($userList['id'])?>"><?htmlentities($userList['title'])?></option>
+                <option value="<?=htmlentities($userList['id'])?>"><?=htmlentities($userList['title'])?></option>
             <?php
             }
             ?>
@@ -48,12 +42,15 @@ $userLists = API\getUserLists($user['id']);
         <?php
         foreach($userLists as $userList){
         ?>
-            <div name="<?=$userList['title']?>"><?=showPetList(API\getListPets($userList))?></div>
+            <div name="<?=$userList['title']?>" class="petGrid">
+                <div class="arrow left"></div>
+                <div class="petGridContent"></div>
+                <div class="arrow right"></div>
+            </div>
         <?php
         } 
         ?>
     </div>
-       
 </section>
 
 <?php
