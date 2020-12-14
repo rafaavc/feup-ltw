@@ -24,6 +24,54 @@ function updateRaceSelect() {
     })
 }
 
+const fileInputButtons = [{ obj: document.querySelector('input[type=file]:last-of-type'), id: 0 }];
+fileInputButtons[0].obj.addEventListener('change', handleFileInput);
+const photoContainer = document.querySelector('form[name=addPet] > div:last-of-type > div.photos');
+
+function handleFileInput() {
+    const lastButton = fileInputButtons[fileInputButtons.length-1].obj;
+    const lastButtonId = fileInputButtons[fileInputButtons.length-1].id;
+    const nextButton = document.createElement('input');
+    nextButton.type = "file";
+    nextButton.name = lastButton.name;
+    nextButton.addEventListener('change', handleFileInput);
+
+    lastButton.style.display = "none";
+    
+    lastButton.parentNode.insertBefore(nextButton, lastButton);
+
+    fileInputButtons.push({ obj: nextButton, id: lastButtonId+1 });
+
+    const file = this.files[0];
+    const reader  = new FileReader();
+    reader.onload = function(e)  {
+        const imageWrapper = document.createElement('div');
+
+        const image = document.createElement("img");
+        image.src = e.target.result;
+        imageWrapper.appendChild(image);
+
+        const removeButton = document.createElement('div');
+        removeButton.classList.add('remove');
+        removeButton.addEventListener('click', function() {
+            console.log(fileInputButtons, lastButtonId);
+            const buttonIdx = fileInputButtons.findIndex((el) => el.id === lastButtonId);
+            fileInputButtons[buttonIdx].obj.remove();
+            this.parentNode.remove();
+            
+            fileInputButtons.splice(buttonIdx, 1);
+        });
+        const icon = document.createElement('i');
+        icon.classList.add('icofont-ui-close');
+        removeButton.appendChild(icon);
+        imageWrapper.appendChild(removeButton);
+
+        photoContainer.appendChild(imageWrapper);
+    }
+    reader.readAsDataURL(file);
+}
+
+
 const specieSelect = document.getElementById('specie');
 specieSelect.addEventListener('change', updateRaceSelect);
 updateRaceSelect.bind(specieSelect)();
