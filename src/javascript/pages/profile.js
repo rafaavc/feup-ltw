@@ -1,7 +1,7 @@
 import { getRootUrl, initWebsite } from '../init.js'
 import { sendPostRequest } from '../ajax.js'
 import { createTile } from '../tile.js'
-//import { toggleAddingMode } from './add_pet.js'
+import { toggleAddingMode } from '../add_field.js'
 
 const editProfileButton = document.getElementById("editProfile");
 if (editProfileButton != null)
@@ -41,6 +41,9 @@ listSelect.addEventListener('change', () => {
         else lists.children[i].style.display = 'none';
     }
 });
+
+const newList = document.getElementById('addListButton');
+newList.addEventListener('click', toggleAddingMode);
 
 createTileLists();
 
