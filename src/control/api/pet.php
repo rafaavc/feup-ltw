@@ -150,6 +150,17 @@ function updatePetName($petId, $petName) {
 	return $result;
 }
 
+function updatePetBirthdate($petId, $petBirthdate){
+	$stmt = Database::db()->prepare("UPDATE Pet SET birthdate = DATE(?) WHERE id = ?");
+	$result['value'] = $stmt->execute(array($petBirthdate, $petId));
+	return $result;
+}
+
+function updatePetNameAge($petId, $petName, $petBirthdate) {
+	$result['value'] = updatePetName($petId, $petName) && updatePetBirthdate($petId, $petBirthdate);
+	return $result;
+}
+
 function updatePetColor($petId, $petColor) {
 	$stmt = Database::db()->prepare("SELECT * FROM PetColor WHERE name = ?");
 	$stmt->execute(array($petColor));
@@ -218,8 +229,11 @@ function handlePetUpdateRequest() {
 
 	if ($method == 'POST' && isset($_POST['field']) && isset($_POST['petId'])){
 		$field = $_POST['field'];
-		if (isset($_POST['value']))
+		if (isset($_POST['value'])) {
 			$value = $_POST['value'];
+			if (isset($_POST['birthdate']))
+				$birthdate = $_POST['birthdate'];
+		}
 		else if (isset($_POST['color']) && isset($_POST['species']) && isset($_POST['race']) && isset($_POST['location'])){
 			$color = $_POST['color'];
 			$species = $_POST['species'];
@@ -230,12 +244,13 @@ function handlePetUpdateRequest() {
 		}
 		$petId = $_POST['petId'];
 
-		if ($field == 'name') echo json_encode(updatePetName($petId, $value));
-		else if ($field == 'species') echo json_encode(updatePetSpecies($petId, $value));
-		else if ($field == 'color') echo json_encode(updatePetColor($petId, $value));
+		if ($field == 'nameAge') echo json_encode(updatePetNameAge($petId, $value, $birthdate));
 		else if ($field == 'description') echo json_encode(updatePetDescription($petId, $value));
-		else if ($field == 'location') echo json_encode(updatePetLocation($petId, $value));
 		else if ($field == 'colorSpeciesRaceLocation') echo json_encode(updatePetColorSpeciesRaceLocation($petId, $color, $species, $race, $location));
+		else {
+			http_response_code(400); // BAD REQUEST
+			exit();
+		}
 	}
 }
 
@@ -327,6 +342,3 @@ if (isset($GLOBALS['what']) && isset($GLOBALS['arg1'])) {
 }
 if (isset($_POST['field']) && isset($_POST['petId']))
 	handlePetUpdateRequest();
-
-
-?>

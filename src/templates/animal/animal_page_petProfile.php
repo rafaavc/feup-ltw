@@ -25,6 +25,9 @@
 							} else {
 								echo $months . ' months';
 							}
+						} else {
+							if ($years == 0)
+								echo '0 months';
 						}
 						?>
 					</h3>
@@ -32,6 +35,7 @@
 				</div>
 				<form id="nameAgeForm">
 					<input type="text" id="nameInput" value="<?= $pet['name'] ?>" />
+					<input type="text" id="birthdateInput" name="birthdate" min="2000-01-01" max="<?= date('Y-m-d') ?>" placeholder="Birthdate" value="<?= $pet['birthdate'] ?>" />
 					<button class="confirm" name="nameConfirm"><i class="icofont-ui-check"></i></button>
 					<button class="close" name="nameAgeClose"><i class="icofont-ui-close"></i></button>
 				</form>
@@ -67,6 +71,14 @@
 					<button class="close" name="descriptionClose"><i class="icofont-ui-close"></i></button>
 				</form>
 			</section>
+
+			<div id="photosInput" style="display: none">
+				<input type="hidden" name="profilePhoto" />
+				<div class="photos"></div>
+				<input type="file" name="photos[]" />
+				<button class="simpleButton" id="addPhotoButton"><i class="icofont-ui-add"></i>Photo</button>
+				<p>To select a profile picture, click on one of the pictures you uploaded.</p>
+			</div>
 		</header>
 		<?php if (Session\isAuthenticated()) {
 			include_once(dirname(__FILE__) . '/animal_page_buttons.php');

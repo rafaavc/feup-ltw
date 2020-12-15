@@ -72,24 +72,48 @@ function confirmSelection(editForm, inputField) {
 
 function changeNameAge(editForm, inputField) {
 	const name = document.querySelector('#nameInput').value;
+	const birthdate = document.querySelector('#birthdateInput').value;
 	const petId = document.querySelector('.petProfile').dataset.id;
-	let string = inputField.querySelector('h3').innerHTML.split(',');
-	sendPostRequest(getRootUrl() + '/control/api/pet.php', { field: 'name', value: name, petId: petId },
+	sendPostRequest(getRootUrl() + '/control/api/pet.php', { field: 'nameAge', value: name, birthdate: birthdate, petId: petId },
 		function () {
 			const result = JSON.parse(this.responseText);
 			if (result.value === true) {
 				editForm.style.display = 'none';
 				inputField.style.display = 'flex';
-				if (name == '') {
-					if (string.length === 2)
-						inputField.querySelector('h3').innerHTML = string[1];
-					else
-						inputField.querySelector('h3').innerHTML = string[0];
+				const today = new Date();
+				const date = new Date(birthdate);
+				const years = today.getFullYear() - date.getFullYear();
+				const months = today.getMonth() - date.getMonth();
+				let age;
+				console.log(years, months);
+				if (years > 1) {
+					age = years.toString() + ' years';
+					if (months > 1) {
+						age += ' and ' + months.toString() + ' months';
+					}
+					else if (months === 1) {
+						age += ' and ' + months.toString() + ' month';
+					}
+				} else if (years === 1) {
+					age = years.toString() + 'year ';
+					if (months > 1) {
+						age += ' and ' + months.toString() + ' months';
+					}
+					else if (months === 1) {
+						age += ' and ' + months.toString() + ' month';
+					}
+				} else if (months > 1) {
+					age = months.toString() + ' months';
+				}
+				else if (months === 1) {
+					age = months.toString() + ' month';
 				} else {
-					if (string.length === 2)
-						inputField.querySelector('h3').innerHTML = name + ', ' + string[1];
-					else
-						inputField.querySelector('h3').innerHTML = name + ', ' + string[0];
+					age = "0 months";
+				}
+				if (name == '') {
+					inputField.querySelector('h3').innerHTML = age;
+				} else {
+					inputField.querySelector('h3').innerHTML = name + ', ' + age;
 				}
 			}
 		}
