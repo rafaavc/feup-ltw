@@ -17,15 +17,16 @@ export function toggleAddingMode(e) {
         this.appendChild(icon);
         this.appendChild(document.createTextNode('Cancel'));
 
+        const input = document.createElement("input");
+        input.type = "text";
+
         if (entity == 'List') {
             const addListForm = document.createElement("form");
             addListForm.id = `${entity}Input`;
 
-            const title = document.createElement("input");
-            title.type = "text";
-            title.id = "newListTitle";
-            title.placeholder = "Title";
-            addListForm.appendChild(title);
+            input.id = "newListTitle";
+            input.placeholder = "Title";
+            addListForm.appendChild(input);
 
             const publicSelect = document.createElement("select");
 
@@ -50,8 +51,6 @@ export function toggleAddingMode(e) {
             this.parentNode.parentNode.appendChild(addListForm);
         }
         else {
-            const input = document.createElement("input");
-            input.type = "text";
             input.id = `${entity}Input`;
             input.placeholder = entity;
             this.parentNode.parentNode.appendChild(input);

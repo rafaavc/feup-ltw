@@ -26,7 +26,7 @@ $userLists = API\getUserLists($user['id']);
             <label for="list-select">
                 <h1>Lists:</h1>
             </label>
-            <select name="pets" id="list-select">
+            <select name="list" id="list-select">
                 <?php
                 foreach($userLists as $userList) {
                     if ((Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username'])
