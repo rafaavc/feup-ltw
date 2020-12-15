@@ -51,6 +51,8 @@ forms.forEach(form => {
 
 });
 
+let photos = document.getElementById('photosInput');
+
 
 
 function showSelection(editForm, inputField) {
@@ -175,6 +177,9 @@ function editPet() {
 		editButton.style.display = "flex";
 	});
 
+	const photos = document.getElementById('photosInput');
+	photos.style.display = 'flex';
+
 	editPetButton.style.display = 'none';
 	closeEditPetButton.style.display = 'inline';
 }
@@ -183,9 +188,11 @@ function closeEditPet() {
 	const editButtons = Array.from(document.getElementsByClassName('edit'));
 
 	editButtons.forEach(editButton => {
-		console.log(editButton);
 		editButton.style.display = "none";
 	});
+
+	const photos = document.getElementById('photosInput');
+	photos.style.display = 'none';
 
 	let forms = document.querySelectorAll(".textButtonPair form");
 	let editFields = document.querySelectorAll(".textButtonPair .edit");
@@ -197,6 +204,7 @@ function closeEditPet() {
 
 	editPetButton.style.display = 'inline';
 	closeEditPetButton.style.display = 'none';
+	sendPostRequest(getRootUrl() + "/control/api/post.php", { petId: petId, comment: comment }, receiveComment);
 }
 
 function submitComment(event) {
@@ -295,4 +303,96 @@ function changeCancelButton(event) {
 
 		document.querySelector('.petProfile footer').appendChild(button);
 	}
+}
+
+
+
+
+const profilePhotoInput = document.querySelector('input[type=hidden][name=profilePhoto]');
+const fileInputButtons = [{ obj: document.querySelector('input[type=file]:last-of-type'), id: 0 }];
+fileInputButtons[0].obj.addEventListener('change', handleFileInput);
+fileInputButtons[0].obj.style.display = "none";
+const photoContainer = document.querySelector('div > div.photos');
+const addPhotoButton = document.getElementById('addPhotoButton');
+addPhotoButton.addEventListener('click', function (e) {
+	e.preventDefault();
+	fileInputButtons[fileInputButtons.length - 1].obj.click();
+});
+
+/*
+const removeButtons = Array.from(document.getElementsByClassName('remove'));
+removeButtons.forEach(removeButton => {
+	removeButton.addEventListener('click', removeImage);
+});
+
+function removeImage() {
+	const lastButton = fileInputButtons[fileInputButtons.length - 1].obj;
+	const lastButtonId = fileInputButtons[fileInputButtons.length - 1].id;
+	const buttonIdx = fileInputButtons.findIndex((el) => el.id === lastButtonId);
+	if (profilePhotoInput.value === lastButton.files[0].name) {
+		profilePhotoInput.value = '';
+	}
+	fileInputButtons[buttonIdx].obj.remove();
+	this.parentNode.remove();
+
+	fileInputButtons.splice(buttonIdx, 1);
+}
+*/
+
+function handleFileInput() {
+	const lastButton = fileInputButtons[fileInputButtons.length - 1].obj;
+	const lastButtonId = fileInputButtons[fileInputButtons.length - 1].id;
+	const nextButton = document.createElement('input');
+	nextButton.type = "file";
+	nextButton.name = lastButton.name;
+	nextButton.addEventListener('change', handleFileInput);
+	nextButton.style.display = "none";
+
+	lastButton.style.display = "none";
+
+	lastButton.parentNode.insertBefore(nextButton, lastButton);
+
+	fileInputButtons.push({ obj: nextButton, id: lastButtonId + 1 });
+
+	const file = this.files[0];
+	const reader = new FileReader();
+	reader.onload = function (e) {
+		const imageWrapper = document.createElement('div');
+
+		const image = document.createElement("img");
+		image.src = e.target.result;
+		image.addEventListener('click', updateProfilePic);
+		image.dataset.buttonId = lastButtonId;
+		imageWrapper.appendChild(image);
+
+		const removeButton = document.createElement('div');
+		removeButton.classList.add('remove');
+		removeButton.addEventListener('click', function () {
+			const buttonIdx = fileInputButtons.findIndex((el) => el.id === lastButtonId);
+			if (profilePhotoInput.value === lastButton.files[0].name) {
+				profilePhotoInput.value = '';
+			}
+			fileInputButtons[buttonIdx].obj.remove();
+			this.parentNode.remove();
+
+			fileInputButtons.splice(buttonIdx, 1);
+		});
+		const icon = document.createElement('i');
+		icon.classList.add('icofont-ui-close');
+		removeButton.appendChild(icon);
+		imageWrapper.appendChild(removeButton);
+
+		photoContainer.appendChild(imageWrapper);
+	}
+	reader.readAsDataURL(file);
+}
+
+
+function updateProfilePic() {
+	const prevProfileImage = document.querySelectorAll('img.profilePicture');
+	prevProfileImage.forEach((pi) => pi.classList.remove('profilePicture'));
+	this.classList.add('profilePicture');
+	const buttonId = parseInt(this.dataset.buttonId);
+	const button = fileInputButtons.find((button) => button.id === buttonId).obj;
+	profilePhotoInput.value = button.files[0].name;
 }

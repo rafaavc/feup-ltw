@@ -91,12 +91,12 @@ form[name=addPet] img.profilePicture {
     border: 4px solid var(--accentColor);
 }
 
-form[name=addPet] div.photos > div {
+div.photos > div {
     position: relative;
     display: inline-block;
 }
 
-form[name=addPet] div.photos > div > div.remove {
+div.photos > div > div.remove {
     position: absolute;
     right: 10px;
     top: 10px;
@@ -107,7 +107,7 @@ form[name=addPet] div.photos > div > div.remove {
     cursor: pointer;
     transition: color .2s;
 }
-form[name=addPet] div.photos > div > div.remove:hover {
+div.photos > div > div.remove:hover {
     color: var(--darkTextColor);
 }
 

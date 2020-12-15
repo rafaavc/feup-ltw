@@ -39,6 +39,22 @@
 	margin-left: 1rem;
 }
 
+.photos > div > img {
+	height: 10rem;
+}
+
+#photosInput {
+	margin: 1rem 0;
+}
+
+#photosInput > #addPhotoButton {
+	height: 2rem;
+}
+
+#photosInput > p {
+	margin: 0 1rem;
+}
+
 #comments {
 	padding: 0 calc(2*var(--rightLeftPadding));
 	margin-bottom: 6rem;

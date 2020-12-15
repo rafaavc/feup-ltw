@@ -74,7 +74,18 @@
 
 			<div id="photosInput" style="display: none">
 				<input type="hidden" name="profilePhoto" />
-				<div class="photos"></div>
+				<div class="photos">
+					<?php
+					foreach ($photos as $photo) {
+					?>
+						<div>
+							<img src="<?= getRootURL() ?>/images/petPictures/<?= $photo['photoId'] ?>.jpg" heigth=50>
+							<div class="remove"><i class="icofont-ui-close"></i></div>
+						</div>
+					<?php
+					}
+					?>
+				</div>
 				<input type="file" name="photos[]" />
 				<button class="simpleButton" id="addPhotoButton"><i class="icofont-ui-add"></i>Photo</button>
 				<p>To select a profile picture, click on one of the pictures you uploaded.</p>
