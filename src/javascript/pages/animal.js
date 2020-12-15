@@ -27,32 +27,6 @@ if (closeEditPetButton != null) {
 }
 
 
-let forms = Array.from(document.getElementsByClassName('textButtonPair'));
-forms.forEach(form => {
-	let inputField = form.children[0];
-	let editForm = form.children[1];
-
-	let edit = inputField.getElementsByClassName("edit");
-	edit[0].addEventListener('click', () => {
-		showSelection(editForm, inputField);
-	});
-
-	let confirm = Array.from(editForm.getElementsByClassName("confirm"));
-	confirm.forEach(confirmButton => confirmButton.addEventListener('click', function (event) {
-		event.preventDefault();
-		confirmSelection.bind(this)(editForm, inputField);
-	}));
-
-	let close = editForm.getElementsByClassName("close");
-	close[0].addEventListener('click', (event) => {
-		event.preventDefault();
-		resetSelection(editForm, inputField);
-	});
-
-});
-
-let photos = document.getElementById('photosInput');
-
 
 
 function showSelection(editForm, inputField) {
@@ -72,98 +46,6 @@ function confirmSelection(editForm, inputField) {
 	}
 }
 
-function changeNameAge(editForm, inputField) {
-	const name = document.querySelector('#nameInput').value;
-	const birthdate = document.querySelector('#birthdateInput').value;
-	const petId = document.querySelector('.petProfile').dataset.id;
-	sendPostRequest(getRootUrl() + '/control/api/pet.php', { field: 'nameAge', value: name, birthdate: birthdate, petId: petId },
-		function () {
-			const result = JSON.parse(this.responseText);
-			if (result.value === true) {
-				editForm.style.display = 'none';
-				inputField.style.display = 'flex';
-				const today = new Date();
-				const date = new Date(birthdate);
-				const years = today.getFullYear() - date.getFullYear();
-				const months = today.getMonth() - date.getMonth();
-				let age;
-				console.log(years, months);
-				if (years > 1) {
-					age = years.toString() + ' years';
-					if (months > 1) {
-						age += ' and ' + months.toString() + ' months';
-					}
-					else if (months === 1) {
-						age += ' and ' + months.toString() + ' month';
-					}
-				} else if (years === 1) {
-					age = years.toString() + 'year ';
-					if (months > 1) {
-						age += ' and ' + months.toString() + ' months';
-					}
-					else if (months === 1) {
-						age += ' and ' + months.toString() + ' month';
-					}
-				} else if (months > 1) {
-					age = months.toString() + ' months';
-				}
-				else if (months === 1) {
-					age = months.toString() + ' month';
-				} else {
-					age = "0 months";
-				}
-				if (name == '') {
-					inputField.querySelector('h3').innerHTML = age;
-				} else {
-					inputField.querySelector('h3').innerHTML = name + ', ' + age;
-				}
-			}
-		}
-	);
-}
-
-function changeColorSpecieRaceLocation(editForm, inputField) {
-	const color = document.querySelector('#colorInput').value;
-	const species = document.querySelector('#specieInput').value;
-	const race = document.querySelector('#raceInput').value;
-	const location = document.querySelector('#locationInput').value;
-
-	if (color != '' && (species != '' || race != '') && location != '') {
-		const petId = document.querySelector('.petProfile').dataset.id;
-		sendPostRequest(getRootUrl() + "/control/api/pet.php", { field: 'colorSpeciesRaceLocation', color: color, species: species, race: race, location: location, petId: petId },
-			function () {
-				const result = JSON.parse(this.responseText);
-				if (result.value === true) {
-					editForm.style.display = 'none';
-					inputField.style.display = 'flex';
-					const string = race == '' ? species : race;
-					inputField.querySelector('h4').innerHTML = color + ' ' + string + ', ' + location;
-
-				}
-			}
-		);
-	}
-
-}
-
-function changeDescription(editForm, inputField) {
-	const description = document.querySelector('#descriptionInput').value;
-	const petId = document.querySelector('.petProfile').dataset.id;
-
-	if (description != '') {
-		sendPostRequest(getRootUrl() + '/control/api/pet.php', { field: 'description', value: description, petId: petId },
-			function () {
-				const result = JSON.parse(this.responseText);
-				if (result.value === true) {
-					editForm.style.display = 'none';
-					inputField.style.display = 'flex';
-					inputField.querySelector('p').innerHTML = description;
-				}
-			}
-		);
-	}
-}
-
 function resetSelection(editForm, inputField) {
 	editForm.style.display = "none";
 
@@ -171,11 +53,11 @@ function resetSelection(editForm, inputField) {
 }
 
 function editPet() {
-	const editButtons = Array.from(document.getElementsByClassName('edit'));
+	const form = document.getElementById('updateForm');
+	form.style.display = 'grid';
 
-	editButtons.forEach(editButton => {
-		editButton.style.display = "flex";
-	});
+	const info = document.getElementById('petInfo');
+	info.style.display = 'none';
 
 	const photos = document.getElementById('photosInput');
 	photos.style.display = 'flex';
@@ -185,22 +67,14 @@ function editPet() {
 }
 
 function closeEditPet() {
-	const editButtons = Array.from(document.getElementsByClassName('edit'));
-
-	editButtons.forEach(editButton => {
-		editButton.style.display = "none";
-	});
-
 	const photos = document.getElementById('photosInput');
 	photos.style.display = 'none';
 
-	let forms = document.querySelectorAll(".textButtonPair form");
-	let editFields = document.querySelectorAll(".textButtonPair .edit");
-	let initialFields = document.querySelectorAll(".textButtonPair > div");
+	const form = document.getElementById('updateForm');
+	form.style.display = 'none';
 
-	editFields.forEach(field => field.style.display = "none");
-	forms.forEach(form => form.style.display = "none");
-	initialFields.forEach(field => field.id == "bio" ? field.style.display = "flex" : field.style.display = "block");
+	const info = document.getElementById('petInfo');
+	info.style.display = 'initial';
 
 	editPetButton.style.display = 'inline';
 	closeEditPetButton.style.display = 'none';
