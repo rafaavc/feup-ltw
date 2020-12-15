@@ -3,7 +3,11 @@
 	<?php
     $adopted = API\getAdopted($pet['id']);
 
-    if ($adopted == false) {
+    if ($pet['userId'] == $user['id']) { ?>
+		<button id="editPet" class="simpleButton contrastButton">Edit Pet</button>
+		<button id="closeEditPet" class="simpleButton contrastButton" style="display: none">Close Edition</button>
+	<?php
+    } else if ($adopted == false) {
         $proposedToAdopt = API\getProposedToAdopt($user['id'], $pet['id']);
 
         if (count($proposedToAdopt) == 0) { ?>
@@ -17,11 +21,5 @@
 		<p>This pet was adopted by <?= $adopted['name'] ?></p>
 	<?php
     }
-
-    if ($pet['userId'] == $user['id']) { ?>
-		<button id="editPet" class="simpleButton">Edit Pet</button>
-		<button id="closeEditPet" class="simpleButton" style="display: none">Close Edition</button>
-	<?php
-    }
-    ?>
+?>
 </footer>

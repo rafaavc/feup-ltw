@@ -124,16 +124,18 @@ function changeDescription(editForm, inputField) {
 	const description = document.querySelector('#descriptionInput').value;
 	const petId = document.querySelector('.petProfile').dataset.id;
 
-	sendPostRequest(getRootUrl() + '/control/api/pet.php', { field: 'description', value: description, petId: petId },
-		function () {
-			const result = JSON.parse(this.responseText);
-			if (result.value === true) {
-				editForm.style.display = 'none';
-				inputField.style.display = 'flex';
-				inputField.querySelector('p').innerHTML = description;
+	if (description != '') {
+		sendPostRequest(getRootUrl() + '/control/api/pet.php', { field: 'description', value: description, petId: petId },
+			function () {
+				const result = JSON.parse(this.responseText);
+				if (result.value === true) {
+					editForm.style.display = 'none';
+					inputField.style.display = 'flex';
+					inputField.querySelector('p').innerHTML = description;
+				}
 			}
-		}
-	);
+		);
+	}
 }
 
 function resetSelection(editForm, inputField) {

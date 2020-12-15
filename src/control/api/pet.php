@@ -204,7 +204,12 @@ function updatePetLocation($petId, $petLocation) {
 }
 
 function updatePetColorSpeciesRaceLocation($petId, $color, $species, $race, $location){
-	$result['value'] = updatePetColor($petId, $color) && updatePetSpecies($petId, $species) && updatePetRace($petId, $race, $species) && updatePetLocation($petId, $location) == true ? true : false;
+	$result['value'] = updatePetColor($petId, $color);
+	if ($species != '')
+		$result['value'] = $result['value'] /*&& updatePetSpecies($petId, $species)*/;
+	if ($race != '')
+		$result['value'] = $result['value'] && updatePetRace($petId, $race, $species);
+	$result['value'] = $result['value'] && updatePetLocation($petId, $location);
 	return $result;
 }
 
