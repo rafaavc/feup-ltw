@@ -11,20 +11,12 @@ function makeAdoptionRequest($pet, $adopter) {
     $db = Database::instance()->db();
     $stmt = $db->prepare('INSERT INTO ProposedToAdopt(userId, petId) VALUES(?, ?)');
     $stmt->execute(array($adopter, $pet));
-
-
-    $pta = getProposedToAdopt($adopter, $pet);
-    echo json_encode($pta);
 }
 
 function cancelAdoptionRequest($pet, $adopter) {
     $db = Database::instance()->db();
     $stmt = $db->prepare('DELETE FROM ProposedToAdopt WHERE userId = ? AND petId = ?');
     $stmt->execute(array($adopter, $pet));
-
-
-    $pta = getProposedToAdopt($adopter, $pet);
-    echo json_encode($pta);
 }
 
 
@@ -42,18 +34,27 @@ function handleAdoptionRequest($method, $pet) {
         Router\errorBadRequest();
     }
 
+    $pta = getProposedToAdopt($adopter, $pet);
+    echo json_encode($pta);
+}
+
+function acceptAdoptionRequest($pet, $adopter) {
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('INSERT INTO Adopted(userId, petId) VALUES(?, ?)');
+    $stmt->execute(array($adopter, $pet));
+    cancelAdoptionRequest($pet, $adopter);
 }
 
 function handleAdoptionReply($method, $pet, $adopter) {
     $owner = Session\getAuthenticatedUser()['id'];
-    if ($owner == false || !API\ownsPet($owner, $pet)) {
+    if ($owner == false || !ownsPet($owner, $pet)) {
         Router\errorUnauthorized();
     }
-    
     if ($method == "POST" || $method == "PUT") {
-        acceptAdoptionRequest();
+        echo "hey";
+        acceptAdoptionRequest($pet, $adopter);
     } else if ($method == "DELETE") {
-        refuseAdoptionRequest();
+        cancelAdoptionRequest($pet, $adopter);
     } else {
         Router\errorBadRequest();
     }
@@ -68,7 +69,7 @@ if (Router\isAPIRequest(__FILE__)) {
 
     if ($pet != null && $adopter != null) {
         handleAdoptionReply($method, $pet, $adopter);
-    } if ($pet != null) {
+    } else if ($pet != null) {
         handleAdoptionRequest($method, $pet);
     } else {
         Router\errorBadRequest();

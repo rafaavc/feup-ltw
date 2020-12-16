@@ -29,7 +29,7 @@
     },
     "pets": {
         "destination": "pages/pet_management.php",
-        "js": "pages/generic.js"
+        "js": "pages/pet_management.js"
     },
 
     "api/user": {

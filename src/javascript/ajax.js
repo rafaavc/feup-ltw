@@ -14,14 +14,15 @@ export const sendGetRequest = (whereTo, onload) => {
     req.send();
 }
 
-export const sendDeleteRequest = (whereTo, onload) => {
+export const sendDeleteRequest = (whereTo, params, onload) => {
     const request = new XMLHttpRequest();
 	request.addEventListener('load', function() { 
         console.log(this.responseText);
         onload.bind(this)(); 
     });
 	request.open("DELETE", whereTo, true);
-	request.send();
+	request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	request.send(encodeForAjax(params));
 }
 
 export const sendPostRequest = (whereTo, params, onload) => {
