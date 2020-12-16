@@ -1,9 +1,13 @@
 <?php
 
+use function API\getSpecie;
+
 require_once(dirname(__FILE__) . "/action.php");
-print_r($_POST);
 require_once(dirname(__FILE__) . "/../api/pet.php");
 require_once(dirname(__FILE__) . "/../api/user.php");
+
+if (isset($_POST['race']) && $_POST['race'] == null)
+	$_POST['race'] = 'Race';
 
 $parameters = initAction(['petId', 'name', 'birthdate', 'location', 'description', 'specie', 'race', 'color']);
 function validateSelectParam($param, $required)
@@ -25,23 +29,25 @@ validateSelectParam('specie', true);
 validateSelectParam('color', true);
 validateSelectParam('race', false);
 
-// adding selects
+if (getSpecie($parameters['specie']) != false) {
+	$parameters['specie'] = getSpecie($parameters['specie'])['id'];
+}
+
 if (!is_numeric($parameters['specie'])) {
 	$parameters['specie'] = API\addSpecie($parameters['specie']);
 }
 if (!is_numeric($parameters['color'])) {
 	$parameters['color'] = API\addColor($parameters['color']);
 }
-if (!is_numeric($parameters['race'])) {
+if (!is_numeric($parameters['race']) && $parameters['race'] != 'Race') {
 	$parameters['race'] = API\addSpecieRace($parameters['specie'], $parameters['race']);
 }
 
-if ($parameters['race'] == -1) {
+if ($parameters['race'] == -1 || $parameters['race'] == 'Race') {
 	$parameters['race'] = null;
 } else {
 	$parameters['specie'] = null; // specie is already in the race
 }
-
 $petId = API\updatePet($parameters['petId'], $parameters['name'], $parameters['birthdate'], $parameters['specie'], $parameters['race'], $parameters['color'], $parameters['location'], $parameters['description']); // update pet
 
 for ($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {

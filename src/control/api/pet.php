@@ -163,6 +163,12 @@ function addSpecie($name) {
 	return Database::db()->lastInsertId();
 }
 
+function getSpecie($specie) {
+	$stmt = Database::db()->prepare("SELECT * FROM PetSpecie WHERE name = ?");
+	$stmt->execute(array($specie));
+	return $stmt->fetch();
+}
+
 function getSizes() {
 	$stmt = Database::db()->prepare("SELECT * FROM PetSize ORDER BY name");
     $stmt->execute();

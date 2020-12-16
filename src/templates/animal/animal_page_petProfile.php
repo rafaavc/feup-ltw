@@ -52,7 +52,7 @@
 				<input type="text" id="birthdateInput" name="birthdate" min="2000-01-01" max="<?= date('Y-m-d') ?>" placeholder="Birthdate" value="<?= $pet['birthdate'] ?>" />
 				<input type="text" id="colorInput" name="color" value="<?= $pet['color'] ?>" />
 				<input type="text" id="specieInput" name="specie" value="<?= $pet['specie'] ?>" />
-				<input type="text" id="raceInput" name="race" value="<?= $pet['race'] ?>" />
+				<input type="text" id="raceInput" name="race" value="<?= $pet['race'] == null ? 'Race' : $pet['race'] ?>" />
 				<input type="text" id="locationInput" name="location" value="<?= $pet['location'] ?>" />
 				<textarea id="descriptionInput" name="description"><?= $pet['description'] ?></textarea>
 
