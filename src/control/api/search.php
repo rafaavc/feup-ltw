@@ -1,6 +1,7 @@
 <?php
 
 namespace API;
+use Router;
 
 require_once(dirname(__FILE__)."/pet.php");
 require_once(dirname(__FILE__)."/user.php");
@@ -69,7 +70,7 @@ function handleSearchRequest() {
     }
 }
 
-if (isset($GLOBALS['what']) && isset($GLOBALS['specie']) && isset($GLOBALS['value'])) {
+if (Router\isAPIRequest(__FILE__) && isset($GLOBALS['what']) && isset($GLOBALS['specie']) && isset($GLOBALS['value'])) {
     handleSearchRequest();
 }
 

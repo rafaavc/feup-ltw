@@ -2,6 +2,7 @@
 
 namespace API;
 use Database;
+use Router;
 
 function getPet($petId)
 {
@@ -219,7 +220,7 @@ function handleSpeciesRequest() {
     }
 }
 
-if (isset($GLOBALS['what']) && isset($GLOBALS['arg1'])) {
+if (Router\isAPIRequest(__FILE__) && isset($GLOBALS['what']) && isset($GLOBALS['arg1'])) {
     handleSpeciesRequest();
 }
 

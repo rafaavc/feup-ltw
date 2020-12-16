@@ -4,27 +4,32 @@ const encodeForAjax = (data) => {
 	}).join('&')
 }
 
-export const sendGetRequest = (whereTo, params, onload) => {
+export const sendGetRequest = (whereTo, onload) => {
     const req = new XMLHttpRequest();
-    req.open('GET', whereTo + "/" + params.join('/'), true);
-    req.onload = onload;
+    req.open('GET', whereTo, true);
+    req.addEventListener('load', function() { 
+        console.log(this.responseText);
+        onload.bind(this)(); 
+    });
     req.send();
 }
 
-/*
-export function sendPostRequest(whereTo, data, onload) {
-    const req = new XMLHttpRequest();
-    req.open('POST', whereTo, true);
-    req.onload = onload;
-    req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    req.send(encodeForAjax(data));
-    console.log("request sent", encodeForAjax(data));
+export const sendDeleteRequest = (whereTo, onload) => {
+    const request = new XMLHttpRequest();
+	request.addEventListener('load', function() { 
+        console.log(this.responseText);
+        onload.bind(this)(); 
+    });
+	request.open("DELETE", whereTo, true);
+	request.send();
 }
-*/
 
 export const sendPostRequest = (whereTo, params, onload) => {
     const request = new XMLHttpRequest();
-	request.addEventListener('load', onload);
+	request.addEventListener('load', function() { 
+        console.log(this.responseText);
+        onload.bind(this)(); 
+    });
 	request.open("POST", whereTo, true);
 	request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	request.send(encodeForAjax(params));

@@ -1,6 +1,7 @@
 <?php
 
 namespace Router;
+use API;
 
 function handle() {
     $req; 
@@ -19,14 +20,27 @@ function handle() {
     return true;
 }
 
+$GLOBALS['API_REQUEST_FILE'] = false;
+
+function isAPIRequest($file) {
+    return str_replace($_SERVER['DOCUMENT_ROOT'], getRootUrl(), $file) == $GLOBALS['API_REQUEST_FILE'];
+}
+
+function setAPIRequestFile($file) {
+    $GLOBALS['API_REQUEST_FILE'] = getRootUrl().'/'.$file;
+}
+
 function findTarget($req) {
     $routes = json_decode(file_get_contents('control/routes.json'));
 
+    $reqParts = explode("/", $req);
+    if ($reqParts[0] == "api") $GLOBALS['API_REQUEST_FILE'] = true;
+
     if (property_exists($routes, $req) && !(strpos($req, ":") !== false)) {
+        if ($GLOBALS['API_REQUEST_FILE']) setAPIRequestFile($routes->$req->destination);
         return $routes->$req;
     }
 
-    $reqParts = explode("/", $req);
     $inputVars = null;
     $target = null;
 
@@ -54,6 +68,8 @@ function findTarget($req) {
     }
 
     if ($target === null) error404();   // if no match is found, 404 ERROR
+
+    if ($GLOBALS['API_REQUEST_FILE']) setAPIRequestFile($target->destination);
 
     foreach($inputVars as $key => $value) {   // stores the input vars in the globals
         $GLOBALS[$key] = $value;
@@ -91,6 +107,25 @@ function error404() {
     http_response_code(404);
     hitDestination("pages/404.php");
     exit();
+}
+
+function httpError($code, $message) {
+    http_response_code($code);
+    Session\setMessage(Session\error(), $message);
+    sendBack();
+    exit();
+}
+
+function errorForbidden() {
+    httpError(403, "Forbidden request."); 
+}
+
+function errorUnauthorized() {
+    httpError(401, "Unauthorized request.");
+}
+
+function errorBadRequest() {
+    httpError(400, "Bad request.");
 }
 
 function sendTo($location) {

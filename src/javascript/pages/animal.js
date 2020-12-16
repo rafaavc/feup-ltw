@@ -1,5 +1,5 @@
 import SimpleSlider from '../slider.js'
-import { sendPostRequest } from '../ajax.js'
+import { sendPostRequest, sendDeleteRequest } from '../ajax.js'
 import './generic.js'
 import { getRootUrl } from '../init.js'
 import { elapsedTime } from '../utils.js'
@@ -70,7 +70,7 @@ function proposeToAdoptPet(event) {
 
 	const petId = document.querySelector('.petProfile').attributes['data-id'].value;
 
-	sendPostRequest(getRootUrl() + "/control/api/proposeToAdopt.php", { petId: petId }, changeAdoptButton);
+	sendPostRequest(getRootUrl() + "/api/adoption/"+petId, {}, changeAdoptButton);
 }
 
 function changeAdoptButton() {
@@ -98,7 +98,7 @@ function cancelProposeToAdoptPet(event) {
 
 	const petId = document.querySelector('.petProfile').attributes['data-id'].value;
 
-	sendPostRequest(getRootUrl() + "/control/api/cancelProposeToAdopt.php", { petId: petId }, changeCancelButton);
+	sendDeleteRequest(getRootUrl() + "/api/adoption/"+petId, changeCancelButton);
 }
 
 function changeCancelButton(event) {

@@ -35,7 +35,6 @@
     "api/user": {
         "destination": "control/api/user.php"
     },
-
     "api/existence/:type/:value": {
         "destination": "control/api/existence.php"
     },
@@ -45,7 +44,9 @@
     "api/pet/:what/:arg1": {
         "destination": "control/api/pet.php"
     },
-
+    "api/adoption/:pet": {
+        "destination": "control/api/adoption.php"
+    },
 
     "action/signin": {
         "destination": "control/actions/login.php"

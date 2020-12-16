@@ -3,6 +3,7 @@
 namespace API;
 
 use Database;
+use Router;
 
 include_once(dirname(__FILE__)."/existence.php");
 
@@ -29,6 +30,13 @@ function register($name, $username, $password, $birthdate, $mail, $description) 
 
     /* TODO */
     return true;
+}
+
+function ownsPet($userId, $petId) {
+    $stmt = Database::db()->prepare("SELECT id FROM Pet WHERE userId = ? AND id = ?");
+    $stmt->execute(array($userId, $petId));
+    $pet = $stmt->fetch();
+    return $pet != false;
 }
 
 function getUserByUsername($username) {
@@ -145,4 +153,6 @@ function getListPets($list){
     return $stmt->fetchAll();
 }
 
-handleUpdateRequest();
+if (Router\isAPIRequest(__FILE__)) {
+    handleUpdateRequest();
+}
