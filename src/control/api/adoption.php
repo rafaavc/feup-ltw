@@ -4,6 +4,7 @@ namespace API;
 use Database;
 use Router;
 use Session;
+use Exception;
 
 require_once(dirname(__FILE__)."/user.php");
 
@@ -24,7 +25,10 @@ function handleAdoptionRequest($method, $pet) {
     $adopter = Session\getAuthenticatedUser()['id'];
     if ($adopter == false) {
         Router\errorUnauthorized();
+    } else if (ownsPet($adopter, $pet)) {
+        Router\errorForbidden();
     }
+    
 
     if ($method == "POST" || $method == "PUT") {
         makeAdoptionRequest($pet, $adopter);
@@ -40,8 +44,15 @@ function handleAdoptionRequest($method, $pet) {
 
 function acceptAdoptionRequest($pet, $adopter) {
     $db = Database::instance()->db();
-    $stmt = $db->prepare('INSERT INTO Adopted(userId, petId) VALUES(?, ?)');
-    $stmt->execute(array($adopter, $pet));
+    if (!getProposedToAdopt($adopter, $pet)) {
+        throw new Exception('Adopter user hasn\'t proposed to adopt pet');
+    }
+    try {
+        $stmt = $db->prepare('INSERT INTO Adopted(userId, petId) VALUES(?, ?)');
+        $stmt->execute(array($adopter, $pet));
+    } catch (Exception $e) {
+        throw new Exception('Pet was already adopted, or ids given are nonexistant.');
+    }
     cancelAdoptionRequest($pet, $adopter);
 }
 
@@ -50,11 +61,23 @@ function handleAdoptionReply($method, $pet, $adopter) {
     if ($owner == false || !ownsPet($owner, $pet)) {
         Router\errorUnauthorized();
     }
+
     if ($method == "POST" || $method == "PUT") {
-        echo "hey";
-        acceptAdoptionRequest($pet, $adopter);
+        try {
+            acceptAdoptionRequest($pet, $adopter);
+        } catch (Exception $e) {
+            responseJSON(array("value" => false, "error" => $e->getMessage()));
+            Router\errorBadRequest();
+        }
+        responseJSON(array("value" => true));
     } else if ($method == "DELETE") {
-        cancelAdoptionRequest($pet, $adopter);
+        try {
+            cancelAdoptionRequest($pet, $adopter);
+        } catch (Exception $e) {
+            responseJSON(array("value" => false, "error" => $e->getMessage()));
+            Router\errorBadRequest();
+        }
+        responseJSON(array("value" => true));
     } else {
         Router\errorBadRequest();
     }
@@ -63,7 +86,9 @@ function handleAdoptionReply($method, $pet, $adopter) {
 
 if (Router\isAPIRequest(__FILE__)) {
     $pet = $GLOBALS['pet'];
-    $adopter = Router\getPostParameter('adopter');
+    $adopterPost = Router\getPostParameter('adopter');
+    $adopterGet = isset($GLOBALS['adopter']) ? $GLOBALS['adopter'] : null;
+    $adopter = $adopterPost == null ? $adopterGet : $adopterPost;
 
     $method = $_SERVER['REQUEST_METHOD'];
 

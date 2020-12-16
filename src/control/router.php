@@ -2,6 +2,7 @@
 
 namespace Router;
 use API;
+use Session;
 
 function handle() {
     $req; 
@@ -23,6 +24,7 @@ function handle() {
 $GLOBALS['API_REQUEST_FILE'] = false;
 
 function isAPIRequest($file) {
+    if ($file == null) return $GLOBALS['API_REQUEST_FILE'] != false;
     return str_replace($_SERVER['DOCUMENT_ROOT'], getRootUrl(), $file) == $GLOBALS['API_REQUEST_FILE'];
 }
 
@@ -105,14 +107,14 @@ function getPostParameters($names) {
 
 function error404() {
     http_response_code(404);
-    hitDestination("pages/404.php");
+    if (!isAPIRequest(null)) hitDestination("pages/404.php");
     exit();
 }
 
 function httpError($code, $message) {
     http_response_code($code);
     Session\setMessage(Session\error(), $message);
-    sendBack();
+    if (!isAPIRequest(null)) sendBack();
     exit();
 }
 

@@ -3,17 +3,32 @@ import { sendPostRequest, sendDeleteRequest } from '../ajax.js';
 
 initWebsite();
 
+function adoptionReplyOnload(parent) {
+    const res = JSON.parse(this.responseText);
+    const container = parent.parentNode;
+    if (res.value == true) {
+        parent.remove();
+    }
+    if (container.children.length == 1) {
+        const pElem = document.createElement('p');
+        pElem.appendChild(document.createTextNode('Your pets have no adoption proposals.'))
+        container.appendChild(pElem);
+    }
+
+}
+
 function acceptAdoption() {
     const petId = this.dataset.pet;
     const adopterId = this.dataset.adopter;
-    console.log('sending...')
-    sendPostRequest(`api/adoption/${petId}`, { adopter: adopterId }, function() {});
+    const parent = this.parentNode.parentNode;
+    sendPostRequest(`api/adoption/${petId}`, { adopter: adopterId }, function() { adoptionReplyOnload.bind(this)(parent) });
 }
 
 function declineAdoption() {
     const petId = this.dataset.pet;
     const adopterId = this.dataset.adopter;
-    sendDeleteRequest(`api/adoption/${petId}`, { adopter: adopterId }, function() {});    
+    const parent = this.parentNode.parentNode;
+    sendDeleteRequest(`api/adoption/${petId}/${adopterId}`, function() { adoptionReplyOnload.bind(this)(parent) });    
 }
 
 

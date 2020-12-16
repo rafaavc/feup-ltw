@@ -136,7 +136,7 @@ function getProposedToAdopt($userId, $petId){
     $stmt = Database::db()->prepare("SELECT * FROM ProposedToAdopt WHERE userId = ? AND petId = ?");
     $stmt->execute(array($userId, $petId));
 
-    return $stmt->fetchAll();
+    return $stmt->fetch();
 }
 
 function getUserLists($userId){

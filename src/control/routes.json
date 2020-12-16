@@ -47,6 +47,9 @@
     "api/adoption/:pet": {
         "destination": "control/api/adoption.php"
     },
+    "api/adoption/:pet/:adopter": {
+        "destination": "control/api/adoption.php"
+    },
 
     "action/signin": {
         "destination": "control/actions/login.php"
