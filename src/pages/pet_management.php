@@ -27,7 +27,7 @@
         <div class="petManagementPets">
             <p><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>"><?=$pet['name']?></a></p>
             <p><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>/edit"><i class="icofont-ui-edit"></i></a></p>
-            <p><a><i class="icofont-ui-delete"></i></a></p>
+            <p><a><i class="icofont-archive"></i></a></p>
         </div>
     <?php } 
     } ?>

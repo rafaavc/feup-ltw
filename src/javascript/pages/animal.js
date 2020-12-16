@@ -101,7 +101,7 @@ function cancelProposeToAdoptPet(event) {
 
 function changeCancelButton(event) {
 	//const proposeToAdopt = JSON.parse(this.responseText);
-
+	
 	document.querySelector('.petProfile footer > p').remove();
 	const button = document.createElement('button');
 
