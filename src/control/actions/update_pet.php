@@ -1,6 +1,7 @@
 <?php
 
 require_once(dirname(__FILE__) . "/action.php");
+print_r($_POST);
 require_once(dirname(__FILE__) . "/../api/pet.php");
 require_once(dirname(__FILE__) . "/../api/user.php");
 
@@ -60,5 +61,3 @@ for ($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
 }
 
 Router\sendTo(getRootUrl() . "/pet/" . $parameters['petId']);
-
-?>

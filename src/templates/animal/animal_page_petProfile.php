@@ -46,7 +46,8 @@
 				</div>
 			</section>
 			<form method="POST" name="updatePet" action="<?= getRootURL() ?>/control/actions/update_pet.php" enctype="multipart/form-data" id="updateForm">
-				<input type="hidden" id="petId" name="pet" value="<?= $pet['id'] ?>" />
+                <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>" />
+				<input type="hidden" id="petId" name="petId" value="<?= $pet['id'] ?>" />
 				<input type="text" id="nameInput" name="name" value="<?= $pet['name'] ?>" />
 				<input type="text" id="birthdateInput" name="birthdate" min="2000-01-01" max="<?= date('Y-m-d') ?>" placeholder="Birthdate" value="<?= $pet['birthdate'] ?>" />
 				<input type="text" id="colorInput" name="color" value="<?= $pet['color'] ?>" />
