@@ -51,7 +51,7 @@ for ($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
 		echo "not valid :(";
 		continue;
 	}
-	$photoId = API\addPetPhoto($petId);
+	$photoId = API\addPetPhoto($parameters['petId']);
 	$originalPath = "../../images/petPictures/" . $photoId . ".jpg";
 	move_uploaded_file($tmpPath, $originalPath);
 
