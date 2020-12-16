@@ -85,7 +85,7 @@ function submitComment(event) {
 	event.preventDefault();
 
 	const petId = document.querySelector('.petProfile').dataset.id;
-	const comment = document.querySelector('form textarea').value;
+	const comment = document.getElementById('commentInput').value;
 
 	if (comment.length < 1) return;
 

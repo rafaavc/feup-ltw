@@ -20,7 +20,7 @@
 		?>
 		<form>
 			<h4>Add Comment</h4>
-			<textarea name="text"></textarea>
+			<textarea id="commentInput" name="text"></textarea>
 			<input type="submit" class="contrastButton" />
 		</form>
 	<?php } else { ?>
