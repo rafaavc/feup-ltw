@@ -4,32 +4,33 @@ namespace API;
 use Database;
 use Router;
 
+$GLOBALS['petsRaceSpecieQuery'] = "(
+	SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, null as race FROM
+		(
+			(
+				(Pet JOIN PetColor on(Pet.color = PetColor.id)) 
+				JOIN PetSize ON(Pet.size = PetSize.id)
+			) 
+			JOIN PetSpecie ON(Pet.specie = PetSpecie.id)
+		)
+	UNION 
+		SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, PetRace.name as race FROM
+		(
+			(
+				(
+					(Pet JOIN PetColor on(Pet.color = PetColor.id)) 
+					JOIN PetSize ON(Pet.size = PetSize.id)
+				) 
+				JOIN PetRace ON(Pet.race = PetRace.id)
+			) 
+			JOIN PetSpecie ON(PetRace.specieId = PetSpecie.id)
+		)
+	)";
+
 function getPet($petId)
 {
 	$db = Database::instance()->db();
-	$stmt = $db->prepare("SELECT *
-		FROM (
-				SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, null as race FROM
-				(
-					(
-						(Pet JOIN PetColor on(Pet.color = PetColor.id)) 
-						JOIN PetSize ON(Pet.size = PetSize.id)
-					) 
-					JOIN PetSpecie ON(Pet.specie = PetSpecie.id)
-				)
-			UNION 
-				SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, PetRace.name as race FROM
-				(
-					(
-						(
-							(Pet JOIN PetColor on(Pet.color = PetColor.id)) 
-							JOIN PetSize ON(Pet.size = PetSize.id)
-						) 
-						JOIN PetRace ON(Pet.race = PetRace.id)
-					) 
-					JOIN PetSpecie ON(PetRace.specieId = PetSpecie.id)
-				)
-			) WHERE id = ?");
+	$stmt = $db->prepare("SELECT * FROM ".$GLOBALS['petsRaceSpecieQuery']." WHERE id = ?");
 	$stmt->execute(array($petId));
 	return $stmt->fetch();
 }
@@ -64,57 +65,13 @@ function getLastPost($petId){
 }
 
 function getPets() {
-    $stmt = Database::db()->prepare("SELECT *
-		FROM (
-				SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, null as race FROM
-				(
-					(
-						(Pet JOIN PetColor on(Pet.color = PetColor.id)) 
-						JOIN PetSize ON(Pet.size = PetSize.id)
-					) 
-					JOIN PetSpecie ON(Pet.specie = PetSpecie.id)
-				)
-			UNION 
-				SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, PetRace.name as race FROM
-				(
-					(
-						(
-							(Pet JOIN PetColor on(Pet.color = PetColor.id)) 
-							JOIN PetSize ON(Pet.size = PetSize.id)
-						) 
-						JOIN PetRace ON(Pet.race = PetRace.id)
-					) 
-					JOIN PetSpecie ON(PetRace.specieId = PetSpecie.id)
-				)
-			) ORDER BY datePosted");
+    $stmt = Database::db()->prepare("SELECT * FROM ".$GLOBALS['petsRaceSpecieQuery']." ORDER BY datePosted");
     $stmt->execute();
     return $stmt;
 }
 
 function getUserPets($userId) {
-    $stmt = Database::db()->prepare("SELECT *
-		FROM (
-				SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, null as race FROM
-				(
-					(
-						(Pet JOIN PetColor on(Pet.color = PetColor.id)) 
-						JOIN PetSize ON(Pet.size = PetSize.id)
-					) 
-					JOIN PetSpecie ON(Pet.specie = PetSpecie.id)
-				)
-			UNION 
-				SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, PetRace.name as race FROM
-				(
-					(
-						(
-							(Pet JOIN PetColor on(Pet.color = PetColor.id)) 
-							JOIN PetSize ON(Pet.size = PetSize.id)
-						) 
-						JOIN PetRace ON(Pet.race = PetRace.id)
-					) 
-					JOIN PetSpecie ON(PetRace.specieId = PetSpecie.id)
-				)
-			) where userId = ?");
+    $stmt = Database::db()->prepare("SELECT * FROM ".$GLOBALS['petsRaceSpecieQuery']." where userId = ?");
 	$stmt->execute(array($userId));
     return $stmt;
 }
