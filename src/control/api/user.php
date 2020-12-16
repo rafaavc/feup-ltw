@@ -77,6 +77,18 @@ function getUsers() {
     return $stmt;
 }
 
+function getPublicUsers() {
+    $stmt = Database::db()->prepare(
+        "SELECT id, name, username, description, petCount
+        FROM User
+            JOIN (
+                SELECT userId, count(userId) as petCount FROM Pet GROUP BY userId
+            ) ON(id=userId)
+        ORDER BY petCount DESC");
+    $stmt->execute();
+    return $stmt;
+}
+
 function updateName($name) {
     $stmt = Database::db()->prepare("UPDATE User SET name = :name WHERE username = :username AND name <> :name");
     $stmt->bindParam(':username', $_SESSION['username']);

@@ -37,7 +37,7 @@ function searchPets($value) {
 }
 
 function searchUsers($value) {
-    $users = getArrayFromSTMT(getUsers(), true);
+    $users = getArrayFromSTMT(getPublicUsers(), true);
     usort($users, function ($user1, $user2) use($value) {  
         if (!isset($user1['distance'])) {
             $user1['distance'] = getPetDistance($user1, $value);  // the greater the better
