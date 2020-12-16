@@ -4,8 +4,8 @@ namespace API;
 use Database;
 use Router;
 
-$GLOBALS['petsRaceSpecieQuery'] = "(
-	SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, null as race FROM
+$GLOBALS['petRaceSpecieQuery'] = "(
+	SELECT Pet.id, userId as ownerId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, null as race, archived FROM
 		(
 			(
 				(Pet JOIN PetColor on(Pet.color = PetColor.id)) 
@@ -14,7 +14,7 @@ $GLOBALS['petsRaceSpecieQuery'] = "(
 			JOIN PetSpecie ON(Pet.specie = PetSpecie.id)
 		)
 	UNION 
-		SELECT Pet.id, userId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, PetRace.name as race FROM
+		SELECT Pet.id, userId as ownerId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, PetRace.name as race, archived FROM
 		(
 			(
 				(
@@ -27,10 +27,23 @@ $GLOBALS['petsRaceSpecieQuery'] = "(
 		)
 	)";
 
+$GLOBALS['petQuery'] = "
+		(SELECT id, ownerId as userId, name, birthdate, description, datePosted, location, color, size, specie, race, 'adopted' as state 
+		FROM ".$GLOBALS['petRaceSpecieQuery']." JOIN Adopted ON(id = petId)
+		UNION
+		SELECT id, ownerId as userId, name, birthdate, description, datePosted, location, color, size, specie, race, 'archived' as state 
+		FROM ".$GLOBALS['petRaceSpecieQuery']." WHERE archived = 1
+		UNION
+		SELECT id, ownerId as userId, name, birthdate, description, datePosted, location, color, size, specie, race, 'ready' as state 
+		FROM ".$GLOBALS['petRaceSpecieQuery']." WHERE archived != 1 AND 
+			id NOT IN (SELECT id
+			FROM ".$GLOBALS['petRaceSpecieQuery']." JOIN Adopted ON(id = petId)))
+	";
+
 function getPet($petId)
 {
 	$db = Database::instance()->db();
-	$stmt = $db->prepare("SELECT * FROM ".$GLOBALS['petsRaceSpecieQuery']." WHERE id = ?");
+	$stmt = $db->prepare("SELECT * FROM ".$GLOBALS['petQuery']." WHERE id = ?");
 	$stmt->execute(array($petId));
 	return $stmt->fetch();
 }
@@ -65,13 +78,13 @@ function getLastPost($petId){
 }
 
 function getPets() {
-    $stmt = Database::db()->prepare("SELECT * FROM ".$GLOBALS['petsRaceSpecieQuery']." ORDER BY datePosted");
+    $stmt = Database::db()->prepare("SELECT * FROM ".$GLOBALS['petQuery']." ORDER BY datePosted");
     $stmt->execute();
     return $stmt;
 }
 
 function getUserPets($userId) {
-    $stmt = Database::db()->prepare("SELECT * FROM ".$GLOBALS['petsRaceSpecieQuery']." where userId = ?");
+    $stmt = Database::db()->prepare("SELECT * FROM ".$GLOBALS['petQuery']." where userId = ?");
 	$stmt->execute(array($userId));
     return $stmt;
 }

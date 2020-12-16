@@ -29,7 +29,8 @@ CREATE TABLE Pet (
     color INTEGER NOT NULL REFERENCES PetColor ON DELETE SET NULL,
     location TEXT NOT NULL,
     description TEXT NOT NULL,
-    datePosted DATETIME NOT NULL
+    datePosted DATETIME NOT NULL,
+    archived BOOLEAN NOT NULL
 );
 
 CREATE TABLE PetColor (
@@ -112,16 +113,16 @@ INSERT INTO User(name, username, password, birthdate, mail, description) VALUES(
 INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("João Diogo Romão", "TsarkFC", "$2y$10$jIDBFmD0.YdhEmabyHLS..VBlCSpdEm/VX8qibLw/riql44HAoTTe", DATE("2000-06-22"), "tsarkfc@mail.com",
     "I didn't even know there was a project");  -- PW: marktsubasa
 
-INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description, datePosted) VALUES(1, "Boby", DATE("2019-01-20"), NULL, 1, 2, 3, "Amsterdam",
-    "A good boy, well trained and really chill with kids.", DATETIME("2019-08-10"));
-INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description, datePosted) VALUES(1, "Snoop", DATE("2013-06-13"), NULL, 3, 3, 7, "Amsterdam",
-    "This is a calm dog that just wanna play. The older she gets the less she runs, but her spirit never gets old.", DATETIME("2019-09-10"));
-INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description, datePosted) VALUES(3, "Husky", DATE("2020-08-25"), NULL, 2, 1, 4, "Moita do Boi",
-    "A pure breed husky, really young so he is has a lot of energy!", DATETIME("2019-07-10"));
-INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description, datePosted) VALUES(2, "Garfield", DATE("2017-12-14"), 2, NULL, 2, 7, "Cucujães",
-    "A cat that just looks like garfield, especially since he got a bit chubbier!", DATETIME("2019-08-09"));
-INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description, datePosted) VALUES(4, "Bicho", DATE("2000-01-30"), NULL, 4, 2, 4, "Repeses",
-    "This cat is getting old so it doesn't have a lot of energy but still is a good companion to people who spend most their time at home.", DATETIME("2018-04-11"));
+INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description, datePosted, archived) VALUES(1, "Boby", DATE("2019-01-20"), NULL, 1, 2, 3, "Amsterdam",
+    "A good boy, well trained and really chill with kids.", DATETIME("2019-08-10"), 0);
+INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description, datePosted, archived) VALUES(1, "Snoop", DATE("2013-06-13"), NULL, 3, 3, 7, "Amsterdam",
+    "This is a calm dog that just wanna play. The older she gets the less she runs, but her spirit never gets old.", DATETIME("2019-09-10"), 0);
+INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description, datePosted, archived) VALUES(3, "Husky", DATE("2020-08-25"), NULL, 2, 1, 4, "Moita do Boi",
+    "A pure breed husky, really young so he is has a lot of energy!", DATETIME("2019-07-10"), 0);
+INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description, datePosted, archived) VALUES(2, "Garfield", DATE("2017-12-14"), 2, NULL, 2, 7, "Cucujães",
+    "A cat that just looks like garfield, especially since he got a bit chubbier!", DATETIME("2019-08-09"), 0);
+INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description, datePosted, archived) VALUES(4, "Bicho", DATE("2000-01-30"), NULL, 4, 2, 4, "Repeses",
+    "This cat is getting old so it doesn't have a lot of energy but still is a good companion to people who spend most their time at home.", DATETIME("2018-04-11"), 0);
 
 INSERT INTO PetPhoto(petId, photoId) VALUES(1, 1);
 INSERT INTO PetPhoto(petId, photoId) VALUES(2, 2);
