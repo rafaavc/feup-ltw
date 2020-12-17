@@ -201,7 +201,6 @@ removeButtons.forEach(removeButton => {
 			sendPostRequest(getRootUrl() + "/control/api/pet.php", {photoId: photoId}, function() {console.log('here');});
 			document.getElementById('photo' + photoId).remove();
 			document.getElementById('ss-' + photoId).remove();
-			slider.start();
 		}
 
 	});
