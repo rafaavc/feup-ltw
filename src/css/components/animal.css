@@ -43,6 +43,11 @@
 	width: 25%;
 }
 
+#tempText {
+	padding-left: 2rem;
+	font-size: 0.8rem;
+}
+
 .photos > div > img {
 	height: 10rem;
 }

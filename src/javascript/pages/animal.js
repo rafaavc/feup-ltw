@@ -270,14 +270,29 @@ function updateProfilePic() {
 
 	})
 
-    profilePhotoInput.value = this.attributes['data-button-id'].value;
+	profilePhotoInput.value = this.attributes['data-button-id'].value;
 	this.style.border = 'solid 0.3rem var(--accentColorDarker)';
 }
 
 const select = document.getElementById('selectList');
 const addButton = document.getElementById('addToList');
-addButton.addEventListener('click', function() {
+addButton.addEventListener('click', function () {
 	const petId = document.querySelector('.petProfile').dataset.id;
 	const options = document.getElementsByClassName('listOption');
-	sendPostRequest(getRootUrl() + "/control/api/pet.php", { petId: petId, listId: options[select.selectedIndex].innerHTML }, function() {})
+	sendPostRequest(getRootUrl() + "/control/api/pet.php", { petId: petId, listId: options[select.selectedIndex].innerHTML }, function () {
+		const tempText = document.getElementById('tempText');
+		let result;
+		try {
+			result = JSON.parse(this.responseText);
+			if (result['value'] == true) {
+				tempText.innerHTML = 'Added successfully';
+				tempText.style.color = 'green';
+				setTimeout(function () { tempText.innerHTML = ''; }, 3000);
+			}
+		} catch (error) {
+			tempText.innerHTML = 'Already on list';
+			tempText.style.color = 'red';
+			setTimeout(function () { tempText.innerHTML = ''; }, 3000);
+		}
+	});
 });

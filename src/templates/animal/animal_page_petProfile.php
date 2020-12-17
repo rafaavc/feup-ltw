@@ -77,5 +77,6 @@
 		<?php if (Session\isAuthenticated()) {
 			include_once(dirname(__FILE__) . '/animal_page_buttons.php');
 		} ?>
+		<p id="tempText"></p>
 	</div>
 </section>

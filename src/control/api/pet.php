@@ -264,7 +264,7 @@ function addPetToList($petId, $listTitle){
 }
 
 if (isset($_POST['petId']) && isset($_POST['listId'])){
-	echo addPetToList($_POST['petId'], $_POST['listId']);
+	echo json_encode(addPetToList($_POST['petId'], $_POST['listId']));
 }
 
 ?>
