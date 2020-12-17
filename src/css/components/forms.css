@@ -112,6 +112,22 @@ form[name=addPet] div.photos > div > div.remove:hover {
 section.authForm {
     padding-left: calc(var(--rightLeftPadding) );
     padding-right: calc(var(--rightLeftPadding) );
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 5rem;
+}
+
+section.authForm > div {
+    width: 30vw;
+    min-width: 20rem;
+}
+section.authForm .photoContainer > img {
+    width: 10vw;
+    min-width: 15rem;
+}
+
+section.authForm form > button, section.authForm .photoContainer {
+    margin-bottom: 1rem;
 }
 
 section.searchForm {

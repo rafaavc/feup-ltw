@@ -19,17 +19,21 @@ function login($username, $password) {
 }
 
 function register($name, $username, $password, $birthdate, $mail, $description) {
-    $stmt = Database::db()->prepare("INSERT INTO User(name, username, password, birthdate, mail, description) VALUES(:name, :username, :password, :birthdate, :mail, :description)");
-    $stmt->bindParam(':name', $name);
-    $stmt->bindParam(':username', $username);
-    $stmt->bindParam(':password', password_hash($password, PASSWORD_DEFAULT));
-    $stmt->bindParam(':birthdate', $birthdate);
-    $stmt->bindParam(':mail', $mail);
-    $stmt->bindParam(':description', $description);
-    $stmt->execute();
+    try {
+        $stmt = Database::db()->prepare("INSERT INTO User(name, username, password, birthdate, mail, description) VALUES(:name, :username, :password, :birthdate, :mail, :description)");
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':username', $username);
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt->bindParam(':password', $passwordHash);
+        $stmt->bindParam(':birthdate', $birthdate);
+        $stmt->bindParam(':mail', $mail);
+        $stmt->bindParam(':description', $description);
+        $stmt->execute();
+    } catch (Exception $e) {
+        return false;
+    }
 
-    /* TODO */
-    return true;
+    return Database::db()->lastInsertId();
 }
 
 function ownsPet($userId, $petId) {

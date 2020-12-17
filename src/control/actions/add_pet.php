@@ -3,6 +3,7 @@
 require_once(dirname(__FILE__)."/action.php");
 require_once(dirname(__FILE__)."/../api/pet.php");
 require_once(dirname(__FILE__)."/../api/user.php");
+require_once(dirname(__FILE__)."/../file_upload.php");
 
 $parameters = initAction(['name', 'birthdate', 'location', 'description', 'specie', 'race', 'size', 'color', 'profilePhoto']);
 
@@ -50,7 +51,7 @@ $petId = API\addPet(Session\getAuthenticatedUser()['id'], $parameters['name'], $
 for($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
     $tmpPath = $_FILES['photos']['tmp_name'][$i];
     if ($tmpPath == "") continue;
-    if (finfo_file(finfo_open(FILEINFO_MIME_TYPE), $tmpPath) != 'image/jpeg') {
+    if (!isJPGImage($tmpPath)) {
         echo "not valid :(";
         continue;
     }

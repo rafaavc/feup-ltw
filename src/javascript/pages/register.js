@@ -30,3 +30,26 @@ const username = document.getElementById('username');
 username.addEventListener('input', onElementChange);
 mail.addEventListener('input', onElementChange);
 
+const fileInputButton = document.getElementById('profilePhoto');
+fileInputButton.addEventListener('change', handleFileInput);
+fileInputButton.style.display = "none";
+
+const profilePhotoButton = document.getElementById('profilePhotoButton');
+profilePhotoButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    fileInputButton.click();
+});
+
+const photoContainer = document.querySelector('form > div.photoContainer');
+function handleFileInput() {
+    const file = this.files[0];
+    const reader  = new FileReader();
+    reader.onload = function(e)  {
+        const image = document.createElement("img");
+        image.src = e.target.result;
+        photoContainer.innerHTML = '';
+        photoContainer.appendChild(image);
+    }
+    reader.readAsDataURL(file);
+}
+

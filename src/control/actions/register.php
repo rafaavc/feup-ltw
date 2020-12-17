@@ -2,14 +2,32 @@
 
 require_once(dirname(__FILE__)."/action.php");
 require_once(dirname(__FILE__)."/../api/user.php");
+require_once(dirname(__FILE__)."/../file_upload.php");
 
 $parameters = initAction(['name', 'username', 'password', 'birthdate', 'mail', 'description']);
+echo var_dump($_FILES);
+if (!isset($_FILES['profilePhoto']) || $_FILES['profilePhoto']['tmp_name'] == '') {
+    Router\errorBadRequest("You didn't give a profile image.");
+}
 
-if (API\register($parameters['name'], $parameters['username'], $parameters['password'], $parameters['birthdate'], $parameters['mail'], $parameters['description'])) {
+
+$profilePhoto = $_FILES['profilePhoto'];
+$tmpPath = $_FILES['profilePhoto']['tmp_name'];
+if (!isJPGImage($tmpPath)) {
+    Router\errorBadRequest("You didn't give a jpg image.");
+}
+
+$userId = API\register($parameters['name'], $parameters['username'], $parameters['password'], $parameters['birthdate'], $parameters['mail'], $parameters['description']);
+
+$realPath = "../../images/userProfilePictures/".$userId.".jpg";
+move_uploaded_file($tmpPath, $realPath);
+
+
+if ($userId != false) {
     $_SESSION['username'] = $parameters['username'];
     Router\sendTo(getRootURL());
 } else {
-   //todo 
+    Router\errorBadRequest();
 }
 ?>
 

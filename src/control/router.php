@@ -118,16 +118,16 @@ function httpError($code, $message) {
     exit();
 }
 
-function errorForbidden() {
-    httpError(403, "Forbidden request."); 
+function errorForbidden($msg = null) {
+    httpError(403, $msg == null ? "Forbidden request." : $msg); 
 }
 
-function errorUnauthorized() {
-    httpError(401, "Unauthorized request.");
+function errorUnauthorized($msg = null) {
+    httpError(401, $msg == null ? "Unauthorized request." : $msg);
 }
 
-function errorBadRequest() {
-    httpError(400, "Bad request.");
+function errorBadRequest($msg = null) {
+    httpError(400, $msg == null ? "Bad request." : $msg);
 }
 
 function sendTo($location) {
