@@ -199,8 +199,9 @@ removeButtons.forEach(removeButton => {
 		const photoId = this.attributes['data-id'].value;
 		if (window.confirm("Are you sure you want to remove the photo?")) {
 			sendPostRequest(getRootUrl() + "/control/api/pet.php", {photoId: photoId}, function() {console.log('here');});
-			const div = document.getElementById('photo' + photoId);
-			div.remove();
+			document.getElementById('photo' + photoId).remove();
+			document.getElementById('ss-' + photoId).remove();
+			slider.start();
 		}
 
 	});
