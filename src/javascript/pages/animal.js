@@ -279,5 +279,5 @@ const addButton = document.getElementById('addToList');
 addButton.addEventListener('click', function() {
 	const petId = document.querySelector('.petProfile').dataset.id;
 	const options = document.getElementsByClassName('listOption');
-	sendPostRequest(getRootUrl() + "/control/api/post.php", { petId: petId, listId: options[select.selectedIndex].innerHTML }, function() {})
+	sendPostRequest(getRootUrl() + "/control/api/pet.php", { petId: petId, listId: options[select.selectedIndex].innerHTML }, function() {})
 });

@@ -254,15 +254,17 @@ if (isset($_POST['size'])) {
 }
 
 function addPetToList($petId, $listTitle){
-	$stmt = Database::db()->prepare("SELECT * FROM List WHERE title = ?");
+	$stmt = Database::db()->prepare("SELECT id FROM List WHERE title = ?");
 	$stmt->execute(array($listTitle));
-	$listId = $stmt->fetch();
+	$listId = $stmt->fetch()['id'];
 	$stmt = Database::db()->prepare("INSERT INTO ListPet VALUES (?, ?)");
-	print_r($listId, $petId);
 	$stmt->execute(array($listId, $petId));
-	return $stmt;
+	$result['value'] = $stmt != false;
+	return $result;
 }
 
 if (isset($_POST['petId']) && isset($_POST['listId'])){
-	addPetToList($_POST['petId'], $_POST['listId']);
+	echo addPetToList($_POST['petId'], $_POST['listId']);
 }
+
+?>
