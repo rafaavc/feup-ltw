@@ -4,10 +4,14 @@ require_once(dirname(__FILE__) . "/action.php");
 require_once(dirname(__FILE__) . "/../api/pet.php");
 require_once(dirname(__FILE__) . "/../api/user.php");
 
-if (isset($_POST['removePhotos']))
-	$parameters = initAction(['petId', 'name', 'location', 'description', 'removePhotos']);
-else
-	$parameters = initAction(['petId', 'name', 'location', 'description']);
+$parameters = initAction(['petId', 'location', 'description']);
+
+if (isset($_POST['removePhotos'])) {
+	$parameters['removePhotos'] = $_POST['removePhotos'];
+}
+if (isset($_POST['name'])){
+	$parameters['name'] = $_POST['name'];
+}
 
 $petId = API\updatePet($parameters['petId'], $parameters['name'], $parameters['location'], $parameters['description']); // update pet
 
