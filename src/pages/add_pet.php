@@ -6,8 +6,11 @@
     $sizes = API\getSizes();
     $colors = API\getColors();
 ?>
-    <section class="authForm">
+    <section>
         <h2>Add a new Pet</h2>
+
+        <p class="notice">All fields marked with * are required.</p>
+
         <?php 
             $message = Session\popMessage(); 
             if ($message != null) { ?>
@@ -17,22 +20,30 @@
         <form method="POST" name="addPet" action="<?=getRootURL()?>/control/actions/add_pet.php" enctype="multipart/form-data">
             <div>
                 <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>" />
+                
+                <div class="formField">
+                    <label for="name">Pet Name</label>
+                    <input type="text" id="name" name="name" placeholder="Pet Name"/>
+                </div>
 
-                <label for="name">Pet Name</label>
-                <input type="text" id="name" name="name" placeholder="Pet Name"/>
+                <div class="formField required">
+                    <label for="birthdate">Birthdate</label>
+                    <input type="text" id="birthdate" name="birthdate" min="2000-01-01" max="<?=date('Y-m-d')?>" placeholder="Birthdate" required/>
+                </div>
 
-                <label for="birthdate">Birthdate</label>
-                <input type="text" id="birthdate" name="birthdate" min="2000-01-01" max="<?=date('Y-m-d')?>" placeholder="Birthdate" required/>
+                <div class="formField required">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" placeholder="Location" required/>
+                </div>
 
-                <label for="location">Location</label>
-                <input type="text" id="location" name="location" placeholder="Location" required/>
-
-                <label for="description">Description</label>
-                <textarea placeholder="Description" name="description" id="description"></textarea>
+                <div class="formField required">
+                    <label for="description">Description</label>
+                    <textarea placeholder="Description" name="description" id="description" required></textarea>
+                </div>
 
                 <label for="specie">Species</label>
                 <div class="simple-2column-grid">
-                    <div>
+                    <div class="formField required">
                         <select name="specie" id="specie" required>
                             <option value="-1">- Select a Species -</option>
                             <?php foreach($species as $specie) { ?>
@@ -47,7 +58,7 @@
 
                 <label for="race">Race</label>
                 <div class="simple-2column-grid">
-                    <div>
+                    <div class="formField">
                         <select name="race" id="race">
                         </select>
                     </div>
@@ -58,7 +69,7 @@
 
                 <label for="size">Size</label>
                 <div class="simple-2column-grid">
-                    <div>
+                    <div class="formField required">
                         <select name="size" id="size" required>
                             <option value="-1">- Select a Size -</option>
                             <?php foreach($sizes as $size) { ?>
@@ -73,7 +84,7 @@
                 
                 <label for="color">Color</label>
                 <div class="simple-2column-grid">
-                    <div>
+                    <div class="formField required">
                         <select name="color" id="color" required>
                             <option value="-1">- Select a Color -</option>
                             <?php foreach($colors as $color) { ?>

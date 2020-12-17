@@ -6,10 +6,6 @@ form label {
     display: none;
 }
 
-form[name=addPet] .simple-2column-grid {
-    margin-bottom: 1rem;
-}
-
 form > input:last-child, form textarea:last-child, form select:last-child, form[name=addPet] .simple-2column-grid input {
     margin-bottom: 0;
 }
@@ -117,8 +113,8 @@ form[name=addPet] div.photos > div > div.remove:hover {
 .formField.required:after {
     content: "*";
     position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
+    right: -0.5rem;
+    top: 0;
     color: var(--accentColorDarker);
 }
 
@@ -130,7 +126,7 @@ section.authForm {
     grid-gap: 5rem;
 }
 
-section.authForm p {
+p.notice {
     font-size: 0.9em;
 }
 

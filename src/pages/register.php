@@ -1,7 +1,12 @@
 <?php
 $GLOBALS['section'] = 'signup';
 include_once(dirname(__FILE__) ."/../templates/common/header.php");
-?>
+
+if (Session\isAuthenticated()) { ?>
+    <section>
+        <h3>You are already signed up.</h3>
+    </section>
+    <?php } else { ?>
 
 <section class="authForm">
     <div>
@@ -13,7 +18,7 @@ include_once(dirname(__FILE__) ."/../templates/common/header.php");
                 <p class="<?=$message['type']?>-message"><?=$message['content']?></p>
         <?php } ?>
                 
-        <p>All fields marked with * are required.</p>
+        <p class="notice">All fields marked with * are required.</p>
 
         <form method="POST" action="<?=getRootURL()?>/control/actions/register.php" enctype="multipart/form-data">
             <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>" />
@@ -61,7 +66,6 @@ include_once(dirname(__FILE__) ."/../templates/common/header.php");
     <img src="<?=getRootUrl()?>/images/cuteDoggos.jpeg"/>
 </section>
 
-<?php
-include_once(dirname(__FILE__) ."/../templates/common/footer.php");
+<?php }
 
-?>
+include_once(dirname(__FILE__) ."/../templates/common/footer.php"); ?>
