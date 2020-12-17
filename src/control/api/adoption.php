@@ -27,7 +27,9 @@ function handleAdoptionRequest($method, $pet) {
         Router\errorUnauthorized();
     } else if (ownsPet($adopter, $pet)) {
         Router\errorForbidden();
-    }
+    } /*else if ($pet['state'] == 'adopted') {  // TODO
+        Router\errorForbidden();
+    }*/
     
 
     if ($method == "POST" || $method == "PUT") {
