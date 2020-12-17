@@ -22,6 +22,12 @@ function cancelAdoptionRequest($pet, $adopter) {
     $stmt->execute(array($adopter, $pet));
 }
 
+function deleteAdoptionRequest($pet, $adopter){
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('DELETE FROM ProposedToAdopt WHERE userId = ? AND petId = ?');
+    $stmt->execute(array($adopter, $pet));
+}
+
 
 function handleAdoptionRequest($method, $pet) {
     $adopter = Session\getAuthenticatedUser()['id'];
@@ -34,6 +40,8 @@ function handleAdoptionRequest($method, $pet) {
 
     if ($method == "POST" || $method == "PUT") {
         makeAdoptionRequest($pet, $adopter);
+    } else if ($method == "DELETE") {
+        deleteAdoptionRequest($pet, $adopter);
     } else if ($method == "DELETE") {
         cancelAdoptionRequest($pet, $adopter);
     } else {
