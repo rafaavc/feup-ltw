@@ -18,6 +18,8 @@ function cancelAdoptionRequest($pet, $adopter) {
     $db = Database::instance()->db();
     $stmt = $db->prepare('DELETE FROM ProposedToAdopt WHERE userId = ? AND petId = ?');
     $stmt->execute(array($adopter, $pet));
+    $stmt = $db->prepare('INSERT INTO RejectedProposal VALUES (?, ?)');
+    $stmt->execute(array($adopter, $pet));
 }
 
 
@@ -28,7 +30,7 @@ function handleAdoptionRequest($method, $pet) {
     } else if (ownsPet($adopter, $pet)) {
         Router\errorForbidden();
     }
-    
+
 
     if ($method == "POST" || $method == "PUT") {
         makeAdoptionRequest($pet, $adopter);

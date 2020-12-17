@@ -34,6 +34,7 @@ include_once(dirname(__FILE__) . '/../templates/animal/animal_page_petProfile.ph
 </div>
 
 <?php
+include_once(dirname(__FILE__) . '/../templates/animal/animal_page_proposals.php');
 include_once(dirname(__FILE__) . '/../templates/animal/animal_page_comments.php');
 include_once(dirname(__FILE__) . '/../templates/common/footer.php');
 ?>

@@ -98,6 +98,9 @@ function receiveComment() {
 	article.append(date);
 
 	document.querySelector('#comments').insertBefore(article, commentForm);
+	const noCommentsP = document.querySelector('#comments > p');
+	if (noCommentsP != null)
+		noCommentsP.style.display = 'none';
 }
 
 const slider = new SimpleSlider("mySlider", 3000, "30vw");

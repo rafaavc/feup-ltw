@@ -82,6 +82,26 @@
 	margin: 0 1rem;
 }
 
+#petProposals {
+	padding: 0 calc(2*var(--rightLeftPadding));
+	margin-bottom: 6rem;
+}
+
+#petProposals h3 {
+	grid-column-end: span 1;
+	font-size: 2rem;
+}
+
+.petProposal {
+	display: grid;
+	grid-template-columns: 1fr 7fr;
+	margin: 2rem;
+}
+
+.petProposal > p {
+	margin: auto 0;
+}
+
 #comments {
 	padding: 0 calc(2*var(--rightLeftPadding));
 	margin-bottom: 6rem;
