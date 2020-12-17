@@ -1,7 +1,12 @@
 <?php
 $GLOBALS['section'] = 'signin';
 include_once(dirname(__FILE__) ."/../templates/common/header.php");
-?>
+
+if (Session\isAuthenticated()) { ?>
+<section>
+    <h3>You are already signed in.</h3>
+</section>
+<?php } else { ?>
 
 <section class="authForm">
     <div>
@@ -15,19 +20,22 @@ include_once(dirname(__FILE__) ."/../templates/common/header.php");
 
         <form method="POST" action="<?=getRootURL()?>/control/actions/login.php">
             <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>" />
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Username" required/>
+            <div class="formField required">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="Username" required/>
+            </div>
 
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Password" required/>
-
+            <div class="formField required">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password" required/>
+            </div>
             <input type="submit" value="Sign In" />
         </form>
     </div>
     <img src="<?=getRootUrl()?>/images/cuteDoggos.jpeg"/>
 </section>
 
-<?php
+<?php }
 include_once(dirname(__FILE__) ."/../templates/common/footer.php");
 
 ?>
