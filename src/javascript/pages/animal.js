@@ -132,7 +132,7 @@ function proposeToAdoptPet(event) {
 
 	const petId = document.querySelector('.petProfile').attributes['data-id'].value;
 
-	sendPostRequest(getRootUrl() + "/api/adoption/"+petId, {}, changeAdoptButton);
+	sendPostRequest(getRootUrl() + "/api/adoption/" + petId, {}, changeAdoptButton);
 }
 
 function changeAdoptButton() {
@@ -256,11 +256,20 @@ function handleFileInput() {
 }
 
 
+const previousPhotos = document.querySelectorAll('#photosInput > .photos > div > img');
+previousPhotos.forEach((photo) => {
+	photo.addEventListener('click', updateProfilePic);
+})
+
 function updateProfilePic() {
-	const prevProfileImage = document.querySelectorAll('img.profilePicture');
-	prevProfileImage.forEach((pi) => pi.classList.remove('profilePicture'));
-	this.classList.add('profilePicture');
-	const buttonId = parseInt(this.dataset.buttonId);
-	const button = fileInputButtons.find((button) => button.id === buttonId).obj;
-	profilePhotoInput.value = button.files[0].name;
+	const photos = document.querySelectorAll('#photosInput > .photos > div > img');
+	photos.forEach((photo) => {
+		if (photo.attributes['data-button-id'].value === profilePhotoInput.value) {
+			photo.style.border = 'none';
+		}
+
+	})
+
+    profilePhotoInput.value = this.attributes['data-button-id'].value;
+	this.style.border = 'solid 0.3rem var(--accentColorDarker)';
 }

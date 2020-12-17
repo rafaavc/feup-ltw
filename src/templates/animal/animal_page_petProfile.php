@@ -59,7 +59,7 @@
 						foreach ($photos as $photo) {
 						?>
 							<div id="photo<?= $photo['photoId'] ?>">
-								<img src="<?= getRootURL() ?>/images/petPictures/<?= $photo['photoId'] ?>.jpg" heigth=50>
+								<img src="<?= getRootURL() ?>/images/petPictures/<?= $photo['photoId'] ?>.jpg" heigth=50 data-button-id="<?= $photo['photoId'] ?>">
 								<div class="remove" data-id="<?= $photo['photoId'] ?>"><i class="icofont-ui-close"></i></div>
 							</div>
 						<?php
