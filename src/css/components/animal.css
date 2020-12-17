@@ -1,4 +1,4 @@
-.petProfile {
+.profile_header {
 	display: grid;
 	grid-template-columns: auto 1fr;
 	grid-gap: 5rem;
@@ -6,7 +6,7 @@
 	align-items: center;
 }
 
-.petProfile > div:first-of-type {
+.profile_header > div:first-of-type {
 	background-size: cover;
 	background-position: 50%;
 
@@ -30,11 +30,11 @@
 	margin: 0;
 }
 
-.petProfile footer {
+.profile_header footer {
 	margin-top: 3rem;
 }
 
-.petProfile footer > p {
+.profile_header footer > p {
 	display: inline;
 	margin-left: 1rem;
 }

@@ -213,6 +213,14 @@ function addPet($userId, $name, $birthdate, $specie, $race, $size, $color, $loca
 	return Database::db()->lastInsertId();
 }
 
+function handleIndexTilesRequest() {
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    if ($method == 'POST') {
+        responseJSON(array('pets' => getArrayFromSTMT(getPets(), $_POST['size'])));
+    }
+}
+
 function handleSpeciesRequest()
 {
 	$what = $GLOBALS['what'];
@@ -240,4 +248,7 @@ function removePetPhoto($photoId)
 	$stmt = Database::db()->prepare("DELETE FROM PetPhoto WHERE photoId = ?");
 	$stmt->execute(array($photoId));
 	return $stmt;
+}
+if (isset($_POST['size'])) {
+	handleIndexTilesRequest();
 }

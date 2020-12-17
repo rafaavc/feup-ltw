@@ -2,10 +2,12 @@
 
 namespace API;
 
+use Session;
 use Database;
 use Router;
 
 include_once(dirname(__FILE__)."/existence.php");
+include_once(dirname(__FILE__)."/pet.php");
 
 
 function login($username, $password) {
@@ -126,6 +128,24 @@ function updateBio($bio) {
     return $stmt->rowCount();
 }
 
+function handleTilesRequest() {
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    $arr = array();
+    if ($method == 'POST' && isset($_POST['userLists'])) {
+        $userId = getUserByUsername($_POST['userLists'])['id'];
+        $userLists = getUserLists($userId);
+        foreach ($userLists as $userList){
+            if ((Session\isAuthenticated() && $_POST['userLists'] == Session\getAuthenticatedUser()['username'])
+                    || ($userList['public'] == 1)) {
+                array_push($arr, getListPets($userList));
+            }
+        }
+
+        responseJSON(array('pets' => getArrayFromSTMT(getUserPets($userId), true), 'lists' => $arr));
+    }
+}
+
 function handleUpdateRequest() {
     $method = $_SERVER['REQUEST_METHOD'];
 
@@ -166,4 +186,5 @@ function getListPets($list){
 
 if (Router\isAPIRequest(__FILE__)) {
     handleUpdateRequest();
+    handleTilesRequest();
 }
