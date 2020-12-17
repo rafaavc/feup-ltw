@@ -1,5 +1,17 @@
 <footer>
-	<button id="favorite" class="simpleButton">Add to favorites</button>
+	<select id="selectList">
+		<?php
+		$user = Session\getAuthenticatedUser();
+		$userLists = API\getUserLists($user['id']);
+
+		foreach ($userLists as $userList) {
+		?>
+			<option class="listOption" value="<?= htmlentities($userList['id']) ?>"><?= htmlentities($userList['title']) ?></option>
+		<?php
+		}
+		?>
+	</select>
+	<button id ="addToList" class="simpleButton">Add to list</button>
 	<?php
 	$adopted = API\getAdopted($pet['id']);
 

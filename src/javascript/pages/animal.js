@@ -273,3 +273,11 @@ function updateProfilePic() {
     profilePhotoInput.value = this.attributes['data-button-id'].value;
 	this.style.border = 'solid 0.3rem var(--accentColorDarker)';
 }
+
+const select = document.getElementById('selectList');
+const addButton = document.getElementById('addToList');
+addButton.addEventListener('click', function() {
+	const petId = document.querySelector('.petProfile').dataset.id;
+	const options = document.getElementsByClassName('listOption');
+	sendPostRequest(getRootUrl() + "/control/api/post.php", { petId: petId, listId: options[select.selectedIndex].innerHTML }, function() {})
+});

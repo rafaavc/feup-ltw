@@ -252,3 +252,17 @@ function removePetPhoto($photoId)
 if (isset($_POST['size'])) {
 	handleIndexTilesRequest();
 }
+
+function addPetToList($petId, $listTitle){
+	$stmt = Database::db()->prepare("SELECT * FROM List WHERE title = ?");
+	$stmt->execute(array($listTitle));
+	$listId = $stmt->fetch();
+	$stmt = Database::db()->prepare("INSERT INTO ListPet VALUES (?, ?)");
+	print_r($listId, $petId);
+	$stmt->execute(array($listId, $petId));
+	return $stmt;
+}
+
+if (isset($_POST['petId']) && isset($_POST['listId'])){
+	addPetToList($_POST['petId'], $_POST['listId']);
+}
