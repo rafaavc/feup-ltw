@@ -1,9 +1,10 @@
 <section id="petProposals">
 	<?php
 	$openProposals = API\getPetOpenAdoptionProposals($pet['id']);
-	$rejectedProposals = API\getPetRejectedProposals($pet['id']);
+	$rejectedProposals = API\getPetRejectedProposals($pet['id']); ?>
+	<h3>Adoption Proposals</h3>
+	<?php
 	if ($openProposals != false || $rejectedProposals != false) { ?>
-		<h3>Adoption Proposals</h3>
 		<?php
 		if ($openProposals != false) {
 			foreach ($openProposals as $proposal) {
@@ -26,6 +27,10 @@
 	<?php
 			}
 		}
+	} else {
+		?>
+		<p>This pet hasn't had any proposals to adopt</p>
+		<?php
 	}
 	?>
 

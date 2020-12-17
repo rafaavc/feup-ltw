@@ -96,13 +96,13 @@ function getUserPets($userId)
 function getPetOpenAdoptionProposals($petId){
 	$stmt = Database::db()->prepare('SELECT User.name as fullName, User.username as username, User.id as userId, Pet.name as petName, Pet.id as petId FROM ProposedToAdopt JOIN Pet ON (Pet.id = ProposedToAdopt.petId) JOIN User ON(ProposedToAdopt.userId = User.id) WHERE Pet.id = ?');
 	$stmt->execute(array($petId));
-	return $stmt;
+	return $stmt->fetchAll();
 }
 
 function getPetRejectedProposals($petId){
 	$stmt = Database::db()->prepare('SELECT User.name as fullName, User.username as username, User.id as userId, Pet.name as petName, Pet.id as petId FROM RejectedProposal JOIN Pet ON (Pet.id = RejectedProposal.petId) JOIN User ON(RejectedProposal.userId = User.id) WHERE Pet.id = ?');
 	$stmt->execute(array($petId));
-	return $stmt;
+	return $stmt->fetchAll();
 }
 
 function getUserPetsOpenAdoptionProposals($userId)
