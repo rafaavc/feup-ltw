@@ -44,8 +44,9 @@
 }
 
 #tempText {
-	padding-left: 2rem;
+	padding: 0.5rem 2rem;
 	font-size: 0.8rem;
+	margin: 0;
 }
 
 .photos > div > img {
