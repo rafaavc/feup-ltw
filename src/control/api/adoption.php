@@ -42,7 +42,7 @@ function handleAdoptionRequest($method, $pet) {
         makeAdoptionRequest($pet, $adopter);
     } else if ($method == "DELETE") {
         deleteAdoptionRequest($pet, $adopter);
-    } else if ($method == "DELETE") {
+    } else if ($method == "CANCEL") {
         cancelAdoptionRequest($pet, $adopter);
     } else {
         Router\errorBadRequest();

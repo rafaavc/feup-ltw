@@ -131,6 +131,13 @@ function changeAdoptButton() {
 	paragraph.appendChild(button);
 
 	document.querySelector('.petProfile footer').appendChild(paragraph);
+
+	/*
+	<div class="petProposal">
+					<div class="image" style="background-image: url('../../images/userProfilePictures/<?= $proposal['userId'] ?>.jpg')"></div>
+					<p><a href="<?= getRootUrl() ?>/user/<?= $proposal['username'] ?>"><?= $proposal['fullName'] ?></a> wants to adopt this pet</p>
+				</div>
+				*/
 }
 
 function cancelProposeToAdoptPet(event) {
