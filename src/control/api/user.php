@@ -128,6 +128,23 @@ function updateBio($bio) {
     return $stmt->rowCount();
 }
 
+function createList($title, $visibility, $description) {
+    $stmt = Database::db()->prepare("INSERT INTO List(title, description, public, userId) VALUES (:title, :description, :public, :userId);");
+    $stmt->bindParam(':title', $title);
+    $stmt->bindParam(':description', $description);
+    $stmt->bindParam(':public', $visibility);
+    $stmt->bindParam(':userId', Session\getAuthenticatedUser()['id']);
+    $stmt->execute();
+    return $stmt->rowCount();
+}
+
+function handleListCreationRequest() {
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    if ($method == 'POST' && isset($_POST['title'], $_POST['visibility'], $_POST['description']))
+        responseJSON(array('created' => createList($_POST['title'], $_POST['visibility'], $_POST['description'])));
+}
+
 function handleTilesRequest() {
     $method = $_SERVER['REQUEST_METHOD'];
 
@@ -188,4 +205,5 @@ function getListPets($list){
 if (Router\isAPIRequest(__FILE__)) {
     handleUpdateRequest();
     handleTilesRequest();
+    handleListCreationRequest();
 }

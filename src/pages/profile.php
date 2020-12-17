@@ -39,9 +39,15 @@ $userLists = API\getUserLists($user['id']);
                 ?>
             </select>
         </div>
+        <?php
+        if ((Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username'])) {
+        ?>
         <div>
             <button class="simpleButton" id="addListButton" data-entity="List"><i class="icofont-ui-add"></i>New list</button>
         </div>
+        <?php
+        }
+        ?>
     </div>
 
     <div id="lists">

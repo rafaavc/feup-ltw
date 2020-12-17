@@ -42,26 +42,12 @@ listSelect.addEventListener('change', () => {
 });
 
 const newList = document.getElementById('addListButton');
-newList.addEventListener('click', toggleAddingMode);
+if (newList != null)
+    newList.addEventListener('click', toggleAddingMode);
 
 createTileLists();
 
 initWebsite();
-
-function updateListSelect() {
-    const listId = this.value;
-    sendPostRequest(getRootUrl() + "/api/user", {field: inputField.id, value: formText}, function() {
-        raceSelect.innerHTML = '';
-        const res = JSON.parse(this.responseText);
-
-        for (const race of res.races) {
-            const optElem = document.createElement('option');
-            optElem.value = race.id;
-            optElem.appendChild(document.createTextNode(race.name));
-            raceSelect.appendChild(optElem);
-        }
-    })
-}
 
 function editProfile() {
     const editProfileLabel = document.querySelector("#editProfileLabel > a");
@@ -134,7 +120,6 @@ function createTileLists() {
             const tile = createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description, null, false);
             petGridContent.appendChild(tile);
         }
-        console.log(petGridContent);
 
         const listElements = document.querySelectorAll("#lists .petGrid .petGridContent");
         for (let i = 0; i < listElements.length; i++) {
@@ -143,7 +128,6 @@ function createTileLists() {
                 listElements[i].appendChild(tile);
             }
         }
-        console.log(listElements);
     });
 }
 

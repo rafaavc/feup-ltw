@@ -1,3 +1,6 @@
+import { sendPostRequest } from "./ajax.js";
+import { getRootUrl } from './init.js';
+
 export function toggleAddingMode(e) {
     if (e != undefined) e.preventDefault();
     const entity = this.dataset.entity;
@@ -20,6 +23,9 @@ export function toggleAddingMode(e) {
         const input = document.createElement("input");
         input.type = "text";
 
+        const publicSelect = document.createElement("select");
+        const description = document.createElement("textarea");
+
         if (entity == 'List') {
             const addListForm = document.createElement("form");
             addListForm.id = `${entity}Input`;
@@ -28,22 +34,18 @@ export function toggleAddingMode(e) {
             input.placeholder = "Title";
             addListForm.appendChild(input);
 
-            const publicSelect = document.createElement("select");
+            const privateOption = document.createElement("option");
+            privateOption.value = "Private";
+            privateOption.innerHTML = "Private";
+            publicSelect.appendChild(privateOption);
 
             const publicOption = document.createElement("option");
             publicOption.value = "Public";
             publicOption.innerHTML = "Public";
             publicSelect.appendChild(publicOption);
 
-            const privateOption = document.createElement("option");
-            privateOption.value = "Private";
-            privateOption.innerHTML = "Private";
-            publicSelect.appendChild(privateOption);
-
             addListForm.appendChild(publicSelect);
 
-            const description = document.createElement("input");
-            description.type = "text";
             description.id = "addDescription";
             description.placeholder = "Description";
             addListForm.appendChild(description);
@@ -71,6 +73,17 @@ export function toggleAddingMode(e) {
             
             document.querySelector(`select[name=${entity.toLowerCase()}]`).appendChild(option);
             toggleAddingMode.bind(context)();
+
+            if (entity == 'List') {
+                sendPostRequest(getRootUrl() + "/api/user", 
+                                {title: input.value, visibility: publicSelect.selectedIndex, description: description.innerHTML}, 
+                                function() {
+                    const res = JSON.parse(this.responseText);
+            
+                    console.log(res);
+                })
+            }
+
         });
 
         this.parentNode.parentNode.appendChild(button);
