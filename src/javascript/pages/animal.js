@@ -132,12 +132,29 @@ function changeAdoptButton() {
 
 	document.querySelector('.petProfile footer').appendChild(paragraph);
 
-	/*
-	<div class="petProposal">
-					<div class="image" style="background-image: url('../../images/userProfilePictures/<?= $proposal['userId'] ?>.jpg')"></div>
-					<p><a href="<?= getRootUrl() ?>/user/<?= $proposal['username'] ?>"><?= $proposal['fullName'] ?></a> wants to adopt this pet</p>
-				</div>
-				*/
+	const userId = adoptButton.attributes['data-user-id'].value;
+	const username = adoptButton.attributes['data-username'].value;
+	const name = adoptButton.attributes['data-user-name'].value;
+
+	const petProposal = document.createElement('div');
+	petProposal.className = 'petProposal';
+
+	const image = document.createElement('div');
+	image.className = 'image';
+	image.style = "background-image: url('../../images/userProfilePictures/" + userId + ".jpg')";
+
+	const a = document.createElement('a');
+	a.href = getRootUrl() + '/user' + username;
+	a.innerHTML = name;
+
+	const p = document.createElement('p');
+	p.innerHTML = a.outerHTML + ' wants to adopt this pet';
+
+	petProposal.appendChild(image);
+	petProposal.appendChild(p);
+
+	document.getElementById('petProposals').appendChild(petProposal);
+	document.querySelector('#petProposals > p').style.display = 'none';
 }
 
 function cancelProposeToAdoptPet(event) {
