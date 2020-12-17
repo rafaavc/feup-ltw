@@ -54,6 +54,7 @@
 }
 
 #updateForm {
+	margin-bottom: 2rem;
 	padding-top: 5rem;
 	width: 90%;
 	display:none;
