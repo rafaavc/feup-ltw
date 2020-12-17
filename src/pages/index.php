@@ -2,11 +2,15 @@
 include_once("templates/common/header.php");
 include_once("templates/index/index_cover.php");
 include_once("templates/index/index_follow_up.php");
-include_once("templates/show_pets.php");
 ?>
-<section>
-    <h1>Meet Our Pets</h1>
-    <?php  showPetList(getAllPets())?>
+
+<section id="indexPets" class="petlist">
+    <header><h2>Meets Our Pets</h2></header>
+    <div class="petGrid">
+        <div class="arrow left"></div>
+        <div class="petGridContent"></div>
+        <div class="arrow right"></div>
+    </div>
 </section>
 
 <?php

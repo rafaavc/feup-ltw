@@ -35,12 +35,12 @@ export const initWebsite = () => {
 
     firstSection.style.paddingTop = (headerHeight + parseInt(fsPaddingTop)) + "px";
 
-
-    const rightArrows = document.querySelectorAll('.petGrid > .arrow.right');
-    const leftArrows = document.querySelectorAll('.petGrid > .arrow.left');
+    const rightArrows = document.getElementsByClassName('arrow right');
+    const leftArrows = document.getElementsByClassName('arrow left');
 
     for (const rightArrow of rightArrows) rightArrow.addEventListener('click', () => movePetGrid(rightArrow.parentElement, true));
     for (const leftArrow of leftArrows) leftArrow.addEventListener('click', () => movePetGrid(leftArrow.parentElement, false));
+    
 }
 
 export const getRootUrl = () => {

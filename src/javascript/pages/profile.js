@@ -1,27 +1,29 @@
 import { getRootUrl, initWebsite } from '../init.js'
 import { sendPostRequest } from '../ajax.js'
+import { createTile } from '../tile.js'
+import { toggleAddingMode } from '../add_field.js'
 
-let editProfileButton = document.getElementById("editProfile");
+const editProfileButton = document.getElementById("editProfile");
 if (editProfileButton != null)
     editProfileButton.addEventListener('click', editProfile);
 
-let forms = Array.from(document.getElementsByClassName('textButtonPair'));
+const forms = Array.from(document.getElementsByClassName('textButtonPair'));
 forms.forEach(form => {
-    let inputField = form.children[0];
-    let editForm = form.children[1];
+    const inputField = form.children[0];
+    const editForm = form.children[1];
     
-    let edit = inputField.getElementsByClassName("edit");
+    const edit = inputField.getElementsByClassName("edit");
     edit[0].addEventListener('click', () => {
         showSelection(editForm, inputField);
     });
 
-    let confirm = editForm.getElementsByClassName("confirm");
+    const confirm = editForm.getElementsByClassName("confirm");
     confirm[0].addEventListener('click', (event) => {
         event.preventDefault();
         confirmSelection(editForm, inputField);
     });
 
-    let close = editForm.getElementsByClassName("close");
+    const close = editForm.getElementsByClassName("close");
     close[0].addEventListener('click', (event) => {
         event.preventDefault();
         resetSelection(editForm, inputField);
@@ -29,38 +31,54 @@ forms.forEach(form => {
     
 });
 
-let lists = document.getElementById('lists');
-for (let i = 1; i < lists.children.length; i++){
-    lists.children[i].style.display = "none";
-}
-
-let listSelect = document.getElementById('list-select');
+const lists = document.getElementById('lists');
+const listSelect = document.getElementById('list-select');
 listSelect.addEventListener('change', () => {
-    for (let option of listSelect.options) {
-        if (option.value - 1 == listSelect.options.selectedIndex)
-            lists.children[option.value - 1].style.display = 'grid';
-        else lists.children[option.value - 1].style.display = 'none';
+    for (const list of lists.children) {
+        if (list.dataset.id == listSelect.options[listSelect.selectedIndex].value)
+            list.style.display = 'grid';
+        else list.style.display = 'none';
     }
 });
 
+const newList = document.getElementById('addListButton');
+newList.addEventListener('click', toggleAddingMode);
+
+createTileLists();
+
 initWebsite();
 
+function updateListSelect() {
+    const listId = this.value;
+    sendPostRequest(getRootUrl() + "/api/user", {field: inputField.id, value: formText}, function() {
+        raceSelect.innerHTML = '';
+        const res = JSON.parse(this.responseText);
+
+        for (const race of res.races) {
+            const optElem = document.createElement('option');
+            optElem.value = race.id;
+            optElem.appendChild(document.createTextNode(race.name));
+            raceSelect.appendChild(optElem);
+        }
+    })
+}
+
 function editProfile() {
-    let editProfileLabel = document.querySelector("#editProfileLabel > a");
-    let editProfile = document.getElementById("editProfile");
-    let forms = document.querySelectorAll(".textButtonPair form");
-    let editFields = document.querySelectorAll(".textButtonPair .edit");
-    let initialFields = document.querySelectorAll(".textButtonPair > div");
+    const editProfileLabel = document.querySelector("#editProfileLabel > a");
+    const editProfile = document.getElementById("editProfile");
+    const forms = document.querySelectorAll(".textButtonPair form");
+    const editFields = document.querySelectorAll(".textButtonPair .edit");
+    const initialFields = document.querySelectorAll(".textButtonPair > div");
 
     if (editProfile.checked) {
         editProfileLabel.innerHTML = "Close edition";
-        editFields.forEach(field => field.style.display = "inline-block");
+        editFields.forEach(field => field.style.display = "flex");
     }
     else {
         editProfileLabel.innerHTML = "Edit profile";
         editFields.forEach(field => field.style.display = "none");
         forms.forEach(form => form.style.display = "none");
-        initialFields.forEach(field => field.id == "bio" ? field.style.display = "flex" : field.style.display = "block");
+        initialFields.forEach(field => field.style.display = "flex");
     }
 }
 
@@ -68,36 +86,65 @@ function showSelection(editForm, inputField) {
     editForm.style.display = "flex";
     inputField.style.display = "none";
 
-    let formText = editForm.querySelector("input[type='text']");
+    let formText;
     let formValue = inputField.children[0].innerHTML;
-    if (inputField.id == "username") formValue = formValue.substr(1);
+
+    if (inputField.id == "bio")
+        formText = editForm.querySelector("textarea");
+    else
+        formText = editForm.querySelector("input[type='text']");
+
     formText.value = formValue;
 }
 
 function confirmSelection(editForm, inputField) {
-    let formText = editForm.querySelector("input[type='text']").value;
+    let formText
+    if (inputField.id == "bio")
+        formText = editForm.querySelector("textarea").value;
+    else
+        formText = editForm.querySelector("input[type='text']").value;
+    
     sendPostRequest(getRootUrl() + "/api/user", {field: inputField.id, value: formText}, 
     function() {
         if (parseInt(this.responseText)) {
-            let newValue = escapeHtml(formText);
-            if (inputField.id == "username") newValue = "@" + newValue;
-            inputField.children[0].innerHTML = newValue;
-
+            inputField.children[0].innerHTML = escapeHtml(formText);
             resetSelection(editForm, inputField);
         }
         else if (parseInt(this.responseText) == 0) 
             resetSelection(editForm, inputField);
-        else {
-            console.log(this.responseText);
+        else 
             window.location = this.responseText;
-        }
     });
 }
 
 function resetSelection(editForm, inputField) {
     editForm.style.display = "none";
+    inputField.style.display = "flex";
+}
 
-    inputField.style.display = inputField.id == "bio" ? "flex" : "inline-block";
+function createTileLists() {
+    const user = document.querySelector("#username > strong");
+    sendPostRequest(getRootUrl() + "/api/user", {userLists: user.innerHTML}, function() {
+        const res = JSON.parse(this.responseText);
+        const pets = res.pets;
+        const lists = res.lists;
+
+        const petGridContent = document.querySelector('#userPets > .petGrid > .petGridContent');
+        for (const pet of pets) {
+            const tile = createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description, null, false);
+            petGridContent.appendChild(tile);
+        }
+        console.log(petGridContent);
+
+        const listElements = document.querySelectorAll("#lists .petGrid .petGridContent");
+        for (let i = 0; i < listElements.length; i++) {
+            for (const pet of lists[i]) {
+                const tile = createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description, null, false);
+                listElements[i].appendChild(tile);
+            }
+        }
+        console.log(listElements);
+    });
 }
 
 function escapeHtml(string) {
