@@ -115,8 +115,12 @@ function handleTilesRequest() {
     if ($method == 'POST' && isset($_POST['userLists'])) {
         $userId = getUserByUsername($_POST['userLists'])['id'];
         $userLists = getUserLists($userId);
-        foreach ($userLists as $userList)
-            array_push($arr, getListPets($userList));
+        foreach ($userLists as $userList){
+            if ((Session\isAuthenticated() && $_POST['userLists'] == Session\getAuthenticatedUser()['username'])
+                    || ($userList['public'] == 1)) {
+                array_push($arr, getListPets($userList));
+            }
+        }
 
         responseJSON(array('pets' => getArrayFromSTMT(getUserPets($userId), true), 'lists' => $arr));
     }

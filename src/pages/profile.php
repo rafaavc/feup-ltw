@@ -50,7 +50,7 @@ $userLists = API\getUserLists($user['id']);
             if ((Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username'])
                     || ($userList['public'] == 1)) {
         ?>
-            <div name="<?=$userList['title']?>" class="petGrid">
+            <div name="<?=htmlentities($userList['title'])?>" class="petGrid" data-id="<?=htmlentities($userList['id'])?>">
                 <div class="arrow left"></div>
                 <div class="petGridContent"></div>
                 <div class="arrow right"></div>

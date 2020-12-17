@@ -34,13 +34,11 @@ forms.forEach(form => {
 const lists = document.getElementById('lists');
 const listSelect = document.getElementById('list-select');
 listSelect.addEventListener('change', () => {
-    for (let i = 0; i < lists.children.length; i++) {
-        console.log(lists.children[i]);
-        if (i == listSelect.options.selectedIndex)
-            lists.children[i].style.display = 'grid';
-        else lists.children[i].style.display = 'none';
+    for (const list of lists.children) {
+        if (list.dataset.id == listSelect.options[listSelect.selectedIndex].value)
+            list.style.display = 'grid';
+        else list.style.display = 'none';
     }
-    console.log(this);
 });
 
 const newList = document.getElementById('addListButton');
@@ -90,7 +88,6 @@ function showSelection(editForm, inputField) {
 
     let formText;
     let formValue = inputField.children[0].innerHTML;
-    //if (inputField.id == "username") formValue = formValue.substr(1);
 
     if (inputField.id == "bio")
         formText = editForm.querySelector("textarea");
@@ -133,11 +130,11 @@ function createTileLists() {
         const lists = res.lists;
 
         const petGridContent = document.querySelector('#userPets > .petGrid > .petGridContent');
-
         for (const pet of pets) {
             const tile = createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description, null, false);
             petGridContent.appendChild(tile);
         }
+        console.log(petGridContent);
 
         const listElements = document.querySelectorAll("#lists .petGrid .petGridContent");
         for (let i = 0; i < listElements.length; i++) {
@@ -146,6 +143,7 @@ function createTileLists() {
                 listElements[i].appendChild(tile);
             }
         }
+        console.log(listElements);
     });
 }
 
