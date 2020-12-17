@@ -24,7 +24,7 @@ function handleSearch(e) {
     const species = document.getElementById('species').value;
     const search = document.getElementById('search').value;
 
-    sendGetRequest("api/search", [type, species, search], function() {
+    sendGetRequest(`api/search/${type}/${species}/${search}`, function() {
         const res = JSON.parse(this.responseText);
         if (res.users != undefined) updateUsers(res.users);
         if (res.pets != undefined) updatePets(res.pets);

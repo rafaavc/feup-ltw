@@ -29,13 +29,12 @@
     },
     "pets": {
         "destination": "pages/pet_management.php",
-        "js": "pages/generic.js"
+        "js": "pages/pet_management.js"
     },
 
     "api/user": {
         "destination": "control/api/user.php"
     },
-
     "api/existence/:type/:value": {
         "destination": "control/api/existence.php"
     },
@@ -49,6 +48,12 @@
         "destination": "control/api/pet.php"
     },
 
+    "api/adoption/:pet": {
+        "destination": "control/api/adoption.php"
+    },
+    "api/adoption/:pet/:adopter": {
+        "destination": "control/api/adoption.php"
+    },
 
     "action/signin": {
         "destination": "control/actions/login.php"

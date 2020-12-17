@@ -53,6 +53,17 @@ div.petManagementAdoption {
     grid-template-columns: 1fr auto auto;
 }
 
+div.petManagementAdoption button {
+    background-color: transparent;
+    padding: 0;
+    font-size: 1.2em;
+}
+
+div.petManagementAdoption button > i {
+    margin: 0;
+}
+
+
 .petManagement .icofont-ui-check {
     color:  var(--confirmColor);
     transition: color .2s;

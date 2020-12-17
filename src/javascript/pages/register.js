@@ -7,7 +7,7 @@ function onElementChange() {
         elementInput.previousSibling.remove();
         return;
     }
-    sendGetRequest("api/existence", [elementInput.name, elementInput.value], function() {
+    sendGetRequest(`api/existence/${elementInput.name}/${elementInput.value}`, function() {
         const res = JSON.parse(this.responseText);
         const message = res.value ? `The ${elementInput.name} is already in use.` : `The ${elementInput.name} is not in use.`;
         const color = res.value ? "darkred" : "darkgreen";

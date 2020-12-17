@@ -1,5 +1,5 @@
 import SimpleSlider from '../slider.js'
-import { sendPostRequest } from '../ajax.js'
+import { sendPostRequest, sendDeleteRequest } from '../ajax.js'
 import './generic.js'
 import { getRootUrl } from '../init.js'
 import { elapsedTime } from '../utils.js'
@@ -70,27 +70,25 @@ function proposeToAdoptPet(event) {
 
 	const petId = document.querySelector('.petProfile').attributes['data-id'].value;
 
-	sendPostRequest(getRootUrl() + "/control/api/proposeToAdopt.php", { petId: petId }, changeAdoptButton);
+	sendPostRequest(getRootUrl() + "/api/adoption/"+petId, {}, changeAdoptButton);
 }
 
 function changeAdoptButton() {
-	const proposeToAdopt = JSON.parse(this.responseText);
+	//const proposeToAdopt = JSON.parse(this.responseText);
 
-	if (proposeToAdopt.length === 1) {
-		document.querySelector('#adopt').remove();
-		const button = document.createElement('button');
+	document.querySelector('#adopt').remove();
+	const button = document.createElement('button');
 
-		button.id = "cancel";
-		button.className = "simpleButton contrastButton";
-		button.innerHTML = "Cancel";
-		button.addEventListener('click', cancelProposeToAdoptPet);
+	button.id = "cancel";
+	button.className = "simpleButton contrastButton";
+	button.innerHTML = "Cancel";
+	button.addEventListener('click', cancelProposeToAdoptPet);
 
-		const paragraph = document.createElement('p');
-		paragraph.innerHTML = "You've proposed to adopt! ";
-		paragraph.appendChild(button);
+	const paragraph = document.createElement('p');
+	paragraph.innerHTML = "You've proposed to adopt! ";
+	paragraph.appendChild(button);
 
-		document.querySelector('.petProfile footer').appendChild(paragraph);
-	}
+	document.querySelector('.petProfile footer').appendChild(paragraph);
 }
 
 function cancelProposeToAdoptPet(event) {
@@ -98,21 +96,19 @@ function cancelProposeToAdoptPet(event) {
 
 	const petId = document.querySelector('.petProfile').attributes['data-id'].value;
 
-	sendPostRequest(getRootUrl() + "/control/api/cancelProposeToAdopt.php", { petId: petId }, changeCancelButton);
+	sendDeleteRequest(`${getRootUrl()}/api/adoption/${petId}`, changeCancelButton);
 }
 
 function changeCancelButton(event) {
-	const proposeToAdopt = JSON.parse(this.responseText);
+	//const proposeToAdopt = JSON.parse(this.responseText);
+	
+	document.querySelector('.petProfile footer > p').remove();
+	const button = document.createElement('button');
 
-	if (proposeToAdopt.length === 0) {
-		document.querySelector('.petProfile footer > p').remove();
-		const button = document.createElement('button');
+	button.id = "adopt";
+	button.className = "simpleButton contrastButton";
+	button.innerHTML = "Adopt";
+	button.addEventListener('click', proposeToAdoptPet);
 
-		button.id = "adopt";
-		button.className = "simpleButton contrastButton";
-		button.innerHTML = "Adopt";
-		button.addEventListener('click', proposeToAdoptPet);
-
-		document.querySelector('.petProfile footer').appendChild(button);
-	}
+	document.querySelector('.petProfile footer').appendChild(button);
 }
