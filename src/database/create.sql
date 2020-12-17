@@ -2,12 +2,12 @@ PRAGMA foreign_keys = ON;
 
 CREATE TABLE User (
     id INTEGER PRIMARY KEY, -- Used for photos on usersProfilePictures folder
-    name TEXT NOT NULL,
-    username TEXT NOT NULL UNIQUE,
+    name TEXT NOT NULL CHECK (length(name) >= 1 AND length(name) <= 40),
+    username TEXT NOT NULL UNIQUE CHECK (length(username) >= 5 AND length(username) <= 15),
     password TEXT NOT NULL,
     birthdate DATE NOT NULL,
-    mail TEXT NOT NULL UNIQUE,
-    description TEXT
+    mail TEXT NOT NULL UNIQUE CHECK (mail LIKE '%@%'),
+    description TEXT CHECK (length(description) <= 300)
 );
 
 CREATE TABLE List (

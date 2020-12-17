@@ -35,7 +35,6 @@ export const initWebsite = () => {
 
     firstSection.style.paddingTop = (headerHeight + parseInt(fsPaddingTop)) + "px";
 
-
     const rightArrows = document.querySelectorAll('.petGrid > .arrow.right');
     const leftArrows = document.querySelectorAll('.petGrid > .arrow.left');
 

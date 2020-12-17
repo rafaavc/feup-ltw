@@ -9,6 +9,15 @@ echo var_dump($_FILES);
 if (!isset($_FILES['profilePhoto']) || $_FILES['profilePhoto']['tmp_name'] == '') {
     Router\errorBadRequest("You didn't give a profile image.");
 }
+if (!preg_match("/^[a-zA-Z0-9_.@]+$/", $parameters['mail'])) {
+    Router\errorBadRequest("You didn't give a correct email.");
+}
+if (strtotime($parameters['birthdate']) > strtotime(date("Y-m-d").' -18 years') || strtotime($parameters['birthdate']) < strtotime("1900-01-01")) {
+    Router\errorBadRequest("You didn't give a correct birthdate.");
+}
+if (strlen($parameters['password']) < 8) {
+    Router\errorBadRequest("You didn't give a large enough password.");
+}
 
 
 $profilePhoto = $_FILES['profilePhoto'];
@@ -16,9 +25,11 @@ $tmpPath = $_FILES['profilePhoto']['tmp_name'];
 if (!isJPGImage($tmpPath)) {
     Router\errorBadRequest("You didn't give a jpg image.");
 }
-
-$userId = API\register($parameters['name'], $parameters['username'], $parameters['password'], $parameters['birthdate'], $parameters['mail'], $parameters['description']);
-
+try {
+    $userId = API\register($parameters['name'], $parameters['username'], $parameters['password'], $parameters['birthdate'], $parameters['mail'], $parameters['description']);
+} catch(Exception $e) {
+    Router\errorBadRequest();
+}
 $realPath = "../../images/userProfilePictures/".$userId.".jpg";
 move_uploaded_file($tmpPath, $realPath);
 
