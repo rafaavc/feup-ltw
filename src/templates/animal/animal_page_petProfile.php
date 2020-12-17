@@ -35,9 +35,9 @@
 				<div id="colorRaceLocation">
 					<h4><?php
 						if ($pet['race'] != null) {
-							echo $pet['color'] . ' ' . $pet['race'] . ', ' . $pet['location'];
+							echo $pet['size'] . ' ' . $pet['color'] . ' ' . $pet['race'] . ', ' . $pet['location'];
 						} else if ($pet['specie'] != null) {
-							echo $pet['color'] . ' ' . $pet['specie'] . ', ' . $pet['location'];
+							echo $pet['size'] . ' ' . $pet['color'] . ' ' . $pet['specie'] . ', ' . $pet['location'];
 						}
 						?></h4>
 				</div>
@@ -49,10 +49,6 @@
                 <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>" />
 				<input type="hidden" id="petId" name="petId" value="<?= $pet['id'] ?>" />
 				<input type="text" id="nameInput" name="name" value="<?= $pet['name'] ?>" />
-				<input type="text" id="birthdateInput" name="birthdate" min="2000-01-01" max="<?= date('Y-m-d') ?>" placeholder="Birthdate" value="<?= $pet['birthdate'] ?>" />
-				<input type="text" id="colorInput" name="color" value="<?= $pet['color'] ?>" />
-				<input type="text" id="specieInput" name="specie" value="<?= $pet['specie'] ?>" />
-				<input type="text" id="raceInput" name="race" value="<?= $pet['race'] == null ? 'Race' : $pet['race'] ?>" />
 				<input type="text" id="locationInput" name="location" value="<?= $pet['location'] ?>" />
 				<textarea id="descriptionInput" name="description"><?= $pet['description'] ?></textarea>
 

@@ -47,27 +47,11 @@
 	padding-top: 5rem;
 	width: 90%;
 	display:none;
-	grid-template-columns: 1fr 1fr 1fr 1fr;
-	grid-template-rows: 1fr 1fr 2fr auto;
 }
 
-#nameInput, #birthdateInput {
-	grid-column-end: span 2;
-}
-
-#colorInput,
-#raceInput,
-#specieInput,
+#nameInput,
 #locationInput {
-	grid-column-end: span 1;
-}
-
-#descriptionInput {
-	grid-column-end: span 4;
-}
-
-#photosInput {
-	grid-column-end: span 4;
+	width: 50%;
 }
 
 #closeEditPet {

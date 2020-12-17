@@ -194,11 +194,15 @@ const removeButtons = Array.from(document.getElementsByClassName('remove'));
 removeButtons.forEach(removeButton => {
 	removeButton.addEventListener('click', function () {
 		const photoId = this.attributes['data-id'].value;
-		if (window.confirm("Are you sure you want to remove the photo?")) {
-			sendPostRequest(getRootUrl() + "/control/api/pet.php", { photoId: photoId }, function () { console.log('here'); });
-			document.getElementById('photo' + photoId).remove();
-			document.getElementById('ss-' + photoId).remove();
-		}
+		const photos = document.querySelector('#updateForm .photos');
+
+		const photo = document.createElement('input');
+		photo.name = 'removePhotos[]';
+		photo.type = 'hidden';
+		photo.value = photoId;
+		photos.appendChild(photo);
+
+		document.getElementById('photo' + photoId).remove();
 
 	});
 });
