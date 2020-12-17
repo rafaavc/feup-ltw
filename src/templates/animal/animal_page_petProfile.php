@@ -71,7 +71,7 @@
 					<p>To select a profile picture, click on one of the pictures you uploaded.</p>
 				</div>
 
-				<input type="submit" id="closeEditPet" value="Confirm Edition" style="display: none" /></input>
+				<input type="submit" id="submitEditPet" value="Confirm Edition" style="display: none" /></input>
 			</form>
 		</header>
 		<?php if (Session\isAuthenticated()) {

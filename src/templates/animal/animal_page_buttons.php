@@ -17,6 +17,7 @@
 
 	if ($pet['userId'] == $user['id']) { ?>
 		<button id="editPet" class="simpleButton contrastButton">Edit Pet</button>
+		<button id="closeEdit" class="simpleButton contrastButton" style="display: none">Cancel Edition</button>
 		<?php
 	} else if ($adopted == false) {
 		$proposedToAdopt = API\getProposedToAdopt($user['id'], $pet['id']);

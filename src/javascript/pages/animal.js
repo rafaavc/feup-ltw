@@ -8,7 +8,8 @@ const commentForm = document.querySelector('#comments > form');
 const adoptButton = document.querySelector('#adopt');
 const cancelButton = document.querySelector('#cancel');
 const editPetButton = document.getElementById('editPet');
-const closeEditPetButton = document.getElementById('closeEditPet');
+const submitEditPetButton = document.getElementById('submitEditPet');
+const cancelEditPetButton = document.getElementById('closeEdit');
 
 if (commentForm != null) {
 	commentForm.addEventListener('submit', submitComment);
@@ -22,35 +23,10 @@ if (cancelButton != null) {
 if (editPetButton != null) {
 	editPetButton.addEventListener('click', editPet);
 }
-if (closeEditPetButton != null) {
-	closeEditPetButton.addEventListener('click', closeEditPet);
+if (cancelEditPetButton != null) {
+	cancelEditPetButton.addEventListener('click', cancelEditPet)
 }
 
-
-
-
-function showSelection(editForm, inputField) {
-	editForm.style.display = "flex";
-	inputField.style.display = "none";
-}
-
-function confirmSelection(editForm, inputField) {
-	const field = this.attributes['name'].value.split('Confirm')[0];
-
-	if (field === 'colorSpeciesRaceLocation') {
-		changeColorSpecieRaceLocation(editForm, inputField);
-	} else if (field === 'name') {
-		changeNameAge(editForm, inputField);
-	} else if (field === 'description') {
-		changeDescription(editForm, inputField);
-	}
-}
-
-function resetSelection(editForm, inputField) {
-	editForm.style.display = "none";
-
-	inputField.style.display = "flex";
-}
 
 function editPet() {
 	const form = document.getElementById('updateForm');
@@ -63,10 +39,11 @@ function editPet() {
 	photos.style.display = 'flex';
 
 	editPetButton.style.display = 'none';
-	closeEditPetButton.style.display = 'inline';
+	submitEditPetButton.style.display = 'inline';
+	cancelEditPetButton.style.display = 'inline';
 }
 
-function closeEditPet() {
+function cancelEditPet() {
 	const photos = document.getElementById('photosInput');
 	photos.style.display = 'none';
 
@@ -77,8 +54,8 @@ function closeEditPet() {
 	info.style.display = 'initial';
 
 	editPetButton.style.display = 'inline';
-	closeEditPetButton.style.display = 'none';
-	sendPostRequest(getRootUrl() + "/control/api/post.php", { petId: petId, comment: comment }, receiveComment);
+	submitEditPetButton.style.display = 'none';
+	cancelEditPetButton.style.display = 'none';
 }
 
 function submitComment(event) {
