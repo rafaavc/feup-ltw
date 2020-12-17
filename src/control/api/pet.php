@@ -249,3 +249,13 @@ function handleSpeciesRequest() {
 if (isset($GLOBALS['what']) && isset($GLOBALS['arg1'])) {
 	handleSpeciesRequest();
 }
+
+function removePetPhoto($photoId){
+	$stmt = Database::db()->prepare("DELETE FROM PetPhoto WHERE photoId = ?");
+	$stmt->execute(array($photoId));
+	print_r($stmt);
+	return $stmt;
+}
+
+if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['photoId']))
+	removePetPhoto($_POST['photoId']);

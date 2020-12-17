@@ -193,25 +193,18 @@ addPhotoButton.addEventListener('click', function (e) {
 	fileInputButtons[fileInputButtons.length - 1].obj.click();
 });
 
-/*
 const removeButtons = Array.from(document.getElementsByClassName('remove'));
 removeButtons.forEach(removeButton => {
-	removeButton.addEventListener('click', removeImage);
+	removeButton.addEventListener('click', function () {
+		const photoId = this.attributes['data-id'].value;
+		if (window.confirm("Are you sure you want to remove the photo?")) {
+			sendPostRequest(getRootUrl() + "/control/api/pet.php", {photoId: photoId}, function() {console.log('here');});
+			const div = document.getElementById('photo' + photoId);
+			div.remove();
+		}
+
+	});
 });
-
-function removeImage() {
-	const lastButton = fileInputButtons[fileInputButtons.length - 1].obj;
-	const lastButtonId = fileInputButtons[fileInputButtons.length - 1].id;
-	const buttonIdx = fileInputButtons.findIndex((el) => el.id === lastButtonId);
-	if (profilePhotoInput.value === lastButton.files[0].name) {
-		profilePhotoInput.value = '';
-	}
-	fileInputButtons[buttonIdx].obj.remove();
-	this.parentNode.remove();
-
-	fileInputButtons.splice(buttonIdx, 1);
-}
-*/
 
 function handleFileInput() {
 	const lastButton = fileInputButtons[fileInputButtons.length - 1].obj;

@@ -62,9 +62,9 @@
 						<?php
 						foreach ($photos as $photo) {
 						?>
-							<div>
+							<div id="photo<?= $photo['photoId'] ?>">
 								<img src="<?= getRootURL() ?>/images/petPictures/<?= $photo['photoId'] ?>.jpg" heigth=50>
-								<div class="remove"><i class="icofont-ui-close"></i></div>
+								<div class="remove" data-id="<?= $photo['photoId'] ?>"><i class="icofont-ui-close"></i></div>
 							</div>
 						<?php
 						}
