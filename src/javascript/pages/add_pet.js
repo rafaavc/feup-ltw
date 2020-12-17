@@ -6,7 +6,7 @@ const raceSelect = document.getElementById('race');
 
 function updateRaceSelect() {
     const specieId = this.value;
-    sendGetRequest(getRootUrl() + "/api/pet", ["races", specieId], function() {
+    sendGetRequest(`${getRootUrl()}/api/pet/races/${specieId}`, function() {
         raceSelect.innerHTML = '';
         const res = JSON.parse(this.responseText);
 

@@ -32,7 +32,7 @@ $posts = API\getPosts($pet['id']);
 				<?php
 				$proposedToAdopt = getProposedToAdopt(Session\getAuthenticatedUser()['id'], $pet['id']);
 
-				if (count($proposedToAdopt) == 0) { ?>
+				if ($proposedToAdopt == false) { ?>
 					<button id="adopt" class="simpleButton contrastButton">Adopt</button>
 				<?php
 				} else { ?>

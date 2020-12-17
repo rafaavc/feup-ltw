@@ -1,6 +1,7 @@
 <?php
 
 namespace API;
+use Router;
 
 require_once(dirname(__FILE__)."/pet.php");
 require_once(dirname(__FILE__)."/user.php");
@@ -36,7 +37,7 @@ function searchPets($value) {
 }
 
 function searchUsers($value) {
-    $users = getArrayFromSTMT(getUsers(), true);
+    $users = getArrayFromSTMT(getPublicUsers(), true);
     usort($users, function ($user1, $user2) use($value) {  
         if (!isset($user1['distance'])) {
             $user1['distance'] = getPetDistance($user1, $value);  // the greater the better
@@ -69,7 +70,7 @@ function handleSearchRequest() {
     }
 }
 
-if (isset($GLOBALS['what']) && isset($GLOBALS['specie']) && isset($GLOBALS['value'])) {
+if (Router\isAPIRequest(__FILE__) && isset($GLOBALS['what']) && isset($GLOBALS['specie']) && isset($GLOBALS['value'])) {
     handleSearchRequest();
 }
 

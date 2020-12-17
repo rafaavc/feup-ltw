@@ -3,9 +3,6 @@ $GLOBALS['section'] = 'discover';
 require_once(dirname(__FILE__)."/../control/api/pet.php");
 require_once(dirname(__FILE__)."/../control/api/user.php");
 
-$pets = API\getArrayFromSTMT(API\getPets(), 10);
-$users = API\getArrayFromSTMT(API\getUsers(), 10);
-
 include_once(dirname(__FILE__) ."/../templates/common/header.php");
 include_once(dirname(__FILE__) ."/../templates/tiles.php");
 ?>
