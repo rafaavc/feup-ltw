@@ -41,13 +41,32 @@ listSelect.addEventListener('change', () => {
     }
 });
 
-const newList = document.getElementById('addListButton');
-if (newList != null)
-    newList.addEventListener('click', toggleAddingMode);
+const addListButton = document.getElementById('addListButton');
+if (addListButton != null)
+    addListButton.addEventListener('click', toggleAddingMode);
+
+const removeListButton = document.getElementById("removeListButton");
+if (removeListButton != null)
+    removeListButton.addEventListener('click', removeList);
 
 createTileLists();
-
 initWebsite();
+
+function removeList() {
+    const listSelect = document.getElementById("list-select");
+    const selectedIndex = listSelect.selectedIndex;
+
+    //delete element from select
+    const elementToDelete = listSelect.children[selectedIndex];
+    const listId = elementToDelete.value;
+    elementToDelete.remove();
+
+    //delete list
+    document.querySelector("#lists > div[data-id='" + listId + "']").remove();
+
+    //delete list in database
+
+}
 
 function editProfile() {
     const editProfileLabel = document.querySelector("#editProfileLabel > a");

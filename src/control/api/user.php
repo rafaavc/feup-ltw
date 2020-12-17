@@ -141,8 +141,10 @@ function createList($title, $visibility, $description) {
 function handleListCreationRequest() {
     $method = $_SERVER['REQUEST_METHOD'];
 
-    if ($method == 'POST' && isset($_POST['title'], $_POST['visibility'], $_POST['description']))
-        responseJSON(array('created' => createList($_POST['title'], $_POST['visibility'], $_POST['description'])));
+    if ($method == 'POST' && isset($_POST['title'], $_POST['visibility'], $_POST['description'])) {
+        createList($_POST['title'], $_POST['visibility'], $_POST['description']);
+        responseJSON(array('id' => Database::db()->lastInsertId()));
+    }
 }
 
 function handleTilesRequest() {

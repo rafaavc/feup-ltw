@@ -75,17 +75,43 @@ export function toggleAddingMode(e) {
             toggleAddingMode.bind(context)();
 
             if (entity == 'List') {
+                option.selected = false;
                 sendPostRequest(getRootUrl() + "/api/user", 
                                 {title: input.value, visibility: publicSelect.selectedIndex, description: description.innerHTML}, 
                                 function() {
                     const res = JSON.parse(this.responseText);
-            
-                    console.log(res);
-                })
+                    option.value = res.id;
+
+                    const id = res.id;
+                    const lists = document.getElementById('lists');
+                    lists.appendChild(createEmptyTileList(input.value, id));
+                    }
+                )
             }
 
         });
 
         this.parentNode.parentNode.appendChild(button);
     }
+}
+
+function createEmptyTileList(title, id) {
+    const mainDiv = document.createElement("div");
+    mainDiv.name = title;
+    mainDiv.className = "petGrid";
+    mainDiv.dataset.id = id;
+
+    const arrowLeft = document.createElement("div");
+    arrowLeft.className = "arrow left";
+    mainDiv.appendChild(arrowLeft);
+
+    const petGridContent = document.createElement("div");
+    petGridContent.className = "petGridContent";
+    mainDiv.appendChild(petGridContent);
+
+    const arrowRight = document.createElement("div");
+    arrowRight.className = "arrow right";
+    mainDiv.appendChild(arrowRight);
+
+    return mainDiv;
 }

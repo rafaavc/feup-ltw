@@ -44,6 +44,7 @@ $userLists = API\getUserLists($user['id']);
         ?>
         <div>
             <button class="simpleButton" id="addListButton" data-entity="List"><i class="icofont-ui-add"></i>New list</button>
+            <button class="simpleButton" id="removeListButton" data-entity="List"><i class="icofont-ui-delete"></i>Delete list</button>
         </div>
         <?php
         }
@@ -56,7 +57,7 @@ $userLists = API\getUserLists($user['id']);
             if ((Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username'])
                     || ($userList['public'] == 1)) {
         ?>
-            <div name="<?=htmlentities($userList['title'])?>" class="petGrid" data-id="<?=htmlentities($userList['id'])?>">
+            <div class="petGrid" data-id="<?=htmlentities($userList['id'])?>">
                 <div class="arrow left"></div>
                 <div class="petGridContent"></div>
                 <div class="arrow right"></div>
