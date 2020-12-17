@@ -40,6 +40,7 @@ listSelect.addEventListener('change', () => {
             lists.children[i].style.display = 'grid';
         else lists.children[i].style.display = 'none';
     }
+    console.log(this);
 });
 
 const newList = document.getElementById('addListButton');
@@ -48,6 +49,21 @@ newList.addEventListener('click', toggleAddingMode);
 createTileLists();
 
 initWebsite();
+
+function updateListSelect() {
+    const listId = this.value;
+    sendPostRequest(getRootUrl() + "/api/user", {field: inputField.id, value: formText}, function() {
+        raceSelect.innerHTML = '';
+        const res = JSON.parse(this.responseText);
+
+        for (const race of res.races) {
+            const optElem = document.createElement('option');
+            optElem.value = race.id;
+            optElem.appendChild(document.createTextNode(race.name));
+            raceSelect.appendChild(optElem);
+        }
+    })
+}
 
 function editProfile() {
     const editProfileLabel = document.querySelector("#editProfileLabel > a");

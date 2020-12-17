@@ -32,12 +32,12 @@ export function toggleAddingMode(e) {
 
             const publicOption = document.createElement("option");
             publicOption.value = "Public";
-            publicOption.innerHTML = "public";
+            publicOption.innerHTML = "Public";
             publicSelect.appendChild(publicOption);
 
             const privateOption = document.createElement("option");
             privateOption.value = "Private";
-            privateOption.innerHTML = "private";
+            privateOption.innerHTML = "Private";
             publicSelect.appendChild(privateOption);
 
             addListForm.appendChild(publicSelect);
