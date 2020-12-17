@@ -3,6 +3,7 @@
 namespace API;
 
 use Database;
+use Router;
 
 include_once(dirname(__FILE__)."/existence.php");
 
@@ -29,6 +30,13 @@ function register($name, $username, $password, $birthdate, $mail, $description) 
 
     /* TODO */
     return true;
+}
+
+function ownsPet($userId, $petId) {
+    $stmt = Database::db()->prepare("SELECT id FROM Pet WHERE userId = ? AND id = ?");
+    $stmt->execute(array($userId, $petId));
+    $pet = $stmt->fetch();
+    return $pet != false;
 }
 
 function getUserByUsername($username) {
@@ -60,6 +68,18 @@ function getUserById($userId){
 function getUsers() {
     $stmt = Database::db()->prepare(
         "SELECT *
+        FROM User
+            JOIN (
+                SELECT userId, count(userId) as petCount FROM Pet GROUP BY userId
+            ) ON(id=userId)
+        ORDER BY petCount DESC");
+    $stmt->execute();
+    return $stmt;
+}
+
+function getPublicUsers() {
+    $stmt = Database::db()->prepare(
+        "SELECT id, name, username, description, petCount
         FROM User
             JOIN (
                 SELECT userId, count(userId) as petCount FROM Pet GROUP BY userId
@@ -127,8 +147,7 @@ function handleUpdateRequest() {
 function getProposedToAdopt($userId, $petId){
     $stmt = Database::db()->prepare("SELECT * FROM ProposedToAdopt WHERE userId = ? AND petId = ?");
     $stmt->execute(array($userId, $petId));
-
-    return $stmt->fetchAll();
+    return $stmt->fetch();
 }
 
 function getUserLists($userId){
@@ -145,4 +164,6 @@ function getListPets($list){
     return $stmt->fetchAll();
 }
 
-handleUpdateRequest();
+if (Router\isAPIRequest(__FILE__)) {
+    handleUpdateRequest();
+}

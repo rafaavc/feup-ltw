@@ -39,7 +39,7 @@ function handleExistenceRequest() {
     }
 }
 
-if (isset($GLOBALS['type']) && isset($GLOBALS['value'])) {
+if (Router\isAPIRequest(__FILE__) && isset($GLOBALS['type']) && isset($GLOBALS['value'])) {
     handleExistenceRequest();
 }
 

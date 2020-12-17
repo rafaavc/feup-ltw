@@ -9,7 +9,7 @@
 	} else if ($adopted == false) {
 		$proposedToAdopt = API\getProposedToAdopt($user['id'], $pet['id']);
 
-		if (count($proposedToAdopt) == 0) { ?>
+		if ($proposedToAdopt == false) { ?>
 			<button id="adopt" class="simpleButton contrastButton">Adopt</button>
 		<?php
 		} else { ?>
