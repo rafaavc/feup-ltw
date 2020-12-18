@@ -49,7 +49,9 @@ export const createPetTile = (pet) => {
     spanElem.classList.add('petState');
     spanElem.classList.add(pet.state);
     spanElem.appendChild(document.createTextNode(getCurrentState(pet.state)));
-    return createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description, spanElem);
+
+    const name = pet.name == '' || pet.name == null ? `${pet.size} ${pet.color} ${pet.race}` : pet.name;
+    return createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, name, null, pet.description, spanElem);
 }
 
 

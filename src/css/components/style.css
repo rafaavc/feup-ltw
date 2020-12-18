@@ -158,8 +158,17 @@ body > section > img {
 
 body > section.simpleGrid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
     grid-gap: 2rem;
+}
+
+body > section.simpleGrid.inverse {
+    grid-template-columns: 2fr 1fr;
+}
+
+
+body > section.indexCover + section {
+    margin-top: 5rem;
 }
 
 body > section.indexCover:before {
