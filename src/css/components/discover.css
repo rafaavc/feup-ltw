@@ -1,7 +1,17 @@
 
 #petResults > div, #userResults > div {
     display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+    align-items: stretch;
+    flex-wrap: wrap;
 }
+
+#petResults > div > *, #userResults > div > * {
+    flex-basis: 25ch;
+}
+
+
 
 #petResults > h2, #userResults > h2 {
     page-break-after: always;
@@ -16,12 +26,21 @@
     transition: color .2s;
 }
 
+#petResults article, #userResults article {
+    height: 100%;
+}
+
+#petResults a, #userResults a {
+    color: inherit;
+    transition: color .2s;
+}
+
 #petResults a:hover, #userResults a:hover {
     color: var(--accentColorDarker);
 }
 
 
-.searchResult {
+/*.searchResult {
     display: grid;
     grid-template-columns: auto 1fr;
     grid-gap: 1rem;
@@ -31,6 +50,6 @@
     width: 10rem;
     height: 10rem;
     border-radius: 50%;
-}
+}*/
 
 

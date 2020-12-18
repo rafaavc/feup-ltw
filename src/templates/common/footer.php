@@ -4,10 +4,8 @@
             <h3>Pages</h3>
             <nav id="footerMainMenu">
                 <ul>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Pets</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Help</a></li>
+                    <li><a href="<?=getRootUrl()?>">Home</a></li>
+                    <li><a href="<?=getRootUrl()?>/discover">Discover</a></li>
                 </ul>
             </nav>
         </section>
@@ -15,10 +13,9 @@
             <h3>Contact us:</h3>
             <nav>
                 <ul>
-                    <li><a href="#">Invalidemail@nowhere.com</a></li>
-                    <li><a href="#">912345678</a></li>
-                    <li><a href="#">R. Dr. Roberto Frias, 4200-465 Porto</a></li>
-                    <li><a href="#">Help</a></li>
+                    <li>invalidemail@totherescue.com</li>
+                    <li>912345678</li>
+                    <li>R. Dr. Roberto Frias, 4200-465 Porto</li>
                 </ul>
             </nav>
         </section>
@@ -29,6 +26,7 @@
                     <li><a href="<?=getRootUrl()?>/signup">Sign Up</a></li>
                 <?php } else { ?>
                     <li><a href="<?=getRootUrl()?>/action/signout">Sign Out</a></li>
+                    <li><a href="<?=getRootUrl()?>/pets">My Pets</a></li>
                     <li><a href="<?=getRootUrl()?>/user/<?=$loggedInUser['username']?>">My Profile</a></li>
                 <?php } ?>
             </ul>
