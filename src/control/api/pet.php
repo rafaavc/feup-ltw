@@ -143,6 +143,18 @@ function getSpeciesRaces($specieId) {
 	return $stmt;
 }
 
+function addSpecieRace($specieId, $raceName) {
+	$stmt = Database::db()->prepare("INSERT INTO PetRace(specieId, name) VALUES(?, ?)");
+	$stmt->execute(array($specieId, $raceName));
+	return Database::db()->lastInsertId();
+}
+
+function addPetPhoto($petId) {
+	$stmt = Database::db()->prepare("INSERT INTO PetPhoto(petId) VALUES(?)");
+	$stmt->execute(array($petId));
+	return Database::db()->lastInsertId();
+}
+
 function handleIndexTilesRequest() {
     $method = $_SERVER['REQUEST_METHOD'];
     if ($method == 'POST') {

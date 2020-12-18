@@ -22,7 +22,7 @@ function updateRaceSelect() {
             optElem.appendChild(document.createTextNode(race.name));
             raceSelect.appendChild(optElem);
         }
-    })
+    });
 }
 
 const form = document.querySelector("form[name=addPet]");
@@ -36,8 +36,8 @@ addPhotoButton.addEventListener('click', function(e) {
     e.preventDefault();
     fileInputButtons[fileInputButtons.length-1].obj.click();
 });
-let showedProfilePhotoError = false;
 
+let showedProfilePhotoError = false;
 
 const specieSelect = document.getElementById('specie');
 const sizeSelect = document.getElementById('size');
