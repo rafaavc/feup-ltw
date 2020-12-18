@@ -154,7 +154,8 @@ function changeAdoptButton() {
 	petProposal.appendChild(p);
 
 	document.getElementById('petProposals').appendChild(petProposal);
-	document.querySelector('#petProposals > p').style.display = 'none';
+	if (document.querySelector('#petProposals > p') != null)
+		document.querySelector('#petProposals > p').style.display = 'none';
 }
 
 function cancelProposeToAdoptPet(event) {
