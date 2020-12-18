@@ -128,6 +128,14 @@ function updateBio($bio) {
     return $stmt->rowCount();
 }
 
+function updatePassword($password) {
+    $stmt = Database::db()->prepare("UPDATE User SET password = :password WHERE username = :username");
+    $stmt->bindParam(':username', $_SESSION['username']);
+    $stmt->bindParam(':password', password_hash($password, PASSWORD_DEFAULT));
+    $stmt->execute();
+    return $stmt->rowCount();
+}
+
 function createList($title, $visibility, $description) {
     $stmt = Database::db()->prepare("INSERT INTO List(title, description, public, userId) VALUES (:title, :description, :public, :userId);");
     $stmt->bindParam(':title', $title);
@@ -143,6 +151,23 @@ function deleteList($listId) {
     $stmt->bindParam(':listId', $listId);
     $stmt->execute();
     return $stmt->rowCount();
+}
+
+function handleNewPasswordRequest() {
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    if ($method == 'POST' && isset($_POST['currentPassword'], $_POST['newPassword'], $_POST['confirmPassword'])) {
+        if (!password_verify($_POST['currentPassword'], Session\getAuthenticatedUser()['password'])) {
+            responseJSON(array('success' => -1));
+            return;
+        }
+        if (strcmp($_POST['newPassword'], $_POST['confirmPassword']) != 0) {
+            responseJSON(array('success' => -2));
+            return;
+        }
+        updatePassword($_POST['newPassword']);
+        responseJSON(array('success' => 1));
+    }
 }
 
 function handleListDeletionRequest() {
@@ -224,4 +249,5 @@ if (Router\isAPIRequest(__FILE__)) {
     handleTilesRequest();
     handleListCreationRequest();
     handleListDeletionRequest();
+    handleNewPasswordRequest();
 }
