@@ -71,6 +71,10 @@
     cursor: pointer;
 }
 
+#mailForm {
+    
+}
+
 .textButtonPair form > input[type="text"], .textButtonPair form > textarea {
     width: auto;
     margin-bottom: 0;

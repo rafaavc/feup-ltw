@@ -5,7 +5,7 @@
             <section class="textButtonPair">
                 <div id="name">
                     <h3><?=htmlentities($user['name'])?></h3>
-                    <button class="edit clickable" id="nameEdit"><i class="icofont-ui-edit"></i></button> 
+                    <button class="edit clickable" id="nameEdit"><i class="icofont-ui-edit"></i></button>
                 </div>
                 <form id="nameForm">
                     <input type="text" class="edit-data" maxlength="20" required/>
@@ -20,7 +20,7 @@
                 </div>
                 <form id="usernameForm">
                     <input type="text" class="edit-data" minlength="5" maxlength="15" required/>
-                    <button class="confirm" name="usernameConfirm"><i class="icofont-ui-check"></i></button> 
+                    <button class="confirm" name="usernameConfirm"><i class="icofont-ui-check"></i></button>
                     <button class="close" name="usernameClose"><i class="icofont-ui-close"></i></button>
                 </form>
             </section>
@@ -30,7 +30,7 @@
                     <button class="edit clickable" id="mailEdit"><i class="icofont-ui-edit"></i></button>
                 </div>
                 <form id="mailForm">
-                    <input type="email" class="edit-data" required/>
+                    <input type="email"  pattern="[a-zA-Z0-9_.@]+" class="edit-data" required/>
                     <button class="confirm" name="mailConfirm"><i class="icofont-ui-check"></i></button>
                     <button class="close" name="mailClose"><i class="icofont-ui-close"></i></button>
                 </form>
@@ -43,7 +43,7 @@
             </div>
             <form id="bioForm">
                 <textarea name="text" maxlength="300"></textarea>
-                <button class="confirm" name="bioConfirm"><i class="icofont-ui-check"></i></button> 
+                <button class="confirm" name="bioConfirm"><i class="icofont-ui-check"></i></button>
                 <button class="close" name="bioClose"><i class="icofont-ui-close"></i></button>
             </form>
         </section>
@@ -62,7 +62,7 @@
                 <label for="confirmPassword">Confirm Password</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required/>
 
-                <button class="confirm" name="passwordConfirm"><i class="icofont-ui-check"></i></button> 
+                <button class="confirm" name="passwordConfirm"><i class="icofont-ui-check"></i></button>
                 <button class="close" name="passwordClose"><i class="icofont-ui-close"></i></button>
             </form>
         </section>

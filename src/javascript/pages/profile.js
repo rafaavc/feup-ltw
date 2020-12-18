@@ -12,7 +12,7 @@ const forms = Array.from(document.getElementsByClassName('textButtonPair'));
 forms.forEach(form => {
     const inputField = form.children[0];
     const editForm = form.children[1];
-    
+
     const edit = inputField.getElementsByClassName("clickable");
     edit[0].addEventListener('click', () => {
         showSelection(editForm, inputField);
@@ -32,7 +32,7 @@ forms.forEach(form => {
         event.preventDefault();
         resetSelection(editForm, inputField);
     });
-    
+
 });
 
 const lists = document.getElementById('lists');
@@ -73,7 +73,7 @@ function removeList() {
         firstList.children[0].style.display = "grid";
 
     //delete list in database
-    sendPostRequest(getRootUrl() + "/api/user", {listId: listId}, function(){});
+    sendPostRequest(getRootUrl() + "/api/user", { listId: listId }, function () { });
 }
 
 function editProfile() {
@@ -119,18 +119,30 @@ function confirmSelection(editForm, inputField) {
         formText = editForm.querySelector("textarea").value;
     else
         formText = editForm.getElementsByClassName("edit-data")[0].value;
-    
-    sendPostRequest(getRootUrl() + "/api/user", {field: inputField.id, value: formText}, 
-    function() {
-        if (parseInt(this.responseText)) {
-            inputField.children[0].innerHTML = escapeHtml(formText);
-            resetSelection(editForm, inputField);
+
+    if (inputField.id === 'mail') {
+        if (!RegExp('[a-zA-Z0-9_]+@[a-zA-Z0-9_]+.[a-zA-Z0-9_]+').test(formText)) {
+            const p = document.createElement('p');
+            p.innerHTML = 'Invalid email';
+            p.style.fontSize = '0.8rem';
+            p.style.color = 'red';
+            document.getElementById('mailForm').appendChild(p);
+            setTimeout(function () { p.innerHTML = '' }, 3000)
+            return;
         }
-        else if (parseInt(this.responseText) == 0) 
-            resetSelection(editForm, inputField);
-        else 
-            window.location = this.responseText;
-    });
+    }
+
+    sendPostRequest(getRootUrl() + "/api/user", { field: inputField.id, value: formText },
+        function () {
+            if (parseInt(this.responseText)) {
+                inputField.children[0].innerHTML = escapeHtml(formText);
+                resetSelection(editForm, inputField);
+            }
+            else if (parseInt(this.responseText) == 0)
+                resetSelection(editForm, inputField);
+            else
+                window.location = this.responseText;
+        });
 }
 
 function createNewPassword(editForm, inputField) {
@@ -140,14 +152,24 @@ function createNewPassword(editForm, inputField) {
 
     resetPassword();
 
-    sendPostRequest(getRootUrl() + "/api/user", 
-    {currentPassword: currentPassword, newPassword: newPassword, confirmPassword: confirmPassword}, 
-    function() {
-        const res = JSON.parse(this.responseText);
-        if (res.success == 1)
-            resetSelection(editForm, inputField);
-    });
-    
+    if (newPassword.length < 8) {
+        const p = document.createElement('p');
+        p.innerHTML = 'Invalid password';
+        p.style.fontSize = '0.8rem';
+        p.style.color = 'red';
+        document.getElementById('passwordForm').appendChild(p);
+        setTimeout(function () { p.innerHTML = '' }, 3000);
+        return;
+    }
+
+    sendPostRequest(getRootUrl() + "/api/user",
+        { currentPassword: currentPassword, newPassword: newPassword, confirmPassword: confirmPassword },
+        function () {
+            const res = JSON.parse(this.responseText);
+            if (res.success == 1)
+                resetSelection(editForm, inputField);
+        });
+
 }
 
 function resetSelection(editForm, inputField) {
@@ -164,7 +186,7 @@ function resetPassword() {
 
 function createTileLists() {
     const user = document.querySelector("#username > strong");
-    sendPostRequest(getRootUrl() + "/api/user", {userLists: user.innerHTML}, function() {
+    sendPostRequest(getRootUrl() + "/api/user", { userLists: user.innerHTML }, function () {
         const res = JSON.parse(this.responseText);
         const pets = res.pets;
         const lists = res.lists;
