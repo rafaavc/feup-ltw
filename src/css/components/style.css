@@ -158,8 +158,17 @@ body > section > img {
 
 body > section.simpleGrid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
     grid-gap: 2rem;
+}
+
+body > section.simpleGrid.inverse {
+    grid-template-columns: 2fr 1fr;
+}
+
+
+body > section.indexCover + section {
+    margin-top: 5rem;
 }
 
 body > section.indexCover:before {
@@ -252,6 +261,14 @@ article.tile {
     vertical-align: top;
 }
 
+article.tile:hover .petState {
+    background-color: var(--accentColorDarker);
+}
+
+article.tile .petState {
+    display: inline;
+}
+
 article.tile > .image ~ * {
     margin: 1rem;
 }
@@ -318,6 +335,10 @@ body > footer > div > section > nav > ul > li > a{
     text-decoration: none;
 }
 
+body > footer a:hover {
+    color: var(--accentColor);
+}
+
 #footerMainMenu > ul > li {
     margin-bottom: 0.3em;
 }
@@ -334,8 +355,11 @@ body > footer > div > section > nav > ul > li > a{
     display: flex;
 }
 
-#footerSessionMenu > ul > li:first-child::after{
+#footerSessionMenu > ul > li::after{
     content: "\00a0\00a0\00a0/\00a0\00a0\00a0";
+}
+#footerSessionMenu > ul > li:last-child::after{
+    content: "";
 }
 
 .simple-2column-grid {

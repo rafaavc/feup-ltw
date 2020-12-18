@@ -5,31 +5,7 @@
 			<section id="petInfo">
 				<div id="nameAge">
 					<h3><?= $pet['name'] == null ? '' : htmlentities($pet['name']) . ',' ?>
-						<?php
-						$birthDate = explode("-", $pet['birthdate']);
-						//get age from date or birthdate
-						$years = (date("md", date("U", mktime(0, 0, 0, $birthDate[2], $birthDate[1], $birthDate[0]))) > date("md")
-							? ((date("Y") - $birthDate[0]) - 1)
-							: (date("Y") - $birthDate[0]));
-						if ($years > 1) {
-							echo $years . ' years';
-						} else if ($years == 1) {
-							echo $years . ' year';
-						}
-						$months = (date("d", date("U", mktime(0, 0, 0, $birthDate[2], $birthDate[1], $birthDate[0]))) > date("d")
-							? ((date("m") - $birthDate[1]) - 1)
-							: (date("m") - $birthDate[1]));
-						if ($months > 0) {
-							if ($years > 0) {
-								echo ' and ' . $months . ' months';
-							} else {
-								echo $months . ' months';
-							}
-						} else {
-							if ($years == 0)
-								echo '0 months';
-						}
-						?>
+						<?=elapsedTime(strtotime($pet['birthdate']))?>
 					</h3>
 				</div>
 				<div id="colorRaceLocation">
@@ -41,6 +17,7 @@
 						}
 						?></h4>
 				</div>
+				<span class="petState <?=$pet['state']?>"><?=$pet['state'] == 'adopted' ? 'Adopted' : ($pet['state'] == 'ready' ? 'Ready for Adoption' : ($pet['state'] == 'archived' ? 'Archived' : null)) ?></span>
 				<div id="description">
 					<p><?= $pet['description'] ?></p>
 				</div>

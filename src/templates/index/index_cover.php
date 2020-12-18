@@ -2,11 +2,11 @@
     <img src="images/cuteDoggos.jpeg" />
     <div>
         <header>
-            <h2>We scratch, build and play together</h2>
+            <h2>Find your furry (or not) companion</h2>
         </header>
-        <p>Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam no suscipit quaerendum. At nam minimum ponderum. Est audiam animal molestiae te. Ex duo eripuit mentitum.</p>
+        <p>We have got a wide range of options! You can't choose wrong. Head out to our discover page to search for them.</p>
         <footer>
-            <a href="#" class="simpleButton contrastButton">Contact us</a>
+            <a href="<?=getRootUrl()?>/discover" class="simpleButton contrastButton">Discover</a>
         </footer>
     </div>
 </section>

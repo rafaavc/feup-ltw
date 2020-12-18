@@ -25,9 +25,9 @@
 		</form>
 	<?php } else { ?>
 		<h4>To add a comment</h4>
-		<ul>
-			<li><a href="<?= getRootUrl() ?>/signin" class="simpleButton">Sign In</a></li>
+		<ul>			
 			<li><a href="<?= getRootUrl() ?>/signup" class="simpleButton contrastButton">Sign Up</a></li>
+			<li><a href="<?= getRootUrl() ?>/signin" class="simpleButton">Sign In</a></li>
 		</ul>
 	<?php } ?>
 </section>

@@ -1,6 +1,7 @@
 import { getRootUrl } from './init.js'
+import { getCurrentState } from './pet_state.js';
 
-export const createTile = (url, imageUrl, title, footer, description, extraSection, slider) => {
+export const createTile = (url, imageUrl, title, footer, description, extraSection) => {
     const aNode = document.createElement("a");
     aNode.classList.add('tileContainer');
     aNode.href = getRootUrl() + '/' + url;
@@ -41,5 +42,25 @@ export const createTile = (url, imageUrl, title, footer, description, extraSecti
     }
 
     return aNode;
+}
+
+export const createPetTile = (pet) => {
+    const spanElem = document.createElement('span');
+    spanElem.classList.add('petState');
+    spanElem.classList.add(pet.state);
+    spanElem.appendChild(document.createTextNode(getCurrentState(pet.state)));
+
+    const name = pet.name == '' || pet.name == null ? `${pet.size} ${pet.color} ${pet.specie}` : pet.name;
+    return createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, name, null, pet.description, spanElem);
+}
+
+
+export const createUserTile = (user) => {
+    const iconElem = document.createElement('i');
+    iconElem.classList.add('icofont-dog');
+    const footer = document.createElement('span');
+    footer.appendChild(document.createTextNode(user.petCount == null ? 0 : user.petCount));
+    footer.appendChild(iconElem);
+    return createTile(`user/${user.username}`, `images/userProfilePictures/${user.id}.jpg`, user.name, footer, user.description, null);
 }
 
