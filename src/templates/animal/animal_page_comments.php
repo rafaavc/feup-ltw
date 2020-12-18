@@ -28,7 +28,7 @@
 			<input type="submit" class="contrastButton" />
 		</form>
 	<?php } else { ?>
-		<p>To add a comment,</p>
+		<p class="addCommentCTA">To add a comment,</p>
 		<ul>			
 			<li><a href="<?= getRootUrl() ?>/signup" class="simpleButton contrastButton">Sign Up</a></li>
 			<li><a href="<?= getRootUrl() ?>/signin" class="simpleButton">Sign In</a></li>

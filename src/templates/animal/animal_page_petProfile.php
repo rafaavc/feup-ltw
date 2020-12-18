@@ -1,4 +1,4 @@
-<section class="petProfile" data-id="<?= $pet['id'] ?>">
+<section class="petProfile" data-id="<?= $pet['id'] ?>" data-owner-id="<?=$pet['userId']?>">
 	<div style="background-image: url(<?= '../images/petProfilePictures/' . $pet['id'] . '.jpg' ?>);"> </div>
 	<div>
 		<header>

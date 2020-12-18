@@ -190,3 +190,21 @@
 .petProfileSection textarea {
 	height: 7rem;
 }
+
+.petProfileSection ul {
+	list-style-type: none;
+	padding: 0;
+}
+
+.petProfileSection li {
+	display: inline-block;
+}
+
+.petProfileSection .addCommentCTA {
+	margin-top: 2rem;
+	font-weight: bold;
+}
+
+.petProfileSection > form {
+	margin-top: 3rem;
+}
