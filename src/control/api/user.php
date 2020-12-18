@@ -21,17 +21,21 @@ function login($username, $password) {
 }
 
 function register($name, $username, $password, $birthdate, $mail, $description) {
-    $stmt = Database::db()->prepare("INSERT INTO User(name, username, password, birthdate, mail, description) VALUES(:name, :username, :password, :birthdate, :mail, :description)");
-    $stmt->bindParam(':name', $name);
-    $stmt->bindParam(':username', $username);
-    $stmt->bindParam(':password', password_hash($password, PASSWORD_DEFAULT));
-    $stmt->bindParam(':birthdate', $birthdate);
-    $stmt->bindParam(':mail', $mail);
-    $stmt->bindParam(':description', $description);
-    $stmt->execute();
+    try {
+        $stmt = Database::db()->prepare("INSERT INTO User(name, username, password, birthdate, mail, description) VALUES(:name, :username, :password, :birthdate, :mail, :description)");
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':username', $username);
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt->bindParam(':password', $passwordHash);
+        $stmt->bindParam(':birthdate', $birthdate);
+        $stmt->bindParam(':mail', $mail);
+        $stmt->bindParam(':description', $description);
+        $stmt->execute();
+    } catch (Exception $e) {
+        return false;
+    }
 
-    /* TODO */
-    return true;
+    return Database::db()->lastInsertId();
 }
 
 function ownsPet($userId, $petId) {
@@ -83,7 +87,7 @@ function getPublicUsers() {
     $stmt = Database::db()->prepare(
         "SELECT id, name, username, description, petCount
         FROM User
-            JOIN (
+            LEFT JOIN (
                 SELECT userId, count(userId) as petCount FROM Pet GROUP BY userId
             ) ON(id=userId)
         ORDER BY petCount DESC");
@@ -226,7 +230,6 @@ function handleUpdateRequest() {
 function getProposedToAdopt($userId, $petId){
     $stmt = Database::db()->prepare("SELECT * FROM ProposedToAdopt WHERE userId = ? AND petId = ?");
     $stmt->execute(array($userId, $petId));
-
     return $stmt->fetch();
 }
 

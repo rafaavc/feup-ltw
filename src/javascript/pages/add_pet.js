@@ -22,9 +22,10 @@ function updateRaceSelect() {
             optElem.appendChild(document.createTextNode(race.name));
             raceSelect.appendChild(optElem);
         }
-    })
+    });
 }
 
+const form = document.querySelector("form[name=addPet]");
 const profilePhotoInput = document.querySelector('input[type=hidden][name=profilePhoto]');
 const fileInputButtons = [{ obj: document.querySelector('input[type=file]:last-of-type'), id: 0 }];
 fileInputButtons[0].obj.addEventListener('change', handleFileInput);
@@ -36,10 +37,47 @@ addPhotoButton.addEventListener('click', function(e) {
     fileInputButtons[fileInputButtons.length-1].obj.click();
 });
 
+let showedProfilePhotoError = false;
+
+const specieSelect = document.getElementById('specie');
+const sizeSelect = document.getElementById('size');
+const colorSelect = document.getElementById('color');
+
+form.addEventListener('submit', function(e) {
+    if (specieSelect.value == "-1") {
+        specieSelect.focus();
+        e.preventDefault();
+        return;
+    }
+    if (sizeSelect.value == "-1") {
+        sizeSelect.focus();
+        e.preventDefault();
+        return;
+    }
+    if (colorSelect.value == "-1") {
+        colorSelect.focus();
+        e.preventDefault();
+        return;
+    }
+    if (profilePhotoInput.value == "") { // no profile photo has been selected
+        e.preventDefault();
+        addPhotoButton.focus();
+        if (!showedProfilePhotoError) {
+            const pElem = document.createElement('p');
+            pElem.classList.add('error-message');
+            pElem.appendChild(document.createTextNode('Please select a profile image.'));
+            addPhotoButton.parentNode.insertBefore(pElem, addPhotoButton.nextSibling);
+            showedProfilePhotoError = true;
+        }
+        return;
+    }
+});
+
 function updateProfilePic() {
     const prevProfileImage = document.querySelectorAll('img.profilePicture');
     prevProfileImage.forEach((pi) => pi.classList.remove('profilePicture'));
     this.classList.add('profilePicture');
+
     const buttonId = parseInt(this.dataset.buttonId);
     const button = fileInputButtons.find((button) => button.id === buttonId).obj;
     profilePhotoInput.value = button.files[0].name;
@@ -94,7 +132,6 @@ function handleFileInput() {
 }
 
 
-const specieSelect = document.getElementById('specie');
 specieSelect.addEventListener('change', updateRaceSelect);
 updateRaceSelect.bind(specieSelect)();
 

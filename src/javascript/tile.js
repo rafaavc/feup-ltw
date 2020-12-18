@@ -3,13 +3,13 @@ import { getRootUrl } from './init.js'
 export const createTile = (url, imageUrl, title, footer, description, extraSection, slider) => {
     const aNode = document.createElement("a");
     aNode.classList.add('tileContainer');
-    aNode.href = document.body.dataset.rootUrl + '/' + url;
+    aNode.href = getRootUrl() + '/' + url;
 
     const articleNode = document.createElement("article");
     articleNode.classList.add('tile');
     aNode.appendChild(articleNode);
 
-    const imgNode = document.createElement("img"); 
+    const imgNode = document.createElement("img");
     imgNode.classList.add('image');
     imgNode.style.background = `url('${getRootUrl()}/${imageUrl}')`;
     imgNode.style.backgroundPosition = "50%";
@@ -29,6 +29,8 @@ export const createTile = (url, imageUrl, title, footer, description, extraSecti
     if (description != null) {
         const pNode = document.createElement('p');
         pNode.appendChild(document.createTextNode(description));
+        pNode.style.overflow = 'hidden';
+        if (title == '') pNode.style.margin = '3.5rem 1rem 1rem 1rem';
         articleNode.appendChild(pNode);
     }
 
