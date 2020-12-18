@@ -12,7 +12,7 @@ const forms = Array.from(document.getElementsByClassName('textButtonPair'));
 forms.forEach(form => {
     const inputField = form.children[0];
     const editForm = form.children[1];
-    
+
     const edit = inputField.getElementsByClassName("clickable");
     edit[0].addEventListener('click', () => {
         showSelection(editForm, inputField);
@@ -32,7 +32,7 @@ forms.forEach(form => {
         event.preventDefault();
         resetSelection(editForm, inputField);
     });
-    
+
 });
 
 const lists = document.getElementById('lists');
@@ -119,16 +119,28 @@ function confirmSelection(editForm, inputField) {
         formText = editForm.querySelector("textarea").value;
     else
         formText = editForm.getElementsByClassName("edit-data")[0].value;
-    
-    sendPostRequest(getRootUrl() + "/api/user", {field: inputField.id, value: formText}, 
+
+    if (inputField.id === 'mail') {
+        if (RegExp('[a-zA-Z0-9_.@]+').test(inputField.id)) {
+            const p = document.createElement('p');
+            p.innerHTML = 'Invalid email';
+            p.style.fontSize = '0.6rem';
+            p.style.color = 'red';
+            document.getElementById('mailForm').appendChild(p);
+            setTimeout(function() {p.innerHTML = ''},3000)
+            return;
+        }
+    }
+
+    sendPostRequest(getRootUrl() + "/api/user", {field: inputField.id, value: formText},
     function() {
         if (parseInt(this.responseText)) {
             inputField.children[0].innerHTML = escapeHtml(formText);
             resetSelection(editForm, inputField);
         }
-        else if (parseInt(this.responseText) == 0) 
+        else if (parseInt(this.responseText) == 0)
             resetSelection(editForm, inputField);
-        else 
+        else
             window.location = this.responseText;
     });
 }
@@ -140,14 +152,14 @@ function createNewPassword(editForm, inputField) {
 
     resetPassword();
 
-    sendPostRequest(getRootUrl() + "/api/user", 
-    {currentPassword: currentPassword, newPassword: newPassword, confirmPassword: confirmPassword}, 
+    sendPostRequest(getRootUrl() + "/api/user",
+    {currentPassword: currentPassword, newPassword: newPassword, confirmPassword: confirmPassword},
     function() {
         const res = JSON.parse(this.responseText);
         if (res.success == 1)
             resetSelection(editForm, inputField);
     });
-    
+
 }
 
 function resetSelection(editForm, inputField) {
