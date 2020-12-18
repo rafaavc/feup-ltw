@@ -12,7 +12,7 @@ forms.forEach(form => {
     const inputField = form.children[0];
     const editForm = form.children[1];
     
-    const edit = inputField.getElementsByClassName("edit");
+    const edit = inputField.getElementsByClassName("clickable");
     edit[0].addEventListener('click', () => {
         showSelection(editForm, inputField);
     });
@@ -20,7 +20,10 @@ forms.forEach(form => {
     const confirm = editForm.getElementsByClassName("confirm");
     confirm[0].addEventListener('click', (event) => {
         event.preventDefault();
-        confirmSelection(editForm, inputField);
+        if (inputField.id == "password")
+            createNewPassword(editForm, inputField);
+        else
+            confirmSelection(editForm, inputField);
     });
 
     const close = editForm.getElementsByClassName("close");
@@ -41,26 +44,35 @@ listSelect.addEventListener('change', () => {
     }
 });
 
-const newList = document.getElementById('addListButton');
-newList.addEventListener('click', toggleAddingMode);
+const addListButton = document.getElementById('addListButton');
+if (addListButton != null)
+    addListButton.addEventListener('click', toggleAddingMode);
+
+const removeListButton = document.getElementById("removeListButton");
+if (removeListButton != null)
+    removeListButton.addEventListener('click', removeList);
 
 createTileLists();
-
 initWebsite();
 
-function updateListSelect() {
-    const listId = this.value;
-    sendPostRequest(getRootUrl() + "/api/user", {field: inputField.id, value: formText}, function() {
-        raceSelect.innerHTML = '';
-        const res = JSON.parse(this.responseText);
+function removeList() {
+    const listSelect = document.getElementById("list-select");
+    const selectedIndex = listSelect.selectedIndex;
 
-        for (const race of res.races) {
-            const optElem = document.createElement('option');
-            optElem.value = race.id;
-            optElem.appendChild(document.createTextNode(race.name));
-            raceSelect.appendChild(optElem);
-        }
-    })
+    //delete element from select
+    const elementToDelete = listSelect.children[selectedIndex];
+    if (elementToDelete == undefined) return;
+    const listId = elementToDelete.value;
+    elementToDelete.remove();
+
+    //delete list
+    document.querySelector("#lists > div[data-id='" + listId + "']").remove();
+    const firstList = document.getElementById("lists");
+    if (firstList.children[0].length != 0)
+        firstList.children[0].style.display = "grid";
+
+    //delete list in database
+    sendPostRequest(getRootUrl() + "/api/user", {listId: listId}, function(){});
 }
 
 function editProfile() {
@@ -84,17 +96,20 @@ function editProfile() {
 
 function showSelection(editForm, inputField) {
     editForm.style.display = "flex";
+    editForm.style.margin = "1rem";
+    editForm.style.alignItems = "baseline"
     inputField.style.display = "none";
 
     let formText;
-    let formValue = inputField.children[0].innerHTML;
+    const formValue = inputField.children[0].innerHTML;
 
     if (inputField.id == "bio")
         formText = editForm.querySelector("textarea");
     else
-        formText = editForm.querySelector("input[type='text']");
+        formText = editForm.getElementsByClassName("edit-data")[0];
 
-    formText.value = formValue;
+    if (inputField.id != "password")
+        formText.value = formValue;
 }
 
 function confirmSelection(editForm, inputField) {
@@ -102,7 +117,7 @@ function confirmSelection(editForm, inputField) {
     if (inputField.id == "bio")
         formText = editForm.querySelector("textarea").value;
     else
-        formText = editForm.querySelector("input[type='text']").value;
+        formText = editForm.getElementsByClassName("edit-data")[0].value;
     
     sendPostRequest(getRootUrl() + "/api/user", {field: inputField.id, value: formText}, 
     function() {
@@ -117,9 +132,33 @@ function confirmSelection(editForm, inputField) {
     });
 }
 
+function createNewPassword(editForm, inputField) {
+    const currentPassword = document.getElementById("currentPassword").value;
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    resetPassword();
+
+    sendPostRequest(getRootUrl() + "/api/user", 
+    {currentPassword: currentPassword, newPassword: newPassword, confirmPassword: confirmPassword}, 
+    function() {
+        const res = JSON.parse(this.responseText);
+        if (res.success == 1)
+            resetSelection(editForm, inputField);
+    });
+    
+}
+
 function resetSelection(editForm, inputField) {
     editForm.style.display = "none";
     inputField.style.display = "flex";
+    if (inputField.id == "password") resetPassword();
+}
+
+function resetPassword() {
+    document.getElementById("currentPassword").value = "";
+    document.getElementById("newPassword").value = "";
+    document.getElementById("confirmPassword").value = "";
 }
 
 function createTileLists() {
@@ -134,7 +173,6 @@ function createTileLists() {
             const tile = createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description, null, false);
             petGridContent.appendChild(tile);
         }
-        console.log(petGridContent);
 
         const listElements = document.querySelectorAll("#lists .petGrid .petGridContent");
         for (let i = 0; i < listElements.length; i++) {
@@ -143,7 +181,6 @@ function createTileLists() {
                 listElements[i].appendChild(tile);
             }
         }
-        console.log(listElements);
     });
 }
 

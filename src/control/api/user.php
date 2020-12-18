@@ -112,11 +112,16 @@ function updateUsername($username) {
 
     $_SESSION['username'] = $username;
 
-    return getRootURL(). "/user". "/" . $username;
+    return getRootURL(). "/user/" . $username;
 }
 
 function updateMail($mail) {
     if (emailExists($mail)) return 0;
+
+    if (!preg_match("/^[a-zA-Z0-9_.@]+$/", $mail)) {
+        Router\errorBadRequest("You didn't give a correct email.");
+    }
+
     $stmt = Database::db()->prepare("UPDATE User SET mail = :mail WHERE username = :username");
     $stmt->bindParam(':username', $_SESSION['username']);
     $stmt->bindParam(':mail', $mail);
@@ -130,6 +135,66 @@ function updateBio($bio) {
     $stmt->bindParam(':description', $bio);
     $stmt->execute();
     return $stmt->rowCount();
+}
+
+function updatePassword($password) {
+    $stmt = Database::db()->prepare("UPDATE User SET password = :password WHERE username = :username");
+    $stmt->bindParam(':username', $_SESSION['username']);
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+    $stmt->bindParam(':password', $passwordHash);
+    $stmt->execute();
+    return $stmt->rowCount();
+}
+
+function createList($title, $visibility, $description) {
+    $stmt = Database::db()->prepare("INSERT INTO List(title, description, public, userId) VALUES (:title, :description, :public, :userId);");
+    $stmt->bindParam(':title', $title);
+    $stmt->bindParam(':description', $description);
+    $stmt->bindParam(':public', $visibility);
+    $stmt->bindParam(':userId', Session\getAuthenticatedUser()['id']);
+    $stmt->execute();
+    return $stmt->rowCount();
+}
+
+function deleteList($listId) {
+    $stmt = Database::db()->prepare("DELETE FROM List WHERE id  = :listId");
+    $stmt->bindParam(':listId', $listId);
+    $stmt->execute();
+    return $stmt->rowCount();
+}
+
+function handleNewPasswordRequest() {
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    if ($method == 'POST' && isset($_POST['currentPassword'], $_POST['newPassword'], $_POST['confirmPassword'])) {
+        if (!password_verify($_POST['currentPassword'], Session\getAuthenticatedUser()['password'])) {
+            responseJSON(array('success' => -1));
+            return;
+        }
+        if (strcmp($_POST['newPassword'], $_POST['confirmPassword']) != 0) {
+            responseJSON(array('success' => -2));
+            return;
+        }
+        updatePassword($_POST['newPassword']);
+        responseJSON(array('success' => 1));
+    }
+}
+
+function handleListDeletionRequest() {
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    if ($method == 'POST' && isset($_POST['listId'])) {
+        responseJSON(array('deleted' => deleteList($_POST['listId'])));
+    }
+}
+
+function handleListCreationRequest() {
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    if ($method == 'POST' && isset($_POST['title'], $_POST['visibility'], $_POST['description'])) {
+        createList($_POST['title'], $_POST['visibility'], $_POST['description']);
+        responseJSON(array('id' => Database::db()->lastInsertId()));
+    }
 }
 
 function handleTilesRequest() {
@@ -191,4 +256,7 @@ function getListPets($list){
 if (Router\isAPIRequest(__FILE__)) {
     handleUpdateRequest();
     handleTilesRequest();
+    handleListCreationRequest();
+    handleListDeletionRequest();
+    handleNewPasswordRequest();
 }
