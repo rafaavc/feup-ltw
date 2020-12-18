@@ -3,7 +3,7 @@ import { getRootUrl } from './init.js'
 export const createTile = (url, imageUrl, title, footer, description, extraSection, slider) => {
     const aNode = document.createElement("a");
     aNode.classList.add('tileContainer');
-    aNode.href = document.body.dataset.rootUrl + '/' + url;
+    aNode.href = getRootUrl() + '/' + url;
 
     const articleNode = document.createElement("article");
     articleNode.classList.add('tile');

@@ -143,12 +143,40 @@ function getSpeciesRaces($specieId) {
 	return $stmt;
 }
 
+function addSpecieRace($specieId, $raceName) {
+	$stmt = Database::db()->prepare("INSERT INTO PetRace(specieId, name) VALUES(?, ?)");
+	$stmt->execute(array($specieId, $raceName));
+	return Database::db()->lastInsertId();
+}
+
+function addPetPhoto($petId) {
+	$stmt = Database::db()->prepare("INSERT INTO PetPhoto(petId) VALUES(?)");
+	$stmt->execute(array($petId));
+	return Database::db()->lastInsertId();
+}
+
 function handleIndexTilesRequest() {
     $method = $_SERVER['REQUEST_METHOD'];
-
     if ($method == 'POST') {
         responseJSON(array('pets' => getArrayFromSTMT(getPets(), $_POST['size'])));
-    }
+	}
+}
+
+function addPet($userId, $name, $birthdate, $specie, $race, $size, $color, $location, $description) {
+	$stmt = Database::db()->prepare("INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description, datePosted, archived) VALUES(:userId, :name, :birthdate, :specie, :race, :size, :color, :location, :description, :datePosted, 0)");
+	$stmt->bindParam(':userId', $userId);
+	$stmt->bindParam(':name', $name);
+	$stmt->bindParam(':birthdate', $birthdate);
+	$stmt->bindParam(':specie', $specie);
+	$stmt->bindParam(':race', $race);
+	$stmt->bindParam(':size', $size);
+	$stmt->bindParam(':color', $color);
+	$stmt->bindParam(':location', $location);
+	$stmt->bindParam(':description', $description);
+	$datePosted = date('Y-m-d H:i:s');
+	$stmt->bindParam(':datePosted', $datePosted);
+	$stmt->execute();
+	return Database::db()->lastInsertId();
 }
 
 function handleSpeciesRequest() {

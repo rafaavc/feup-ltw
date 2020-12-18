@@ -6,10 +6,6 @@ form label {
     display: none;
 }
 
-form input, form textarea, form select, form[name=addPet] .simple-2column-grid {
-    margin-bottom: 1rem;
-}
-
 form > input:last-child, form textarea:last-child, form select:last-child, form[name=addPet] .simple-2column-grid input {
     margin-bottom: 0;
 }
@@ -52,8 +48,9 @@ form input[type="password"]:focus,
 form input[type="email"]:focus, 
 form input[type="date"]:focus,
 textarea:focus,
-select:focus {
-    border: 1px solid var(--accentColor);
+select:focus,
+form button:focus {
+    border: 2px solid var(--accentColor);
 }
 
 form input[type="submit"] {
@@ -109,9 +106,41 @@ form[name=addPet] div.photos > div > div.remove:hover {
     color: var(--darkTextColor);
 }
 
+.formField {
+    position: relative;
+    margin-bottom: 1rem;
+}
+.formField.required:after {
+    content: "*";
+    position: absolute;
+    right: -0.5rem;
+    top: 0;
+    color: var(--accentColorDarker);
+}
+
 section.authForm {
     padding-left: calc(var(--rightLeftPadding) );
     padding-right: calc(var(--rightLeftPadding) );
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 5rem;
+}
+
+p.notice {
+    font-size: 0.9em;
+}
+
+section.authForm > div {
+    width: 30vw;
+    min-width: 20rem;
+}
+section.authForm .photoContainer > img {
+    width: 10vw;
+    min-width: 15rem;
+}
+
+section.authForm .photoContainer {
+    margin-bottom: 1rem;
 }
 
 section.searchForm {

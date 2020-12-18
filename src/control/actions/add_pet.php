@@ -3,6 +3,7 @@
 require_once(dirname(__FILE__)."/action.php");
 require_once(dirname(__FILE__)."/../api/pet.php");
 require_once(dirname(__FILE__)."/../api/user.php");
+require_once(dirname(__FILE__)."/../file_upload.php");
 
 $parameters = initAction(['name', 'birthdate', 'location', 'description', 'specie', 'race', 'size', 'color', 'profilePhoto']);
 
@@ -13,12 +14,21 @@ function validateSelectParam($param, $required) {
         Router\sendBack();
     }
     if (!is_numeric($parameters[$param])) {
-        if (!(preg_match('/^[a-zA-Z ]+$/', $parameters[$param]) === 1)) {
+        if (!preg_match('/^[a-zA-Z ]+$/', $parameters[$param])) {
             Session\setMessage(Session\error(), "Invalid new ".$param." name.");
             Router\sendBack();
         }
     }
 }
+
+if (strtotime($parameters['birthdate']) < getYearsAgo(20) || strtotime($parameters['birthdate']) > strtotime(date("Y-m-d"))) {
+    Router\errorBadRequest("The pet's birthdate is not valid.");
+}
+
+if (!preg_match('/^[a-zA-Z ]+$/', $parameters['location'])) {
+    Router\errorBadRequest("The pet's location is not valid.");
+}
+
 // validation
 validateSelectParam('specie', true);
 validateSelectParam('color', true);
@@ -45,15 +55,27 @@ if ($parameters['race'] == -1) {
     $parameters['specie'] = null; // specie is already in the race
 }
 
+// checks if all files sent are valid
+$foundProfilePhoto = false;
+for($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
+    $tmpPath = $_FILES['photos']['tmp_name'][$i];
+    $name = $_FILES['photos']['name'][$i];
+    if ($tmpPath == "") continue;
+    if (!isJPGImage($tmpPath)) {
+        Router\errorBadRequest("Invalid files were sent to the server.");
+    }
+    if ($name == $parameters['profilePhoto']) {
+        $foundProfilePhoto = true;
+    }
+}
+if (!$foundProfilePhoto) Router\errorBadRequest("The profile photo was not sent to the server.");
+
+
 $petId = API\addPet(Session\getAuthenticatedUser()['id'], $parameters['name'], $parameters['birthdate'],$parameters['specie'],$parameters['race'],$parameters['size'], $parameters['color'], $parameters['location'], $parameters['description']); // create pet
 
 for($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
     $tmpPath = $_FILES['photos']['tmp_name'][$i];
     if ($tmpPath == "") continue;
-    if (finfo_file(finfo_open(FILEINFO_MIME_TYPE), $tmpPath) != 'image/jpeg') {
-        echo "not valid :(";
-        continue;
-    }
     $photoId = API\addPetPhoto($petId);
     $originalPath = "../../images/petPictures/".$photoId.".jpg";
     move_uploaded_file($tmpPath, $originalPath);
