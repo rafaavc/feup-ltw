@@ -61,6 +61,7 @@ function removeList() {
 
     //delete element from select
     const elementToDelete = listSelect.children[selectedIndex];
+    if (elementToDelete == undefined) return;
     const listId = elementToDelete.value;
     elementToDelete.remove();
 
@@ -105,7 +106,7 @@ function showSelection(editForm, inputField) {
     if (inputField.id == "bio")
         formText = editForm.querySelector("textarea");
     else
-        formText = editForm.querySelector("input[type='text']");
+        formText = editForm.getElementsByClassName("edit-data")[0];
 
     if (inputField.id != "password")
         formText.value = formValue;
@@ -116,7 +117,7 @@ function confirmSelection(editForm, inputField) {
     if (inputField.id == "bio")
         formText = editForm.querySelector("textarea").value;
     else
-        formText = editForm.querySelector("input[type='text']").value;
+        formText = editForm.getElementsByClassName("edit-data")[0].value;
     
     sendPostRequest(getRootUrl() + "/api/user", {field: inputField.id, value: formText}, 
     function() {
@@ -149,7 +150,6 @@ function createNewPassword() {
 }
 
 function resetSelection(editForm, inputField) {
-    console.log(editForm);
     if (inputField.id == "password") resetPassword();
     editForm.style.display = "none";
     inputField.style.display = "flex";

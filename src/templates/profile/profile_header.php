@@ -8,7 +8,7 @@
                     <button class="edit clickable" id="nameEdit"><i class="icofont-ui-edit"></i></button> 
                 </div>
                 <form id="nameForm">
-                    <input type="text" />
+                    <input type="text" class="edit-data" maxlength="20" required/>
                     <button class="confirm" name="nameConfirm"><i class="icofont-ui-check"></i></button>
                     <button class="close" name="nameClose"><i class="icofont-ui-close"></i></button>
                 </form>
@@ -19,7 +19,7 @@
                     <button class="edit clickable" id="usernameEdit"><i class="icofont-ui-edit"></i></button>
                 </div>
                 <form id="usernameForm">
-                    <input type="text" />
+                    <input type="text" class="edit-data" minlength="5" maxlength="15" required/>
                     <button class="confirm" name="usernameConfirm"><i class="icofont-ui-check"></i></button> 
                     <button class="close" name="usernameClose"><i class="icofont-ui-close"></i></button>
                 </form>
@@ -30,7 +30,7 @@
                     <button class="edit clickable" id="mailEdit"><i class="icofont-ui-edit"></i></button>
                 </div>
                 <form id="mailForm">
-                    <input type="text" />
+                    <input type="email" class="edit-data" required/>
                     <button class="confirm" name="mailConfirm"><i class="icofont-ui-check"></i></button>
                     <button class="close" name="mailClose"><i class="icofont-ui-close"></i></button>
                 </form>
@@ -42,7 +42,7 @@
                 <button class="edit clickable" id="bioEdit"><i class="icofont-ui-edit"></i></button>
             </div>
             <form id="bioForm">
-                <textarea name="text"></textarea>
+                <textarea name="text" maxlength="300"></textarea>
                 <button class="confirm" name="bioConfirm"><i class="icofont-ui-check"></i></button> 
                 <button class="close" name="bioClose"><i class="icofont-ui-close"></i></button>
             </form>

@@ -117,6 +117,11 @@ function updateUsername($username) {
 
 function updateMail($mail) {
     if (emailExists($mail)) return 0;
+
+    if (!preg_match("/^[a-zA-Z0-9_.@]+$/", $mail)) {
+        Router\errorBadRequest("You didn't give a correct email.");
+    }
+
     $stmt = Database::db()->prepare("UPDATE User SET mail = :mail WHERE username = :username");
     $stmt->bindParam(':username', $_SESSION['username']);
     $stmt->bindParam(':mail', $mail);

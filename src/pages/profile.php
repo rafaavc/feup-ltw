@@ -44,7 +44,7 @@ $userLists = API\getUserLists($user['id']);
         ?>
         <div>
             <button class="simpleButton" id="addListButton" data-entity="List"><i class="icofont-ui-add"></i>New list</button>
-            <button class="simpleButton" id="removeListButton" data-entity="List"><i class="icofont-ui-delete"></i>Delete list</button>
+            <button class="simpleButton" id="removeListButton" data-entity="List"><i class="icofont-ui-delete"></i>Delete list</button>   
         </div>
         <?php
         }
