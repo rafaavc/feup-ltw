@@ -18,4 +18,3 @@ function &getArrayFromSTMT($stmt, $amount) {
 }
 
 ?>
-

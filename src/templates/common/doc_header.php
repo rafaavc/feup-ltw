@@ -8,4 +8,4 @@
 		<script type="module" src="<?=getRootUrl()?>/javascript/<?=$GLOBALS['js']?>" defer></script>
 	<?php } ?>
 </head>
-<body data-root-url="<?=getRootUrl()?>">
+<body>

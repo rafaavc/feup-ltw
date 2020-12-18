@@ -5,14 +5,28 @@ use API;
 use Session;
 
 function handle() {
-    $req; 
+    $req = "";
     if (php_sapi_name() == 'cli-server') {   // php cli-server
         $req = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-        $req = $req != "/" ? substr($req, 1, strlen($req)-1) : "index";
+        //$ext = pathinfo($req, PATHINFO_EXTENSION);
+        /*if ($ext != "" && file_exists($_SERVER["SCRIPT_FILENAME"])) {
+            $mimeType = "";
+            if ($ext == "js") $mimeType = "text/javascript";
+            else if ($ext == "jpg" || $ext == "jpeg") $mimeType = "image/jpeg";
+            else if ($ext == "css") $mimeType = "text/css";
+            else {
+                return false;
+            }
 
+            /*header("Content-Type: ".$mimeType);
+            readfile($_SERVER["SCRIPT_FILENAME"]);
+            exit();
+        }*/
+        $req = $req != "/" ? substr($req, 1, strlen($req)-1) : "index";
         if (file_exists($_SERVER['DOCUMENT_ROOT'].'/'.$req)) { // serves the file
             return false;
         }
+
     } else {   // apache
         $req = isset($_GET['req']) ? $_GET['req'] : "index";
     }
@@ -118,16 +132,16 @@ function httpError($code, $message) {
     exit();
 }
 
-function errorForbidden() {
-    httpError(403, "Forbidden request."); 
+function errorForbidden($msg = null) {
+    httpError(403, $msg == null ? "Forbidden request." : $msg); 
 }
 
-function errorUnauthorized() {
-    httpError(401, "Unauthorized request.");
+function errorUnauthorized($msg = null) {
+    httpError(401, $msg == null ? "Unauthorized request." : $msg);
 }
 
-function errorBadRequest() {
-    httpError(400, "Bad request.");
+function errorBadRequest($msg = null) {
+    httpError(400, $msg == null ? "Bad request." : $msg);
 }
 
 function sendTo($location) {
@@ -141,8 +155,4 @@ function sendBack() {
     exit();
 }
 
-
-
 ?>
-
-

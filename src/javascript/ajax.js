@@ -15,7 +15,17 @@ export const sendGetRequest = (whereTo, onload) => {
     req.send();
 }
 
-export const sendDeleteRequest = (whereTo, onload, ) => {
+export const sendSyncGetRequest = (whereTo, onload) => {
+    const req = new XMLHttpRequest();
+    req.open('GET', whereTo, false);
+    req.send();
+
+    console.log(req.responseText);
+    if (req.status != 200) return;
+    onload(req);
+}
+
+export const sendDeleteRequest = (whereTo, onload) => {
     const request = new XMLHttpRequest();
 	request.addEventListener('load', function() {
         console.log(this.responseText);

@@ -342,8 +342,13 @@ body > footer > div > section > nav > ul > li > a{
     display: grid;
     grid-template-columns: 1fr auto;
     grid-gap: 1rem;
-    align-items: center;
+    margin-bottom: 1rem;
 }
+
+.simple-2column-grid > div.formField {
+    margin-bottom: 0;
+}
+
 
 /* * {
     border: 1px solid;
