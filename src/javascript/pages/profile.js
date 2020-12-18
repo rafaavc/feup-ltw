@@ -63,9 +63,12 @@ function removeList() {
 
     //delete list
     document.querySelector("#lists > div[data-id='" + listId + "']").remove();
+    const firstList = document.getElementById("lists");
+    if (firstList.children[0].length != 0)
+        firstList.children[0].style.display = "grid";
 
     //delete list in database
-
+    sendPostRequest(getRootUrl() + "/api/user", {listId: listId}, function(){});
 }
 
 function editProfile() {

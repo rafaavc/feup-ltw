@@ -138,6 +138,21 @@ function createList($title, $visibility, $description) {
     return $stmt->rowCount();
 }
 
+function deleteList($listId) {
+    $stmt = Database::db()->prepare("DELETE FROM List WHERE id  = :listId");
+    $stmt->bindParam(':listId', $listId);
+    $stmt->execute();
+    return $stmt->rowCount();
+}
+
+function handleListDeletionRequest() {
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    if ($method == 'POST' && isset($_POST['listId'])) {
+        responseJSON(array('deleted' => deleteList($_POST['listId'])));
+    }
+}
+
 function handleListCreationRequest() {
     $method = $_SERVER['REQUEST_METHOD'];
 
@@ -208,4 +223,5 @@ if (Router\isAPIRequest(__FILE__)) {
     handleUpdateRequest();
     handleTilesRequest();
     handleListCreationRequest();
+    handleListDeletionRequest();
 }
