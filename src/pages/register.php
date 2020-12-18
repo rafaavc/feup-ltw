@@ -44,7 +44,7 @@ if (Session\isAuthenticated()) { ?>
 
             <div class="formField required">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" minlength="5" maxlength="15" placeholder="Username" required/>
+                <input type="text" id="username" name="username" pattern="[a-zA-Z0-9_.]+" minlength="5" maxlength="15" placeholder="Username" required/>
             </div>
 
             <div class="formField required">
