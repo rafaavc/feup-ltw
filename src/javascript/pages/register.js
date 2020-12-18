@@ -42,6 +42,7 @@ form.addEventListener('submit', function(e) {
     if (!valid) {
         mail.focus();
         e.preventDefault();
+        return;
     }
     valid = false;
     sendSyncGetRequest(`api/existence/username/${username.value}`, function(req) {
@@ -52,10 +53,12 @@ form.addEventListener('submit', function(e) {
     if (!valid) {
         username.focus();
         e.preventDefault();
+        return;
     }
     if (!fileInputButton.value) {
         profilePhotoButton.focus();
         e.preventDefault();
+        return;
     }
 });
 
