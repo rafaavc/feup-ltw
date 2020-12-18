@@ -69,13 +69,16 @@ function getUserById($userId){
     return $user;
 }
 
+$GLOBALS['userTableQuery'] = "
+    User
+    LEFT JOIN (
+        SELECT userId, count(userId) as petCount FROM Pet GROUP BY userId
+    ) ON(id=userId)";
+
 function getUsers() {
     $stmt = Database::db()->prepare(
         "SELECT *
-        FROM User
-            JOIN (
-                SELECT userId, count(userId) as petCount FROM Pet GROUP BY userId
-            ) ON(id=userId)
+        FROM ".$GLOBALS['userTableQuery']."
         ORDER BY petCount DESC");
     $stmt->execute();
     return $stmt;
@@ -84,10 +87,7 @@ function getUsers() {
 function getPublicUsers() {
     $stmt = Database::db()->prepare(
         "SELECT id, name, username, description, petCount
-        FROM User
-            JOIN (
-                SELECT userId, count(userId) as petCount FROM Pet GROUP BY userId
-            ) ON(id=userId)
+        FROM ".$GLOBALS['userTableQuery']."
         ORDER BY petCount DESC");
     $stmt->execute();
     return $stmt;

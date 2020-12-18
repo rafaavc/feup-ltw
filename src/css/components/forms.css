@@ -149,7 +149,7 @@ section.searchForm {
 
 section.searchForm > form {
     display: grid;
-    grid-template-columns: 5fr 1fr 1fr;
+    grid-template-columns: 5fr 1fr 1fr 1fr 1fr;
     grid-gap: 1rem;
 }
 

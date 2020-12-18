@@ -8,24 +8,23 @@ function handle() {
     $req = "";
     if (php_sapi_name() == 'cli-server') {   // php cli-server
         $req = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-        $ext = pathinfo($req, PATHINFO_EXTENSION);
-        if ($ext != "" && file_exists($_SERVER["SCRIPT_FILENAME"])) {
-            /*$mimeType = "";
+        //$ext = pathinfo($req, PATHINFO_EXTENSION);
+        /*if ($ext != "" && file_exists($_SERVER["SCRIPT_FILENAME"])) {
+            $mimeType = "";
             if ($ext == "js") $mimeType = "text/javascript";
             else if ($ext == "jpg" || $ext == "jpeg") $mimeType = "image/jpeg";
             else if ($ext == "css") $mimeType = "text/css";
-            else {*/
+            else {
                 return false;
-            //}
-
+            }
             /*header("Content-Type: ".$mimeType);
             readfile($_SERVER["SCRIPT_FILENAME"]);
-            exit();*/
-        }  else if ($ext != "") {
-            error404();
-        }
-
+            exit();
+        }*/
         $req = $req != "/" ? substr($req, 1, strlen($req)-1) : "index";
+        if (file_exists($_SERVER['DOCUMENT_ROOT'].'/'.$req)) { // serves the file
+            return false;
+        }
     } else {   // apache
         $req = isset($_GET['req']) ? $_GET['req'] : "index";
     }
