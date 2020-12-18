@@ -4,13 +4,13 @@
 	<?php if (sizeof($posts) == 0) { ?>
 		<p>This pet has no comments yet.</p>
 		<?php } else {
-		for ($i = 0; $i < count($posts); $i++) {
-			$user = API\getUserById($posts[$i]['userId']); ?>
-			<article class="comment">
+		foreach ($posts as $post) {
+			$user = API\getUserById($post['userId']); ?>
+			<article class="comment" id="post-<?=$post['id']?>">
 				<div class="image" style="background-image: url('../../images/userProfilePictures/<?= $user['id'] ?>.jpg')"></div>
-				<p><?= $posts[$i]['description'] ?></p>
+				<p><?= $post['description'] ?></p>
 				<span class="user"><?= htmlentities($user['shortName']) ?></span>
-				<span class="date"><?= htmlentities($posts[$i]['postDate']) ?></span>
+				<span class="date"><?= elapsedTime(strtotime($post['postDate'])) ?> ago</span>
 			</article>
 
 		<?php }
