@@ -87,7 +87,7 @@ function getPublicUsers() {
     $stmt = Database::db()->prepare(
         "SELECT id, name, username, description, petCount
         FROM User
-            JOIN (
+            LEFT JOIN (
                 SELECT userId, count(userId) as petCount FROM Pet GROUP BY userId
             ) ON(id=userId)
         ORDER BY petCount DESC");
