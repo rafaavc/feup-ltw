@@ -23,7 +23,7 @@ CREATE TABLE Pet (
     userId INTEGER NOT NULL REFERENCES User ON DELETE CASCADE, -- Listed for adoption
     name TEXT CHECK (length(name) <= 20),   -- may not have a name
     birthdate DATE NOT NULL,
-    specie INTEGER REFERENCES PetRace ON DELETE SET NULL, -- it has either PetRace or a PetSpecie, because the race is associated with the specie. The PetSpecie is only for pets without race
+    specie INTEGER REFERENCES PetSpecie ON DELETE SET NULL, -- it has either PetRace or a PetSpecie, because the race is associated with the specie. The PetSpecie is only for pets without race
     race INTEGER REFERENCES PetRace ON DELETE SET NULL,
     size INTEGER NOT NULL REFERENCES PetSize ON DELETE SET NULL,
     color INTEGER NOT NULL REFERENCES PetColor ON DELETE SET NULL,
@@ -66,6 +66,11 @@ CREATE TABLE ProposedToAdopt (
     userId INTEGER NOT NULL REFERENCES User ON DELETE CASCADE,
     petId INTEGER NOT NULL REFERENCES Pet ON DELETE CASCADE,
     PRIMARY KEY(userId, petId)
+);
+
+CREATE TABLE RejectedProposal (
+    userId INTEGER NOT NULL REFERENCES User ON DELETE CASCADE,
+    petId INTEGER NOT NULL REFERENCES Pet ON DELETE CASCADE
 );
 
 CREATE TABLE Adopted (

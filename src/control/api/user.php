@@ -171,7 +171,6 @@ function handleUpdateRequest() {
 function getProposedToAdopt($userId, $petId){
     $stmt = Database::db()->prepare("SELECT * FROM ProposedToAdopt WHERE userId = ? AND petId = ?");
     $stmt->execute(array($userId, $petId));
-
     return $stmt->fetch();
 }
 

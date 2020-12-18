@@ -1,34 +1,47 @@
 <?php
 
 namespace API;
+
 use Database;
 use Router;
 use Session;
 use Exception;
 
-require_once(dirname(__FILE__)."/user.php");
+require_once(dirname(__FILE__) . "/user.php");
 
-function makeAdoptionRequest($pet, $adopter) {
+function makeAdoptionRequest($pet, $adopter)
+{
     $db = Database::instance()->db();
     $stmt = $db->prepare('INSERT INTO ProposedToAdopt(userId, petId) VALUES(?, ?)');
     $stmt->execute(array($adopter, $pet));
 }
 
-function cancelAdoptionRequest($pet, $adopter) {
+function deleteAdoptionRequest($pet, $adopter)
+{
+    $db = Database::instance()->db();
+    $stmt = $db->prepare('DELETE FROM ProposedToAdopt WHERE userId = ? AND petId = ?');
+    $stmt->execute(array($adopter, $pet));
+    $stmt = $db->prepare('INSERT INTO RejectedProposal VALUES (?, ?)');
+    $stmt->execute(array($adopter, $pet));
+}
+
+function cancelAdoptionRequest($pet, $adopter)
+{
     $db = Database::instance()->db();
     $stmt = $db->prepare('DELETE FROM ProposedToAdopt WHERE userId = ? AND petId = ?');
     $stmt->execute(array($adopter, $pet));
 }
 
 
-function handleAdoptionRequest($method, $pet) {
+function handleAdoptionRequest($method, $pet)
+{
     $adopter = Session\getAuthenticatedUser()['id'];
     if ($adopter == false) {
         Router\errorUnauthorized();
     } else if (ownsPet($adopter, $pet)) {
         Router\errorForbidden();
     }
-    
+
 
     if ($method == "POST" || $method == "PUT") {
         makeAdoptionRequest($pet, $adopter);
@@ -42,7 +55,8 @@ function handleAdoptionRequest($method, $pet) {
     echo json_encode($pta);
 }
 
-function acceptAdoptionRequest($pet, $adopter) {
+function acceptAdoptionRequest($pet, $adopter)
+{
     $db = Database::instance()->db();
     if (!getProposedToAdopt($adopter, $pet)) {
         throw new Exception('Adopter user hasn\'t proposed to adopt pet');
@@ -56,9 +70,10 @@ function acceptAdoptionRequest($pet, $adopter) {
     cancelAdoptionRequest($pet, $adopter);
 }
 
-function handleAdoptionReply($method, $pet, $adopter) {
+function handleAdoptionReply($method, $pet, $adopter)
+{
     $owner = Session\getAuthenticatedUser()['id'];
-    if ($owner == false || !ownsPet($owner, $pet)) {
+    if ($owner == false) {
         Router\errorUnauthorized();
     }
 
@@ -72,7 +87,7 @@ function handleAdoptionReply($method, $pet, $adopter) {
         responseJSON(array("value" => true));
     } else if ($method == "DELETE") {
         try {
-            cancelAdoptionRequest($pet, $adopter);
+            deleteAdoptionRequest($pet, $adopter);
         } catch (Exception $e) {
             responseJSON(array("value" => false, "error" => $e->getMessage()));
             Router\errorBadRequest();
@@ -100,6 +115,3 @@ if (Router\isAPIRequest(__FILE__)) {
         Router\errorBadRequest();
     }
 }
-
-?>
-
