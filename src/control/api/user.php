@@ -248,7 +248,7 @@ function getUserLists($userId){
 
 function getListPets($list){
     $db = Database::instance()->db();
-    $stmt = $db->prepare('SELECT id, userId, name, birthdate, specie, race, size, color, location, description FROM ListPet, Pet WHERE listId=? AND Pet.id = ListPet.petId');
+    $stmt = $db->prepare('SELECT id, userId, name, birthdate, specie, race, size, color, location, description, state FROM ListPet JOIN '.$GLOBALS['petQuery'].' WHERE listId=? AND id = ListPet.petId');
     $stmt->execute(array($list['id']));
     return $stmt->fetchAll();
 }
