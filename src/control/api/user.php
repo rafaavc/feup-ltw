@@ -112,7 +112,7 @@ function updateUsername($username) {
 
     $_SESSION['username'] = $username;
 
-    return getRootURL(). "/user". "/" . $username;
+    return getRootURL(). "/user/" . $username;
 }
 
 function updateMail($mail) {
@@ -140,7 +140,8 @@ function updateBio($bio) {
 function updatePassword($password) {
     $stmt = Database::db()->prepare("UPDATE User SET password = :password WHERE username = :username");
     $stmt->bindParam(':username', $_SESSION['username']);
-    $stmt->bindParam(':password', password_hash($password, PASSWORD_DEFAULT));
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+    $stmt->bindParam(':password', $passwordHash);
     $stmt->execute();
     return $stmt->rowCount();
 }

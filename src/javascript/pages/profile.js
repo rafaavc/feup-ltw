@@ -21,7 +21,7 @@ forms.forEach(form => {
     confirm[0].addEventListener('click', (event) => {
         event.preventDefault();
         if (inputField.id == "password")
-            createNewPassword();
+            createNewPassword(editForm, inputField);
         else
             confirmSelection(editForm, inputField);
     });
@@ -132,7 +132,7 @@ function confirmSelection(editForm, inputField) {
     });
 }
 
-function createNewPassword() {
+function createNewPassword(editForm, inputField) {
     const currentPassword = document.getElementById("currentPassword").value;
     const newPassword = document.getElementById("newPassword").value;
     const confirmPassword = document.getElementById("confirmPassword").value;
@@ -142,17 +142,17 @@ function createNewPassword() {
     sendPostRequest(getRootUrl() + "/api/user", 
     {currentPassword: currentPassword, newPassword: newPassword, confirmPassword: confirmPassword}, 
     function() {
-        console.log(this.responseText);
         const res = JSON.parse(this.responseText);
-        console.log(res.success);
+        if (res.success == 1)
+            resetSelection(editForm, inputField);
     });
     
 }
 
 function resetSelection(editForm, inputField) {
-    if (inputField.id == "password") resetPassword();
     editForm.style.display = "none";
     inputField.style.display = "flex";
+    if (inputField.id == "password") resetPassword();
 }
 
 function resetPassword() {
