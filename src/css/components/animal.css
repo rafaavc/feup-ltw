@@ -43,10 +43,17 @@
 	width: 25%;
 }
 
+
 .petState {
+	display: inline-block;
 	font-size: 0.9em;
 	color: white;
 	padding: 0.25rem 0.5rem;
+	transition: background-color .2s;
+}
+
+.petProfile .petState {
+	margin-top: 1rem;
 }
 
 .petState.adopted {
@@ -182,7 +189,6 @@
 	list-style-type: none;
     padding: 0;
 	margin: 0 auto;
-	text-align: center;
 }
 
 #comments > ul > li {

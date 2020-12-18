@@ -54,7 +54,11 @@ export const createPetTile = (pet) => {
 
 
 export const createUserTile = (user) => {
-    const footer = document.createTextNode(user.petCount + ' pets');
+    const iconElem = document.createElement('i');
+    iconElem.classList.add('icofont-dog');
+    const footer = document.createElement('span');
+    footer.appendChild(document.createTextNode(user.petCount == null ? 0 : user.petCount));
+    footer.appendChild(iconElem);
     return createTile(`user/${user.username}`, `images/userProfilePictures/${user.id}.jpg`, user.name, footer, user.description, null);
 }
 

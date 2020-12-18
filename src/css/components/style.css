@@ -252,6 +252,14 @@ article.tile {
     vertical-align: top;
 }
 
+article.tile:hover .petState {
+    background-color: var(--accentColorDarker);
+}
+
+article.tile .petState {
+    display: inline;
+}
+
 article.tile > .image ~ * {
     margin: 1rem;
 }
