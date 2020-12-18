@@ -1,4 +1,4 @@
-<section id="petProposals">
+<section id="petProposals" data-user-id="<?= $user['id'] ?>">
 	<?php
 	$openProposals = API\getPetOpenAdoptionProposals($pet['id']);
 	$rejectedProposals = API\getPetRejectedProposals($pet['id']); ?>
@@ -29,7 +29,7 @@
 		}
 	} else {
 		?>
-		<p>This pet hasn't had any proposals to adopt</p>
+		<p>This pet hasn't had any proposals to adopt yet.</p>
 		<?php
 	}
 	?>

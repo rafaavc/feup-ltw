@@ -137,7 +137,8 @@ function changeAdoptButton() {
 	const name = adoptButton.attributes['data-user-name'].value;
 
 	const petProposal = document.createElement('div');
-	petProposal.className = 'petProposal';
+	petProposal.className = 'petProposal open';
+	petProposal.setAttribute('data-id', userId);
 
 	const image = document.createElement('div');
 	image.className = 'image';
@@ -178,6 +179,21 @@ function changeCancelButton(event) {
 	button.addEventListener('click', proposeToAdoptPet);
 
 	document.querySelector('.petProfile footer').appendChild(button);
+
+	const userId = document.getElementById('petProposals').attributes['data-user-id'].value;
+	let petProposals = Array.from(document.getElementsByClassName('petProposal open'));
+	petProposals.forEach((petProposal) => {
+		if (petProposal.attributes['data-id'].value === userId){
+			petProposal.remove();
+		}
+	});
+	petProposals = Array.from(document.getElementsByClassName('petProposal'));
+	console.log(petProposals);
+	if (petProposals.length === 0){
+		const p = document.createElement('p');
+		p.innerHTML = "This pet hasn't had any proposals to adopt yet.";
+		document.getElementById('petProposals').appendChild(p);
+	}
 }
 
 
