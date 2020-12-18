@@ -2,6 +2,7 @@ import { getRootUrl, initWebsite } from '../init.js'
 import { sendPostRequest } from '../ajax.js'
 import { createPetTile } from '../tile.js'
 import { toggleAddingMode } from '../add_field.js'
+import { escapeHtml } from '../escape.js'
 
 const editProfileButton = document.getElementById("editProfile");
 if (editProfileButton != null)
@@ -181,20 +182,5 @@ function createTileLists() {
                 listElements[i].appendChild(tile);
             }
         }
-    });
-}
-
-function escapeHtml(string) {
-    let entityMap = {
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': '&quot;',
-        "'": '&#39;',
-        "/": '&#x2F;'
-    };
-
-    return String(string).replace(/[&<>"'\/]/g, function (s) {
-        return entityMap[s];
     });
 }

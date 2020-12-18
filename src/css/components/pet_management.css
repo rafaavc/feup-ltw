@@ -43,7 +43,7 @@ section.petManagement > div:nth-of-type(2n) {
 }
 
 div.petManagementPets {
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 1fr;
 }
 
 div.petManagementPets > p, div.petManagementAdoption > p {
