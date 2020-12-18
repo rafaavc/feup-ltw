@@ -14,7 +14,7 @@ function validateSelectParam($param, $required) {
         Router\sendBack();
     }
     if (!is_numeric($parameters[$param])) {
-        if (!(preg_match('/^[a-zA-Z ]+$/', $parameters[$param]) === 1)) {
+        if (!preg_match('/^[a-zA-Z ]+$/', $parameters[$param])) {
             Session\setMessage(Session\error(), "Invalid new ".$param." name.");
             Router\sendBack();
         }
@@ -22,7 +22,11 @@ function validateSelectParam($param, $required) {
 }
 
 if (strtotime($parameters['birthdate']) < getYearsAgo(20) || strtotime($parameters['birthdate']) > strtotime(date("Y-m-d"))) {
-    Router\errorBadRequest("The pet's birthdate is not valid");
+    Router\errorBadRequest("The pet's birthdate is not valid.");
+}
+
+if (!preg_match('/^[a-zA-Z ]+$/', $parameters['location'])) {
+    Router\errorBadRequest("The pet's location is not valid.");
 }
 
 // validation
