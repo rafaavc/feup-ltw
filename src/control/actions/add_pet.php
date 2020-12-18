@@ -20,6 +20,11 @@ function validateSelectParam($param, $required) {
         }
     }
 }
+
+if (strtotime($parameters['birthdate']) < getYearsAgo(20) || strtotime($parameters['birthdate']) > strtotime(date("Y-m-d"))) {
+    Router\errorBadRequest("The pet's birthdate is not valid");
+}
+
 // validation
 validateSelectParam('specie', true);
 validateSelectParam('color', true);
@@ -46,15 +51,27 @@ if ($parameters['race'] == -1) {
     $parameters['specie'] = null; // specie is already in the race
 }
 
+// checks if all files sent are valid
+$foundProfilePhoto = false;
+for($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
+    $tmpPath = $_FILES['photos']['tmp_name'][$i];
+    $name = $_FILES['photos']['name'][$i];
+    if ($tmpPath == "") continue;
+    if (!isJPGImage($tmpPath)) {
+        Router\errorBadRequest("Invalid files were sent to the server.");
+    }
+    if ($name == $parameters['profilePhoto']) {
+        $foundProfilePhoto = true;
+    }
+}
+if (!$foundProfilePhoto) Router\errorBadRequest("The profile photo was not sent to the server.");
+
+
 $petId = API\addPet(Session\getAuthenticatedUser()['id'], $parameters['name'], $parameters['birthdate'],$parameters['specie'],$parameters['race'],$parameters['size'], $parameters['color'], $parameters['location'], $parameters['description']); // create pet
 
 for($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
     $tmpPath = $_FILES['photos']['tmp_name'][$i];
     if ($tmpPath == "") continue;
-    if (!isJPGImage($tmpPath)) {
-        echo "not valid :(";
-        continue;
-    }
     $photoId = API\addPetPhoto($petId);
     $originalPath = "../../images/petPictures/".$photoId.".jpg";
     move_uploaded_file($tmpPath, $originalPath);

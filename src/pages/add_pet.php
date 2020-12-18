@@ -28,7 +28,7 @@
 
                 <div class="formField required">
                     <label for="birthdate">Birthdate</label>
-                    <input type="text" id="birthdate" name="birthdate" min="2000-01-01" max="<?=date('Y-m-d')?>" placeholder="Birthdate" required/>
+                    <input type="text" id="birthdate" name="birthdate" min="<?=date("Y-m-d", getYearsAgo(20))?>" max="<?=date('Y-m-d')?>" placeholder="Birthdate" required/>
                 </div>
 
                 <div class="formField required">
@@ -100,7 +100,7 @@
                 <input type="submit" value="Add Pet" />
             </div>
             <div>
-                <input type="hidden" name="profilePhoto" />
+                <input type="hidden" name="profilePhoto" value="" />
                 <div class="photos"></div>
                 <input type="file" name="photos[]" />
                 <button class="simpleButton" id="addPhotoButton"><i class="icofont-ui-add"></i>Photo</button>

@@ -29,7 +29,7 @@ if (Session\isAuthenticated()) { ?>
             
             <div class="formField required">
                 <label for="birthdate">Birthdate</label>
-                <input type="text" id="birthdate" name="birthdate" min="1900-01-01" max="<?=date("Y-m-d", strtotime(date("Y-m-d").' -18 years'))?>" placeholder="Birthdate" required/>
+                <input type="text" id="birthdate" name="birthdate" min="<?=date("Y-m-d", getYearsAgo(100))?>" max="<?=date("Y-m-d", getYearsAgo(18))?>" placeholder="Birthdate" required/>
             </div>
 
             <div class="formField required">
