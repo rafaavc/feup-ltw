@@ -96,8 +96,12 @@
     width: 100%;
 }
 
-.tileContainer {
+#userResults .tileContainer,
+#petResults .tileContainer {
     margin: 0.3rem;
+}
+
+.tileContainer {
     width: 20%;
     color: inherit;
     transition: color .2s;
