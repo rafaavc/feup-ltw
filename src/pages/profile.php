@@ -6,41 +6,57 @@ include_once(dirname(__FILE__) . "/../templates/common/header.php");
 
 $user = API\getUserByUsername($GLOBALS['username']);
 
-include_once(dirname(__FILE__) . "/../templates/profile/profile_page_header.php");
-include_once(dirname(__FILE__) . "/../templates/show_pets.php");
+include_once(dirname(__FILE__) . "/../templates/profile/profile_header.php");
 
 $userLists = API\getUserLists($user['id']);
-// this is the username of the user to show as given in the router: $GLOBALS['username'];
-include_once(dirname(__FILE__) ."/../templates/common/header.php");
-include_once(dirname(__FILE__) ."/../templates/profile/profile_page_header.php");
 ?>
 
-<section class="petlist">
-    <h1>Pets</h1>
-    <?php showPetList(API\getUserPets($user['id'])) ?>
+<section id="userPets" class="petlist">
+    <header><h2>Pets</h2></header>
+    <div class="petGrid">
+        <div class="arrow left"></div>
+        <div class="petGridContent"></div>
+        <div class="arrow right"></div>
+    </div>
 </section>
 
-<section class="petlist">
-    <div id="select">
-        <label for="list-select">
-            <h1>Lists:</h1>
-        </label>
-        <select name="pets" id="list-select">
-            <?php
-            foreach($userLists as $userList) {
-            ?>
-                <option value="<?=htmlentities($userList['id'])?>"><?=htmlentities($userList['title'])?></option>
-            <?php
-            }
-            ?>
-        </select>
+<section id="userList" class="petlist">
+    <div class="simple-2column-grid">
+        <div id="select">
+            <label for="list-select">
+                <h1>Lists:</h1>
+            </label>
+            <select name="list" id="list-select">
+                <?php
+                foreach($userLists as $userList) {
+                    if ((Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username'])
+                        || ($userList['public'] == 1)) {
+                ?>
+                    <option value="<?=htmlentities($userList['id'])?>"><?=htmlentities($userList['title'])?></option>
+                <?php
+                    }
+                }
+                ?>
+            </select>
+        </div>
+        <div>
+            <button class="simpleButton" id="addListButton" data-entity="List"><i class="icofont-ui-add"></i>New list</button>
+        </div>
     </div>
+
     <div id="lists">
         <?php
         foreach($userLists as $userList){
+            if ((Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username'])
+                    || ($userList['public'] == 1)) {
         ?>
-            <div name="<?=$userList['title']?>"><?=showPetList(API\getListPets($userList))?></div>
+            <div name="<?=htmlentities($userList['title'])?>" class="petGrid" data-id="<?=htmlentities($userList['id'])?>">
+                <div class="arrow left"></div>
+                <div class="petGridContent"></div>
+                <div class="arrow right"></div>
+            </div>
         <?php
+            }
         } 
         ?>
     </div>
