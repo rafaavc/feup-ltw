@@ -91,7 +91,13 @@
     content: "@";
 }
 
+#userResults article.tile,
+#petResults article.tile {
+    width: 100%;
+}
+
 .tileContainer {
+    width: 20%;
     color: inherit;
     transition: color .2s;
 }

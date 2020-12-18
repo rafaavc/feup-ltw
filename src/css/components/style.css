@@ -188,7 +188,7 @@ body > section.indexCover {
     height: 2rem;
     animation: spin 2s linear infinite;
   }
-  
+
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -239,7 +239,12 @@ body > section.indexCover {
     scroll-behavior: smooth;
 }
 
+#petResults article.tile {
+    width: 100%;
+}
+
 article.tile {
+    width: 20%;
     border: 1px solid rgb(209, 209, 209);
     display: inline-block;
     margin-right: 1rem;

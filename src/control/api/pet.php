@@ -209,7 +209,7 @@ function addPetPhoto($petId)
 
 function addPet($userId, $name, $birthdate, $specie, $race, $size, $color, $location, $description)
 {
-	$stmt = Database::db()->prepare("INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description, datePosted) VALUES(:userId, :name, :birthdate, :specie, :race, :size, :color, :location, :description, :datePosted)");
+	$stmt = Database::db()->prepare("INSERT INTO Pet(userId, name, birthdate, specie, race, size, color, location, description, datePosted, archived) VALUES(:userId, :name, :birthdate, :specie, :race, :size, :color, :location, :description, :datePosted, 0)");
 	$stmt->bindParam(':userId', $userId);
 	$stmt->bindParam(':name', $name);
 	$stmt->bindParam(':birthdate', $birthdate);
