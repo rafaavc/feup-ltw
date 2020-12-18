@@ -1,6 +1,6 @@
 <?php
-include_once("templates/common/header.php");
-include_once("templates/index/index_cover.php");
+require_once("templates/common/header.php");
+require_once("templates/index/index_cover.php");
 ?>
 
 <section id="indexPets" class="petlist">
@@ -13,6 +13,6 @@ include_once("templates/index/index_cover.php");
 </section>
 
 <?php
-include_once("templates/index/index_follow_up.php");
-include_once("templates/common/footer.php");
+require_once("templates/index/index_follow_up.php");
+require_once("templates/common/footer.php");
 ?>

@@ -1,9 +1,9 @@
 <?php
 
-include_once(dirname(__FILE__). '/../session.php');
-include_once(dirname(__FILE__). '/../api/user.php');
-include_once(dirname(__FILE__). '/../db.php');
-include_once(dirname(__FILE__). '/../api/pet.php');
+require_once(dirname(__FILE__). '/../session.php');
+require_once(dirname(__FILE__). '/../api/user.php');
+require_once(dirname(__FILE__). '/../db.php');
+require_once(dirname(__FILE__). '/../api/pet.php');
 
 function proposeToAdopt($petId) {
     $userId = Session\getAuthenticatedUser()['id'];

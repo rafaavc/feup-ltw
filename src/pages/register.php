@@ -1,6 +1,6 @@
 <?php
 $GLOBALS['section'] = 'signup';
-include_once(dirname(__FILE__) ."/../templates/common/header.php");
+require_once(dirname(__FILE__) ."/../templates/common/header.php");
 
 if (Session\isAuthenticated()) { ?>
     <section>
@@ -68,4 +68,4 @@ if (Session\isAuthenticated()) { ?>
 
 <?php }
 
-include_once(dirname(__FILE__) ."/../templates/common/footer.php"); ?>
+require_once(dirname(__FILE__) ."/../templates/common/footer.php"); ?>

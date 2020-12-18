@@ -35,5 +35,5 @@
     <p>To The Rescue &copy; 2020</p>
 </footer>
 <?php
-include_once(dirname(__FILE__)."/doc_footer.php");
+require_once(dirname(__FILE__)."/doc_footer.php");
 ?>

@@ -119,6 +119,7 @@ a:hover {
 }
 
 .contrastButton {
+    border-radius: 1rem;
     background-color: var(--accentColor);
     transition: color .2s, background-color .2s;
     color: var(--lightTextColor);
@@ -261,11 +262,11 @@ article.tile {
     vertical-align: top;
 }
 
-article.tile:hover .petState {
+article.tile:hover .tagLabel {
     background-color: var(--accentColorDarker);
 }
 
-article.tile .petState {
+article.tile .tagLabel {
     display: inline;
 }
 
