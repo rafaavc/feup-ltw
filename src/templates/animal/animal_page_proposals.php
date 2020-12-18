@@ -31,7 +31,7 @@ $rejectedProposals = API\getPetRejectedProposals($pet['id']);
 		}
 	} else {
 		?>
-		<p>This pet hasn't had any proposals to adopt yet.</p>
+		<p>This pet hasn't gotten any adoption proposals yet.</p>
 		<?php
 	}
 	?>

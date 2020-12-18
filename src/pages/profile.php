@@ -5,6 +5,7 @@ require_once(dirname(__FILE__)."/../control/api/pet.php");
 require_once(dirname(__FILE__) . "/../templates/common/header.php");
 
 $user = API\getUserByUsername($GLOBALS['username']);
+if (!$user) Router\error404();
 
 require_once(dirname(__FILE__) . "/../templates/profile/profile_header.php");
 

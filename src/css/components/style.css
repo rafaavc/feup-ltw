@@ -74,6 +74,7 @@ body > header > nav > ul > li > a, a.simpleButton {
     padding: 0.5rem 1rem;
     font-weight: inherit;
     transition: background-color .3s, color .3s;
+    border-radius: 1rem;
 }
 
 body > header > nav > ul > li > a.active {
