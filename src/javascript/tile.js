@@ -30,6 +30,7 @@ export const createTile = (url, imageUrl, title, footer, description, extraSecti
         const pNode = document.createElement('p');
         pNode.appendChild(document.createTextNode(description));
         pNode.style.overflow = 'hidden';
+        if (title == '') pNode.style.margin = '3.5rem 1rem 1rem 1rem';
         articleNode.appendChild(pNode);
     }
 

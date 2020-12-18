@@ -249,6 +249,7 @@ article.tile {
     display: inline-block;
     margin-right: 1rem;
     border-radius: 1rem;
+    vertical-align: top;
 }
 
 article.tile > .image ~ * {
