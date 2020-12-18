@@ -9,8 +9,8 @@
 			<article class="comment">
 				<div class="image" style="background-image: url('../../images/userProfilePictures/<?= $user['id'] ?>.jpg')"></div>
 				<p><?= $posts[$i]['description'] ?></p>
-				<span class="user"><?= $user['shortName'] ?></span>
-				<span class="date"><?= $posts[$i]['postDate'] ?></span>
+				<span class="user"><?= htmlentities($user['shortName']) ?></span>
+				<span class="date"><?= htmlentities($posts[$i]['postDate']) ?></span>
 			</article>
 
 		<?php }

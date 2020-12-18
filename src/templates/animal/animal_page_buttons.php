@@ -30,7 +30,7 @@
 		<?php
 		}
 	} else { ?>
-		<p>This pet was adopted by <a href="<?= getRootUrl() ?>/user/<?= $adopted['username'] ?>"><?= $adopted['name'] ?></a></p>
+		<p>This pet was adopted by <a href="<?= getRootUrl() ?>/user/<?= $adopted['username'] ?>"><?= htmlentities($adopted['name']) ?></a></p>
 	<?php
 	}
 	?>

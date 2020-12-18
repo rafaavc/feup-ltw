@@ -4,7 +4,7 @@
 		<header>
 			<section id="petInfo">
 				<div id="nameAge">
-					<h3><?= $pet['name'] == null ? '' : $pet['name'] . ',' ?>
+					<h3><?= $pet['name'] == null ? '' : htmlentities($pet['name']) . ',' ?>
 						<?php
 						$birthDate = explode("-", $pet['birthdate']);
 						//get age from date or birthdate
@@ -35,9 +35,9 @@
 				<div id="colorRaceLocation">
 					<h4><?php
 						if ($pet['race'] != null) {
-							echo $pet['size'] . ' ' . $pet['color'] . ' ' . $pet['race'] . ', ' . $pet['location'];
+							echo htmlentities($pet['size']) . ' ' . htmlentities($pet['color']) . ' ' . htmlentities($pet['race']) . ', ' . htmlentities($pet['location']);
 						} else if ($pet['specie'] != null) {
-							echo $pet['size'] . ' ' . $pet['color'] . ' ' . $pet['specie'] . ', ' . $pet['location'];
+							echo htmlentities($pet['size']) . ' ' . htmlentities($pet['color']) . ' ' . htmlentities($pet['specie']) . ', ' . htmlentities($pet['location']);
 						}
 						?></h4>
 				</div>

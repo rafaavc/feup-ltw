@@ -11,7 +11,7 @@
 		?>
 				<div class="petProposal open" data-id="<?= $proposal['userId']?>">
 					<div class="image" style="background-image: url('../../images/userProfilePictures/<?= $proposal['userId'] ?>.jpg')"></div>
-					<p><a href="<?= getRootUrl() ?>/user/<?= $proposal['username'] ?>"><?= $proposal['fullName'] ?></a> wants to adopt this pet</p>
+					<p><a href="<?= getRootUrl() ?>/user/<?= $proposal['username'] ?>"><?= htmlentities($proposal['fullName']) ?></a> wants to adopt this pet</p>
 				</div>
 			<?php
 			}
@@ -22,7 +22,7 @@
 			?>
 				<div class="petProposal rejected">
 					<div class="image" style="background-image: url('../../images/userProfilePictures/<?= $proposal['userId'] ?>.jpg')"></div>
-					<p><a href="<?= getRootUrl() ?>/user/<?= $proposal['username'] ?>"><?= $proposal['fullName'] ?></a>'s got rejected by <a href="<?= getRootUrl() ?>/user/<?= $owner['username'] ?>"><?= $owner['name'] ?></a></p>
+					<p><a href="<?= getRootUrl() ?>/user/<?= $proposal['username'] ?>"><?= htmlentities($proposal['fullName']) ?></a>'s got rejected by <a href="<?= getRootUrl() ?>/user/<?= $owner['username'] ?>"><?= htmlentities($owner['name']) ?></a></p>
 				</div>
 	<?php
 			}
