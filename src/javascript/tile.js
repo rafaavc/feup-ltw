@@ -11,7 +11,6 @@ export const createTile = (url, imageUrl, title, footer, description, extraSecti
 
     const imgNode = document.createElement("img");
     imgNode.classList.add('image');
-    imgNode.style.width = "100%";
     imgNode.style.background = `url('${getRootUrl()}/${imageUrl}')`;
     imgNode.style.backgroundPosition = "50%";
     imgNode.style.backgroundSize = "cover";

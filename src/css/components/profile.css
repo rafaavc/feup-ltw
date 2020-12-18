@@ -97,6 +97,7 @@
 }
 
 .tileContainer {
+    margin: 0.3rem;
     width: 20%;
     color: inherit;
     transition: color .2s;
