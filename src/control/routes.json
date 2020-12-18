@@ -38,7 +38,7 @@
     "api/existence/:type/:value": {
         "destination": "control/api/existence.php"
     },
-    "api/search/:what/:specie/:value": {
+    "api/search/:what/:specie/:color/:size/:value": {
         "destination": "control/api/search.php"
     },
     "api/pet/:what/:arg1": {
