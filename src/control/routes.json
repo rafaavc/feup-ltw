@@ -1,0 +1,67 @@
+{
+    "index": {
+        "destination": "pages/index.php",
+        "js": "pages/generic.js"
+    },
+    "pet/add": {
+        "destination": "pages/add_pet.php",
+        "js": "pages/add_pet.js"
+    },
+    "pet/:id": {
+        "destination": "pages/animal.php",
+        "js": "pages/animal.js"
+    },
+    "user/:username": {
+        "destination": "pages/profile.php",
+        "js": "pages/profile.js"
+    },
+    "signin": {
+        "destination": "pages/login.php",
+        "js": "pages/generic.js"
+    },
+    "signup": {
+        "destination": "pages/register.php",
+        "js": "pages/register.js"
+    },
+    "discover": {
+        "destination": "pages/discover.php",
+        "js": "pages/discover.js"
+    },
+    "pets": {
+        "destination": "pages/pet_management.php",
+        "js": "pages/pet_management.js"
+    },
+
+    "api/user": {
+        "destination": "control/api/user.php"
+    },
+    "api/existence/:type/:value": {
+        "destination": "control/api/existence.php"
+    },
+    "api/search/:what/:specie/:color/:size/:value": {
+        "destination": "control/api/search.php"
+    },
+    "api/pet/:what/:arg1": {
+        "destination": "control/api/pet.php"
+    },
+    "api/pet": {
+        "destination": "control/api/pet.php"
+    },
+
+    "api/adoption/:pet": {
+        "destination": "control/api/adoption.php"
+    },
+    "api/adoption/:pet/:adopter": {
+        "destination": "control/api/adoption.php"
+    },
+
+    "action/signin": {
+        "destination": "control/actions/login.php"
+    },
+    "action/signup": {
+        "destination": "control/actions/register.php"
+    },
+    "action/signout": {
+        "destination": "control/actions/logout.php"
+    }
+}
