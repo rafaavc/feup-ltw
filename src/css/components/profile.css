@@ -24,6 +24,46 @@
 .textButtonPair form, .textButtonPair .edit {
     display: none;
 }
+.profile_header {
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-gap: 5rem;
+	background-color: var(--lightGrey);
+	align-items: center;
+}
+
+.profile_header > div:first-of-type {
+	background-size: cover;
+	background-position: 50%;
+
+	width: 20vw;
+	height: 20vw;
+	min-width: 10rem;
+	min-height: 10rem;
+	border-radius: 50%;
+
+	grid-column-end: span 1;
+}
+
+.profile_header header h3 {
+	font-size: 3rem;
+	margin-top: 0;
+	margin-bottom: 1rem;
+}
+
+.profile_header header > h4, .profile_header header strong {
+	font-size: 1.5rem;
+	margin: 0;
+}
+
+.profile_header footer {
+	margin-top: 3rem;
+}
+
+.profile_header footer > p {
+	display: inline;
+	margin-left: 1rem;
+}
 
 .profile_header footer label {
     position: relative;

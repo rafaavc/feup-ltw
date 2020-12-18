@@ -95,7 +95,7 @@
 .petProposal {
 	display: grid;
 	grid-template-columns: 1fr 7fr;
-	margin: 2rem;
+	margin: ;
 }
 
 .petProposal > p {
