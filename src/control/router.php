@@ -17,6 +17,7 @@ function handle() {
             else {
                 return false;
             }
+
             /*header("Content-Type: ".$mimeType);
             readfile($_SERVER["SCRIPT_FILENAME"]);
             exit();
@@ -25,6 +26,7 @@ function handle() {
         if (file_exists($_SERVER['DOCUMENT_ROOT'].'/'.$req)) { // serves the file
             return false;
         }
+
     } else {   // apache
         $req = isset($_GET['req']) ? $_GET['req'] : "index";
     }

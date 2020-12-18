@@ -57,7 +57,7 @@ function updateUsers(users) {
     } else {
         for (const user of users) {
             const footer = document.createTextNode(user.petCount + ' pets');
-            const tile = createTile(`user/${user.username}`, `images/userProfilePictures/${user.id}.jpg`, user.name, footer, user.description);
+            const tile = createTile(`user/${user.username}`, `images/userProfilePictures/${user.id}.jpg`, user.name, footer, user.description, null, false);
 
             userSection.appendChild(tile);
         }
@@ -71,8 +71,7 @@ function updatePets(pets) {
         petSection.appendChild(pElem);
     } else {
         for (const pet of pets) {
-            const tile = createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description);
-
+            const tile = createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description, null, false);
             petSection.appendChild(tile);
         }
     }

@@ -33,7 +33,7 @@
 
                 <div class="formField required">
                     <label for="location">Location</label>
-                    <input type="text" pattern="[a-bA-B ]+" id="location" name="location" minlength="5" maxlength="20" placeholder="Location" required/>
+                    <input type="text" pattern="[a-zA-Z ]+" id="location" name="location" minlength="5" maxlength="20" placeholder="Location" required/>
                 </div>
 
                 <div class="formField required">

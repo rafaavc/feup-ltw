@@ -44,6 +44,10 @@
     "api/pet/:what/:arg1": {
         "destination": "control/api/pet.php"
     },
+    "api/pet": {
+        "destination": "control/api/pet.php"
+    },
+
     "api/adoption/:pet": {
         "destination": "control/api/adoption.php"
     },

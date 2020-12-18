@@ -23,7 +23,7 @@ CREATE TABLE Pet (
     userId INTEGER NOT NULL REFERENCES User ON DELETE CASCADE, -- Listed for adoption
     name TEXT CHECK (length(name) <= 20),   -- may not have a name
     birthdate DATE NOT NULL,
-    specie INTEGER REFERENCES PetRace ON DELETE SET NULL, -- it has either PetRace or a PetSpecie, because the race is associated with the specie. The PetSpecie is only for pets without race
+    specie INTEGER REFERENCES PetSpecie ON DELETE SET NULL, -- it has either PetRace or a PetSpecie, because the race is associated with the specie. The PetSpecie is only for pets without race
     race INTEGER REFERENCES PetRace ON DELETE SET NULL,
     size INTEGER NOT NULL REFERENCES PetSize ON DELETE SET NULL,
     color INTEGER NOT NULL REFERENCES PetColor ON DELETE SET NULL,
@@ -68,6 +68,11 @@ CREATE TABLE ProposedToAdopt (
     PRIMARY KEY(userId, petId)
 );
 
+CREATE TABLE RejectedProposal (
+    userId INTEGER NOT NULL REFERENCES User ON DELETE CASCADE,
+    petId INTEGER NOT NULL REFERENCES Pet ON DELETE CASCADE
+);
+
 CREATE TABLE Adopted (
     userId INTEGER NOT NULL REFERENCES User ON DELETE CASCADE,
     petId INTEGER NOT NULL REFERENCES Pet ON DELETE CASCADE UNIQUE -- pet can only be adopted by one person
@@ -105,7 +110,7 @@ INSERT INTO PetColor(name) VALUES("Black and Brown");
 INSERT INTO PetColor(name) VALUES("Brown and White");
 INSERT INTO PetColor(name) VALUES("Gold");
 
-INSERT INTO User(name, username, password, birthdate, mail) VALUES("John Lewis", "johnalewis", "supersecure", DATE("1998-08-10"), "johnalewis@placeholder.com");
+INSERT INTO User(name, username, password, birthdate, mail) VALUES("John Lewis", "johnalewis", "$2y$10$u2wqpAM5ntWNjnEdZReqEOT7Xqu.1VjLYyAFQNwV3INcGoWDe0EWa", DATE("1998-08-10"), "johnalewis@placeholder.com");
 INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("Rafael Cristino", "rafaavc", "$2y$10$iOGAgqhjw0YK2O/xsr0KpOR1YloVXontN7AkdC8S6spFmof.x2yZq", DATE("2000-08-28"), "rafaavc@mail.com",
     "A humble man who is 'carregating' its LTW group project.");  -- PW: mypassword
 INSERT INTO User(name, username, password, birthdate, mail, description) VALUES("Xavier Pisco", "xamas", "$2y$10$dZtzuf9IWnDFzYUL34P8oe5hCAeAFogH1pd3Et8D2smhUJG4VZMLO", DATE("2000-10-29"), "xamas@mail.com",
@@ -151,7 +156,7 @@ INSERT INTO Adopted(userId, petId) VALUES(3, 1);
 INSERT INTO Adopted(userId, petId) VALUES(4, 4);
 
 INSERT INTO List(title, description, public, userId) VALUES ("Favorites", "Does it need description?", 1, 1);
-INSERT INTO List(title, description, public, userId) VALUES ("Dogs", "Does it need description?", 1, 1);
+INSERT INTO List(title, description, public, userId) VALUES ("Dogs", "Does it need description?", 0, 1);
 INSERT INTO List(title, description, public, userId) VALUES ("Empty", "Does it need description?", 1, 1);
 
 INSERT INTO ListPet(listId, petId) VALUES (1, 1);
