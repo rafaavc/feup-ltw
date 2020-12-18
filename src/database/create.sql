@@ -21,14 +21,14 @@ CREATE TABLE List (
 CREATE TABLE Pet (
     id INTEGER PRIMARY KEY, -- Used for profilePhoto on petProfilePictures folder
     userId INTEGER NOT NULL REFERENCES User ON DELETE CASCADE, -- Listed for adoption
-    name TEXT,   -- may not have a name
+    name TEXT CHECK (length(name) <= 20),   -- may not have a name
     birthdate DATE NOT NULL,
     specie INTEGER REFERENCES PetRace ON DELETE SET NULL, -- it has either PetRace or a PetSpecie, because the race is associated with the specie. The PetSpecie is only for pets without race
     race INTEGER REFERENCES PetRace ON DELETE SET NULL,
     size INTEGER NOT NULL REFERENCES PetSize ON DELETE SET NULL,
     color INTEGER NOT NULL REFERENCES PetColor ON DELETE SET NULL,
-    location TEXT NOT NULL,
-    description TEXT NOT NULL,
+    location TEXT NOT NULL CHECK (length(location) >= 5 AND length(location) <= 20),
+    description TEXT NOT NULL CHECK (length(description) >= 20 AND length(description) <= 300),
     datePosted DATETIME NOT NULL,
     archived BOOLEAN NOT NULL
 );

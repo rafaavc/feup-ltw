@@ -5,9 +5,20 @@ use API;
 use Session;
 
 function handle() {
-    $req; 
     if (php_sapi_name() == 'cli-server') {   // php cli-server
         $req = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+        $ext = pathinfo($req, PATHINFO_EXTENSION);
+        if ($ext != "" && file_exists($_SERVER["SCRIPT_FILENAME"])) {
+            if ($ext == "js") $mimeType = "text/javascript";
+            else if ($ext == "jpg" || $ext == "jpeg") $mimeType = "image/jpeg";
+            else if ($ext == "css") $mimeType = "text/css";
+
+            //echo $ext."<br/>".$mimeType."<br/>".$_SERVER["SCRIPT_FILENAME"];
+            header("Content-Type: ".$mimeType);
+            readfile($_SERVER["SCRIPT_FILENAME"]);
+            exit();
+        } 
+
         $req = $req != "/" ? substr($req, 1, strlen($req)-1) : "index";
 
         if (file_exists($_SERVER['DOCUMENT_ROOT'].'/'.$req)) { // serves the file
@@ -141,8 +152,4 @@ function sendBack() {
     exit();
 }
 
-
-
 ?>
-
-

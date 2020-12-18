@@ -11,14 +11,14 @@ if (Session\isAuthenticated()) { ?>
 <section class="authForm">
     <div>
         <h1>Sign Up</h1>
+                
+        <p class="notice">All fields marked with * are required.</p>
 
         <?php 
             $message = Session\popMessage(); 
             if ($message != null) { ?>
                 <p class="<?=$message['type']?>-message"><?=$message['content']?></p>
         <?php } ?>
-                
-        <p class="notice">All fields marked with * are required.</p>
 
         <form method="POST" action="<?=getRootURL()?>/control/actions/register.php" enctype="multipart/form-data">
             <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>" />

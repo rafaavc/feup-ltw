@@ -23,7 +23,7 @@
                 
                 <div class="formField">
                     <label for="name">Pet Name</label>
-                    <input type="text" id="name" name="name" placeholder="Pet Name"/>
+                    <input type="text" id="name" name="name" maxlength="20" placeholder="Pet Name"/>
                 </div>
 
                 <div class="formField required">
@@ -33,12 +33,12 @@
 
                 <div class="formField required">
                     <label for="location">Location</label>
-                    <input type="text" id="location" name="location" placeholder="Location" required/>
+                    <input type="text" id="location" name="location" minlength="5" maxlength="20" placeholder="Location" required/>
                 </div>
 
                 <div class="formField required">
                     <label for="description">Description</label>
-                    <textarea placeholder="Description" name="description" id="description" required></textarea>
+                    <textarea placeholder="Description" name="description" id="description" minlength="20" maxlength="300" required></textarea>
                 </div>
 
                 <label for="specie">Species</label>
