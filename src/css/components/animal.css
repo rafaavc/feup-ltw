@@ -43,6 +43,24 @@
 	width: 25%;
 }
 
+.petState {
+	font-size: 0.9em;
+	color: white;
+	padding: 0.25rem 0.5rem;
+}
+
+.petState.adopted {
+	background-color: darkred;
+}
+
+.petState.ready {
+	background-color: darkgreen;
+}
+
+.petState.archived {
+	background-color: grey;
+}
+
 #tempText {
 	padding: 0.5rem 2rem;
 	font-size: 0.8rem;

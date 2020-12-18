@@ -1,6 +1,5 @@
 import { sendGetRequest } from '../ajax.js'
-import { createTile } from '../tile.js'
-import { makeLoading } from '../loading.js'
+import { createUserTile, createPetTile } from '../tile.js'
 import './generic.js'
 
 
@@ -56,8 +55,7 @@ function updateUsers(users) {
         userSection.appendChild(pElem);
     } else {
         for (const user of users) {
-            const footer = document.createTextNode(user.petCount + ' pets');
-            const tile = createTile(`user/${user.username}`, `images/userProfilePictures/${user.id}.jpg`, user.name, footer, user.description, null, false);
+            const tile = createUserTile(user);
 
             userSection.appendChild(tile);
         }
@@ -71,7 +69,7 @@ function updatePets(pets) {
         petSection.appendChild(pElem);
     } else {
         for (const pet of pets) {
-            const tile = createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description, null, false);
+            const tile = createPetTile(pet);
             petSection.appendChild(tile);
         }
     }

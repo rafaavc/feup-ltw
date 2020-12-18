@@ -1,6 +1,6 @@
 import { getRootUrl, initWebsite } from '../init.js'
 import { sendPostRequest } from '../ajax.js'
-import { createTile } from '../tile.js'
+import { createPetTile } from '../tile.js'
 
 createPetsTileList();
 initWebsite();
@@ -14,7 +14,7 @@ function createPetsTileList() {
         if (petGridContent == null) return;
 
         for (const pet of pets) {
-            const tile = createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description, null, false);
+            const tile = createPetTile(pet);
             petGridContent.appendChild(tile);
         }
     });

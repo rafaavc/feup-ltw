@@ -1,6 +1,6 @@
 import { getRootUrl, initWebsite } from '../init.js'
 import { sendPostRequest } from '../ajax.js'
-import { createTile } from '../tile.js'
+import { createPetTile } from '../tile.js'
 import { toggleAddingMode } from '../add_field.js'
 
 const editProfileButton = document.getElementById("editProfile");
@@ -170,14 +170,14 @@ function createTileLists() {
 
         const petGridContent = document.querySelector('#userPets > .petGrid > .petGridContent');
         for (const pet of pets) {
-            const tile = createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description, null, false);
+            const tile = createPetTile(pet);
             petGridContent.appendChild(tile);
         }
 
         const listElements = document.querySelectorAll("#lists .petGrid .petGridContent");
         for (let i = 0; i < listElements.length; i++) {
             for (const pet of lists[i]) {
-                const tile = createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, pet.name, null, pet.description, null, false);
+                const tile = createPetTile(pet);
                 listElements[i].appendChild(tile);
             }
         }
