@@ -98,7 +98,6 @@ export function toggleAddingMode(e, onClickExtender, onRcvExtender) {
             if (onClickExtender != null) onClickExtender();
 
         });
-
         this.parentNode.parentNode.appendChild(button);
     }
 }
