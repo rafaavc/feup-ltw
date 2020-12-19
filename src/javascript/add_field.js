@@ -1,7 +1,7 @@
 import { sendPostRequest } from "./ajax.js";
 import { getRootUrl } from './init.js';
 
-export function toggleAddingMode(e, onClickExtender) {
+export function toggleAddingMode(e, onClickExtender, onRcvExtender) {
     if (e != undefined) e.preventDefault();
     const entity = this.dataset.entity;
     if (this.dataset.savedValue != undefined && this.dataset.savedValue != "") { // creating
@@ -72,11 +72,13 @@ export function toggleAddingMode(e, onClickExtender) {
             option.appendChild(document.createTextNode(input.value));
             option.selected = true;
             
-            document.querySelector(`select[name=${entity.toLowerCase()}]`).appendChild(option);
+            const listSelect = document.querySelector(`select[name=${entity.toLowerCase()}]`);
+            listSelect.appendChild(option);
             toggleAddingMode.bind(context)();
 
             if (entity == 'List') {
-                option.selected = false;
+                option.selected = true;
+                
                 sendPostRequest(getRootUrl() + "/api/user", 
                                 {title: input.value, visibility: publicSelect.selectedIndex, description: description.innerHTML}, 
                                 function() {
@@ -86,14 +88,16 @@ export function toggleAddingMode(e, onClickExtender) {
                     const id = res.id;
                     const lists = document.getElementById('lists');
                     lists.appendChild(createEmptyTileList(input.value, id));
-                    }
-                )
+                    
+                    const p = lists.querySelector('#lists > p');
+                    if (p != null) p.remove();
+                    if (onRcvExtender != null) onRcvExtender();
+                });
             }
 
             if (onClickExtender != null) onClickExtender();
 
         });
-
         this.parentNode.parentNode.appendChild(button);
     }
 }
@@ -110,6 +114,12 @@ function createEmptyTileList(title, id) {
 
     const petGridContent = document.createElement("div");
     petGridContent.className = "petGridContent";
+
+    const pElem = document.createElement('p');
+    pElem.appendChild(document.createTextNode('This list has no pets.'));
+    pElem.style.marginTop = '0';
+    petGridContent.appendChild(pElem);
+
     mainDiv.appendChild(petGridContent);
 
     const arrowRight = document.createElement("div");

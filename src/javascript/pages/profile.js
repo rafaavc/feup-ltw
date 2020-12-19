@@ -37,17 +37,26 @@ forms.forEach(form => {
 
 const lists = document.getElementById('lists');
 const listSelect = document.getElementById('list-select');
-listSelect.addEventListener('change', () => {
+const listsPetGrid = lists.querySelector('div.petGrid');
+if (listsPetGrid == null) listSelect.style.display = "none";
+
+function updateSelectedList() {
     for (const list of lists.children) {
         if (list.dataset.id == listSelect.options[listSelect.selectedIndex].value)
             list.style.display = 'grid';
         else list.style.display = 'none';
     }
-});
+}
+listSelect.addEventListener('change', updateSelectedList);
 
 const addListButton = document.getElementById('addListButton');
 if (addListButton != null)
-    addListButton.addEventListener('click', toggleAddingMode);
+    addListButton.addEventListener('click', function(e) {
+        toggleAddingMode.bind(this)(e, null, function() {
+            updateSelectedList();
+            listSelect.style.display = "block";
+        });
+    });
 
 const removeListButton = document.getElementById("removeListButton");
 if (removeListButton != null)
@@ -169,7 +178,6 @@ function createNewPassword(editForm, inputField) {
             if (res.success == 1)
                 resetSelection(editForm, inputField);
         });
-
 }
 
 function resetSelection(editForm, inputField) {
@@ -192,16 +200,34 @@ function createTileLists() {
         const lists = res.lists;
 
         const petGridContent = document.querySelector('#userPets > .petGrid > .petGridContent');
-        for (const pet of pets) {
-            const tile = createPetTile(pet);
-            petGridContent.appendChild(tile);
+        if (pets.length == 0) {
+            const parent = petGridContent.parentNode;
+            parent.innerHTML = '';
+            const pElem = document.createElement('p');
+            pElem.style.marginTop = '0';
+            pElem.appendChild(document.createTextNode(`@${user.innerHTML} has no pets.`));
+            parent.appendChild(pElem);
+            parent.style.gridTemplateColumns = "1fr";
+            
+        } else {
+            for (const pet of pets) {
+                const tile = createPetTile(pet);
+                petGridContent.appendChild(tile);
+            }
         }
 
         const listElements = document.querySelectorAll("#lists .petGrid .petGridContent");
         for (let i = 0; i < listElements.length; i++) {
-            for (const pet of lists[i]) {
-                const tile = createPetTile(pet);
-                listElements[i].appendChild(tile);
+            if (lists[i].length == 0) {
+                const pElem = document.createElement('p');
+                pElem.style.marginTop = '0';
+                pElem.appendChild(document.createTextNode('This list has no pets.'));
+                listElements[i].appendChild(pElem);
+            } else {
+                for (const pet of lists[i]) {
+                    const tile = createPetTile(pet);
+                    listElements[i].appendChild(tile);
+                }
             }
         }
     });
