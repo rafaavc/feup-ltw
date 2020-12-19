@@ -82,7 +82,7 @@ CREATE TABLE Post (
     id INTEGER PRIMARY KEY,
     petId INTEGER NOT NULL REFERENCES Pet ON DELETE CASCADE,
     userId INTEGER NOT NULL REFERENCES User ON DELETE CASCADE,
-    description TEXT NOT NULL,
+    description TEXT NOT NULL CHECK(length(description) >= 1),
     postDate TEXT NOT NULL,
     answerToPostID INTEGER REFERENCES Post ON DELETE SET NULL -- If answerToPostID is NULL, the post is not an answer. It it is != NULL, the post is an answer to the referenced post, and should be represented accordingly.
 );

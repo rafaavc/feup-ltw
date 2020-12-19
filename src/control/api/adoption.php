@@ -76,9 +76,7 @@ function acceptAdoptionRequest($pet, $adopter)
 function handleAdoptionReply($method, $pet, $adopter)
 {
     $owner = Session\getAuthenticatedUser()['id'];
-    if ($owner == false) {
-        Router\errorUnauthorized();
-    }
+    if (!$owner) Router\errorUnauthorized();
 
     if ($method == "POST" || $method == "PUT") {
         try {

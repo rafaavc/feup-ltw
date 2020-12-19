@@ -67,12 +67,13 @@ function submitComment(event) {
 
 	if (comment.length < 1) return;
 
-	sendPostRequest(getRootUrl() + "/control/api/post.php", { petId: petId, comment: comment }, receiveComment);
+	sendPostRequest(getRootUrl() + "/api/pet/comment", { petId: petId, comment: comment }, receiveComment);
 }
 
 function receiveComment() {
-	const post = JSON.parse(this.responseText);
-
+	const res = JSON.parse(this.responseText);
+	if (!res.value) return;
+	const post = res.post;
 	const article = document.createElement('article');
 	article.className = 'comment';
 	article.id = `post-${post.id}`;
