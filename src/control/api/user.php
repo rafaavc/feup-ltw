@@ -4,7 +4,10 @@ namespace API;
 
 use Session;
 use Database;
+use Exception;
 use Router;
+
+use function Session\success;
 
 require_once(dirname(__FILE__)."/existence.php");
 require_once(dirname(__FILE__)."/pet.php");
@@ -96,54 +99,82 @@ function getPublicUsers() {
 }
 
 function updateName($name) {
-    $stmt = Database::db()->prepare("UPDATE User SET name = :name WHERE username = :username AND name <> :name");
-    $stmt->bindParam(':username', $_SESSION['username']);
-    $stmt->bindParam(':name', $name);
-    $stmt->execute();
-    return $stmt->rowCount();
+    if (strlen($name) < 1) return array('success' => false, 'message' => 'Name cannot be empty');
+    if (strlen($name) > 40) return array('success' => false, 'message' => 'Name cannot have more than 40 characters');
+
+    try {
+        $stmt = Database::db()->prepare("UPDATE User SET name = :name WHERE username = :username AND name <> :name");
+        $stmt->bindParam(':username', $_SESSION['username']);
+        $stmt->bindParam(':name', $name);
+        $stmt->execute();
+    } catch(Exception $e) {
+        return array('success' => true, 'message' => 'Name does not fulfill database requirements');
+    }
+    return array('success' => true, 'message' => 'Name updated successfully!');
 }
 
 function updateUsername($username) {
-    if (usernameExists($username)) return 0;
-    $stmt = Database::db()->prepare("UPDATE User SET username = :newUsername WHERE username = :username");
-    $stmt->bindParam(':username', $_SESSION['username']);
-    $stmt->bindParam(':newUsername', $username);
-    $stmt->execute();
+    if (usernameExists($username)) return array('success' => false, 'message' => 'Username already exists');
+
+    if (strlen($username) < 5) return array('success' => false, 'message' => 'Username needs');
+    if (strlen($username) > 15) return array('success' => false, 'message' => 'Username cannot have more than 15 characters');
+
+    try {
+        $stmt = Database::db()->prepare("UPDATE User SET username = :newUsername WHERE username = :username");
+        $stmt->bindParam(':username', $_SESSION['username']);
+        $stmt->bindParam(':newUsername', $username);
+        $stmt->execute();
+    } catch(Exception $e) {
+        return array('success' => true, 'message' => 'Username does not fulfill database requirements');
+    }
 
     $_SESSION['username'] = $username;
 
-    return getRootURL(). "/user/" . $username;
+    return array('success' => true, 'message' => 'Username updated successfully!', 'updateUrl' => getRootURL(). "/user/" . $username);
 }
 
 function updateMail($mail) {
-    if (emailExists($mail)) return 0;
+    if (emailExists($mail)) return array('success' => false, 'message' => 'Email already in use');
 
-    if (!preg_match("/^[a-zA-Z0-9_.@]+$/", $mail)) {
-        Router\errorBadRequest("You didn't give a correct email.");
+    if (!preg_match('/[a-zA-Z0-9_]+@[a-zA-Z0-9_]+.[a-zA-Z0-9_]+/', $mail))
+        return array('success' => false, 'message' => 'Invalid email');
+
+    try {
+        $stmt = Database::db()->prepare("UPDATE User SET mail = :mail WHERE username = :username");
+        $stmt->bindParam(':username', $_SESSION['username']);
+        $stmt->bindParam(':mail', $mail);
+        $stmt->execute();
+    } catch(Exception $e) {
+        return array('success' => true, 'message' => 'Email does not fulfill database requirements');
     }
-
-    $stmt = Database::db()->prepare("UPDATE User SET mail = :mail WHERE username = :username");
-    $stmt->bindParam(':username', $_SESSION['username']);
-    $stmt->bindParam(':mail', $mail);
-    $stmt->execute();
-    return $stmt->rowCount();
+    return array('success' => true, 'message' => 'Email updated successfully!');
 }
 
 function updateBio($bio) {
-    $stmt = Database::db()->prepare("UPDATE User SET description = :description WHERE username = :username AND description <> :description");
-    $stmt->bindParam(':username', $_SESSION['username']);
-    $stmt->bindParam(':description', $bio);
-    $stmt->execute();
-    return $stmt->rowCount();
+    if (strlen($bio) > 300) return array('success' => false, 'message' => 'Bio cannot have more than 300 characters');
+
+    try {
+        $stmt = Database::db()->prepare("UPDATE User SET description = :description WHERE username = :username AND description <> :description");
+        $stmt->bindParam(':username', $_SESSION['username']);
+        $stmt->bindParam(':description', $bio);
+        $stmt->execute();
+    } catch(Exception $e) {
+        return array('success' => true, 'message' => 'Bio does not fulfill database requirements');
+    }
+    return array('success' => true, 'message' => 'Bio updated successfully!');
 }
 
 function updatePassword($password) {
-    $stmt = Database::db()->prepare("UPDATE User SET password = :password WHERE username = :username");
-    $stmt->bindParam(':username', $_SESSION['username']);
-    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-    $stmt->bindParam(':password', $passwordHash);
-    $stmt->execute();
-    return $stmt->rowCount();
+    try {
+        $stmt = Database::db()->prepare("UPDATE User SET password = :password WHERE username = :username");
+        $stmt->bindParam(':username', $_SESSION['username']);
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt->bindParam(':password', $passwordHash);
+        $stmt->execute();
+    } catch(Exception $e) {
+        return array('success' => true, 'message' => 'Password does not fulfill database requirements');
+    }
+    return array('success' => true, 'message' => 'Password updated successfully!');
 }
 
 function createList($title, $visibility, $description) {
@@ -168,15 +199,15 @@ function handleNewPasswordRequest() {
 
     if ($method == 'POST' && isset($_POST['currentPassword'], $_POST['newPassword'], $_POST['confirmPassword'])) {
         if (!password_verify($_POST['currentPassword'], Session\getAuthenticatedUser()['password'])) {
-            responseJSON(array('success' => -1));
+            responseJSON(array('success' => false, 'message' => 'Wrong current password!'));
             return;
         }
         if (strcmp($_POST['newPassword'], $_POST['confirmPassword']) != 0) {
-            responseJSON(array('success' => -2));
+            responseJSON(array('success' => false, 'message' => 'Passwords do not match'));
             return;
         }
         updatePassword($_POST['newPassword']);
-        responseJSON(array('success' => 1));
+        responseJSON(array('success' => true, 'message' => 'Updated password!'));
     }
 }
 
@@ -222,14 +253,14 @@ function handleUpdateRequest() {
         $field = $_POST['field'];
         $value = $_POST['value'];
 
-        $response = 0;
+        $response = array('sucess' => false);
 
         if ($field == "name") $response = updateName($value);
         else if ($field == "username") $response = updateUsername($value);
         else if ($field == "mail") $response = updateMail($value);
         else if ($field == "bio") $response = updateBio($value);
 
-        echo $response;
+        responseJSON($response);
     }
 }
 

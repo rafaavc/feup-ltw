@@ -23,36 +23,11 @@ export function toggleAddingMode(e, onClickExtender, onRcvExtender) {
         const input = document.createElement("input");
         input.type = "text";
 
-        const publicSelect = document.createElement("select");
+        const visibilitySelect = document.createElement("select");
         const description = document.createElement("textarea");
 
-        
-        if (entity == 'List') {
-            const addListForm = document.createElement("form");
-            addListForm.id = `${entity}Input`;
-
-            input.id = "newListTitle";
-            input.placeholder = "Title";
-            addListForm.appendChild(input);
-
-            const privateOption = document.createElement("option");
-            privateOption.value = "Private";
-            privateOption.innerHTML = "Private";
-            publicSelect.appendChild(privateOption);
-
-            const publicOption = document.createElement("option");
-            publicOption.value = "Public";
-            publicOption.innerHTML = "Public";
-            publicSelect.appendChild(publicOption);
-
-            addListForm.appendChild(publicSelect);
-
-            description.id = "addDescription";
-            description.placeholder = "Description";
-            addListForm.appendChild(description);
-
-            this.parentNode.parentNode.appendChild(addListForm);
-        }
+        if (entity == 'List')
+            listScenario.bind(this)(entity, input, visibilitySelect, description);
         else {
             input.id = `${entity}Input`;
             input.placeholder = entity;
@@ -72,29 +47,11 @@ export function toggleAddingMode(e, onClickExtender, onRcvExtender) {
             option.appendChild(document.createTextNode(input.value));
             option.selected = true;
             
-            const listSelect = document.querySelector(`select[name=${entity.toLowerCase()}]`);
-            listSelect.appendChild(option);
+            if (entity == 'List' && !createListRequest(entity, input, option, visibilitySelect, description, onRcvExtender)) 
+                return;
+
+            document.querySelector(`select[name=${entity.toLowerCase()}]`).appendChild(option);
             toggleAddingMode.bind(context)();
-
-            if (entity == 'List') {
-                option.selected = true;
-                
-                sendPostRequest(getRootUrl() + "/api/user", 
-                                {title: input.value, visibility: publicSelect.selectedIndex, description: description.innerHTML}, 
-                                function() {
-                    const res = JSON.parse(this.responseText);
-                    option.value = res.id;
-
-                    const id = res.id;
-                    const lists = document.getElementById('lists');
-                    lists.appendChild(createEmptyTileList(input.value, id));
-                    
-                    const p = lists.querySelector('#lists > p');
-                    if (p != null) p.remove();
-                    if (onRcvExtender != null) onRcvExtender();
-                });
-            }
-
             if (onClickExtender != null) onClickExtender();
 
         });
@@ -127,4 +84,71 @@ function createEmptyTileList(title, id) {
     mainDiv.appendChild(arrowRight);
 
     return mainDiv;
+}
+
+export function showUpdatedField(message, block, errorMessage, param) {
+    let p = block.getElementsByClassName(param)[0];
+    if (p == undefined) {
+        p = document.createElement('p');
+        p.className = param;
+    }
+
+    p.innerHTML = message;
+    p.style.fontSize = '0.8rem';
+    p.style.color = errorMessage ? 'red' : 'green';
+    block.appendChild(p);
+    setTimeout(function () { p.remove() }, 3000);
+}
+
+function listScenario(entity, input, visibilitySelect, description) {
+    const addListForm = document.createElement("form");
+    addListForm.id = `${entity}Input`;
+
+    input.id = "newListTitle";
+    input.placeholder = "Title";
+    addListForm.appendChild(input);
+
+    const privateOption = document.createElement("option");
+    privateOption.value = "Private";
+    privateOption.innerHTML = "Private";
+    visibilitySelect.appendChild(privateOption);
+
+    const publicOption = document.createElement("option");
+    publicOption.value = "Public";
+    publicOption.innerHTML = "Public";
+    visibilitySelect.appendChild(publicOption);
+
+    addListForm.appendChild(visibilitySelect);
+
+    description.id = "addDescription";
+    description.placeholder = "Description";
+    addListForm.appendChild(description);
+
+    this.parentNode.parentNode.appendChild(addListForm);
+}
+
+function createListRequest(entity, input, option, visibilitySelect, description, onRcvExtender) {
+    const lists = document.getElementById('lists');
+    const form = document.getElementById(`${entity}Input`);
+    if (input.value === "") {
+        showUpdatedField("List cannot have empty title", form, true, "listTitle");
+        return false;
+    }
+
+    option.selected = true;
+    sendPostRequest(getRootUrl() + "/api/user", 
+                    {title: input.value, visibility: visibilitySelect.selectedIndex, description: description.innerHTML}, 
+                    function() {
+        const res = JSON.parse(this.responseText);
+        option.value = res.id;
+
+        const id = res.id;
+        lists.appendChild(createEmptyTileList(input.value, id));
+        
+        const p = lists.querySelector('#lists > p');
+        if (p != null) p.remove();
+        if (onRcvExtender != null) onRcvExtender();
+    });
+
+    return true;
 }
