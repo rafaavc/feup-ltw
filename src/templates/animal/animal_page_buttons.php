@@ -1,21 +1,22 @@
 <footer>
-	<select id="selectList">
+	<?php if ($user != false) { ?>
 		<?php
-		$user = Session\getAuthenticatedUser();
 		$userLists = API\getUserLists($user['id']);
+		if (sizeof($userLists) != 0) { ?>
+		<select id="selectList">
+			<?php foreach ($userLists as $userList) { ?>
+				<option class="listOption" value="<?= htmlentities($userList['id']) ?>"><?= htmlentities($userList['title']) ?></option>
+			<?php } ?>
+		</select>
+		<button id ="addToList" class="simpleButton">Add to list</button>
+	<?php } else { ?>
+		<p class="notice">To add this pet to a list, create one in your <a href="<?=getRootUrl()?>/user/<?=$user['username']?>">profile</a>.</p>
 
-		foreach ($userLists as $userList) {
-		?>
-			<option class="listOption" value="<?= htmlentities($userList['id']) ?>"><?= htmlentities($userList['title']) ?></option>
-		<?php
-		}
-		?>
-	</select>
-	<button id ="addToList" class="simpleButton">Add to list</button>
-	<?php
+	<?php }
+	}
 	$adopted = API\getAdopted($pet['id']);
 
-	if ($pet['userId'] == $user['id']) { ?>
+	if ($user != false && $pet['userId'] == $user['id']) { ?>
 		<button id="editPet" class="simpleButton contrastButton">Edit Pet</button>
 		<button id="closeEdit" class="simpleButton contrastButton" style="display: none">Cancel Edition</button>
 		<?php
@@ -29,8 +30,9 @@
 			<p>You've proposed to adopt! <button id="cancel" class="simpleButton contrastButton">Cancel</button></p>
 		<?php
 		}
-	} else { ?>
-		<p>This pet was adopted by <a href="<?= getRootUrl() ?>/user/<?= $adopted['username'] ?>"><?= htmlentities($adopted['name']) ?></a></p>
+	}
+	if ($adopted) { ?>
+		<p>This pet was adopted by <a href="<?= getRootUrl() ?>/user/<?= $adopted['username'] ?>"><?= htmlentities($adopted['name']) ?></a>.</p>
 	<?php
 	}
 	?>

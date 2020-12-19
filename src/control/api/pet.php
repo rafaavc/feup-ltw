@@ -5,7 +5,7 @@ namespace API;
 use Database;
 use Router;
 
-$GLOBALS['petRaceSpecieQuery'] = "(
+$petRaceSpecieQuery = "(
 	SELECT Pet.id, userId as ownerId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, null as race, archived FROM
 		(
 			(
@@ -29,16 +29,16 @@ $GLOBALS['petRaceSpecieQuery'] = "(
 	)";
 
 $GLOBALS['petQuery'] = "
-		(SELECT id, ownerId as userId, name, birthdate, description, datePosted, location, color, size, specie, race, 'adopted' as state
-		FROM " . $GLOBALS['petRaceSpecieQuery'] . " JOIN Adopted ON(id = petId)
+		(SELECT id, ownerId as userId, name, birthdate, description, datePosted, location, color, size, specie, race, 'adopted' as state 
+		FROM ".$petRaceSpecieQuery." JOIN Adopted ON(id = petId)
 		UNION
-		SELECT id, ownerId as userId, name, birthdate, description, datePosted, location, color, size, specie, race, 'archived' as state
-		FROM " . $GLOBALS['petRaceSpecieQuery'] . " WHERE archived = 1
+		SELECT id, ownerId as userId, name, birthdate, description, datePosted, location, color, size, specie, race, 'archived' as state 
+		FROM ".$petRaceSpecieQuery." WHERE archived = 1
 		UNION
-		SELECT id, ownerId as userId, name, birthdate, description, datePosted, location, color, size, specie, race, 'ready' as state
-		FROM " . $GLOBALS['petRaceSpecieQuery'] . " WHERE archived != 1 AND
+		SELECT id, ownerId as userId, name, birthdate, description, datePosted, location, color, size, specie, race, 'ready' as state 
+		FROM ".$petRaceSpecieQuery." WHERE archived != 1 AND 
 			id NOT IN (SELECT id
-			FROM " . $GLOBALS['petRaceSpecieQuery'] . " JOIN Adopted ON(id = petId)))
+			FROM ".$petRaceSpecieQuery." JOIN Adopted ON(id = petId)))
 	";
 
 function getPet($petId)
