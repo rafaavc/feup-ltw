@@ -136,7 +136,6 @@ function changeAdoptButton() {
 
 	const paragraph = document.createElement('p');
 	paragraph.innerHTML = "You've proposed to adopt! ";
-	paragraph.id = "adoptText";
 	paragraph.appendChild(button);
 
 	document.querySelector('.petProfile footer').appendChild(paragraph);
