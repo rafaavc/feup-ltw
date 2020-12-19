@@ -6,6 +6,8 @@ use Session;
 use Database;
 use Router;
 
+use function Session\success;
+
 require_once(dirname(__FILE__)."/existence.php");
 require_once(dirname(__FILE__)."/pet.php");
 
@@ -96,15 +98,19 @@ function getPublicUsers() {
 }
 
 function updateName($name) {
+    if (strlen($name) < 1) return array('success' => false, 'message' => 'Name cannot be empty');
+    if (strlen($name) > 40) return array('success' => false, 'message' => 'Name cannot have more than 40 characters');
+
     $stmt = Database::db()->prepare("UPDATE User SET name = :name WHERE username = :username AND name <> :name");
     $stmt->bindParam(':username', $_SESSION['username']);
     $stmt->bindParam(':name', $name);
     $stmt->execute();
-    return $stmt->rowCount();
+    return array('success' => true, 'message' => 'Name updated successfully!');
 }
 
 function updateUsername($username) {
-    if (usernameExists($username)) return 0;
+    if (usernameExists($username)) return array('success' => false, 'message' => 'Username already exists');
+
     $stmt = Database::db()->prepare("UPDATE User SET username = :newUsername WHERE username = :username");
     $stmt->bindParam(':username', $_SESSION['username']);
     $stmt->bindParam(':newUsername', $username);
@@ -112,15 +118,11 @@ function updateUsername($username) {
 
     $_SESSION['username'] = $username;
 
-    return getRootURL(). "/user/" . $username;
+    return array('success' => true, 'message' => 'Username updated successfully!', 'updateUrl' => getRootURL(). "/user/" . $username);
 }
 
 function updateMail($mail) {
-    if (emailExists($mail)) return 0;
-
-    if (!preg_match("/^[a-zA-Z0-9_.@]+$/", $mail)) {
-        Router\errorBadRequest("You didn't give a correct email.");
-    }
+    if (emailExists($mail)) return array('success' => false, 'message' => 'Email already in use');
 
     $stmt = Database::db()->prepare("UPDATE User SET mail = :mail WHERE username = :username");
     $stmt->bindParam(':username', $_SESSION['username']);
@@ -222,14 +224,14 @@ function handleUpdateRequest() {
         $field = $_POST['field'];
         $value = $_POST['value'];
 
-        $response = 0;
+        $response = array('sucess' => false);
 
         if ($field == "name") $response = updateName($value);
         else if ($field == "username") $response = updateUsername($value);
         else if ($field == "mail") $response = updateMail($value);
         else if ($field == "bio") $response = updateBio($value);
 
-        echo $response;
+        responseJSON($response);
     }
 }
 

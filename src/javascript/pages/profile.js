@@ -129,14 +129,16 @@ function confirmSelection(editForm, inputField) {
 
     sendPostRequest(getRootUrl() + "/api/user", { field: inputField.id, value: formText },
         function () {
-            if (parseInt(this.responseText)) {
+            const res = JSON.parse(this.responseText);
+            if (res.success) {
                 inputField.children[0].innerHTML = escapeHtml(formText);
                 resetSelection(editForm, inputField);
             }
-            else if (parseInt(this.responseText) == 0)
-                resetSelection(editForm, inputField);
             else
-                window.location = this.responseText;
+                showInvalidField(res.message, editForm);
+            
+            if (inputField.id == "username")
+                window.location = res.updateUrl;
         });
 }
 
@@ -148,7 +150,12 @@ function createNewPassword(editForm, inputField) {
     resetPassword();
 
     if (newPassword.length < 8) {
-        showInvalidField("Invalid password", editForm);
+        showInvalidField("New password has to have at least 8 characters", editForm);
+        return;
+    }
+
+    if (!newPassword.equals(confirmPassword)) {
+        showInvalidField("Passwords do not match", editForm);
         return;
     }
 
