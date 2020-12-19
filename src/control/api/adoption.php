@@ -36,12 +36,15 @@ function cancelAdoptionRequest($pet, $adopter)
 function handleAdoptionRequest($method, $pet)
 {
     $adopter = Session\getAuthenticatedUser()['id'];
+    $petObj = getPet($pet);
     if ($adopter == false) {
         Router\errorUnauthorized();
-    } else if (ownsPet($adopter, $pet)) {
+    } else if ($petObj == false) {
+        Router\errorBadRequest();
+    } else if (ownsPet($adopter, $pet) || $petObj['state'] == 'adopted') {
         Router\errorForbidden();
     }
-
+    
 
     if ($method == "POST" || $method == "PUT") {
         makeAdoptionRequest($pet, $adopter);
