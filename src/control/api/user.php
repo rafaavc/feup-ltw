@@ -152,7 +152,7 @@ function updateMail($mail) {
 
 function updateBio($bio) {
     if (strlen($bio) > 300) return array('success' => false, 'message' => 'Bio cannot have more than 300 characters');
-    
+
     try {
         $stmt = Database::db()->prepare("UPDATE User SET description = :description WHERE username = :username AND description <> :description");
         $stmt->bindParam(':username', $_SESSION['username']);

@@ -23,36 +23,11 @@ export function toggleAddingMode(e, onClickExtender) {
         const input = document.createElement("input");
         input.type = "text";
 
-        const publicSelect = document.createElement("select");
+        const visibilitySelect = document.createElement("select");
         const description = document.createElement("textarea");
 
-        
-        if (entity == 'List') {
-            const addListForm = document.createElement("form");
-            addListForm.id = `${entity}Input`;
-
-            input.id = "newListTitle";
-            input.placeholder = "Title";
-            addListForm.appendChild(input);
-
-            const privateOption = document.createElement("option");
-            privateOption.value = "Private";
-            privateOption.innerHTML = "Private";
-            publicSelect.appendChild(privateOption);
-
-            const publicOption = document.createElement("option");
-            publicOption.value = "Public";
-            publicOption.innerHTML = "Public";
-            publicSelect.appendChild(publicOption);
-
-            addListForm.appendChild(publicSelect);
-
-            description.id = "addDescription";
-            description.placeholder = "Description";
-            addListForm.appendChild(description);
-
-            this.parentNode.parentNode.appendChild(addListForm);
-        }
+        if (entity == 'List')
+            listScenario.bind(this)(entity, input, visibilitySelect, description);
         else {
             input.id = `${entity}Input`;
             input.placeholder = entity;
@@ -72,24 +47,11 @@ export function toggleAddingMode(e, onClickExtender) {
             option.appendChild(document.createTextNode(input.value));
             option.selected = true;
             
+            if (entity == 'List' && !createListRequest(entity, input, option, visibilitySelect, description)) 
+                return;
+
             document.querySelector(`select[name=${entity.toLowerCase()}]`).appendChild(option);
             toggleAddingMode.bind(context)();
-
-            if (entity == 'List') {
-                option.selected = false;
-                sendPostRequest(getRootUrl() + "/api/user", 
-                                {title: input.value, visibility: publicSelect.selectedIndex, description: description.innerHTML}, 
-                                function() {
-                    const res = JSON.parse(this.responseText);
-                    option.value = res.id;
-
-                    const id = res.id;
-                    const lists = document.getElementById('lists');
-                    lists.appendChild(createEmptyTileList(input.value, id));
-                    }
-                )
-            }
-
             if (onClickExtender != null) onClickExtender();
 
         });
@@ -117,4 +79,68 @@ function createEmptyTileList(title, id) {
     mainDiv.appendChild(arrowRight);
 
     return mainDiv;
+}
+
+function showUpdatedField(message, block, errorMessage) {
+    let p = block.getElementsByClassName('listTitle')[0];
+    if (p == undefined) {
+        p = document.createElement('p');
+        p.className = "listTitle";
+    }
+
+    p.innerHTML = message;
+    p.style.fontSize = '0.8rem';
+    p.style.color = errorMessage ? 'red' : 'green';
+    block.appendChild(p);
+    setTimeout(function () { p.remove() }, 3000);
+}
+
+function listScenario(entity, input, visibilitySelect, description) {
+    const addListForm = document.createElement("form");
+    addListForm.id = `${entity}Input`;
+
+    input.id = "newListTitle";
+    input.placeholder = "Title";
+    addListForm.appendChild(input);
+
+    const privateOption = document.createElement("option");
+    privateOption.value = "Private";
+    privateOption.innerHTML = "Private";
+    visibilitySelect.appendChild(privateOption);
+
+    const publicOption = document.createElement("option");
+    publicOption.value = "Public";
+    publicOption.innerHTML = "Public";
+    visibilitySelect.appendChild(publicOption);
+
+    addListForm.appendChild(visibilitySelect);
+
+    description.id = "addDescription";
+    description.placeholder = "Description";
+    addListForm.appendChild(description);
+
+    this.parentNode.parentNode.appendChild(addListForm);
+}
+
+function createListRequest(entity, input, option, visibilitySelect, description) {
+    const lists = document.getElementById('lists');
+    const form = document.getElementById(`${entity}Input`);
+    if (input.value === "") {
+        showUpdatedField("List cannot have empty title", form, true);
+        return false;
+    }
+
+    option.selected = false;
+    sendPostRequest(getRootUrl() + "/api/user", 
+                    {title: input.value, visibility: visibilitySelect.selectedIndex, description: description.innerHTML}, 
+                    function() {
+        const res = JSON.parse(this.responseText);
+        option.value = res.id;
+
+        const id = res.id;
+        lists.appendChild(createEmptyTileList(input.value, id));
+        }
+    );
+
+    return true;
 }
