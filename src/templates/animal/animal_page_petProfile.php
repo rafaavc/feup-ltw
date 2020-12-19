@@ -1,11 +1,12 @@
-<section class='petProfile' data-id="<?= $pet['id'] ?>">
+<section class="petProfile" data-id="<?= $pet['id'] ?>" data-owner-id="<?=$pet['userId']?>">
 	<div style="background-image: url(<?= '../images/petProfilePictures/' . $pet['id'] . '.jpg' ?>);"> </div>
 	<div>
 		<header>
 			<section id="petInfo">
 				<div id="nameAge">
-					<h3><?= $pet['name'] == null ? '' : htmlentities($pet['name']) . ',' ?>
-						<?=elapsedTime(strtotime($pet['birthdate']))?>
+					<h3>
+						<?= $pet['name'] == null ? '' : htmlentities($pet['name']).',' ?>
+						<?=elapsedTime(strtotime($pet['birthdate']))?> old
 					</h3>
 				</div>
 				<div id="colorRaceLocation">
@@ -17,7 +18,8 @@
 						}
 						?></h4>
 				</div>
-				<span class="petState <?=$pet['state']?>"><?=$pet['state'] == 'adopted' ? 'Adopted' : ($pet['state'] == 'ready' ? 'Ready for Adoption' : ($pet['state'] == 'archived' ? 'Archived' : null)) ?></span>
+				<p>by <a href="<?=getRootURL()?>/user/<?=$originalOwner['username']?>"><?=$originalOwner['shortName']?></a></p>
+				<span class="tagLabel <?=$pet['state']?>"><?=$pet['state'] == 'adopted' ? 'Adopted' : ($pet['state'] == 'ready' ? 'Ready for Adoption' : ($pet['state'] == 'archived' ? 'Archived' : null)) ?></span>
 				<div id="description">
 					<p><?= $pet['description'] ?></p>
 				</div>
@@ -52,7 +54,7 @@
 			</form>
 		</header>
 		<?php if (Session\isAuthenticated()) {
-			include_once(dirname(__FILE__) . '/animal_page_buttons.php');
+			require_once(dirname(__FILE__) . '/animal_page_buttons.php');
 		} ?>
 		<p id="tempText"></p>
 	</div>

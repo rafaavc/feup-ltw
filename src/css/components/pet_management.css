@@ -14,7 +14,7 @@ section.petManagement {
     padding-bottom: 1rem;
 }
 
-.petManagementPets span.petState {
+.petManagementPets span.tagLabel {
     display: inline-block;
     margin-left: 2rem;
 }

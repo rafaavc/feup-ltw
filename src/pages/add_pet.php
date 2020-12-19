@@ -102,7 +102,7 @@
             <div>
                 <input type="hidden" name="profilePhoto" value="" />
                 <div class="photos"></div>
-                <input type="file" name="photos[]" />
+                <input type="file" name="photos[]" accept="image/jpeg" />
                 <button class="simpleButton" id="addPhotoButton"><i class="icofont-ui-add"></i>Photo</button>
                 <p>To select a profile picture, click on one of the pictures you uploaded.</p>
             </div>

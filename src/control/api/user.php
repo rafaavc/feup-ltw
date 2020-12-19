@@ -6,8 +6,8 @@ use Session;
 use Database;
 use Router;
 
-include_once(dirname(__FILE__)."/existence.php");
-include_once(dirname(__FILE__)."/pet.php");
+require_once(dirname(__FILE__)."/existence.php");
+require_once(dirname(__FILE__)."/pet.php");
 
 
 function login($username, $password) {

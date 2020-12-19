@@ -140,7 +140,11 @@ const addColorButton = document.getElementById('addColorButton');
 const addRaceButton = document.getElementById('addRaceButton');
 const addSizeButton = document.getElementById('addSizeButton');
 
-addSpeciesButton.addEventListener('click', toggleAddingMode);
+addSpeciesButton.addEventListener('click', function(e) {
+    toggleAddingMode.bind(this)(e, () => {
+        updateRaceSelect.bind(specieSelect)();
+    });
+});
 addColorButton.addEventListener('click', toggleAddingMode);
 addRaceButton.addEventListener('click', toggleAddingMode);
 addSizeButton.addEventListener('click', toggleAddingMode);

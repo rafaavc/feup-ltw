@@ -121,7 +121,7 @@ function getPostParameters($names) {
 
 function error404() {
     http_response_code(404);
-    if (!isAPIRequest(null)) hitDestination("pages/404.php");
+    if (!isAPIRequest(null)) header("Location: ".getRootUrl()."/404");
     exit();
 }
 

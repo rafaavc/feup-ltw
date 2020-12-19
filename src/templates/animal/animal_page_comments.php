@@ -1,16 +1,20 @@
 
-<section id="comments">
-	<h4>Comments</h4>
+<section class="petProfileSection">
+	<h3>Comments</h3>
 	<?php if (sizeof($posts) == 0) { ?>
 		<p>This pet has no comments yet.</p>
 		<?php } else {
-		for ($i = 0; $i < count($posts); $i++) {
-			$user = API\getUserById($posts[$i]['userId']); ?>
-			<article class="comment">
-				<div class="image" style="background-image: url('../../images/userProfilePictures/<?= $user['id'] ?>.jpg')"></div>
-				<p><?= $posts[$i]['description'] ?></p>
-				<span class="user"><?= htmlentities($user['shortName']) ?></span>
-				<span class="date"><?= htmlentities($posts[$i]['postDate']) ?></span>
+		foreach ($posts as $post) {
+			$poster = API\getUserById($post['userId']); ?>
+			<article class="comment" id="post-<?=$post['id']?>">
+				<div class="image" style="background-image: url('../../images/userProfilePictures/<?= $poster['id'] ?>.jpg')"></div>
+				<div>
+					<?php if ($post['userId'] == $originalOwner['id']) { ?><span class="tagLabel accent">Original Poster</span><?php } ?>
+					<p class="description"><?= $post['description'] ?></p>
+					<footer>
+						<?= elapsedTime(strtotime($post['postDate'])) ?> ago, by <a href="<?=getRootUrl()?>/user/<?=$poster['username']?>"><?=htmlentities($poster['shortName'])?></a>
+					</footer>
+				</div>
 			</article>
 
 		<?php }
@@ -24,7 +28,7 @@
 			<input type="submit" class="contrastButton" />
 		</form>
 	<?php } else { ?>
-		<h4>To add a comment</h4>
+		<p class="addCommentCTA">To add a comment,</p>
 		<ul>			
 			<li><a href="<?= getRootUrl() ?>/signup" class="simpleButton contrastButton">Sign Up</a></li>
 			<li><a href="<?= getRootUrl() ?>/signin" class="simpleButton">Sign In</a></li>

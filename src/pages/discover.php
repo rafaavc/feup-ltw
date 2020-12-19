@@ -3,8 +3,8 @@ $GLOBALS['section'] = 'discover';
 require_once(dirname(__FILE__)."/../control/api/pet.php");
 require_once(dirname(__FILE__)."/../control/api/user.php");
 
-include_once(dirname(__FILE__) ."/../templates/common/header.php");
-include_once(dirname(__FILE__) ."/../templates/tiles.php");
+require_once(dirname(__FILE__) ."/../templates/common/header.php");
+require_once(dirname(__FILE__) ."/../templates/tiles.php");
 ?>
 
 <?php require_once(dirname(__FILE__)."/../templates/search_form.php"); ?>
@@ -18,7 +18,7 @@ include_once(dirname(__FILE__) ."/../templates/tiles.php");
 </section>
 
 <?php
-include_once(dirname(__FILE__) ."/../templates/common/footer.php");
+require_once(dirname(__FILE__) ."/../templates/common/footer.php");
 ?>
 
 
