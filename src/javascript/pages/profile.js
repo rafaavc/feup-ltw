@@ -122,12 +122,7 @@ function confirmSelection(editForm, inputField) {
 
     if (inputField.id === 'mail') {
         if (!RegExp('[a-zA-Z0-9_]+@[a-zA-Z0-9_]+.[a-zA-Z0-9_]+').test(formText)) {
-            const p = document.createElement('p');
-            p.innerHTML = 'Invalid email';
-            p.style.fontSize = '0.8rem';
-            p.style.color = 'red';
-            document.getElementById('mailForm').appendChild(p);
-            setTimeout(function () { p.innerHTML = '' }, 3000)
+            showInvalidField("Invalid email", editForm);
             return;
         }
     }
@@ -153,12 +148,7 @@ function createNewPassword(editForm, inputField) {
     resetPassword();
 
     if (newPassword.length < 8) {
-        const p = document.createElement('p');
-        p.innerHTML = 'Invalid password';
-        p.style.fontSize = '0.8rem';
-        p.style.color = 'red';
-        document.getElementById('passwordForm').appendChild(p);
-        setTimeout(function () { p.innerHTML = '' }, 3000);
+        showInvalidField("Invalid password", editForm);
         return;
     }
 
@@ -205,4 +195,16 @@ function createTileLists() {
             }
         }
     });
+}
+
+function showInvalidField(message, editForm) {
+    let p = editForm.querySelector('p');
+    if (p == undefined)
+        p = document.createElement('p');
+
+    p.innerHTML = message;
+    p.style.fontSize = '0.8rem';
+    p.style.color = 'red';
+    editForm.appendChild(p);
+    setTimeout(function () { p.remove() }, 3000);
 }
