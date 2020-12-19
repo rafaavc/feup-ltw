@@ -1,8 +1,10 @@
 import { getRootUrl, initWebsite } from '../init.js'
 import { sendPostRequest } from '../ajax.js'
 import { createPetTile } from '../tile.js'
-import { toggleAddingMode } from '../add_field.js'
+import { toggleAddingMode, showUpdatedField } from '../add_field.js'
 import { escapeHtml } from '../escape.js'
+
+const bioEmptyMessage = "Bio (currently empty)";
 
 const editProfileButton = document.getElementById("editProfile");
 if (editProfileButton != null)
@@ -37,24 +39,61 @@ forms.forEach(form => {
 
 const lists = document.getElementById('lists');
 const listSelect = document.getElementById('list-select');
-listSelect.addEventListener('change', () => {
+const listsPetGrid = lists.querySelector('div.petGrid');
+if (listsPetGrid == null) listSelect.style.display = "none";
+
+function updateSelectedList() {
     for (const list of lists.children) {
         if (list.dataset.id == listSelect.options[listSelect.selectedIndex].value)
             list.style.display = 'grid';
         else list.style.display = 'none';
     }
-});
+}
+listSelect.addEventListener('change', updateSelectedList);
 
 const addListButton = document.getElementById('addListButton');
 if (addListButton != null)
-    addListButton.addEventListener('click', toggleAddingMode);
+    addListButton.addEventListener('click', function(e) {
+        toggleAddingMode.bind(this)(e, null, function() {
+            updateSelectedList();
+            listSelect.style.display = "block";
+        });
+    });
 
 const removeListButton = document.getElementById("removeListButton");
 if (removeListButton != null)
-    removeListButton.addEventListener('click', removeList);
+    removeListButton.addEventListener('click', askForDeleteConfirm);
 
 createTileLists();
 initWebsite();
+
+function askForDeleteConfirm() {
+    if (this.dataset.clicked == undefined || this.dataset.clicked === "") {
+        this.dataset.clicked = "clicked";
+        this.innerHTML = "<i class='icofont-ui-close'></i> Cancel";
+
+        const confirm = document.createElement("button");
+        confirm.innerHTML = "Confirm";
+        confirm.className = "contrastButton";
+        confirm.id = "confirmDelete";
+
+        confirm.addEventListener("click", function() {
+            const deleteButton = document.getElementById("removeListButton");
+            deleteButton.dataset.clicked = "";
+            deleteButton.innerHTML = "<i class='icofont-ui-delete'></i> Delete list";
+            this.remove();
+
+            removeList();
+        });
+
+        this.parentNode.appendChild(confirm);
+    }
+    else {
+        this.dataset.clicked = "";
+        this.innerHTML = "<i class='icofont-ui-delete'></i> Delete list";
+        document.getElementById("confirmDelete").remove();
+    }
+}
 
 function removeList() {
     const listSelect = document.getElementById("list-select");
@@ -69,8 +108,9 @@ function removeList() {
     //delete list
     document.querySelector("#lists > div[data-id='" + listId + "']").remove();
     const firstList = document.getElementById("lists");
-    if (firstList.children[0].length != 0)
-        firstList.children[0].style.display = "grid";
+    const firstChildren = firstList.children[0];
+    if (firstChildren != undefined && firstChildren.length != 0)
+        firstChildren.style.display = "grid";
 
     //delete list in database
     sendPostRequest(getRootUrl() + "/api/user", { listId: listId }, function () { });
@@ -86,12 +126,24 @@ function editProfile() {
     if (editProfile.checked) {
         editProfileLabel.innerHTML = "Close edition";
         editFields.forEach(field => field.style.display = "flex");
+
+        //check if bio field is empty
+        const bio = document.querySelector("#bio > p");
+        if (bio.innerHTML === "") {
+            bio.innerHTML = bioEmptyMessage;
+        }
     }
     else {
         editProfileLabel.innerHTML = "Edit profile";
         editFields.forEach(field => field.style.display = "none");
         forms.forEach(form => form.style.display = "none");
         initialFields.forEach(field => field.style.display = "flex");
+
+        //check if bio field is empty
+        const bio = document.querySelector("#bio > p");
+        if (bio.innerHTML === bioEmptyMessage) {
+            bio.innerHTML = "";
+        }
     }
 }
 
@@ -104,8 +156,13 @@ function showSelection(editForm, inputField) {
     let formText;
     const formValue = inputField.children[0].innerHTML;
 
-    if (inputField.id == "bio")
+    if (inputField.id == "bio") {
         formText = editForm.querySelector("textarea");
+        if (formValue === bioEmptyMessage) {
+            formText.value = "";
+            return;
+        }
+    }
     else
         formText = editForm.getElementsByClassName("edit-data")[0];
 
@@ -120,28 +177,22 @@ function confirmSelection(editForm, inputField) {
     else
         formText = editForm.getElementsByClassName("edit-data")[0].value;
 
-    if (inputField.id === 'mail') {
-        if (!RegExp('[a-zA-Z0-9_]+@[a-zA-Z0-9_]+.[a-zA-Z0-9_]+').test(formText)) {
-            const p = document.createElement('p');
-            p.innerHTML = 'Invalid email';
-            p.style.fontSize = '0.8rem';
-            p.style.color = 'red';
-            document.getElementById('mailForm').appendChild(p);
-            setTimeout(function () { p.innerHTML = '' }, 3000)
-            return;
-        }
-    }
-
     sendPostRequest(getRootUrl() + "/api/user", { field: inputField.id, value: formText },
         function () {
-            if (parseInt(this.responseText)) {
+            const res = JSON.parse(this.responseText);
+            if (res.success) {
                 inputField.children[0].innerHTML = escapeHtml(formText);
+                if (inputField.id === "bio" && formText === "") 
+                        inputField.children[0].innerHTML = bioEmptyMessage;
+                
                 resetSelection(editForm, inputField);
+                showUpdatedField(res.message, inputField, false, "updateField");
             }
-            else if (parseInt(this.responseText) == 0)
-                resetSelection(editForm, inputField);
             else
-                window.location = this.responseText;
+                showUpdatedField(res.message, editForm, true, "updateField");
+            
+            if (inputField.id == "username" && res.success)
+                window.location = res.updateUrl;
         });
 }
 
@@ -153,12 +204,12 @@ function createNewPassword(editForm, inputField) {
     resetPassword();
 
     if (newPassword.length < 8) {
-        const p = document.createElement('p');
-        p.innerHTML = 'Invalid password';
-        p.style.fontSize = '0.8rem';
-        p.style.color = 'red';
-        document.getElementById('passwordForm').appendChild(p);
-        setTimeout(function () { p.innerHTML = '' }, 3000);
+        showUpdatedField("New password has to have at least 8 characters", editForm, true, "updateField");
+        return;
+    }
+
+    if (!(newPassword === confirmPassword)) {
+        showUpdatedField("Passwords do not match", editForm, true, "updateField");
         return;
     }
 
@@ -166,10 +217,12 @@ function createNewPassword(editForm, inputField) {
         { currentPassword: currentPassword, newPassword: newPassword, confirmPassword: confirmPassword },
         function () {
             const res = JSON.parse(this.responseText);
-            if (res.success == 1)
+            console.log(res);
+            if (res.success) {
                 resetSelection(editForm, inputField);
+                showUpdatedField(res.message, inputField, false, "updateField");
+            }
         });
-
 }
 
 function resetSelection(editForm, inputField) {
@@ -192,16 +245,34 @@ function createTileLists() {
         const lists = res.lists;
 
         const petGridContent = document.querySelector('#userPets > .petGrid > .petGridContent');
-        for (const pet of pets) {
-            const tile = createPetTile(pet);
-            petGridContent.appendChild(tile);
+        if (pets.length == 0) {
+            const parent = petGridContent.parentNode;
+            parent.innerHTML = '';
+            const pElem = document.createElement('p');
+            pElem.style.marginTop = '0';
+            pElem.appendChild(document.createTextNode(`@${user.innerHTML} has no pets.`));
+            parent.appendChild(pElem);
+            parent.style.gridTemplateColumns = "1fr";
+            
+        } else {
+            for (const pet of pets) {
+                const tile = createPetTile(pet);
+                petGridContent.appendChild(tile);
+            }
         }
 
         const listElements = document.querySelectorAll("#lists .petGrid .petGridContent");
         for (let i = 0; i < listElements.length; i++) {
-            for (const pet of lists[i]) {
-                const tile = createPetTile(pet);
-                listElements[i].appendChild(tile);
+            if (lists[i].length == 0) {
+                const pElem = document.createElement('p');
+                pElem.style.marginTop = '0';
+                pElem.appendChild(document.createTextNode('This list has no pets.'));
+                listElements[i].appendChild(pElem);
+            } else {
+                for (const pet of lists[i]) {
+                    const tile = createPetTile(pet);
+                    listElements[i].appendChild(tile);
+                }
             }
         }
     });

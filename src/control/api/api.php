@@ -1,6 +1,7 @@
 <?php
 
 namespace API;
+use Router;
 require_once(dirname(__FILE__)."/../db.php");
 
 function responseJSON($response) {
@@ -18,6 +19,19 @@ function getArrayFromSTMT($stmt, $amount) {
         $count++;
     }
     return $res;
+}
+
+function verifyCSRF() {
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    if ($method == "POST")
+        $csrf = isset($_POST['csrf']) ? $_POST['csrf'] : null;
+    else if ($method == "GET")
+        $csrf = isset($GLOBALS['csrf']) ? $GLOBALS['csrf'] : null;
+
+    if ($csrf == null || $csrf != $_SESSION['csrf']) {
+        Router\errorForbidden();
+    }
 }
 
 ?>

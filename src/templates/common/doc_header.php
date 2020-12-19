@@ -10,4 +10,4 @@
 		<script type="module" src="<?=getRootUrl()?>/javascript/<?=$GLOBALS['js']?>"></script>
 	<?php } ?>
 </head>
-<body>
+<body data-csrf="<?=$_SESSION['csrf']?>">

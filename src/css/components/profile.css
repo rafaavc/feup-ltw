@@ -19,6 +19,7 @@
 .textButtonPair > div{
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .textButtonPair form, .textButtonPair .edit {
@@ -117,6 +118,10 @@
 
 #lists > div:not(:first-of-type) {
     display: none;
+}
+
+#ListInput input, #ListInput select {
+    margin-bottom: 1rem;
 }
 
 /* * {
