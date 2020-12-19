@@ -1,11 +1,11 @@
-<section class="simpleGrid">
+<section class="simpleGrid inverse">
     <div>
         <header>
-            <h2>Fostering creativity and innovationeam definiebas reformidans, exerci persecuti</h2>
+            <h2>Have got a pet who needs a new home? Here is the best place to find him one.</h2>
         </header>
-        <p>Et has minim elitr intellegat. Mea aeterno eleifend antiopam ad, nam no suscipit quaerendum. At nam minimum ponderum. Est audiam animal molestiae te. Ex duo eripuit mentitum.</p>
+        <p>Sign up and start the adoption process! New proposals won't be scarce.</p>
         <footer>
-            <a href="#" class="simpleButton contrastButton">Contact us</a>
+            <a href="<?=getRootUrl()?>/signup" class="simpleButton contrastButton">Sign Up</a>
         </footer>
     </div>
     <img src="images/cuteCat.jpeg" />        

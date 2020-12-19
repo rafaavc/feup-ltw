@@ -21,13 +21,11 @@
     <a href="<?=getRootUrl()?>/pet/add" class="simpleButton contrastButton"><i class="icofont-ui-add"></i> Add Pet</a>
 
     <?php if ($pets == false) { ?>
-        <p>Your pets have no recent comments.</p>
+        <p>You have no pets.</p>
     <?php } else {
         foreach($pets as $pet) { ?>
         <div class="petManagementPets">
-            <p><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>"><?=$pet['name']?></a></p>
-            <p><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>/edit"><i class="icofont-ui-edit"></i></a></p>
-            <p><a><i class="icofont-archive"></i></a></p>
+            <p><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>"><?=$pet['name'] == null || $pet['name'] == '' ? $pet['size']." ".$pet['color']." ".$pet['specie'] : $pet['name']?></a><span class="petState <?=$pet['state']?>"><?=$pet['state'] == 'adopted' ? 'Adopted' : ($pet['state'] == 'ready' ? 'Ready for Adoption' : ($pet['state'] == 'archived' ? 'Archived' : null)) ?></span></p>
         </div>
     <?php } 
     } ?>
@@ -41,7 +39,7 @@
     <?php } else { 
         foreach($petsAdoptionProposals as $proposal) { ?>
         <div class="petManagementAdoption">
-            <p><a href="<?=getRootUrl()?>/user/<?=$proposal['propUserUsername']?>"><?=$proposal['propUserName']?></a> wants to adopt <a href="<?=getRootUrl()?>/pet/<?=$proposal['petId']?>"><?=$proposal['petName']?></a></p>
+            <p><a href="<?=getRootUrl()?>/user/<?=$proposal['propUserUsername']?>"><?=$proposal['propUserName']?></a> wants to adopt <a href="<?=getRootUrl()?>/pet/<?=$proposal['petId']?>"></a><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>"><?=$pet['name'] == null || $pet['name'] == '' ? $pet['size']." ".$pet['color']." ".$pet['specie'] : $pet['name']?></a></p>
             <p><button data-pet="<?=$proposal['petId']?>" data-adopter="<?=$proposal['propUserId']?>" class="acceptAdoption"><i class="icofont-ui-check"></i></button></p>
             <p><button data-pet="<?=$proposal['petId']?>" data-adopter="<?=$proposal['propUserId']?>" class="declineAdoption"><i class="icofont-ui-close"></i></button></p>
         </div>

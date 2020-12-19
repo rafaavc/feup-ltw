@@ -20,4 +20,8 @@ function elapsedTime($time) {
     }
 }
 
+function getYearsAgo($years) {
+    return strtotime(date("Y-m-d ")." -".$years." years");
+}
+
 ?>

@@ -6,18 +6,15 @@ form label {
     display: none;
 }
 
-form input, form textarea, form select, form[name=addPet] .simple-2column-grid {
-    margin-bottom: 1rem;
-}
-
 form > input:last-child, form textarea:last-child, form select:last-child, form[name=addPet] .simple-2column-grid input {
     margin-bottom: 0;
 }
 
-form input[type=text], 
-form input[type=password], 
-form input[type=email], 
-form input[type=date],
+form input[type="text"],
+form input[type="password"],
+form input[type="email"],
+form input[type="date"],
+form input[type="textarea"],
 textarea,
 select {
     border: 1px solid #c0c0c0;
@@ -47,13 +44,15 @@ textarea {
     resize: vertical;
 }
 
-form input[type="text"]:focus, 
-form input[type="password"]:focus, 
-form input[type="email"]:focus, 
+form input[type="text"]:focus,
+form input[type="password"]:focus,
+form input[type="email"]:focus,
 form input[type="date"]:focus,
+form input[type="textarea"]:focus,
 textarea:focus,
-select:focus {
-    border: 1px solid var(--accentColor);
+select:focus,
+form button:focus {
+    border: 2px solid var(--accentColor);
 }
 
 form input[type="submit"] {
@@ -89,12 +88,12 @@ form[name=addPet] img.profilePicture {
     border: 4px solid var(--accentColor);
 }
 
-form[name=addPet] div.photos > div {
+div.photos > div {
     position: relative;
     display: inline-block;
 }
 
-form[name=addPet] div.photos > div > div.remove {
+div.photos > div > div.remove {
     position: absolute;
     right: 10px;
     top: 10px;
@@ -105,13 +104,45 @@ form[name=addPet] div.photos > div > div.remove {
     cursor: pointer;
     transition: color .2s;
 }
-form[name=addPet] div.photos > div > div.remove:hover {
+div.photos > div > div.remove:hover {
     color: var(--darkTextColor);
+}
+
+.formField {
+    position: relative;
+    margin-bottom: 1rem;
+}
+.formField.required:after {
+    content: "*";
+    position: absolute;
+    right: -0.5rem;
+    top: 0;
+    color: var(--accentColorDarker);
 }
 
 section.authForm {
     padding-left: calc(var(--rightLeftPadding) );
     padding-right: calc(var(--rightLeftPadding) );
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 5rem;
+}
+
+p.notice {
+    font-size: 0.9em;
+}
+
+section.authForm > div {
+    width: 30vw;
+    min-width: 20rem;
+}
+section.authForm .photoContainer > img {
+    width: 10vw;
+    min-width: 15rem;
+}
+
+section.authForm .photoContainer {
+    margin-bottom: 1rem;
 }
 
 section.searchForm {
@@ -120,7 +151,7 @@ section.searchForm {
 
 section.searchForm > form {
     display: grid;
-    grid-template-columns: 5fr 1fr 1fr;
+    grid-template-columns: 5fr 1fr 1fr 1fr 1fr;
     grid-gap: 1rem;
 }
 

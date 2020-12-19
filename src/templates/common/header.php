@@ -9,8 +9,6 @@ $section = isset($GLOBALS['section']) ? $GLOBALS['section'] : "home";
         <ul>
             <li><a <?=$section == 'home' ? 'class="active"' : ''?> href="<?=getRootUrl()?>">Home</a></li>
             <li><a <?=$section == 'discover' ? 'class="active"' : ''?> href="<?=getRootURL()?>/discover">Discover</a></li>
-            <li><a <?=$section == 'contact' ? 'class="active"' : ''?> href="#">Contact</a></li>
-            <li><a <?=$section == 'help' ? 'class="active"' : ''?> href="#">Help</a></li>
         </ul>
     </nav>
     <nav id="sessionMenu">

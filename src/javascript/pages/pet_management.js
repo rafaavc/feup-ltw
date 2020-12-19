@@ -28,7 +28,7 @@ function declineAdoption() {
     const petId = this.dataset.pet;
     const adopterId = this.dataset.adopter;
     const parent = this.parentNode.parentNode;
-    sendDeleteRequest(`api/adoption/${petId}/${adopterId}`, function() { adoptionReplyOnload.bind(this)(parent) });    
+    sendDeleteRequest(`api/adoption/${petId}/${adopterId}`, function() { adoptionReplyOnload.bind(this)(parent) });
 }
 
 

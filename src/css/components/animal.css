@@ -19,24 +19,110 @@
 	grid-column-end: span 1;
 }
 
-.petProfile header > h3 {
+.petProfile header h3 {
 	font-size: 3rem;
 	margin-top: 0;
 	margin-bottom: 1rem;
 }
 
-.petProfile header > h4 {
+.petProfile header h4 {
 	font-size: 1.5rem;
 	margin: 0;
 }
 
-.petProfile footer {
+.petProfile header footer {
 	margin-top: 3rem;
 }
 
 .petProfile footer > p {
-	display: inline;
-	margin-left: 1rem;
+}
+
+.petProfile footer > select {
+	width: 25%;
+}
+
+
+.petState {
+	display: inline-block;
+	font-size: 0.9em;
+	color: white;
+	padding: 0.25rem 0.5rem;
+	transition: background-color .2s;
+}
+
+.petProfile .petState {
+	margin-top: 1rem;
+}
+
+.petState.adopted {
+	background-color: darkred;
+}
+
+.petState.ready {
+	background-color: darkgreen;
+}
+
+.petState.archived {
+	background-color: grey;
+}
+
+#tempText {
+	padding: 0.5rem 2rem;
+	font-size: 0.8rem;
+	margin: 0;
+}
+
+.photos > div > img {
+	height: 10rem;
+}
+
+#updateForm {
+	margin-bottom: 2rem;
+	padding-top: 5rem;
+	width: 90%;
+	display:none;
+}
+
+#nameInput,
+#locationInput {
+	width: 50%;
+}
+
+#submitEditPet {
+	border: none;
+	font-size: 1.1rem;
+}
+
+#photosInput {
+	margin: 1rem 0;
+}
+
+#photosInput > #addPhotoButton {
+	height: 2rem;
+}
+
+#photosInput > p {
+	margin: 0 1rem;
+}
+
+#petProposals {
+	padding: 0 calc(2*var(--rightLeftPadding));
+	margin-bottom: 6rem;
+}
+
+#petProposals h3 {
+	grid-column-end: span 1;
+	font-size: 2rem;
+}
+
+.petProposal {
+	display: grid;
+	grid-template-columns: 1fr 7fr;
+	margin: 2rem;
+}
+
+.petProposal > p {
+	margin: auto 0;
 }
 
 #comments {
@@ -101,7 +187,6 @@
 	list-style-type: none;
     padding: 0;
 	margin: 0 auto;
-	text-align: center;
 }
 
 #comments > ul > li {

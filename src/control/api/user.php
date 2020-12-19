@@ -2,10 +2,12 @@
 
 namespace API;
 
+use Session;
 use Database;
 use Router;
 
 include_once(dirname(__FILE__)."/existence.php");
+include_once(dirname(__FILE__)."/pet.php");
 
 
 function login($username, $password) {
@@ -19,17 +21,21 @@ function login($username, $password) {
 }
 
 function register($name, $username, $password, $birthdate, $mail, $description) {
-    $stmt = Database::db()->prepare("INSERT INTO User(name, username, password, birthdate, mail, description) VALUES(:name, :username, :password, :birthdate, :mail, :description)");
-    $stmt->bindParam(':name', $name);
-    $stmt->bindParam(':username', $username);
-    $stmt->bindParam(':password', password_hash($password, PASSWORD_DEFAULT));
-    $stmt->bindParam(':birthdate', $birthdate);
-    $stmt->bindParam(':mail', $mail);
-    $stmt->bindParam(':description', $description);
-    $stmt->execute();
+    try {
+        $stmt = Database::db()->prepare("INSERT INTO User(name, username, password, birthdate, mail, description) VALUES(:name, :username, :password, :birthdate, :mail, :description)");
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':username', $username);
+        $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        $stmt->bindParam(':password', $passwordHash);
+        $stmt->bindParam(':birthdate', $birthdate);
+        $stmt->bindParam(':mail', $mail);
+        $stmt->bindParam(':description', $description);
+        $stmt->execute();
+    } catch (Exception $e) {
+        return false;
+    }
 
-    /* TODO */
-    return true;
+    return Database::db()->lastInsertId();
 }
 
 function ownsPet($userId, $petId) {
@@ -65,13 +71,16 @@ function getUserById($userId){
     return $user;
 }
 
+$GLOBALS['userTableQuery'] = "
+    User
+    LEFT JOIN (
+        SELECT userId, count(userId) as petCount FROM Pet GROUP BY userId
+    ) ON(id=userId)";
+
 function getUsers() {
     $stmt = Database::db()->prepare(
         "SELECT *
-        FROM User
-            JOIN (
-                SELECT userId, count(userId) as petCount FROM Pet GROUP BY userId
-            ) ON(id=userId)
+        FROM ".$GLOBALS['userTableQuery']."
         ORDER BY petCount DESC");
     $stmt->execute();
     return $stmt;
@@ -80,10 +89,7 @@ function getUsers() {
 function getPublicUsers() {
     $stmt = Database::db()->prepare(
         "SELECT id, name, username, description, petCount
-        FROM User
-            JOIN (
-                SELECT userId, count(userId) as petCount FROM Pet GROUP BY userId
-            ) ON(id=userId)
+        FROM ".$GLOBALS['userTableQuery']."
         ORDER BY petCount DESC");
     $stmt->execute();
     return $stmt;
@@ -106,11 +112,16 @@ function updateUsername($username) {
 
     $_SESSION['username'] = $username;
 
-    return getRootURL(). "/user". "/" . $username;
+    return getRootURL(). "/user/" . $username;
 }
 
 function updateMail($mail) {
     if (emailExists($mail)) return 0;
+
+    if (!preg_match("/^[a-zA-Z0-9_.@]+$/", $mail)) {
+        Router\errorBadRequest("You didn't give a correct email.");
+    }
+
     $stmt = Database::db()->prepare("UPDATE User SET mail = :mail WHERE username = :username");
     $stmt->bindParam(':username', $_SESSION['username']);
     $stmt->bindParam(':mail', $mail);
@@ -124,6 +135,84 @@ function updateBio($bio) {
     $stmt->bindParam(':description', $bio);
     $stmt->execute();
     return $stmt->rowCount();
+}
+
+function updatePassword($password) {
+    $stmt = Database::db()->prepare("UPDATE User SET password = :password WHERE username = :username");
+    $stmt->bindParam(':username', $_SESSION['username']);
+    $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+    $stmt->bindParam(':password', $passwordHash);
+    $stmt->execute();
+    return $stmt->rowCount();
+}
+
+function createList($title, $visibility, $description) {
+    $stmt = Database::db()->prepare("INSERT INTO List(title, description, public, userId) VALUES (:title, :description, :public, :userId);");
+    $stmt->bindParam(':title', $title);
+    $stmt->bindParam(':description', $description);
+    $stmt->bindParam(':public', $visibility);
+    $stmt->bindParam(':userId', Session\getAuthenticatedUser()['id']);
+    $stmt->execute();
+    return $stmt->rowCount();
+}
+
+function deleteList($listId) {
+    $stmt = Database::db()->prepare("DELETE FROM List WHERE id  = :listId");
+    $stmt->bindParam(':listId', $listId);
+    $stmt->execute();
+    return $stmt->rowCount();
+}
+
+function handleNewPasswordRequest() {
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    if ($method == 'POST' && isset($_POST['currentPassword'], $_POST['newPassword'], $_POST['confirmPassword'])) {
+        if (!password_verify($_POST['currentPassword'], Session\getAuthenticatedUser()['password'])) {
+            responseJSON(array('success' => -1));
+            return;
+        }
+        if (strcmp($_POST['newPassword'], $_POST['confirmPassword']) != 0) {
+            responseJSON(array('success' => -2));
+            return;
+        }
+        updatePassword($_POST['newPassword']);
+        responseJSON(array('success' => 1));
+    }
+}
+
+function handleListDeletionRequest() {
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    if ($method == 'POST' && isset($_POST['listId'])) {
+        responseJSON(array('deleted' => deleteList($_POST['listId'])));
+    }
+}
+
+function handleListCreationRequest() {
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    if ($method == 'POST' && isset($_POST['title'], $_POST['visibility'], $_POST['description'])) {
+        createList($_POST['title'], $_POST['visibility'], $_POST['description']);
+        responseJSON(array('id' => Database::db()->lastInsertId()));
+    }
+}
+
+function handleTilesRequest() {
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    $arr = array();
+    if ($method == 'POST' && isset($_POST['userLists'])) {
+        $userId = getUserByUsername($_POST['userLists'])['id'];
+        $userLists = getUserLists($userId);
+        foreach ($userLists as $userList){
+            if ((Session\isAuthenticated() && $_POST['userLists'] == Session\getAuthenticatedUser()['username'])
+                    || ($userList['public'] == 1)) {
+                array_push($arr, getListPets($userList));
+            }
+        }
+
+        responseJSON(array('pets' => getArrayFromSTMT(getUserPets($userId), true), 'lists' => $arr));
+    }
 }
 
 function handleUpdateRequest() {
@@ -147,7 +236,6 @@ function handleUpdateRequest() {
 function getProposedToAdopt($userId, $petId){
     $stmt = Database::db()->prepare("SELECT * FROM ProposedToAdopt WHERE userId = ? AND petId = ?");
     $stmt->execute(array($userId, $petId));
-
     return $stmt->fetch();
 }
 
@@ -160,11 +248,15 @@ function getUserLists($userId){
 
 function getListPets($list){
     $db = Database::instance()->db();
-    $stmt = $db->prepare('SELECT id, userId, name, birthdate, specie, race, size, color, location, description FROM ListPet, Pet WHERE listId=? AND Pet.id = ListPet.petId');
+    $stmt = $db->prepare('SELECT id, userId, name, birthdate, specie, race, size, color, location, description, state FROM ListPet JOIN '.$GLOBALS['petQuery'].' WHERE listId=? AND id = ListPet.petId');
     $stmt->execute(array($list['id']));
     return $stmt->fetchAll();
 }
 
 if (Router\isAPIRequest(__FILE__)) {
     handleUpdateRequest();
+    handleTilesRequest();
+    handleListCreationRequest();
+    handleListDeletionRequest();
+    handleNewPasswordRequest();
 }
