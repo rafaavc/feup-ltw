@@ -25,7 +25,7 @@ $userLists = API\getUserLists($user['id']);
     <div class="simple-2column-grid">
         <div id="select">
             <label for="list-select">
-                <h1>Lists:</h1>
+                <h2>Lists</h2>
             </label>
             <select name="list" id="list-select">
                 <?php

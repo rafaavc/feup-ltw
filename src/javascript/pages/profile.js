@@ -192,9 +192,20 @@ function createTileLists() {
         const lists = res.lists;
 
         const petGridContent = document.querySelector('#userPets > .petGrid > .petGridContent');
-        for (const pet of pets) {
-            const tile = createPetTile(pet);
-            petGridContent.appendChild(tile);
+        if (pets.length == 0) {
+            const parent = petGridContent.parentNode;
+            parent.innerHTML = '';
+            const pElem = document.createElement('p');
+            pElem.style.marginTop = '0';
+            pElem.appendChild(document.createTextNode(`@${user.innerHTML} has no pets.`));
+            parent.appendChild(pElem);
+            parent.style.gridTemplateColumns = "1fr";
+            
+        } else {
+            for (const pet of pets) {
+                const tile = createPetTile(pet);
+                petGridContent.appendChild(tile);
+            }
         }
 
         const listElements = document.querySelectorAll("#lists .petGrid .petGridContent");
