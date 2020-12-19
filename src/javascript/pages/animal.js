@@ -127,7 +127,6 @@ function changeAdoptButton() {
 
 	document.querySelector('#adopt').remove();
 	const button = document.createElement('button');
-	const adoptButton = document.getElementById('adopt');
 
 
 	button.id = "cancel";
@@ -165,7 +164,7 @@ function changeAdoptButton() {
 
 	document.getElementById('petProposals').appendChild(petProposal);
 	if (document.querySelector('#petProposals > p') != null)
-		document.querySelector('#petProposals > p').style.display = 'none';
+		document.querySelector('#petProposals > p').remove();
 }
 
 function cancelProposeToAdoptPet(event) {

@@ -1,4 +1,3 @@
-
 <?php
 $openProposals = API\getPetOpenAdoptionProposals($pet['id']);
 $rejectedProposals = API\getPetRejectedProposals($pet['id']);
@@ -12,7 +11,7 @@ $rejectedProposals = API\getPetRejectedProposals($pet['id']);
 		if ($openProposals != false) {
 			foreach ($openProposals as $proposal) {
 		?>
-				<div class="petProposal open" data-id="<?= $proposal['userId']?>">
+				<div class="petProposal open" data-id="<?= $proposal['userId'] ?>">
 					<div class="image" style="background-image: url('../../images/userProfilePictures/<?= $proposal['userId'] ?>.jpg')"></div>
 					<p><a href="<?= getRootUrl() ?>/user/<?= $proposal['username'] ?>"><?= htmlentities($proposal['fullName']) ?></a> wants to adopt this pet</p>
 				</div>
@@ -26,13 +25,16 @@ $rejectedProposals = API\getPetRejectedProposals($pet['id']);
 					<div class="image" style="background-image: url('../../images/userProfilePictures/<?= $proposal['userId'] ?>.jpg')"></div>
 					<p><a href="<?= getRootUrl() ?>/user/<?= $proposal['username'] ?>"><?= htmlentities($proposal['fullName']) ?></a>'s proposal got rejected by <a href="<?= getRootUrl() ?>/user/<?= $originalOwner['username'] ?>"><?= htmlentities($originalOwner['name']) ?></a></p>
 				</div>
-	<?php
+			<?php
 			}
+			?>
+			<p style="display: none">This pet hasn't gotten any adoption proposals yet.</p>
+		<?php
 		}
 	} else {
 		?>
 		<p>This pet hasn't gotten any adoption proposals yet.</p>
-		<?php
+	<?php
 	}
 	?>
 
