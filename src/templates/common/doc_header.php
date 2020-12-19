@@ -6,7 +6,8 @@
 	<link rel="stylesheet" href="<?=getRootUrl()?>/fonts/icofont/icofont.min.css">
 	<link rel="stylesheet" type="text/css" href="<?=getRootUrl()?>/css/style.min.css" />
 	<?php if (isset($GLOBALS['js'])) { ?>
-		<script type="module" src="<?=getRootUrl()?>/javascript/<?=$GLOBALS['js']?>" defer></script>
+		<!-- type="module" is automatically deferred -->
+		<script type="module" src="<?=getRootUrl()?>/javascript/<?=$GLOBALS['js']?>"></script>
 	<?php } ?>
 </head>
 <body>
