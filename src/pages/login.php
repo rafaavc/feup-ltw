@@ -18,7 +18,7 @@ if (Session\isAuthenticated()) { ?>
                 <p class="<?=$message['type']?>-message"><?=$message['content']?></p>
         <?php } ?>
 
-        <form method="POST" action="<?=getRootURL()?>/control/actions/login.php">
+        <form method="POST" action="<?=getRootURL()?>/action/signin">
             <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>" />
             <div class="formField">
                 <label for="username">Username</label>

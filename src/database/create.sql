@@ -12,8 +12,8 @@ CREATE TABLE User (
 
 CREATE TABLE List (
     id INTEGER PRIMARY KEY,
-    title TEXT NOT NULL,
-    description TEXT NOT NULL,
+    title TEXT NOT NULL CHECK(length(title) >= 1),
+    description TEXT NOT NULL CHECK(length(title) >= 1),
     public BOOLEAN NOT NULL,
     userId INTEGER NOT NULL REFERENCES User ON DELETE CASCADE
 );

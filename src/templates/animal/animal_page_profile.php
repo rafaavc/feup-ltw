@@ -1,25 +1,25 @@
 <section class="petProfile" data-id="<?= $pet['id'] ?>" data-owner-id="<?=$pet['userId']?>">
 	<div style="background-image: url(<?= '../images/petProfilePictures/' . $pet['id'] . '.jpg' ?>);"></div>
 	<div>
-		<header>
-			<h3>
-				<?= $pet['name'] == null ? '' : htmlentities($pet['name']).',' ?>
-				<?=elapsedTime(strtotime($pet['birthdate']))?> old
-			</h3>
-			<h4>
-				<?php if ($pet['race'] != null) {
-					echo htmlentities($pet['size']) . ' ' . htmlentities($pet['color']) . ' ' . htmlentities($pet['race']) . ', ' . htmlentities($pet['location']);
-				} else if ($pet['specie'] != null) {
-					echo htmlentities($pet['size']) . ' ' . htmlentities($pet['color']) . ' ' . htmlentities($pet['specie']) . ', ' . htmlentities($pet['location']);
-				} ?>
-			</h4>
-		</header>
-		<p>by <a href="<?=getRootURL()?>/user/<?=$originalOwner['username']?>"><?=$originalOwner['shortName']?></a></p>
-		<span class="tagLabel <?=$pet['state']?>"><?=$pet['state'] == 'adopted' ? 'Adopted' : ($pet['state'] == 'ready' ? 'Ready for Adoption' : ($pet['state'] == 'archived' ? 'Archived' : null)) ?></span>
-		<div id="description">
+		<div id="petInfo">
+			<header>
+				<h3>
+					<?= $pet['name'] == null ? '' : htmlentities($pet['name']).',' ?>
+					<?=elapsedTime(strtotime($pet['birthdate']))?> old
+				</h3>
+				<h4>
+					<?php if ($pet['race'] != null) {
+						echo htmlentities($pet['size']) . ' ' . htmlentities($pet['color']) . ' ' . htmlentities($pet['race']) . ', ' . htmlentities($pet['location']);
+					} else if ($pet['specie'] != null) {
+						echo htmlentities($pet['size']) . ' ' . htmlentities($pet['color']) . ' ' . htmlentities($pet['specie']) . ', ' . htmlentities($pet['location']);
+					} ?>
+				</h4>
+			</header>
+			<p>by <a href="<?=getRootURL()?>/user/<?=$originalOwner['username']?>"><?=$originalOwner['shortName']?></a></p>
+			<span class="tagLabel <?=$pet['state']?>"><?=$pet['state'] == 'adopted' ? 'Adopted' : ($pet['state'] == 'ready' ? 'Ready for Adoption' : ($pet['state'] == 'archived' ? 'Archived' : null)) ?></span>
 			<p><?= $pet['description'] ?></p>
 		</div>
-		<form method="POST" name="updatePet" action="<?= getRootURL() ?>/control/actions/update_pet.php" enctype="multipart/form-data" id="updateForm">
+		<form method="POST" name="updatePet" action="<?= getRootURL() ?>/action/updatePet" enctype="multipart/form-data" id="updateForm">
 			<input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>" />
 			<input type="hidden" id="petId" name="petId" value="<?= $pet['id'] ?>" />
 			<input type="text" id="nameInput" name="name" value="<?= $pet['name'] ?>" />

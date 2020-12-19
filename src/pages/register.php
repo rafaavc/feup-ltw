@@ -20,7 +20,7 @@ if (Session\isAuthenticated()) { ?>
                 <p class="<?=$message['type']?>-message"><?=$message['content']?></p>
         <?php } ?>
 
-        <form method="POST" action="<?=getRootURL()?>/control/actions/register.php" enctype="multipart/form-data">
+        <form method="POST" action="<?=getRootURL()?>/action/signup" enctype="multipart/form-data">
             <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>" />
             <div class="formField required">
                 <label for="name">Full Name</label>
