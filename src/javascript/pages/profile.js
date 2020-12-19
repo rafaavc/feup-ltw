@@ -4,6 +4,8 @@ import { createPetTile } from '../tile.js'
 import { toggleAddingMode } from '../add_field.js'
 import { escapeHtml } from '../escape.js'
 
+const bioEmptyMessage = "Bio (currently empty)";
+
 const editProfileButton = document.getElementById("editProfile");
 if (editProfileButton != null)
     editProfileButton.addEventListener('click', editProfile);
@@ -86,12 +88,24 @@ function editProfile() {
     if (editProfile.checked) {
         editProfileLabel.innerHTML = "Close edition";
         editFields.forEach(field => field.style.display = "flex");
+
+        //check if bio field is empty
+        const bio = document.querySelector("#bio > p");
+        if (bio.innerHTML === "") {
+            bio.innerHTML = bioEmptyMessage;
+        }
     }
     else {
         editProfileLabel.innerHTML = "Edit profile";
         editFields.forEach(field => field.style.display = "none");
         forms.forEach(form => form.style.display = "none");
         initialFields.forEach(field => field.style.display = "flex");
+
+        //check if bio field is empty
+        const bio = document.querySelector("#bio > p");
+        if (bio.innerHTML === bioEmptyMessage) {
+            bio.innerHTML = "";
+        }
     }
 }
 
@@ -104,8 +118,13 @@ function showSelection(editForm, inputField) {
     let formText;
     const formValue = inputField.children[0].innerHTML;
 
-    if (inputField.id == "bio")
+    if (inputField.id == "bio") {
         formText = editForm.querySelector("textarea");
+        if (formValue === bioEmptyMessage) {
+            formText.value = "";
+            return;
+        }
+    }
     else
         formText = editForm.getElementsByClassName("edit-data")[0];
 
@@ -125,6 +144,9 @@ function confirmSelection(editForm, inputField) {
             const res = JSON.parse(this.responseText);
             if (res.success) {
                 inputField.children[0].innerHTML = escapeHtml(formText);
+                if (inputField.id === "bio" && formText === "") 
+                        inputField.children[0].innerHTML = bioEmptyMessage;
+                
                 resetSelection(editForm, inputField);
                 showUpdatedField(res.message, inputField, false);
             }
