@@ -1,6 +1,6 @@
 <footer>
 	<?php if ($user != false) { ?>
-		<?php 
+		<?php
 		$userLists = API\getUserLists($user['id']);
 		if (sizeof($userLists) != 0) { ?>
 		<select id="selectList">
