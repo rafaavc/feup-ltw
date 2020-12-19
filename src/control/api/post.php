@@ -1,9 +1,9 @@
 <?php
 
-include_once(dirname(__FILE__). '/../session.php');
-include_once(dirname(__FILE__). '/user.php');
-include_once(dirname(__FILE__). '/../db.php');
-include_once(dirname(__FILE__). '/pet.php');
+require_once(dirname(__FILE__). '/../session.php');
+require_once(dirname(__FILE__). '/user.php');
+require_once(dirname(__FILE__). '/../db.php');
+require_once(dirname(__FILE__). '/pet.php');
 
 $petId = $_POST['petId'];
 $comment = $_POST['comment'];

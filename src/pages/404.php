@@ -1,1 +1,6 @@
-<?php echo "<h1>404</h1>"; ?>
+<?php require_once("templates/common/header.php"); ?>
+<section>
+    <h1>404 Error</h1>
+    <p>It looks like you're lost.</p>
+</section>
+<?php require_once("templates/common/footer.php"); ?>

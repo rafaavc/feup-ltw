@@ -31,6 +31,10 @@
         "destination": "pages/pet_management.php",
         "js": "pages/pet_management.js"
     },
+    "404": {
+        "destination": "pages/404.php",
+        "js": "pages/generic.js"
+    },
 
     "api/user": {
         "destination": "control/api/user.php"

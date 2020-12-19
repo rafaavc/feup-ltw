@@ -1,7 +1,7 @@
 import { sendPostRequest } from "./ajax.js";
 import { getRootUrl } from './init.js';
 
-export function toggleAddingMode(e) {
+export function toggleAddingMode(e, onClickExtender) {
     if (e != undefined) e.preventDefault();
     const entity = this.dataset.entity;
     if (this.dataset.savedValue != undefined && this.dataset.savedValue != "") { // creating
@@ -26,6 +26,7 @@ export function toggleAddingMode(e) {
         const publicSelect = document.createElement("select");
         const description = document.createElement("textarea");
 
+        
         if (entity == 'List') {
             const addListForm = document.createElement("form");
             addListForm.id = `${entity}Input`;
@@ -88,6 +89,8 @@ export function toggleAddingMode(e) {
                     }
                 )
             }
+
+            if (onClickExtender != null) onClickExtender();
 
         });
 

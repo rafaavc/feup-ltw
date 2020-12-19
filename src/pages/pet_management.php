@@ -25,7 +25,7 @@
     <?php } else {
         foreach($pets as $pet) { ?>
         <div class="petManagementPets">
-            <p><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>"><?=$pet['name'] == null || $pet['name'] == '' ? $pet['size']." ".$pet['color']." ".$pet['specie'] : $pet['name']?></a><span class="petState <?=$pet['state']?>"><?=$pet['state'] == 'adopted' ? 'Adopted' : ($pet['state'] == 'ready' ? 'Ready for Adoption' : ($pet['state'] == 'archived' ? 'Archived' : null)) ?></span></p>
+            <p><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>"><?=$pet['name'] == null || $pet['name'] == '' ? $pet['size']." ".$pet['color']." ".$pet['specie'] : $pet['name']?></a><span class="tagLabel <?=$pet['state']?>"><?=$pet['state'] == 'adopted' ? 'Adopted' : ($pet['state'] == 'ready' ? 'Ready for Adoption' : ($pet['state'] == 'archived' ? 'Archived' : null)) ?></span></p>
         </div>
     <?php } 
     } ?>

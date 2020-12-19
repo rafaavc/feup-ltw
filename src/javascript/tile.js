@@ -46,7 +46,7 @@ export const createTile = (url, imageUrl, title, footer, description, extraSecti
 
 export const createPetTile = (pet) => {
     const spanElem = document.createElement('span');
-    spanElem.classList.add('petState');
+    spanElem.classList.add('tagLabel');
     spanElem.classList.add(pet.state);
     spanElem.appendChild(document.createTextNode(getCurrentState(pet.state)));
 

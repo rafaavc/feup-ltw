@@ -4,12 +4,13 @@ import './generic.js'
 import { getRootUrl } from '../init.js'
 import { elapsedTime } from '../utils.js'
 
-const commentForm = document.querySelector('#comments > form');
+const commentForm = document.querySelector('.petProfileSection > form');
 const adoptButton = document.querySelector('#adopt');
 const cancelButton = document.querySelector('#cancel');
 const editPetButton = document.getElementById('editPet');
 const submitEditPetButton = document.getElementById('submitEditPet');
 const cancelEditPetButton = document.getElementById('closeEdit');
+const petProfile = document.querySelector('.petProfile');
 
 if (commentForm != null) {
 	commentForm.addEventListener('submit', submitComment);
@@ -61,8 +62,8 @@ function cancelEditPet() {
 function submitComment(event) {
 	event.preventDefault();
 
-	const petId = document.querySelector('.petProfile').dataset.id;
-	const comment = document.getElementById('commentInput').value;
+	const petId = petProfile.dataset.id;
+	const comment = commentForm['text'].value;
 
 	if (comment.length < 1) return;
 
@@ -80,26 +81,32 @@ function receiveComment() {
 	image.className = 'image';
 	image.setAttribute('style', "background-image: url('../../images/userProfilePictures/" + post.userId + ".jpg'");
 
+	const content = document.createElement('div');
 
-	const paragraph = document.createElement('p');
-	paragraph.innerHTML = post.description;
+	const descElem = document.createElement('p');
+	descElem.appendChild(document.createTextNode(post.description));
+	descElem.classList.add('description');
 
-	const user = document.createElement('span');
-	user.className = 'user';
-	user.innerHTML = post.shortUserName;
+	const spanElem = document.createElement('span');
+	spanElem.classList.add('tagLabel');
+	spanElem.classList.add('accent');
+	spanElem.appendChild(document.createTextNode('Original Poster'));
 
-	const date = document.createElement('span');
-	date.className = 'date';
-	date.innerHTML = elapsedTime(post.postDate) + " ago";
+	const footer = document.createElement('footer');
+	const footerContent = document.createTextNode(`${elapsedTime(post.postDate)} ago, by `);
+	const userLink = document.createElement('a');
+	userLink.href = `${getRootUrl()}/user/${post.userUsername}`;
+	userLink.appendChild(document.createTextNode(post.shortUserName));
+	footer.append(footerContent, userLink);
 
-	article.append(image);
-	article.append(paragraph);
-	article.append(user);
-	article.append(date);
+	if (petProfile.dataset.ownerId == post.userId) content.append(spanElem);
+	content.append(descElem, footer);
+	article.append(image, content);
 
-	document.querySelector('#comments').insertBefore(article, commentForm);
-	const noCommentsP = document.querySelector('#comments > p');
-	if (noCommentsP != null)
+	commentForm.parentNode.insertBefore(article, commentForm);
+	const noCommentsP = commentForm.parentNode.querySelector('h3').nextSibling.nextSibling;
+	console.log(noCommentsP)
+	if (noCommentsP.tagName == "P")
 		noCommentsP.style.display = 'none';
 }
 
@@ -120,6 +127,7 @@ function changeAdoptButton() {
 
 	document.querySelector('#adopt').remove();
 	const button = document.createElement('button');
+
 
 	button.id = "cancel";
 	button.className = "simpleButton contrastButton";
@@ -156,7 +164,7 @@ function changeAdoptButton() {
 
 	document.getElementById('petProposals').appendChild(petProposal);
 	if (document.querySelector('#petProposals > p') != null)
-		document.querySelector('#petProposals > p').style.display = 'none';
+		document.querySelector('#petProposals > p').remove();
 }
 
 function cancelProposeToAdoptPet(event) {

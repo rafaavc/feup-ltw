@@ -68,7 +68,7 @@ function getPosts($petId)
 function getLastPost($petId)
 {
 	$db = Database::instance()->db();
-	$stmt = $db->prepare('SELECT Post.petId as petId, Post.userId as userId, User.name as userName, Post.description as description, postDate, answerToPostId
+	$stmt = $db->prepare('SELECT Post.petId as petId, Post.userId as userId, User.name as userName, username as userUsername, Post.description as description, postDate, answerToPostId
 							 FROM Post JOIN User ON User.id = Post.userId WHERE petId=? ORDER BY postDate DESC LIMIT 1');
 	$stmt->execute(array($petId));
 

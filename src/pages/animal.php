@@ -1,22 +1,20 @@
 <?php
 
 $GLOBALS['section'] = 'discover';
-include_once(dirname(__FILE__) . '/../control/db.php');
+require_once(dirname(__FILE__) . '/../control/db.php');
 require_once(dirname(__FILE__) . "/../control/api/pet.php");
 
 $pet = API\getPet($GLOBALS['id']);
-if ($pet == false) {
-	include_once(dirname(__FILE__) . "/404.php");
-	die();
-}
+if (!$pet) Router\error404();
 
-include_once(dirname(__FILE__) . '/../templates/common/header.php');
+require_once(dirname(__FILE__) . '/../templates/common/header.php');
 
 $photos = API\getPetPhotos($pet['id']);
 $posts = API\getPosts($pet['id']);
 $user = Session\getAuthenticatedUser();
+$originalOwner = API\getUserById($pet['userId']);
 
-include_once(dirname(__FILE__) . '/../templates/animal/animal_page_petProfile.php');
+require_once(dirname(__FILE__) . '/../templates/animal/animal_page_petProfile.php');
 ?>
 
 <div id="mySlider" class="ss-parent">
@@ -25,7 +23,6 @@ include_once(dirname(__FILE__) . '/../templates/animal/animal_page_petProfile.ph
 	?>
 		<div class="ss-child" id="ss-<?= $photos[$i]['photoId'] ?>">
 			<div style="background: url(<?= getRootURL() ?>/images/petPictures/<?= $photos[$i]['photoId'] ?>.jpg); background-size: cover; background-position: 50%"> </div>
-
 		</div>
 	<?php
 	}
@@ -34,7 +31,7 @@ include_once(dirname(__FILE__) . '/../templates/animal/animal_page_petProfile.ph
 </div>
 
 <?php
-include_once(dirname(__FILE__) . '/../templates/animal/animal_page_proposals.php');
-include_once(dirname(__FILE__) . '/../templates/animal/animal_page_comments.php');
-include_once(dirname(__FILE__) . '/../templates/common/footer.php');
+require_once(dirname(__FILE__) . '/../templates/animal/animal_page_proposals.php');
+require_once(dirname(__FILE__) . '/../templates/animal/animal_page_comments.php');
+require_once(dirname(__FILE__) . '/../templates/common/footer.php');
 ?>

@@ -1,6 +1,6 @@
 <?php
 require_once(dirname(__FILE__)."/../../control/api/user.php");
-include_once(dirname(__FILE__)."/doc_header.php");
+require_once(dirname(__FILE__)."/doc_header.php");
 $section = isset($GLOBALS['section']) ? $GLOBALS['section'] : "home";
 ?>
 <header>

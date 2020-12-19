@@ -1,12 +1,13 @@
 <?php
 $GLOBALS['section'] = 'profile';
-include_once(dirname(__FILE__)."/../control/api/user.php");
-include_once(dirname(__FILE__)."/../control/api/pet.php");
-include_once(dirname(__FILE__) . "/../templates/common/header.php");
+require_once(dirname(__FILE__)."/../control/api/user.php");
+require_once(dirname(__FILE__)."/../control/api/pet.php");
+require_once(dirname(__FILE__) . "/../templates/common/header.php");
 
 $user = API\getUserByUsername($GLOBALS['username']);
+if (!$user) Router\error404();
 
-include_once(dirname(__FILE__) . "/../templates/profile/profile_header.php");
+require_once(dirname(__FILE__) . "/../templates/profile/profile_header.php");
 
 $userLists = API\getUserLists($user['id']);
 ?>
@@ -70,5 +71,5 @@ $userLists = API\getUserLists($user['id']);
 </section>
 
 <?php
-include_once(dirname(__FILE__) . "/../templates/common/footer.php");
+require_once(dirname(__FILE__) . "/../templates/common/footer.php");
 ?>

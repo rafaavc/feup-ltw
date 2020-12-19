@@ -12,6 +12,9 @@ if (!isset($_FILES['profilePhoto']) || $_FILES['profilePhoto']['tmp_name'] == ''
 if (!preg_match("/^[a-zA-Z0-9_.@]+$/", $parameters['mail'])) {
     Router\errorBadRequest("You didn't give a correct email.");
 }
+if (!preg_match("/^[a-zA-Z0-9_.]+$/", $parameters['username'])) {
+    Router\errorBadRequest("You didn't give a valid username.");
+}
 if (strtotime($parameters['birthdate']) > getYearsAgo(18) || strtotime($parameters['birthdate']) < getYearsAgo(100)) {
     Router\errorBadRequest("You didn't give a correct birthdate.");
 }
