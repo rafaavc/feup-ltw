@@ -120,24 +120,18 @@ function confirmSelection(editForm, inputField) {
     else
         formText = editForm.getElementsByClassName("edit-data")[0].value;
 
-    if (inputField.id === 'mail') {
-        if (!RegExp('[a-zA-Z0-9_]+@[a-zA-Z0-9_]+.[a-zA-Z0-9_]+').test(formText)) {
-            showInvalidField("Invalid email", editForm);
-            return;
-        }
-    }
-
     sendPostRequest(getRootUrl() + "/api/user", { field: inputField.id, value: formText },
         function () {
             const res = JSON.parse(this.responseText);
             if (res.success) {
                 inputField.children[0].innerHTML = escapeHtml(formText);
                 resetSelection(editForm, inputField);
+                showUpdatedField(res.message, inputField, false);
             }
             else
-                showInvalidField(res.message, editForm);
+                showUpdatedField(res.message, editForm, true);
             
-            if (inputField.id == "username")
+            if (inputField.id == "username" && res.success)
                 window.location = res.updateUrl;
         });
 }
@@ -150,12 +144,12 @@ function createNewPassword(editForm, inputField) {
     resetPassword();
 
     if (newPassword.length < 8) {
-        showInvalidField("New password has to have at least 8 characters", editForm);
+        showUpdatedField("New password has to have at least 8 characters", editForm, true);
         return;
     }
 
-    if (!newPassword.equals(confirmPassword)) {
-        showInvalidField("Passwords do not match", editForm);
+    if (!(newPassword === confirmPassword)) {
+        showUpdatedField("Passwords do not match", editForm, true);
         return;
     }
 
@@ -163,8 +157,11 @@ function createNewPassword(editForm, inputField) {
         { currentPassword: currentPassword, newPassword: newPassword, confirmPassword: confirmPassword },
         function () {
             const res = JSON.parse(this.responseText);
-            if (res.success == 1)
+            console.log(res);
+            if (res.success) {
                 resetSelection(editForm, inputField);
+                showUpdatedField(res.message, inputField, false);
+            }
         });
 
 }
@@ -204,14 +201,16 @@ function createTileLists() {
     });
 }
 
-function showInvalidField(message, editForm) {
-    let p = editForm.querySelector('p');
-    if (p == undefined)
+function showUpdatedField(message, block, errorMessage) {
+    let p = block.getElementsByClassName('updateMessage')[0];
+    if (p == undefined) {
         p = document.createElement('p');
+        p.className = "updateMessage";
+    }
 
     p.innerHTML = message;
     p.style.fontSize = '0.8rem';
-    p.style.color = 'red';
-    editForm.appendChild(p);
+    p.style.color = errorMessage ? 'red' : 'green';
+    block.appendChild(p);
     setTimeout(function () { p.remove() }, 3000);
 }

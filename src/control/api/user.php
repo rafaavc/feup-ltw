@@ -124,11 +124,14 @@ function updateUsername($username) {
 function updateMail($mail) {
     if (emailExists($mail)) return array('success' => false, 'message' => 'Email already in use');
 
+    if (!preg_match('/[a-zA-Z0-9_]+@[a-zA-Z0-9_]+.[a-zA-Z0-9_]+/', $mail))
+        return array('success' => false, 'message' => 'Invalid email');
+
     $stmt = Database::db()->prepare("UPDATE User SET mail = :mail WHERE username = :username");
     $stmt->bindParam(':username', $_SESSION['username']);
     $stmt->bindParam(':mail', $mail);
     $stmt->execute();
-    return $stmt->rowCount();
+    return array('success' => true, 'message' => 'Email updated successfully!');
 }
 
 function updateBio($bio) {
@@ -136,7 +139,7 @@ function updateBio($bio) {
     $stmt->bindParam(':username', $_SESSION['username']);
     $stmt->bindParam(':description', $bio);
     $stmt->execute();
-    return $stmt->rowCount();
+    return array('success' => true, 'message' => 'Bio updated successfully!');
 }
 
 function updatePassword($password) {
@@ -145,7 +148,7 @@ function updatePassword($password) {
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
     $stmt->bindParam(':password', $passwordHash);
     $stmt->execute();
-    return $stmt->rowCount();
+    return array('success' => true, 'message' => 'Password updated successfully!');
 }
 
 function createList($title, $visibility, $description) {
@@ -170,15 +173,15 @@ function handleNewPasswordRequest() {
 
     if ($method == 'POST' && isset($_POST['currentPassword'], $_POST['newPassword'], $_POST['confirmPassword'])) {
         if (!password_verify($_POST['currentPassword'], Session\getAuthenticatedUser()['password'])) {
-            responseJSON(array('success' => -1));
+            responseJSON(array('success' => false, 'message' => 'Wrong current password!'));
             return;
         }
         if (strcmp($_POST['newPassword'], $_POST['confirmPassword']) != 0) {
-            responseJSON(array('success' => -2));
+            responseJSON(array('success' => false, 'message' => 'Passwords do not match'));
             return;
         }
         updatePassword($_POST['newPassword']);
-        responseJSON(array('success' => 1));
+        responseJSON(array('success' => true, 'message' => 'Updated password!'));
     }
 }
 
