@@ -141,9 +141,12 @@ function changeAdoptButton() {
 
 	document.querySelector('.petProfile footer').appendChild(paragraph);
 
-	const userId = adoptButton.dataset.userId;
-	const username = adoptButton.dataset.username;
-	const name = adoptButton.dataset.name;
+	let buttonToUse = adoptButton;
+	if (buttonToUse == null) buttonToUse = cancelButton;
+
+	const userId = buttonToUse.dataset.userId;
+	const username = buttonToUse.dataset.username;
+	const name = buttonToUse.dataset.userName;
 
 	const petProposal = document.createElement('div');
 	petProposal.className = 'petProposal open';
@@ -154,7 +157,7 @@ function changeAdoptButton() {
 	image.style = "background-image: url('../../images/userProfilePictures/" + userId + ".jpg')";
 
 	const a = document.createElement('a');
-	a.href = getRootUrl() + '/user' + username;
+	a.href = getRootUrl() + '/user/' + username;
 	a.innerHTML = name;
 
 	const p = document.createElement('p');
