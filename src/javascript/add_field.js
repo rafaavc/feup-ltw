@@ -1,7 +1,7 @@
 import { sendPostRequest } from "./ajax.js";
 import { getRootUrl } from './init.js';
 
-export function toggleAddingMode(e, onClickExtender) {
+export function toggleAddingMode(e, onClickExtender, onRcvExtender) {
     if (e != undefined) e.preventDefault();
     const entity = this.dataset.entity;
     if (this.dataset.savedValue != undefined && this.dataset.savedValue != "") { // creating
@@ -47,7 +47,7 @@ export function toggleAddingMode(e, onClickExtender) {
             option.appendChild(document.createTextNode(input.value));
             option.selected = true;
             
-            if (entity == 'List' && !createListRequest(entity, input, option, visibilitySelect, description)) 
+            if (entity == 'List' && !createListRequest(entity, input, option, visibilitySelect, description, onRcvExtender)) 
                 return;
 
             document.querySelector(`select[name=${entity.toLowerCase()}]`).appendChild(option);
@@ -55,7 +55,6 @@ export function toggleAddingMode(e, onClickExtender) {
             if (onClickExtender != null) onClickExtender();
 
         });
-
         this.parentNode.parentNode.appendChild(button);
     }
 }
@@ -72,6 +71,12 @@ function createEmptyTileList(title, id) {
 
     const petGridContent = document.createElement("div");
     petGridContent.className = "petGridContent";
+
+    const pElem = document.createElement('p');
+    pElem.appendChild(document.createTextNode('This list has no pets.'));
+    pElem.style.marginTop = '0';
+    petGridContent.appendChild(pElem);
+
     mainDiv.appendChild(petGridContent);
 
     const arrowRight = document.createElement("div");
@@ -122,7 +127,7 @@ function listScenario(entity, input, visibilitySelect, description) {
     this.parentNode.parentNode.appendChild(addListForm);
 }
 
-function createListRequest(entity, input, option, visibilitySelect, description) {
+function createListRequest(entity, input, option, visibilitySelect, description, onRcvExtender) {
     const lists = document.getElementById('lists');
     const form = document.getElementById(`${entity}Input`);
     if (input.value === "") {
@@ -130,7 +135,7 @@ function createListRequest(entity, input, option, visibilitySelect, description)
         return false;
     }
 
-    option.selected = false;
+    option.selected = true;
     sendPostRequest(getRootUrl() + "/api/user", 
                     {title: input.value, visibility: visibilitySelect.selectedIndex, description: description.innerHTML}, 
                     function() {
@@ -139,8 +144,11 @@ function createListRequest(entity, input, option, visibilitySelect, description)
 
         const id = res.id;
         lists.appendChild(createEmptyTileList(input.value, id));
-        }
-    );
+        
+        const p = lists.querySelector('#lists > p');
+        if (p != null) p.remove();
+        if (onRcvExtender != null) onRcvExtender();
+    });
 
     return true;
 }

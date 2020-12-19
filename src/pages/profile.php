@@ -7,6 +7,8 @@ require_once(dirname(__FILE__) . "/../templates/common/header.php");
 $user = API\getUserByUsername($GLOBALS['username']);
 if (!$user) Router\error404();
 
+$authenticatedUser = Session\getAuthenticatedUser();
+
 require_once(dirname(__FILE__) . "/../templates/profile/profile_header.php");
 
 $userLists = API\getUserLists($user['id']);
@@ -25,12 +27,12 @@ $userLists = API\getUserLists($user['id']);
     <div class="simple-2column-grid">
         <div id="select">
             <label for="list-select">
-                <h1>Lists:</h1>
+                <h2>Lists</h2>
             </label>
             <select name="list" id="list-select">
                 <?php
                 foreach($userLists as $userList) {
-                    if ((Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username'])
+                    if (($authenticatedUser && $authenticatedUser['username'] == $user['username'])
                         || ($userList['public'] == 1)) {
                 ?>
                     <option value="<?=htmlentities($userList['id'])?>"><?=htmlentities($userList['title'])?></option>
@@ -41,32 +43,33 @@ $userLists = API\getUserLists($user['id']);
             </select>
         </div>
         <?php
-        if ((Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username'])) {
+        if (($authenticatedUser && $authenticatedUser['username'] == $user['username'])) {
         ?>
         <div>
             <button class="simpleButton" id="addListButton" data-entity="List"><i class="icofont-ui-add"></i>New list</button>
             <button class="simpleButton" id="removeListButton" data-entity="List"><i class="icofont-ui-delete"></i>Delete list</button>   
         </div>
-        <?php
-        }
-        ?>
+        <?php } ?>
     </div>
 
     <div id="lists">
         <?php
-        foreach($userLists as $userList){
-            if ((Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username'])
-                    || ($userList['public'] == 1)) {
-        ?>
-            <div class="petGrid" data-id="<?=htmlentities($userList['id'])?>">
-                <div class="arrow left"></div>
-                <div class="petGridContent"></div>
-                <div class="arrow right"></div>
-            </div>
-        <?php
-            }
-        } 
-        ?>
+        if (sizeof($userLists) != 0) {
+            foreach($userLists as $userList){
+                if (($authenticatedUser && $user['username'] == $authenticatedUser['username'])
+                        || ($userList['public'] == 1)) {
+            ?>
+                <div class="petGrid" data-id="<?=htmlentities($userList['id'])?>">
+                    <div class="arrow left"></div>
+                    <div class="petGridContent"></div>
+                    <div class="arrow right"></div>
+                </div>
+            <?php
+                }
+            } 
+        } else { ?>
+            <p>@<?=$user['username']?> has no lists.</p>
+        <?php } ?>
     </div>
 </section>
 
