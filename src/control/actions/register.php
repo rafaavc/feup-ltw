@@ -9,10 +9,10 @@ echo var_dump($_FILES);
 if (!isset($_FILES['profilePhoto']) || $_FILES['profilePhoto']['tmp_name'] == '') {
     Router\errorBadRequest("You didn't give a profile image.");
 }
-if (!preg_match("/^[a-zA-Z0-9_.@]+$/", $parameters['mail'])) {
+if (!preg_match("/^([a-zA-Z0-9]+(_|\.))*[a-zA-Z0-9]+@([a-zA-Z0-9]+\.)*[a-zA-Z]+$/", $parameters['mail'])) {
     Router\errorBadRequest("You didn't give a correct email.");
 }
-if (!preg_match("/^[a-zA-Z0-9_.]+$/", $parameters['username'])) {
+if (!preg_match("/^[a-zA-Z0-9]+((_|\.)[a-zA-Z0-9]+)*$/", $parameters['username'])) {
     Router\errorBadRequest("You didn't give a valid username.");
 }
 if (strtotime($parameters['birthdate']) > getYearsAgo(18) || strtotime($parameters['birthdate']) < getYearsAgo(100)) {
@@ -29,7 +29,7 @@ if (!isJPGImage($tmpPath)) {
     Router\errorBadRequest("You didn't give a jpg image.");
 }
 try {
-    $userId = API\register($parameters['name'], $parameters['username'], $parameters['password'], $parameters['birthdate'], $parameters['mail'], $parameters['description']);
+    $userId = API\register($parameters['name'], $parameters['username'], $parameters['password'], $parameters['birthdate'], strtolower($parameters['mail']), $parameters['description']);
 } catch(Exception $e) {
     Router\errorBadRequest();
 }
