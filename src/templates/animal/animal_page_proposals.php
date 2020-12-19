@@ -1,10 +1,10 @@
 
 <?php
 $openProposals = API\getPetOpenAdoptionProposals($pet['id']);
-$rejectedProposals = API\getPetRejectedProposals($pet['id']); 
+$rejectedProposals = API\getPetRejectedProposals($pet['id']);
 ?>
 
-<section class="petProfileSection" data-user-id="<?= $user['id'] ?>">
+<section class="petProfileSection" id="petProposals" data-user-id="<?= $user['id'] ?>">
 	<h3>Adoption Proposals</h3>
 	<?php
 	if ($openProposals != false || $rejectedProposals != false) { ?>

@@ -127,6 +127,8 @@ function changeAdoptButton() {
 
 	document.querySelector('#adopt').remove();
 	const button = document.createElement('button');
+	const adoptButton = document.getElementById('adopt');
+
 
 	button.id = "cancel";
 	button.className = "simpleButton contrastButton";
