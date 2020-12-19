@@ -140,9 +140,9 @@ function changeAdoptButton() {
 
 	document.querySelector('.petProfile footer').appendChild(paragraph);
 
-	const userId = adoptButton.attributes['data-user-id'].value;
-	const username = adoptButton.attributes['data-username'].value;
-	const name = adoptButton.attributes['data-user-name'].value;
+	const userId = adoptButton.dataset.userId;
+	const username = adoptButton.dataset.username;
+	const name = adoptButton.dataset.name;
 
 	const petProposal = document.createElement('div');
 	petProposal.className = 'petProposal open';
