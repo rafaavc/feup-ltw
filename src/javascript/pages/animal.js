@@ -175,10 +175,10 @@ function cancelProposeToAdoptPet(event) {
 	sendDeleteRequest(`${getRootUrl()}/api/adoption/${petId}`, changeCancelButton);
 }
 
-function changeCancelButton(event) {
+function changeCancelButton() {
 	//const proposeToAdopt = JSON.parse(this.responseText);
 
-	document.querySelector('.petProfile footer > p').remove();
+	document.querySelector('.petProfile footer > p:last-of-type').remove();
 	const button = document.createElement('button');
 
 	button.id = "adopt";
