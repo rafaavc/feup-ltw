@@ -1,6 +1,6 @@
 <footer>
 	<?php if ($user != false) { ?>
-		<?php 
+		<?php
 		$userLists = API\getUserLists($user['id']);
 		if (sizeof($userLists) != 0) { ?>
 		<select id="selectList">
@@ -27,7 +27,7 @@
 			<button id="adopt" class="simpleButton contrastButton" data-user-id="<?= $user['id'] ?>" data-username="<?= $user['username'] ?>" data-user-name="<?= $user['name'] ?>">Adopt</button>
 		<?php
 		} else { ?>
-			<p>You've proposed to adopt! <button id="cancel" class="simpleButton contrastButton">Cancel</button></p>
+			<p id="adoptText">You've proposed to adopt! <button id="cancel" class="simpleButton contrastButton">Cancel</button></p>
 		<?php
 		}
 	}
