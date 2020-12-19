@@ -1,7 +1,7 @@
 import { getRootUrl, initWebsite } from '../init.js'
 import { sendPostRequest } from '../ajax.js'
 import { createPetTile } from '../tile.js'
-import { toggleAddingMode } from '../add_field.js'
+import { toggleAddingMode, showUpdatedField } from '../add_field.js'
 import { escapeHtml } from '../escape.js'
 
 const bioEmptyMessage = "Bio (currently empty)";
@@ -71,8 +71,9 @@ function removeList() {
     //delete list
     document.querySelector("#lists > div[data-id='" + listId + "']").remove();
     const firstList = document.getElementById("lists");
-    if (firstList.children[0].length != 0)
-        firstList.children[0].style.display = "grid";
+    const firstChildren = firstList.children[0];
+    if (firstChildren != undefined && firstChildren.length != 0)
+        firstChildren.style.display = "grid";
 
     //delete list in database
     sendPostRequest(getRootUrl() + "/api/user", { listId: listId }, function () { });
@@ -148,10 +149,10 @@ function confirmSelection(editForm, inputField) {
                         inputField.children[0].innerHTML = bioEmptyMessage;
                 
                 resetSelection(editForm, inputField);
-                showUpdatedField(res.message, inputField, false);
+                showUpdatedField(res.message, inputField, false, "updateField");
             }
             else
-                showUpdatedField(res.message, editForm, true);
+                showUpdatedField(res.message, editForm, true, "updateField");
             
             if (inputField.id == "username" && res.success)
                 window.location = res.updateUrl;
@@ -166,12 +167,12 @@ function createNewPassword(editForm, inputField) {
     resetPassword();
 
     if (newPassword.length < 8) {
-        showUpdatedField("New password has to have at least 8 characters", editForm, true);
+        showUpdatedField("New password has to have at least 8 characters", editForm, true, "updateField");
         return;
     }
 
     if (!(newPassword === confirmPassword)) {
-        showUpdatedField("Passwords do not match", editForm, true);
+        showUpdatedField("Passwords do not match", editForm, true, "updateField");
         return;
     }
 
@@ -182,7 +183,7 @@ function createNewPassword(editForm, inputField) {
             console.log(res);
             if (res.success) {
                 resetSelection(editForm, inputField);
-                showUpdatedField(res.message, inputField, false);
+                showUpdatedField(res.message, inputField, false, "updateField");
             }
         });
 
@@ -221,18 +222,4 @@ function createTileLists() {
             }
         }
     });
-}
-
-function showUpdatedField(message, block, errorMessage) {
-    let p = block.getElementsByClassName('updateMessage')[0];
-    if (p == undefined) {
-        p = document.createElement('p');
-        p.className = "updateMessage";
-    }
-
-    p.innerHTML = message;
-    p.style.fontSize = '0.8rem';
-    p.style.color = errorMessage ? 'red' : 'green';
-    block.appendChild(p);
-    setTimeout(function () { p.remove() }, 3000);
 }

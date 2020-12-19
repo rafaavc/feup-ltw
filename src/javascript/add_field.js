@@ -81,11 +81,11 @@ function createEmptyTileList(title, id) {
     return mainDiv;
 }
 
-function showUpdatedField(message, block, errorMessage) {
-    let p = block.getElementsByClassName('listTitle')[0];
+export function showUpdatedField(message, block, errorMessage, param) {
+    let p = block.getElementsByClassName(param)[0];
     if (p == undefined) {
         p = document.createElement('p');
-        p.className = "listTitle";
+        p.className = param;
     }
 
     p.innerHTML = message;
@@ -126,7 +126,7 @@ function createListRequest(entity, input, option, visibilitySelect, description)
     const lists = document.getElementById('lists');
     const form = document.getElementById(`${entity}Input`);
     if (input.value === "") {
-        showUpdatedField("List cannot have empty title", form, true);
+        showUpdatedField("List cannot have empty title", form, true, "listTitle");
         return false;
     }
 
