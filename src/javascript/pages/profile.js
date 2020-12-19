@@ -53,10 +53,38 @@ if (addListButton != null)
 
 const removeListButton = document.getElementById("removeListButton");
 if (removeListButton != null)
-    removeListButton.addEventListener('click', removeList);
+    removeListButton.addEventListener('click', askForDeleteConfirm);
 
 createTileLists();
 initWebsite();
+
+function askForDeleteConfirm() {
+    if (this.dataset.clicked == undefined || this.dataset.clicked === "") {
+        this.dataset.clicked = "clicked";
+        this.innerHTML = "<i class='icofont-ui-close'></i> Cancel";
+
+        const confirm = document.createElement("button");
+        confirm.innerHTML = "Confirm";
+        confirm.className = "contrastButton";
+        confirm.id = "confirmDelete";
+
+        confirm.addEventListener("click", function() {
+            const deleteButton = document.getElementById("removeListButton");
+            deleteButton.dataset.clicked = "";
+            deleteButton.innerHTML = "<i class='icofont-ui-delete'></i> Delete list";
+            this.remove();
+
+            removeList();
+        });
+
+        this.parentNode.appendChild(confirm);
+    }
+    else {
+        this.dataset.clicked = "";
+        this.innerHTML = "<i class='icofont-ui-delete'></i> Delete list";
+        document.getElementById("confirmDelete").remove();
+    }
+}
 
 function removeList() {
     const listSelect = document.getElementById("list-select");
