@@ -16,7 +16,7 @@ function addComment($petId, $userId, $comment) {
 
 if (Router\isAPIRequest(__FILE__)) {
     $user = Session\getAuthenticatedUser();
-    $parameters = Router\getPostParameters(['petId', 'comment']);
+    $parameters = getArrayParameters($_POST, ['petId', 'comment']);
 
     if (!$user) Router\errorUnauthorized("No user is logged in.");
     if ($parameters == null) Router\errorBadRequest("The required parameters were not received.");

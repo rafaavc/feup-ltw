@@ -7,7 +7,7 @@ if (!isset($_POST['csrf']) || $_SESSION['csrf'] != $_POST['csrf']) {
 }
 
 function &initAction($parameters) {
-    $res = Router\getPostParameters($parameters);
+    $res = getArrayParameters($_POST, $parameters);
 
     if ($res == null) {
         Router\errorBadRequest();

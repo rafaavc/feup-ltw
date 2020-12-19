@@ -102,8 +102,8 @@ function handleAdoptionReply($method, $pet, $adopter)
 
 if (Router\isAPIRequest(__FILE__)) {
     $pet = $GLOBALS['pet'];
-    $adopterPost = Router\getPostParameter('adopter');
-    $adopterGet = isset($GLOBALS['adopter']) ? $GLOBALS['adopter'] : null;
+    $adopterPost = getArrayParameter($_POST, 'adopter');
+    $adopterGet = getArrayParameter($GLOBALS, 'adopter');
     $adopter = $adopterPost == null ? $adopterGet : $adopterPost;
 
     $method = $_SERVER['REQUEST_METHOD'];

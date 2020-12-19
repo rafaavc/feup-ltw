@@ -24,4 +24,18 @@ function getYearsAgo($years) {
     return strtotime(date("Y-m-d ")." -".$years." years");
 }
 
+function getArrayParameter($array, $name) {
+    return isset($array[$name]) ? $array[$name] : null;
+} 
+
+function getArrayParameters($array, $names) {
+    $res = array();
+    foreach ($names as $name) {
+        $value = getArrayParameter($array, $name);
+        if ($value === null) return null;
+        $res[$name] = $value;
+    }
+    return $res;
+}
+
 ?>
