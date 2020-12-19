@@ -32,15 +32,16 @@ function handleExistenceRequest() {
     } else if ($type == 'mail' && $method == 'GET') {
 
         responseJSON(array('value' => emailExists($value)));
-
+        
     } else {
-        http_response_code(400); // BAD REQUEST
-        exit();
+        Router\errorBadRequest();
     }
 }
 
-if (Router\isAPIRequest(__FILE__) && isset($GLOBALS['type']) && isset($GLOBALS['value'])) {
-    handleExistenceRequest();
+if (Router\isAPIRequest(__FILE__)) {
+    $parameters = getArrayParameters($GLOBALS, ['type', 'value']);
+    if ($parameters != null) handleExistenceRequest();
+    else Router\errorBadRequest();
 }
 
 ?>
