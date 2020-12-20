@@ -113,8 +113,9 @@ function error404() {
 
 function httpError($code, $message) {
     http_response_code($code);
-    Session\setMessage(Session\error(), $message);
+    Session\setMessage(Session\error(), $code." ".$message);
     if (!isAPIRequest(null)) sendBack();
+    else echo json_encode(array("value" => false, "error" => $code." ".$message));
     exit();
 }
 

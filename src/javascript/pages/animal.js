@@ -2,7 +2,7 @@ import SimpleSlider from '../slider.js'
 import { sendPostRequest, sendDeleteRequest } from '../ajax.js'
 import './generic.js'
 import { getRootUrl } from '../init.js'
-import { elapsedTime } from '../utils.js'
+import { elapsedTime, getCSRF } from '../utils.js'
 
 const commentForm = document.querySelector('.petProfileSection > form');
 const adoptButton = document.querySelector('#adopt');
@@ -67,7 +67,7 @@ function submitComment(event) {
 
 	if (comment.length < 1) return;
 
-	sendPostRequest(getRootUrl() + "/api/pet/comment", { petId: petId, comment: comment }, receiveComment);
+	sendPostRequest(getRootUrl() + "/api/pet/comment", { petId: petId, comment: comment, csrf: getCSRF() }, receiveComment);
 }
 
 function receiveComment() {
@@ -120,11 +120,12 @@ function proposeToAdoptPet(event) {
 
 	const petId = document.querySelector('.petProfile').attributes['data-id'].value;
 
-	sendPostRequest(getRootUrl() + "/api/adoption/" + petId, {}, changeAdoptButton);
+	sendPostRequest(`${getRootUrl()}/api/adoption/${petId}`, { csrf: getCSRF() }, changeAdoptButton);
 }
 
 function changeAdoptButton() {
-	//const proposeToAdopt = JSON.parse(this.responseText);
+	const res = JSON.parse(this.responseText);
+	if (!res.value) return;
 
 	document.querySelector('#adopt').remove();
 	const button = document.createElement('button');
@@ -176,11 +177,12 @@ function cancelProposeToAdoptPet(event) {
 
 	const petId = document.querySelector('.petProfile').attributes['data-id'].value;
 
-	sendDeleteRequest(`${getRootUrl()}/api/adoption/${petId}`, changeCancelButton);
+	sendDeleteRequest(`${getRootUrl()}/api/adoption/${petId}/${getCSRF()}`, changeCancelButton);
 }
 
 function changeCancelButton() {
-	//const proposeToAdopt = JSON.parse(this.responseText);
+	const res = JSON.parse(this.responseText);
+	if (!res.value) return;
 
 	document.querySelector('.petProfile footer > p:last-of-type').remove();
 	const button = document.createElement('button');

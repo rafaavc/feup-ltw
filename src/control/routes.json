@@ -54,10 +54,13 @@
     "api/pet/comment": {
         "destination": "control/api/post.php"
     },
+    "api/adoption/:pet/:csrf": {
+        "destination": "control/api/adoption.php"
+    },
     "api/adoption/:pet": {
         "destination": "control/api/adoption.php"
     },
-    "api/adoption/:pet/:adopter": {
+    "api/adoption/:pet/:adopter/:csrf": {
         "destination": "control/api/adoption.php"
     },
 

@@ -3,7 +3,7 @@
 require_once(dirname(__FILE__)."/../config.php");
 
 if (!isset($_POST['csrf']) || $_SESSION['csrf'] != $_POST['csrf']) {
-    Router\errorForbidden();
+    Router\errorForbidden("CSRF");
 }
 
 function &initAction($parameters) {

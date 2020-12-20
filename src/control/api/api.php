@@ -23,14 +23,10 @@ function getArrayFromSTMT($stmt, $amount) {
 
 function verifyCSRF() {
     $method = $_SERVER['REQUEST_METHOD'];
-
-    if ($method == "POST")
-        $csrf = isset($_POST['csrf']) ? $_POST['csrf'] : null;
-    else if ($method == "GET")
-        $csrf = isset($GLOBALS['csrf']) ? $GLOBALS['csrf'] : null;
+    $csrf = getArrayParameter(($method == "POST" || $method == "PUT") ? $_POST : $GLOBALS, 'csrf');
 
     if ($csrf == null || $csrf != $_SESSION['csrf']) {
-        Router\errorForbidden();
+        Router\errorForbidden("CSRF");
     }
 }
 

@@ -21,3 +21,7 @@ export const elapsedTime = (time) => {
         return `${markNo} ${text}${markNo > 1 ? 's' : ''}`;
     }
 }
+
+export const getCSRF = () => {
+    return document.body.dataset.csrf;
+}
