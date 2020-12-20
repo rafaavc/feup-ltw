@@ -7,8 +7,8 @@ require_once(dirname(__FILE__)."/../file_upload.php");
 
 $parameters = initAction(['name', 'birthdate', 'location', 'description', 'specie', 'race', 'size', 'color', 'profilePhoto']);
 
-function validateSelectParam($param, $required) {
-    global $parameters;
+
+function validateSelectParam($param, $required, $parameters) {
     if ($required && $parameters[$param] == -1) {
         Session\setMessage(Session\error(), "You didn't select a ".$param.".");
         Router\sendBack();
@@ -30,10 +30,10 @@ if (!preg_match('/^[a-zA-Z]+( [a-zA-Z]+)*$/', $parameters['location'])) {
 }
 
 // validation
-validateSelectParam('specie', true);
-validateSelectParam('color', true);
-validateSelectParam('size', true);
-validateSelectParam('race', false);
+validateSelectParam('specie', true, $parameters);
+validateSelectParam('color', true, $parameters);
+validateSelectParam('size', true, $parameters);
+validateSelectParam('race', false, $parameters);
 
 // adding selects
 if (!is_numeric($parameters['specie'])) {
@@ -80,11 +80,11 @@ for($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
     $tmpPath = $_FILES['photos']['tmp_name'][$i];
     if ($tmpPath == "") continue;
     $photoId = API\addPetPhoto($petId);
-    $originalPath = "../../images/petPictures/".$photoId.".jpg";
+    $originalPath = getDocRoot()."/images/petPictures/".$photoId.".jpg";
     move_uploaded_file($tmpPath, $originalPath);
 
     if ($_FILES['photos']['name'][$i] == $parameters['profilePhoto']) {
-        copy($originalPath, "../../images/petProfilePictures/".$petId.".jpg");
+        copy($originalPath, getDocRoot()."/images/petProfilePictures/".$petId.".jpg");
     }
 }
 

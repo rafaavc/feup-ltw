@@ -35,20 +35,20 @@ CREATE TABLE Pet (
 
 CREATE TABLE PetColor (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL CHECK(length(name) <= 20 AND length(name >= 1))
 );
 CREATE TABLE PetSize (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL CHECK(length(name) <= 20 AND length(name >= 1))
 );
 CREATE TABLE PetSpecie (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL CHECK(length(name) <= 20 AND length(name >= 1))
 );
 CREATE TABLE PetRace (
     id INTEGER PRIMARY KEY,
     specieId INTEGER NOT NULL REFERENCES PetSpecie ON DELETE CASCADE,
-    name TEXT NOT NULL
+    name TEXT NOT NULL CHECK(length(name) <= 20 AND length(name >= 1))
 );
 
 CREATE TABLE PetPhoto (
