@@ -262,7 +262,7 @@ if (Router\isAPIRequest(__FILE__)) {
 		if ($method == "GET") {
 			if (getArrayParameters($GLOBALS, ['what', 'arg1']) != null) handleSpeciesRequest();
 			else if (getArrayParameter($GLOBALS, 'size') != null) handleIndexTilesRequest();
-		} else if ($method == "POST") {
+		} else if ($method == "POST" || $method == "PUT") {
 			verifyCSRF();
 			if (getArrayParameters($_POST, ['petId', 'listId']) != null) {
 				responseJSON(addPetToList($_POST['petId'], $_POST['listId']));

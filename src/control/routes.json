@@ -39,6 +39,12 @@
     "api/user": {
         "destination": "control/api/user.php"
     },
+    "api/user/:listParam/:csrf": {
+        "destination": "control/api/user.php"
+    },
+    "api/user/:listParam": {
+        "destination": "control/api/user.php"
+    },
     "api/existence/:type/:value": {
         "destination": "control/api/existence.php"
     },

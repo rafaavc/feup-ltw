@@ -14,7 +14,7 @@ function validateSelectParam($param, $required) {
         Router\sendBack();
     }
     if (!is_numeric($parameters[$param])) {
-        if (!preg_match('/^[a-zA-Z ]+$/', $parameters[$param])) {
+        if (!preg_match('/^[a-zA-Z]+( [a-zA-Z]+)*$/', $parameters[$param])) {
             Session\setMessage(Session\error(), "Invalid new ".$param." name.");
             Router\sendBack();
         }

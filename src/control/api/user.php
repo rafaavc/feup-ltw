@@ -108,7 +108,7 @@ function updateName($name) {
         $stmt->bindParam(':name', $name);
         $stmt->execute();
     } catch(Exception $e) {
-        return array('success' => true, 'message' => 'Name does not fulfill database requirements');
+        return array('success' => false, 'message' => 'Name does not fulfill database requirements');
     }
     return array('success' => true, 'message' => 'Name updated successfully!');
 }
@@ -116,7 +116,10 @@ function updateName($name) {
 function updateUsername($username) {
     if (usernameExists($username)) return array('success' => false, 'message' => 'Username already exists');
 
-    if (strlen($username) < 5) return array('success' => false, 'message' => 'Username needs');
+    if (!preg_match('/^[a-zA-Z0-9]+((_|\.)[a-zA-Z0-9]+)*$/', $username))
+        return array('success' => false, 'message' => 'Invalid username');
+
+    if (strlen($username) < 5) return array('success' => false, 'message' => 'Username needs at least 5 characters');
     if (strlen($username) > 15) return array('success' => false, 'message' => 'Username cannot have more than 15 characters');
 
     try {
@@ -125,7 +128,7 @@ function updateUsername($username) {
         $stmt->bindParam(':newUsername', $username);
         $stmt->execute();
     } catch(Exception $e) {
-        return array('success' => true, 'message' => 'Username does not fulfill database requirements');
+        return array('success' => false, 'message' => 'Username does not fulfill database requirements');
     }
 
     $_SESSION['username'] = $username;
@@ -136,7 +139,7 @@ function updateUsername($username) {
 function updateMail($mail) {
     if (emailExists($mail)) return array('success' => false, 'message' => 'Email already in use');
 
-    if (!preg_match('/[a-zA-Z0-9_]+@[a-zA-Z0-9_]+.[a-zA-Z0-9_]+/', $mail))
+    if (!preg_match('/^([a-zA-Z0-9]+(_|\.))*[a-zA-Z0-9]+@([a-zA-Z0-9]+\.)*[a-zA-Z]+$/', $mail))
         return array('success' => false, 'message' => 'Invalid email');
 
     try {
@@ -145,7 +148,7 @@ function updateMail($mail) {
         $stmt->bindParam(':mail', $mail);
         $stmt->execute();
     } catch(Exception $e) {
-        return array('success' => true, 'message' => 'Email does not fulfill database requirements');
+        return array('success' => false, 'message' => 'Email does not fulfill database requirements');
     }
     return array('success' => true, 'message' => 'Email updated successfully!');
 }
@@ -159,7 +162,7 @@ function updateBio($bio) {
         $stmt->bindParam(':description', $bio);
         $stmt->execute();
     } catch(Exception $e) {
-        return array('success' => true, 'message' => 'Bio does not fulfill database requirements');
+        return array('success' => false, 'message' => 'Bio does not fulfill database requirements');
     }
     return array('success' => true, 'message' => 'Bio updated successfully!');
 }
@@ -172,7 +175,7 @@ function updatePassword($password) {
         $stmt->bindParam(':password', $passwordHash);
         $stmt->execute();
     } catch(Exception $e) {
-        return array('success' => true, 'message' => 'Password does not fulfill database requirements');
+        return array('success' => false, 'message' => 'Password does not fulfill database requirements');
     }
     return array('success' => true, 'message' => 'Password updated successfully!');
 }
@@ -194,74 +197,57 @@ function deleteList($listId) {
     return $stmt->rowCount();
 }
 
-function handleNewPasswordRequest() {
-    $method = $_SERVER['REQUEST_METHOD'];
-
-    if ($method == 'POST' && isset($_POST['currentPassword'], $_POST['newPassword'], $_POST['confirmPassword'])) {
-        if (!password_verify($_POST['currentPassword'], Session\getAuthenticatedUser()['password'])) {
-            responseJSON(array('success' => false, 'message' => 'Wrong current password!'));
-            return;
-        }
-        if (strcmp($_POST['newPassword'], $_POST['confirmPassword']) != 0) {
-            responseJSON(array('success' => false, 'message' => 'Passwords do not match'));
-            return;
-        }
-        updatePassword($_POST['newPassword']);
-        responseJSON(array('success' => true, 'message' => 'Updated password!'));
+function handleNewPasswordRequest($params) {
+    if (!Session\isAuthenticated()) {
+        Router\errorUnauthorized("User is not logged in", "success", "message");
     }
+    if (!password_verify($params['currentPassword'], Session\getAuthenticatedUser()['password'])) {
+        Router\errorUnauthorized("Wrong current password", "success", "message");
+    }
+    if (strcmp($params['newPassword'], $params['confirmPassword']) != 0) {
+        Router\errorBadRequest("Passwords do not match", "success", "message");
+    }
+    responseJSON(updatePassword($params['newPassword']));
 }
 
 function handleListDeletionRequest() {
-    $method = $_SERVER['REQUEST_METHOD'];
-
-    if ($method == 'POST' && isset($_POST['listId'])) {
-        responseJSON(array('deleted' => deleteList($_POST['listId'])));
-    }
+    responseJSON(array('deleted' => deleteList($GLOBALS['listParam'])));
 }
 
 function handleListCreationRequest() {
-    $method = $_SERVER['REQUEST_METHOD'];
-
-    if ($method == 'POST' && isset($_POST['title'], $_POST['visibility'], $_POST['description'])) {
-        createList($_POST['title'], $_POST['visibility'], $_POST['description']);
-        responseJSON(array('id' => Database::db()->lastInsertId()));
-    }
+    createList($_POST['title'], $_POST['visibility'], $_POST['description']);
+    responseJSON(array('id' => Database::db()->lastInsertId()));
 }
 
 function handleTilesRequest() {
-    $method = $_SERVER['REQUEST_METHOD'];
-
     $arr = array();
-    if ($method == 'POST' && isset($_POST['userLists'])) {
-        $userId = getUserByUsername($_POST['userLists'])['id'];
-        $userLists = getUserLists($userId);
-        foreach ($userLists as $userList){
-            if ((Session\isAuthenticated() && $_POST['userLists'] == Session\getAuthenticatedUser()['username'])
-                    || ($userList['public'] == 1)) {
-                array_push($arr, getListPets($userList));
-            }
+    $user = getUserByUsername($GLOBALS['listParam']);
+    if (!$user) Router\errorBadRequest("Invalid user", "success", "message");
+    $userId = $user['id'];
+    $userLists = getUserLists($userId);
+    $authenticatedUser = Session\getAuthenticatedUser();
+    foreach ($userLists as $userList){
+        // Only checks the csrf to get the user private lists
+        if (($authenticatedUser && $GLOBALS['listParam'] == $authenticatedUser['username'] && isset($GLOBALS['csrf']) && $GLOBALS['csrf'] == $_SESSION['csrf'])
+                || ($userList['public'] == 1)) {
+            array_push($arr, getListPets($userList));
         }
-
-        responseJSON(array('pets' => getArrayFromSTMT(getUserPets($userId), true), 'lists' => $arr));
     }
+
+    responseJSON(array('pets' => getArrayFromSTMT(getUserPets($userId), true), 'lists' => $arr));
 }
 
-function handleUpdateRequest() {
-    $method = $_SERVER['REQUEST_METHOD'];
+function handleUpdateRequest($params) {
+    $field = $params['field'];
+    $value = $params['value'];
 
-    if ($method == 'POST' && isset($_POST['field']) && isset($_POST['value'])) {
-        $field = $_POST['field'];
-        $value = $_POST['value'];
+    if ($field == "name") $response = updateName($value);
+    else if ($field == "username") $response = updateUsername($value);
+    else if ($field == "mail") $response = updateMail($value);
+    else if ($field == "bio") $response = updateBio($value);
+    else Router\errorBadRequest(null, "success", "message");
 
-        $response = array('sucess' => false);
-
-        if ($field == "name") $response = updateName($value);
-        else if ($field == "username") $response = updateUsername($value);
-        else if ($field == "mail") $response = updateMail($value);
-        else if ($field == "bio") $response = updateBio($value);
-
-        responseJSON($response);
-    }
+    responseJSON($response);
 }
 
 function getProposedToAdopt($userId, $petId){
@@ -285,9 +271,27 @@ function getListPets($list){
 }
 
 if (Router\isAPIRequest(__FILE__)) {
-    handleUpdateRequest();
-    handleTilesRequest();
-    handleListCreationRequest();
-    handleListDeletionRequest();
-    handleNewPasswordRequest();
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    if ($method == "GET" && getArrayParameter($GLOBALS, 'listParam') != null) {
+        handleTilesRequest();
+    } else if ($method == "PUT") {
+        $data = file_get_contents( 'php://input', 'r' );
+        parse_str($data, $params);
+
+        verifyCSRF($params);
+        if (getArrayParameters($params, ['field', 'value'])) handleUpdateRequest($params);
+        else if (getArrayParameters($params, ['currentPassword', 'newPassword', 'confirmPassword'])) handleNewPasswordRequest($params);
+        else {
+            Router\errorBadRequest(null, "success", "message");
+        }
+    } else if ($method == "POST" && getArrayParameters($_POST, ['title', 'visibility', 'description'])) {
+        verifyCSRF();
+        handleListCreationRequest();
+    } else if ($method == "DELETE" && getArrayParameter($GLOBALS, 'listParam')) {
+        verifyCSRF();
+        handleListDeletionRequest();
+    } else {
+        Router\errorBadRequest(null, "success", "message");
+    }
 }
