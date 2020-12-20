@@ -31,7 +31,7 @@
 				<div class="photos">
 					<?php foreach ($photos as $photo) { ?>
 						<div id="photo<?= $photo['photoId'] ?>">
-							<img src="<?= getRootURL() ?>/images/pet_pictures/<?= $photo['photoId'] ?>.jpg" heigth=50 data-photo-id="<?= $photo['photoId'] ?>">
+							<img src="<?= getRootURL() ?>/images/pet_pictures/<?= $photo['photoId'] ?>.jpg" height=50 data-photo-id="<?= $photo['photoId'] ?>" alt="Pet picture">
 							<div class="remove" data-id="<?= $photo['photoId'] ?>"><i class="icofont-ui-close"></i></div>
 						</div>
 					<?php } ?>

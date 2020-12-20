@@ -10,7 +10,7 @@ if (Session\isAuthenticated()) { ?>
 
 <section class="authForm">
     <div>
-        <h1>Sign Up</h1>
+        <h2>Sign Up</h2>
                 
         <p class="notice">All fields marked with * are required.</p>
 
@@ -28,8 +28,9 @@ if (Session\isAuthenticated()) { ?>
             </div>
             
             <div class="formField required">
+                <p class="notice">Birthdate</p>
                 <label for="birthdate">Birthdate</label>
-                <input type="text" id="birthdate" name="birthdate" min="<?=date("Y-m-d", getYearsAgo(100))?>" max="<?=date("Y-m-d", getYearsAgo(18))?>" placeholder="Birthdate" required/>
+                <input type="date" id="birthdate" name="birthdate" min="<?=date("Y-m-d", getYearsAgo(100))?>" max="<?=date("Y-m-d", getYearsAgo(18))?>" required/>
             </div>
 
             <div class="formField required">
@@ -63,7 +64,7 @@ if (Session\isAuthenticated()) { ?>
             <input type="submit" value="Sign Up" />
         </form>
     </div>
-    <img src="<?=getRootUrl()?>/images/cuteDoggos.jpeg"/>
+    <img src="<?=getRootUrl()?>/images/cuteDoggos.jpeg" alt="Pet image"/>
 </section>
 
 <?php }
