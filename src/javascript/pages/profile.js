@@ -1,7 +1,7 @@
 import { getRootUrl, initWebsite } from '../init.js'
-import { sendDeleteRequest, sendPutRequest, sendGetRequest } from '../ajax.js'
+import { sendPutRequest, sendGetRequest } from '../ajax.js'
 import { createPetTile } from '../tile.js'
-import { toggleAddingMode, showUpdatedField } from '../add_field.js'
+import { toggleAddingMode, showUpdatedField, askForDeleteConfirm } from '../add_field.js'
 import { escapeHtml } from '../escape.js'
 import { getCSRF } from '../utils.js'
 
@@ -40,7 +40,7 @@ forms.forEach(form => {
 
 const lists = document.getElementById('lists');
 const listSelect = document.getElementById('listSelect');
-const listsPetGrid = lists.querySelector('div.list');
+const listsPetGrid = lists == null ? null : lists.querySelector('div.list');
 if (listsPetGrid == null) listSelect.style.display = "none";
 listSelect.addEventListener('change', updateSelectedList);
 
@@ -67,58 +67,6 @@ if (removeListButton != null)
 
 createTileLists();
 initWebsite();
-
-export function askForDeleteConfirm() {
-    if (this.dataset.clicked == undefined || this.dataset.clicked === "") {
-        this.dataset.clicked = "clicked";
-        this.innerHTML = "<i class='icofont-ui-close'></i> Cancel";
-
-        const confirm = document.createElement("button");
-        confirm.innerHTML = "Confirm";
-        confirm.className = "contrastButton";
-        confirm.id = "confirmDelete";
-
-        confirm.addEventListener("click", function() {
-            const deleteButton = document.getElementById("removeListButton");
-            deleteButton.dataset.clicked = "";
-            deleteButton.innerHTML = "<i class='icofont-ui-delete'></i> Delete list";
-            this.remove();
-
-            removeList();
-        });
-
-        this.parentNode.appendChild(confirm);
-    }
-    else {
-        this.dataset.clicked = "";
-        this.innerHTML = "<i class='icofont-ui-delete'></i> Delete list";
-        document.getElementById("confirmDelete").remove();
-    }
-}
-
-function removeList() {
-    const listSelect = document.getElementById("listSelect");
-    const selectedIndex = listSelect.selectedIndex;
-
-    //delete element from select
-    const elementToDelete = listSelect.children[selectedIndex];
-    if (elementToDelete == undefined) return;
-    const listId = elementToDelete.value;
-    elementToDelete.remove();
-
-    //delete list
-    document.querySelector("#lists > div[data-id='" + listId + "']").remove();
-    const firstList = document.getElementById("lists");
-    const firstChildren = firstList.children[0];
-    if (firstChildren != undefined && firstChildren.length != 0)
-        firstChildren.style.display = "grid";
-    else {
-        document.getElementById("removeListButton").remove();
-    }
-
-    //delete list in database
-    sendDeleteRequest(`${getRootUrl()}/api/user/${listId}/${getCSRF()}`, function () { });
-}
 
 function editProfile() {
     const editProfileLabel = document.querySelector("#editProfileLabel > a");

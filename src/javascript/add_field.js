@@ -1,7 +1,6 @@
-import { sendPostRequest } from "./ajax.js";
+import { sendPostRequest, sendDeleteRequest } from "./ajax.js";
 import { getRootUrl } from './init.js';
 import { getCSRF } from "./utils.js";
-import { askForDeleteConfirm } from './pages/profile.js'
 
 export function toggleAddingMode(e, onClickExtender, onRcvExtender) {
     if (e != undefined) e.preventDefault();
@@ -198,4 +197,64 @@ function addDeleteButton() {
 
         listButtons.appendChild(deleteButton);
     }
+}
+
+export function askForDeleteConfirm() {
+    if (this.dataset.clicked == undefined || this.dataset.clicked === "") {
+        this.dataset.clicked = "clicked";
+        this.innerHTML = "<i class='icofont-ui-close'></i> Cancel";
+
+        const confirm = document.createElement("button");
+        confirm.innerHTML = "Confirm";
+        confirm.className = "contrastButton";
+        confirm.id = "confirmDelete";
+
+        confirm.addEventListener("click", function() {
+            const deleteButton = document.getElementById("removeListButton");
+            deleteButton.dataset.clicked = "";
+            deleteButton.innerHTML = "<i class='icofont-ui-delete'></i> Delete list";
+            this.remove();
+
+            removeList();
+        });
+
+        this.parentNode.appendChild(confirm);
+    }
+    else {
+        this.dataset.clicked = "";
+        this.innerHTML = "<i class='icofont-ui-delete'></i> Delete list";
+        document.getElementById("confirmDelete").remove();
+    }
+}
+
+function removeList() {
+    const listSelect = document.getElementById("listSelect");
+    const selectedIndex = listSelect.selectedIndex;
+
+    //delete element from select
+    const elementToDelete = listSelect.children[selectedIndex];
+    if (elementToDelete == undefined) return;
+    const listId = elementToDelete.value;
+    elementToDelete.remove();
+
+    //delete list
+    document.querySelector("#lists > div[data-id='" + listId + "']").remove();
+    const firstList = document.getElementById("lists");
+    const firstChildren = firstList.children[0];
+    if (firstChildren != undefined && firstChildren.length != 0)
+        firstChildren.style.display = "grid";
+    else {
+        document.getElementById("removeListButton").remove();
+        
+        const lists = document.getElementById("lists");
+        const p = document.createElement("p");
+        p.innerHTML = "@" + document.querySelector("#username > strong").innerHTML + " has no lists";
+        lists.appendChild(p);
+
+        const listSelect = document.getElementById("listSelect");
+        listSelect.style.display = "none";
+    }
+
+    //delete list in database
+    sendDeleteRequest(`${getRootUrl()}/api/user/${listId}/${getCSRF()}`, function () { });
 }
