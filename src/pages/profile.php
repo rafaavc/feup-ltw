@@ -61,7 +61,15 @@ $userLists = API\getUserLists($user['id']);
 
     <div id="lists">
         <?php
-        if (sizeof($userLists) != 0) {
+        $listAmount = sizeof($userLists);
+        if ($user['username'] != $authenticatedUser['username']) {
+            $listAmount = 0;
+            foreach($userLists as $userList) {
+                if ($userList['public']) $listAmount++;
+            }
+        }
+
+        if ($listAmount != 0) {
             foreach($userLists as $userList){
                 if (($authenticatedUser && $user['username'] == $authenticatedUser['username'])
                         || ($userList['public'] == 1)) {
@@ -78,7 +86,7 @@ $userLists = API\getUserLists($user['id']);
                 }
             } 
         } else { ?>
-            <p>@<?=htmlentities($user['username'])?> has no lists.</p>
+            <p>@<?=htmlentities($user['username'])?> has no <?=$user['username'] != $authenticatedUser['username'] ? 'public' : ''?> lists.</p>
         <?php } ?>
     </div>
 </section>
