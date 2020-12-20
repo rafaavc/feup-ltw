@@ -19,7 +19,7 @@ CREATE TABLE List (
 );
 
 CREATE TABLE Pet (
-    id INTEGER PRIMARY KEY, -- Used for profilePhoto on petProfilePictures folder
+    id INTEGER PRIMARY KEY, -- Used for profilePhoto on pet_profile_pictures folder
     userId INTEGER NOT NULL REFERENCES User ON DELETE CASCADE, -- Listed for adoption
     name TEXT CHECK (length(name) <= 20),   -- may not have a name
     birthdate DATE NOT NULL,

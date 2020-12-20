@@ -79,7 +79,7 @@ function receiveComment() {
 
 	const image = document.createElement('div');
 	image.className = 'image';
-	image.setAttribute('style', "background-image: url('../../images/userProfilePictures/" + post.userId + ".jpg'");
+	image.setAttribute('style', "background-image: url('../../images/user_profile_pictures/" + post.userId + ".jpg'");
 
 	const content = document.createElement('div');
 
@@ -154,7 +154,7 @@ function changeAdoptButton() {
 
 	const image = document.createElement('div');
 	image.className = 'image';
-	image.style = "background-image: url('../../images/userProfilePictures/" + userId + ".jpg')";
+	image.style = "background-image: url('../../images/user_profile_pictures/" + userId + ".jpg')";
 
 	const a = document.createElement('a');
 	a.href = getRootUrl() + '/user/' + username;

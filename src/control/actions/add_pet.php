@@ -80,11 +80,11 @@ for($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
     $tmpPath = $_FILES['photos']['tmp_name'][$i];
     if ($tmpPath == "") continue;
     $photoId = API\addPetPhoto($petId);
-    $originalPath = getDocRoot()."/images/petPictures/".$photoId.".jpg";
+    $originalPath = getDocRoot()."/images/pet_pictures/".$photoId.".jpg";
     move_uploaded_file($tmpPath, $originalPath);
 
     if ($_FILES['photos']['name'][$i] == $parameters['profilePhoto']) {
-        copy($originalPath, getDocRoot()."/images/petProfilePictures/".$petId.".jpg");
+        copy($originalPath, getDocRoot()."/images/pet_profile_pictures/".$petId.".jpg");
     }
 }
 

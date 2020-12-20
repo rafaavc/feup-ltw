@@ -12,7 +12,7 @@ $rejectedProposals = API\getPetRejectedProposals($pet['id']);
 			foreach ($openProposals as $proposal) {
 		?>
 				<div class="petProposal open" data-id="<?= $proposal['userId'] ?>">
-					<div class="image" style="background-image: url('../../images/userProfilePictures/<?= $proposal['userId'] ?>.jpg')"></div>
+					<div class="image" style="background-image: url('../../images/user_profile_pictures/<?= $proposal['userId'] ?>.jpg')"></div>
 					<p><a href="<?= getRootUrl() ?>/user/<?= $proposal['username'] ?>"><?= htmlentities($proposal['fullName']) ?></a> wants to adopt this pet</p>
 				</div>
 			<?php
@@ -22,7 +22,7 @@ $rejectedProposals = API\getPetRejectedProposals($pet['id']);
 			foreach ($rejectedProposals as $proposal) {
 			?>
 				<div class="petProposal rejected">
-					<div class="image" style="background-image: url('../../images/userProfilePictures/<?= $proposal['userId'] ?>.jpg')"></div>
+					<div class="image" style="background-image: url('../../images/user_profile_pictures/<?= $proposal['userId'] ?>.jpg')"></div>
 					<p><a href="<?= getRootUrl() ?>/user/<?= $proposal['username'] ?>"><?= htmlentities($proposal['fullName']) ?></a>'s proposal got rejected by <a href="<?= getRootUrl() ?>/user/<?= $originalOwner['username'] ?>"><?= htmlentities($originalOwner['name']) ?></a></p>
 				</div>
 			<?php

@@ -64,7 +64,7 @@
     <?php foreach($petsComments as $comment) { 
         if ($comment['creatorUsername'] == $user['username']) continue; ?>
             <div class="petManagementComments">
-                <div class="image" style="background-image: url('../../images/userProfilePictures/<?= $comment['creatorId'] ?>.jpg')"></div>
+                <div class="image" style="background-image: url('../../images/user_profile_pictures/<?= $comment['creatorId'] ?>.jpg')"></div>
                 <div>
                     <p><a href="<?=getRootUrl()?>/user/<?=$comment['creatorUsername']?>"><?=$comment['creatorName']?></a> on pet <a href="<?=getRootUrl()?>/pet/<?=$comment['petId']?>"><?=API\getPetName($comment['petId'])?></a>:</p>
                     <p><?=$comment['content']?></p>
