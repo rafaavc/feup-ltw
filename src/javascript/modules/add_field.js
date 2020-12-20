@@ -1,6 +1,7 @@
 import { sendPostRequest, sendDeleteRequest } from "./ajax.js";
 import { getRootUrl } from './init.js';
 import { getCSRF } from "./utils.js";
+import { escapeHtml } from './escape.js';
 
 export function toggleAddingMode(e, onClickExtender, onRcvExtender) {
     if (e != undefined) e.preventDefault();
@@ -179,7 +180,7 @@ function createListRequest(entity, input, option, visibilitySelect, description,
         list.className = "list";
         
         const descriptionBlock = document.createElement("p");
-        descriptionBlock.innerHTML = description.value;
+        descriptionBlock.innerHTML = escapeHtml(description.value);
         descriptionBlock.style.marginTop = "0";
         list.appendChild(descriptionBlock);
         list.appendChild(createEmptyTileList(input.value, id));
@@ -261,7 +262,7 @@ function removeList() {
         
         const lists = document.getElementById("lists");
         const p = document.createElement("p");
-        p.innerHTML = "@" + document.querySelector("#username > strong").innerHTML + " has no lists";
+        p.innerHTML = "@" + escapeHtml(document.querySelector("#username > strong").innerHTML) + " has no lists";
         lists.appendChild(p);
 
         const listSelect = document.getElementById("listSelect");

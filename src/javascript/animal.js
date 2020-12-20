@@ -3,6 +3,7 @@ import { sendPostRequest, sendDeleteRequest } from './modules/ajax.js'
 import './generic.js'
 import { getRootUrl } from './modules/init.js'
 import { elapsedTime, getCSRF } from './modules/utils.js'
+import { escapeHtml } from './modules/escape.js'
 
 const commentForm = document.querySelector('.petProfileSection > form');
 const adoptButton = document.querySelector('#adopt');
@@ -158,10 +159,10 @@ function changeAdoptButton() {
 
 	const a = document.createElement('a');
 	a.href = getRootUrl() + '/user/' + username;
-	a.innerHTML = name;
+	a.innerHTML = escapeHtml(name);
 
 	const p = document.createElement('p');
-	p.innerHTML = a.outerHTML + ' wants to adopt this pet';
+	p.innerHTML = escapeHtml(a.outerHTML) + ' wants to adopt this pet';
 
 	petProposal.appendChild(image);
 	petProposal.appendChild(p);
