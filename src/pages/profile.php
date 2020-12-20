@@ -45,9 +45,15 @@ $userLists = API\getUserLists($user['id']);
         <?php
         if (($authenticatedUser && $authenticatedUser['username'] == $user['username'])) {
         ?>
-        <div>
+        <div id="listButtons">
             <button class="simpleButton" id="addListButton" data-entity="List"><i class="icofont-ui-add"></i>New list</button>
-            <button class="simpleButton" id="removeListButton" data-entity="List"><i class="icofont-ui-delete"></i>Delete list</button>   
+            <?php
+            if (!empty($userLists)) {
+            ?>
+                <button class="simpleButton" id="removeListButton" data-entity="List"><i class="icofont-ui-delete"></i>Delete list</button>   
+            <?php
+            }
+            ?>    
         </div>
         <?php } ?>
     </div>

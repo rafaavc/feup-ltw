@@ -59,6 +59,7 @@ if (addListButton != null)
             updateSelectedList();
             listSelect.style.display = "block";
         });
+        addDeleteButton();
     });
 
 const removeListButton = document.getElementById("removeListButton");
@@ -67,6 +68,20 @@ if (removeListButton != null)
 
 createTileLists();
 initWebsite();
+
+function addDeleteButton() {
+    const listButtons = document.getElementById("listButtons");
+    if (document.getElementById("removeListButton") == undefined){
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "simpleButton";
+        deleteButton.id = "removeListButton";
+        deleteButton.dataset.entity = "List";
+        deleteButton.innerHTML = "<i class='icofont-ui-delete'></i>Delete list";
+        deleteButton.addEventListener('click', askForDeleteConfirm);
+
+        listButtons.appendChild(deleteButton);
+    }
+}
 
 function askForDeleteConfirm() {
     if (this.dataset.clicked == undefined || this.dataset.clicked === "") {
@@ -112,6 +127,9 @@ function removeList() {
     const firstChildren = firstList.children[0];
     if (firstChildren != undefined && firstChildren.length != 0)
         firstChildren.style.display = "grid";
+    else {
+        document.getElementById("removeListButton").remove();
+    }
 
     //delete list in database
     sendDeleteRequest(`${getRootUrl()}/api/user/${listId}/${getCSRF()}`, function () { });
