@@ -24,19 +24,18 @@ export const hideHeaderBackground = () => {
 }
 
 export const initHeader = () => {
-    const hamburguer = document.getElementById('hamburguer');
-    hamburguer.addEventListener('change', function() {
-        if (this.checked) {
-            showHeaderBackground();
-            menuState = true;
-        } else { 
-            hideHeaderBackground();
-            menuState = false;
-        }
-        scrollHandler();
-    })
-
     if (document.querySelector('section:first-of-type.indexCover') != null) {
+        const hamburguer = document.getElementById('hamburguer');
+        hamburguer.addEventListener('change', function() {
+            if (this.checked) {
+                showHeaderBackground();
+                menuState = true;
+            } else { 
+                hideHeaderBackground();
+                menuState = false;
+            }
+            scrollHandler();
+        });
         window.addEventListener('scroll', scrollHandler);
         scrollHandler(); // In case the webpage shows up already scrolled
     } else {
