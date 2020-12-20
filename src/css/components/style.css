@@ -390,7 +390,7 @@ body > footer a:hover {
     }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1100px) {
     body > header {
         grid-template-columns: 1fr auto;
         grid-row-gap: 0;
@@ -438,7 +438,7 @@ body > footer a:hover {
     }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
     body {
         --rightLeftPadding: 5vw;
         overflow-x: hidden;
@@ -463,8 +463,6 @@ body > footer a:hover {
         width: 100%;
         margin-bottom: 1rem;
     }
-
-
     article.tile {
         display: block;
         width: 100%;

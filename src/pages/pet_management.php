@@ -66,7 +66,7 @@
             <div class="petManagementComments">
                 <div class="image" style="background-image: url('../../images/user_profile_pictures/<?= $comment['creatorId'] ?>.jpg')"></div>
                 <div>
-                    <p><a href="<?=getRootUrl()?>/user/<?=$comment['creatorUsername']?>"><?=$comment['creatorName']?></a> on pet <a href="<?=getRootUrl()?>/pet/<?=$comment['petId']?>"><?=API\getPetName($comment['petId'])?></a>:</p>
+                    <p class="notice"><a href="<?=getRootUrl()?>/user/<?=$comment['creatorUsername']?>"><?=$comment['creatorName']?></a> on pet <a href="<?=getRootUrl()?>/pet/<?=$comment['petId']?>"><?=API\getPetName($comment['petId'])?></a>:</p>
                     <p><?=$comment['content']?></p>
                 </div>
                 <p><?=elapsedTime(strtotime($comment['postDate']))?> ago</p>
