@@ -2,13 +2,15 @@
 Web Languages and Technologies project 2020/2021
 
 ## Running the local PHP web server
+Due to using a custom PHP router, the server must be started this way:
 
 ```
 ./run
 ```
 or
 ```
-php -S localhost:4000 -t src
+cd src
+php -S localhost:4000 index.php
 ```
 
 ## Elements
