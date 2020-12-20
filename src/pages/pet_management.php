@@ -1,5 +1,6 @@
 <?php 
     require_once(dirname(__FILE__)."/../control/api/pet.php");
+    $pageTitle = "My Pets";
     require_once(dirname(__FILE__)."/../templates/common/header.php"); 
 
     $user = Session\getAuthenticatedUser();

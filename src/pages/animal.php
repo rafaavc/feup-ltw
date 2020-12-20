@@ -6,6 +6,7 @@ require_once(dirname(__FILE__) . "/../control/api/pet.php");
 $pet = API\getPet($GLOBALS['id']);
 if (!$pet) Router\error404();
 
+$pageTitle = API\getPetName($pet['id']);
 require_once(dirname(__FILE__) . '/../templates/common/header.php');
 
 $photos = API\getPetPhotos($pet['id']);

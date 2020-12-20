@@ -1,4 +1,5 @@
 <?php
+    $pageTitle = "Add a pet";
     require_once(dirname(__FILE__)."/../templates/common/header.php"); 
     require_once(dirname(__FILE__)."/../control/api/pet.php");
 

@@ -1,4 +1,5 @@
 <?php
+$pageTitle = "Sign Up";
 $GLOBALS['section'] = 'signup';
 require_once(dirname(__FILE__) ."/../templates/common/header.php");
 

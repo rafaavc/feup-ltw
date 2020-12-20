@@ -2,10 +2,13 @@
 $GLOBALS['section'] = 'profile';
 require_once(dirname(__FILE__)."/../control/api/user.php");
 require_once(dirname(__FILE__)."/../control/api/pet.php");
-require_once(dirname(__FILE__) . "/../templates/common/header.php");
 
 $user = API\getUserByUsername($GLOBALS['username']);
 if (!$user) Router\error404();
+$pageTitle = $user['shortName'];
+
+require_once(dirname(__FILE__) . "/../templates/common/header.php");
+
 
 $authenticatedUser = Session\getAuthenticatedUser();
 

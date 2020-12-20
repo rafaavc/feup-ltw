@@ -1,4 +1,5 @@
 <?php
+$pageTitle = "Discover";
 $GLOBALS['section'] = 'discover';
 require_once(dirname(__FILE__)."/../control/api/pet.php");
 require_once(dirname(__FILE__)."/../control/api/user.php");
