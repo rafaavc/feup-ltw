@@ -11,7 +11,7 @@ or
 php -S localhost:4000 -t src
 ```
 
-## Elements:
+## Elements
 - João Romão (201806779)
 - Rafael Cristino (201806680)
 - Xavier Pisco (201806134)
@@ -22,7 +22,7 @@ php -S localhost:4000 -t src
 - xamas / safest
 - TsarkFC / marktsubasa
 
-## Features:
+## Features
 ### Security
 - XSS: yes
 - CSRF: yes
@@ -39,6 +39,6 @@ php -S localhost:4000 -t src
 - REST API: yes
 - Custom Router: yes
 
-## Usability:
+## Usability
 - Error/success messages: yes
 - Forms don't lose data on error: yes
