@@ -149,6 +149,10 @@ function createListRequest(entity, input, option, visibilitySelect, description,
         showUpdatedField("List cannot have empty title", form, true, "listTitle");
         return false;
     }
+    if (input.value.length > 20) {
+        showUpdatedField('Title needs to have between 1 and 20 characters', form, true, "listTile");
+        return false;
+    }
 
     option.selected = true;
     sendPostRequest(getRootUrl() + "/api/user", 
@@ -176,9 +180,11 @@ function createListRequest(entity, input, option, visibilitySelect, description,
         if (onRcvExtender != null) onRcvExtender();
 
         addDeleteButton();
+        return true;
     });
 
-    return true;
+    console.log(res);
+    return res;
 }
 
 function addDeleteButton() {
