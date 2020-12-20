@@ -118,7 +118,7 @@ slider.start();
 function proposeToAdoptPet(event) {
 	event.preventDefault(event);
 
-	const petId = document.querySelector('.petProfile').attributes['data-id'].value;
+	const petId = document.querySelector('.petProfile').dataset.id;
 
 	sendPostRequest(`${getRootUrl()}/api/adoption/${petId}`, { csrf: getCSRF() }, changeAdoptButton);
 }
@@ -175,7 +175,7 @@ function changeAdoptButton() {
 function cancelProposeToAdoptPet(event) {
 	event.preventDefault();
 
-	const petId = document.querySelector('.petProfile').attributes['data-id'].value;
+	const petId = document.querySelector('.petProfile').dataset.id;
 
 	sendDeleteRequest(`${getRootUrl()}/api/adoption/${petId}/${getCSRF()}`, changeCancelButton);
 }
@@ -194,10 +194,10 @@ function changeCancelButton() {
 
 	document.querySelector('.petProfile footer').appendChild(button);
 
-	const userId = document.getElementById('petProposals').attributes['data-user-id'].value;
+	const userId = document.getElementById('petProposals').dataset.userId;
 	let petProposals = Array.from(document.getElementsByClassName('petProposal open'));
 	petProposals.forEach((petProposal) => {
-		if (petProposal.attributes['data-id'].value === userId) {
+		if (petProposal.dataset.id === userId) {
 			petProposal.remove();
 		}
 	});
@@ -228,7 +228,7 @@ addPhotoButton.addEventListener('click', function (e) {
 const removeButtons = Array.from(document.getElementsByClassName('remove'));
 removeButtons.forEach(removeButton => {
 	removeButton.addEventListener('click', function () {
-		const photoId = this.attributes['data-id'].value;
+		const photoId = this.dataset.id;
 		const photos = document.querySelector('#updateForm .photos');
 
 		const photo = document.createElement('input');
@@ -299,13 +299,13 @@ previousPhotos.forEach((photo) => {
 function updateProfilePic() {
 	const photos = document.querySelectorAll('#photosInput > .photos > div > img');
 	photos.forEach((photo) => {
-		if (photo.attributes['data-button-id'].value === profilePhotoInput.value) {
+		if (photo.dataset.buttonId === profilePhotoInput.value) {
 			photo.style.border = 'none';
 		}
 
 	})
 
-	profilePhotoInput.value = this.attributes['data-button-id'].value;
+	profilePhotoInput.value = this.dataset.buttonId;
 	this.style.border = 'solid 0.3rem var(--accentColorDarker)';
 }
 
