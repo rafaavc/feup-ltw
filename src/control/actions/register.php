@@ -33,7 +33,7 @@ try {
 } catch(Exception $e) {
     Router\errorBadRequest();
 }
-$realPath = "../../images/userProfilePictures/".$userId.".jpg";
+$realPath = getDocRoot()."/images/user_profile_pictures/".$userId.".jpg";
 move_uploaded_file($tmpPath, $realPath);
 
 

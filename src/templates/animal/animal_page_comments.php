@@ -7,7 +7,7 @@
 		foreach ($posts as $post) {
 			$poster = API\getUserById($post['userId']); ?>
 			<article class="comment" id="post-<?=$post['id']?>">
-				<div class="image" style="background-image: url('../../images/userProfilePictures/<?= $poster['id'] ?>.jpg')"></div>
+				<div class="image" style="background-image: url('../../images/user_profile_pictures/<?= $poster['id'] ?>.jpg')"></div>
 				<div>
 					<?php if ($post['userId'] == $originalOwner['id']) { ?><span class="tagLabel accent">Original Poster</span><?php } ?>
 					<p class="description"><?= $post['description'] ?></p>

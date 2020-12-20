@@ -246,14 +246,16 @@ function removePetPhoto($photoId)
 	return $stmt;
 }
 
-function addPetToList($petId, $listTitle){
-	$stmt = Database::db()->prepare("SELECT id FROM List WHERE title = ?");
-	$stmt->execute(array($listTitle));
-	$listId = $stmt->fetch()['id'];
+function addPetToList($petId, $listId){
 	$stmt = Database::db()->prepare("INSERT INTO ListPet VALUES (?, ?)");
 	$stmt->execute(array($listId, $petId));
 	$result['value'] = $stmt != false;
 	return $result;
+}
+
+function getPetName($petId) {
+	$pet = getPet($petId);
+	return $pet['name'] == null || $pet['name'] == '' ? $pet['size']." ".$pet['color']." ".$pet['specie'] : $pet['name'];
 }
 
 

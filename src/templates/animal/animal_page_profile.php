@@ -1,5 +1,5 @@
 <section class="petProfile" data-id="<?= $pet['id'] ?>" data-owner-id="<?=$pet['userId']?>">
-	<div style="background-image: url(<?= '../images/petProfilePictures/' . $pet['id'] . '.jpg' ?>);"></div>
+	<div style="background-image: url(<?= '../images/pet_profile_pictures/' . $pet['id'] . '.jpg' ?>);"></div>
 	<div>
 		<div id="petInfo">
 			<header>
@@ -31,7 +31,7 @@
 				<div class="photos">
 					<?php foreach ($photos as $photo) { ?>
 						<div id="photo<?= $photo['photoId'] ?>">
-							<img src="<?= getRootURL() ?>/images/petPictures/<?= $photo['photoId'] ?>.jpg" heigth=50 data-photo-id="<?= $photo['photoId'] ?>">
+							<img src="<?= getRootURL() ?>/images/pet_pictures/<?= $photo['photoId'] ?>.jpg" heigth=50 data-photo-id="<?= $photo['photoId'] ?>">
 							<div class="remove" data-id="<?= $photo['photoId'] ?>"><i class="icofont-ui-close"></i></div>
 						</div>
 					<?php } ?>
