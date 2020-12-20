@@ -5,6 +5,11 @@ $section = isset($GLOBALS['section']) ? $GLOBALS['section'] : "home";
 ?>
 <header>
     <a href="<?=getRootUrl()?>"><h1>To The Rescue!</h1></a>
+    <label for="hamburguer">
+        <i class="icofont-navigation-menu"></i> 
+    </label>
+    <input type="checkbox" id="hamburguer" />
+    
     <nav id="mainMenu">
         <ul>
             <li><a <?=$section == 'home' ? 'class="active"' : ''?> href="<?=getRootUrl()?>">Home</a></li>

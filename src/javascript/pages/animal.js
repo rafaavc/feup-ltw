@@ -110,7 +110,7 @@ function receiveComment() {
 		noCommentsP.style.display = 'none';
 }
 
-const slider = new SimpleSlider("mySlider", 3000, "30vw");
+const slider = new SimpleSlider("mySlider", 3000);
 slider.start();
 
 

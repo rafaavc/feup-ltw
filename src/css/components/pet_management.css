@@ -26,15 +26,6 @@ section.petManagement > div {
     padding: 1rem;
     margin-top: 1rem;
     grid-gap: 2rem;
-}
-
-section.petManagement > div {
-    background-color: var(--lightGrey);
-    display: grid;
-    grid-template-rows: auto;
-    padding: 1rem;
-    margin-top: 1rem;
-    grid-gap: 2rem;
     align-items: center;
 }
 
@@ -81,5 +72,26 @@ div.petManagementAdoption button > i {
 
 .petManagement .icofont-ui-check:hover, .petManagement .icofont-ui-close:hover {
     color:  var(--darkTextColor);
+}
+
+
+@media (max-width: 600px) {
+    .petManagementPets > p > * {
+        display: block;
+    }
+    .petManagementPets > p > span.tagLabel {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+
+    div.petManagementComments {
+        text-align: center;
+        grid-template-columns: 1fr;
+        grid-gap: 0;
+    }
+    div.petManagementComments > * {
+        margin: 0;
+        padding: 0;
+    }
 }
 

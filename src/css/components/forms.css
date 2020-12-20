@@ -159,6 +159,51 @@ section.searchForm > form > * {
     margin: 0;
 }
 
+@media (min-width: 600px) and (max-width: 1100px) {
 
+    section.searchForm > form {
+        grid-template-columns: 1fr 1fr;
+    }
 
+    section.searchForm > form > #search {
+        grid-column-end: span 2;
+    }
+
+    article.tile {
+        width: 50%;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    section.searchForm > form {
+        grid-template-columns: 1fr;
+    }
+
+    form[name=addPet] {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-gap: 2rem;
+    }
+    form[name=addPet] > div:nth-child(2) {
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+
+    article.tile {
+        width: 100%;
+    }
+
+    section.authForm {
+        grid-template-columns: 1fr;
+        grid-gap: 1rem;
+    }
+
+    section.authForm > img {
+        grid-row-start: 1;
+        grid-row-end: 2;
+    }
+
+}
 
