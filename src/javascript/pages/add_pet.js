@@ -91,6 +91,7 @@ function handleFileInput() {
     nextButton.name = lastButton.name;
     nextButton.addEventListener('change', handleFileInput);
     nextButton.style.display = "none";
+    nextButton.accept ="image/jpeg";
 
     lastButton.style.display = "none";
     

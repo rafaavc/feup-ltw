@@ -25,7 +25,7 @@ if (strtotime($parameters['birthdate']) < getYearsAgo(20) || strtotime($paramete
     Router\errorBadRequest("The pet's birthdate is not valid.");
 }
 
-if (!preg_match('/^[a-zA-Z ]+$/', $parameters['location'])) {
+if (!preg_match('/^[a-zA-Z]+( [a-zA-Z]+)*$/', $parameters['location'])) {
     Router\errorBadRequest("The pet's location is not valid.");
 }
 
@@ -70,8 +70,11 @@ for($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
 }
 if (!$foundProfilePhoto) Router\errorBadRequest("The profile photo was not sent to the server.");
 
-
-$petId = API\addPet(Session\getAuthenticatedUser()['id'], $parameters['name'], $parameters['birthdate'],$parameters['specie'],$parameters['race'],$parameters['size'], $parameters['color'], $parameters['location'], $parameters['description']); // create pet
+try {
+    $petId = API\addPet(Session\getAuthenticatedUser()['id'], $parameters['name'], $parameters['birthdate'],$parameters['specie'],$parameters['race'],$parameters['size'], $parameters['color'], $parameters['location'], $parameters['description']); // create pet
+} catch(Exception $e) {
+    Router\errorBadRequest();
+}
 
 for($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
     $tmpPath = $_FILES['photos']['tmp_name'][$i];

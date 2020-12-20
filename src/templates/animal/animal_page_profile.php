@@ -23,7 +23,7 @@
 			<input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>" />
 			<input type="hidden" id="petId" name="petId" value="<?= $pet['id'] ?>" />
 			<input type="text" id="nameInput" name="name" maxlength="20" value="<?= $pet['name'] ?>" />
-			<input type="text" id="locationInput" name="location" minlength="5" maxlength="20" value="<?= $pet['location'] ?>" />
+			<input type="text" id="locationInput" name="location" title="Location may only contain letters and spaces, there can not be 2 spaces in a row nor int the beginning/end." pattern="[a-zA-Z]+( [a-zA-Z]+)*" minlength="5" maxlength="20" value="<?= $pet['location'] ?>" />
 			<textarea id="descriptionInput" name="description" minlength="20" maxlength="300"><?= $pet['description'] ?></textarea>
 			<input type="hidden" name="profilePhoto" />
 			
@@ -36,7 +36,7 @@
 						</div>
 					<?php } ?>
 				</div>
-				<input type="file" name="photos[]" />
+				<input type="file" name="photos[]" accept="image/jpeg" />
 				<button class="simpleButton" id="addPhotoButton"><i class="icofont-ui-add"></i>Photo</button>
 				<p>To select a profile picture, click on one of the pictures you uploaded.</p>
 			</div>

@@ -5,19 +5,22 @@ require_once(dirname(__FILE__) . "/../api/pet.php");
 require_once(dirname(__FILE__) . "/../api/user.php");
 require_once(dirname(__FILE__) . "/../file_upload.php");
 
-$parameters = initAction(['petId', 'location', 'description', 'profilePhoto']);
+$parameters = initAction(['petId', 'name', 'location', 'description', 'profilePhoto']);
 
+// these two parameters are optional
 if (isset($_POST['removePhotos'])) {
 	$parameters['removePhotos'] = $_POST['removePhotos'];
 }
-if (isset($_POST['name'])){
-	$parameters['name'] = $_POST['name'];
+
+if (!preg_match('/^[a-zA-Z]+( [a-zA-Z]+)*$/', $parameters['location'])) {
+    Router\errorBadRequest("The pet's location is not valid.");
 }
 
-API\updatePet($parameters['petId'], $parameters['name'], $parameters['location'], $parameters['description']); // update pet
-
-echo var_dump($_FILES);
-echo var_dump($parameters);
+try {
+	API\updatePet($parameters['petId'], $parameters['name'], $parameters['location'], $parameters['description']); // update pet
+} catch(Exception $e) {
+    Router\errorBadRequest();
+}
 
 for ($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
 	$tmpPath = $_FILES['photos']['tmp_name'][$i];
@@ -29,12 +32,14 @@ for ($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
 	$originalPath = getDocRoot()."/images/petPictures/" . $photoId . ".jpg";
 	move_uploaded_file($tmpPath, $originalPath);
 
+	// the new profile photo is a photo that was just uploaded
 	if ($_FILES['photos']['name'][$i] == $parameters['profilePhoto']) {
 		copy($originalPath, getDocRoot()."/images/petProfilePictures/" . $parameters['petId'] . ".jpg");
 	}
 }
 
-if ($parameters != '' && is_numeric($parameters['profilePhoto'])) {
+// the new profile photo is a photo that already existed
+if ($parameters['profilePhoto'] != '' && is_numeric($parameters['profilePhoto'])) {
 	copy(getDocRoot()."/images/petPictures/".$parameters['profilePhoto'].".jpg", getDocRoot()."/images/petProfilePictures/" . $parameters['petId'] . ".jpg");
 }
 
@@ -45,4 +50,4 @@ if (isset($parameters['removePhotos'])) {
 	}
 }
 
-//Router\sendTo(getRootUrl() . "/pet/" . $parameters['petId']);
+Router\sendTo(getRootUrl() . "/pet/" . $parameters['petId']);

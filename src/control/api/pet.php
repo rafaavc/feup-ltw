@@ -136,6 +136,7 @@ function getAdopted($petId)
 function updatePet($petId, $name, $location, $description)
 {
 	$stmt = Database::db()->prepare("UPDATE Pet SET name = :name, location = :location, description = :description WHERE Id = :petId");
+	$name = $name == '' ? null : $name;
 	$stmt->bindParam(':name', $name);
 	$stmt->bindParam(':location', $location);
 	$stmt->bindParam(':description', $description);
