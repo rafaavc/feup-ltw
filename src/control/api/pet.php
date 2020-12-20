@@ -206,10 +206,7 @@ function addPetPhoto($petId) {
 }
 
 function handleIndexTilesRequest() {
-    $method = $_SERVER['REQUEST_METHOD'];
-    if ($method == 'POST') {
-        responseJSON(array('pets' => getArrayFromSTMT(getPets(), $_POST['size'])));
-	}
+	responseJSON(array('pets' => getArrayFromSTMT(getPets(), $GLOBALS['size'])));
 }
 
 function addPet($userId, $name, $birthdate, $specie, $race, $size, $color, $location, $description) {
@@ -234,21 +231,11 @@ function handleSpeciesRequest()
 	$what = $GLOBALS['what'];
 	$arg1 = $GLOBALS['arg1'];
 
-	$method = $_SERVER['REQUEST_METHOD'];
-	if ($what == 'races' && $method == 'GET') {
+	if ($what == 'races') {    // already comes verifyed as GET
 		responseJSON(array('races' => getArrayFromSTMT(getSpeciesRaces($arg1), true)));
-	} /*else if ($type == 'mail' && $method == 'GET') {
-
-		responseJSON(array('value' => emailExists($value)));
-
-    }*/ else {
-		http_response_code(400); // BAD REQUEST
-		exit();
+	} else {
+		Router\errorBadRequest();
 	}
-}
-
-if (Router\isAPIRequest(__FILE__) && isset($GLOBALS['what']) && isset($GLOBALS['arg1'])) {
-	handleSpeciesRequest();
 }
 
 function removePetPhoto($photoId)
@@ -256,9 +243,6 @@ function removePetPhoto($photoId)
 	$stmt = Database::db()->prepare("DELETE FROM PetPhoto WHERE photoId = ?");
 	$stmt->execute(array($photoId));
 	return $stmt;
-}
-if (isset($_POST['size'])) {
-	handleIndexTilesRequest();
 }
 
 function addPetToList($petId, $listTitle){
@@ -271,8 +255,24 @@ function addPetToList($petId, $listTitle){
 	return $result;
 }
 
-if (isset($_POST['petId']) && isset($_POST['listId'])){
-	echo json_encode(addPetToList($_POST['petId'], $_POST['listId']));
+
+if (Router\isAPIRequest(__FILE__)) {
+	$method = $_SERVER['REQUEST_METHOD'];
+	try {
+		if ($method == "GET") {
+			if (getArrayParameters($GLOBALS, ['what', 'arg1']) != null) handleSpeciesRequest();
+			else if (getArrayParameter($GLOBALS, 'size') != null) handleIndexTilesRequest();
+		} else if ($method == "POST") {
+			verifyCSRF();
+			if (getArrayParameters($_POST, ['petId', 'listId']) != null) {
+				responseJSON(addPetToList($_POST['petId'], $_POST['listId']));
+			}
+		} else {
+			Router\errorBadRequest();
+		}
+	} catch(Exception $e) {
+		Router\errorBadRequest();
+	}
 }
 
 ?>

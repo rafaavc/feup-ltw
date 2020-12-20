@@ -51,6 +51,9 @@
     "api/pet": {
         "destination": "control/api/pet.php"
     },
+    "api/pet/:size": {
+        "destination": "control/api/pet.php"
+    },
     "api/pet/comment": {
         "destination": "control/api/post.php"
     },

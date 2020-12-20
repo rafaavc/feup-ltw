@@ -316,7 +316,7 @@ if (addButton != null) {
 		const petId = document.querySelector('.petProfile').dataset.id;
 		const options = document.getElementsByClassName('listOption');
 		if (options[select.selectedIndex] != null) {
-			sendPostRequest(getRootUrl() + "/control/api/pet.php", { petId: petId, listId: options[select.selectedIndex].innerHTML }, function () {
+			sendPostRequest(getRootUrl() + "/api/pet", { petId: petId, listId: options[select.selectedIndex].innerHTML, csrf: getCSRF() }, function () {
 				const tempText = document.getElementById('tempText');
 				let result;
 				try {
