@@ -70,13 +70,15 @@
 
 .profileHeader footer > p {
 	display: inline;
-	margin-left: 1rem;
 }
 
 .profileHeader footer label {
     position: relative;
-    right: 2rem;
     cursor: pointer;
+}
+
+.profileHeader input[type=checkbox] {
+    display: none;
 }
 
 .textButtonPair form > input[type="text"], .textButtonPair form > textarea {
@@ -138,3 +140,44 @@
 /* * {
     border: 1px solid;
 } */
+
+
+@media (max-width: 600px) {
+    .profileHeader {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        grid-gap: 1rem;
+        text-align: center;
+    }
+
+    .profileHeader footer {
+        text-align: center;
+        margin: 0;
+    }
+
+    #editProfileLabel {
+        margin-top: 0;
+    }
+
+    .profileHeader header h3 {
+        font-size: 2rem;
+    }
+
+    #userList .simple-2column-grid {
+        grid-template-columns: 1fr;
+        grid-gap: 0;
+    }
+
+    #userList .simple-2column-grid form {
+        margin-top: 1rem;
+    }
+
+    #userList .simple-2column-grid form button {
+        margin-top: 1rem;
+    }
+
+    #lists > .petGrid {
+        grid-template-columns: 1fr;
+    }
+}
+

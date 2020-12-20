@@ -11,8 +11,6 @@
     flex-basis: 25ch;
 }
 
-
-
 #petResults > h2, #userResults > h2 {
     page-break-after: always;
 }
@@ -51,5 +49,12 @@
     height: 10rem;
     border-radius: 50%;
 }*/
+
+@media (max-width: 800px) {
+    #petResults > div > *, #userResults > div > * {
+        flex-basis: 100%;
+    }
+
+}
 
 

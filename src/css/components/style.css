@@ -42,6 +42,10 @@ body > header {
     transition: background-color .3s;
 }
 
+#hamburguer, body > header > label {
+    display: none;
+}
+
 body > header a {
     color: var(--lightTextColor);
     text-decoration: none;
@@ -379,4 +383,116 @@ body > footer a:hover {
 /* * {
     border: 1px solid;
 } */
+
+@media (max-width: 1000px) {
+    body {
+        --rightLeftPadding: 8vw;
+    }
+}
+
+@media (max-width: 1100px) {
+    body > header {
+        grid-template-columns: 1fr auto;
+        grid-row-gap: 0;
+    }
+
+    body > header > nav:last-child {
+        text-align: center;
+    }
+    body > header > label {
+        cursor: pointer;
+    }
+    body > header input {
+        display: none;
+    }
+
+    body > header * {
+        padding: 0;
+    }
+
+    body > header > a > h1 {
+        display: inline-block;
+        margin-bottom: none;
+    }
+    body > header > label {
+        display: inline-block;
+        font-size: 2rem;
+    }
+
+    body > header > input ~ nav {
+        max-height: 0;
+        visibility: hidden;
+        opacity: 0;
+        transition: all .2s;
+        grid-column-end: span 2;
+        text-align: center;
+    }
+    body > header > input ~ nav > ul > li {
+        display: block;
+        margin: 0.4rem 0;
+    }
+    body > header input:checked ~ nav  {
+        visibility: visible;
+        max-height: 10rem;
+        opacity: 1;
+    }
+}
+
+@media (max-width: 600px) {
+    body {
+        --rightLeftPadding: 5vw;
+        overflow-x: hidden;
+    }
+
+    body > section.indexCover {
+        display: block;
+    }
+
+    .petGrid {
+        display: block;
+    }
+
+    .petGrid > .petGridContent {
+        white-space: wrap;
+        overflow-x: hidden;
+        align-items: stretch;
+    }
+
+    .petGrid > .petGridContent > a.tileContainer {
+        display: block;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    article.tile {
+        display: block;
+        width: 100%;
+        white-space: wrap;
+    }
+
+    .petGrid > .petGridContent > * {
+        flex-shrink: 0;
+    }
+
+    .petGrid .arrow {
+        display: none;
+    }
+
+    #indexPets {
+        margin-bottom: 0;
+    }
+
+    body > section.simpleGrid.inverse {
+        grid-template-columns: 1fr;
+    }
+
+    section.simpleGrid.inverse > img {
+        grid-row-start: 1;
+        grid-row-end: 2;
+
+    }
+
+    body > footer > div {
+        display: block;
+    }
+}
 
