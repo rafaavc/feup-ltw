@@ -4,7 +4,7 @@ import time
 import signal
 
 def refresh():
-    subprocess.call(["./refresh"])
+    subprocess.call(["./build"])
     print("## Refreshed CSS")
 
 previous = {}
