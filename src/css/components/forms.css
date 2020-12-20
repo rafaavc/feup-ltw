@@ -84,7 +84,7 @@ form[name=addPet] img {
     z-index: 5;
 }
 
-form[name=addPet] img.profilePicture {
+img.profilePicture {
     border: 4px solid var(--accentColor);
 }
 

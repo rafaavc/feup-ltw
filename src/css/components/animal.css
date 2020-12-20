@@ -78,7 +78,7 @@
 	height: 10rem;
 }
 
-#updateForm {
+.petProfile form {
 	margin-bottom: 2rem;
 	padding-top: 5rem;
 	width: 90%;

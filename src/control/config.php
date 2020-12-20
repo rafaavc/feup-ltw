@@ -14,6 +14,10 @@ function getRootURL() {
     return $GLOBALS['rootUrl'];
 }
 
+function getDocRoot() {
+    return $_SERVER['DOCUMENT_ROOT'];
+}
+
 function import($callingFile, $module) {
     require_once(dirname($callingFile).'/'.$module);
 }
