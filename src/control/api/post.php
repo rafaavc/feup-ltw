@@ -7,6 +7,7 @@ use Database;
 use Exception;
 
 require_once(dirname(__FILE__). '/pet.php');
+require_once(dirname(__FILE__)."/user.php");
 
 function addComment($petId, $userId, $comment) {
     $db = Database::instance()->db();
@@ -15,6 +16,8 @@ function addComment($petId, $userId, $comment) {
 }
 
 if (Router\isAPIRequest(__FILE__)) {
+    verifyCSRF();
+
     $user = Session\getAuthenticatedUser();
     $parameters = getArrayParameters($_POST, ['petId', 'comment']);
 

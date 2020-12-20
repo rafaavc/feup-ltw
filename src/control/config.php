@@ -18,12 +18,8 @@ function getDocRoot() {
     return $_SERVER['DOCUMENT_ROOT'];
 }
 
-function import($callingFile, $module) {
-    require_once(dirname($callingFile).'/'.$module);
-}
-
-import(__FILE__, "utils.php");
-import(__FILE__, "session.php");
-import(__FILE__, "api/api.php");
+require_once(dirname(__FILE__)."/utils.php");
+require_once(dirname(__FILE__)."/session.php");
+require_once(dirname(__FILE__)."/api/api.php");
 
 ?>

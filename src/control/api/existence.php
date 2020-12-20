@@ -39,6 +39,7 @@ function handleExistenceRequest() {
 }
 
 if (Router\isAPIRequest(__FILE__)) {
+    // no need for csrf protection
     $parameters = getArrayParameters($GLOBALS, ['type', 'value']);
     if ($parameters != null) handleExistenceRequest();
     else Router\errorBadRequest();

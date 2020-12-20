@@ -39,6 +39,12 @@
     "api/user": {
         "destination": "control/api/user.php"
     },
+    "api/user/:listParam/:csrf": {
+        "destination": "control/api/user.php"
+    },
+    "api/user/:listParam": {
+        "destination": "control/api/user.php"
+    },
     "api/existence/:type/:value": {
         "destination": "control/api/existence.php"
     },
@@ -51,13 +57,19 @@
     "api/pet": {
         "destination": "control/api/pet.php"
     },
+    "api/pet/:size": {
+        "destination": "control/api/pet.php"
+    },
     "api/pet/comment": {
         "destination": "control/api/post.php"
+    },
+    "api/adoption/:pet/:csrf": {
+        "destination": "control/api/adoption.php"
     },
     "api/adoption/:pet": {
         "destination": "control/api/adoption.php"
     },
-    "api/adoption/:pet/:adopter": {
+    "api/adoption/:pet/:adopter/:csrf": {
         "destination": "control/api/adoption.php"
     },
 

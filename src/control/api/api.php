@@ -21,16 +21,12 @@ function getArrayFromSTMT($stmt, $amount) {
     return $res;
 }
 
-function verifyCSRF() {
+function verifyCSRF($array = null) {  // for PUT request, need to file_get_contents( 'php://input', 'r' );
     $method = $_SERVER['REQUEST_METHOD'];
-
-    if ($method == "POST")
-        $csrf = isset($_POST['csrf']) ? $_POST['csrf'] : null;
-    else if ($method == "GET")
-        $csrf = isset($GLOBALS['csrf']) ? $GLOBALS['csrf'] : null;
+    $csrf = getArrayParameter($array ? $array : (($method == "POST") ? $_POST : $GLOBALS), 'csrf');
 
     if ($csrf == null || $csrf != $_SESSION['csrf']) {
-        Router\errorForbidden();
+        Router\errorForbidden("CSRF");
     }
 }
 
