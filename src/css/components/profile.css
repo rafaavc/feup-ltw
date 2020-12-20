@@ -129,6 +129,14 @@
     display: none;
 }
 
+#ListInput {
+    grid-column-end: span 2;
+}
+
+#ListInput + button {
+    grid-column-end: span 2;
+}
+
 #ListInput input, #ListInput select {
     margin-bottom: 1rem;
 }
