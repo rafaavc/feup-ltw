@@ -15,16 +15,16 @@
 					} ?>
 				</h4>
 			</header>
-			<p>by <a href="<?=getRootURL()?>/user/<?=$originalOwner['username']?>"><?=$originalOwner['shortName']?></a></p>
+			<p>by <a href="<?=getRootURL()?>/user/<?=htmlentities($originalOwner['username'])?>"><?=htmlentities($originalOwner['shortName'])?></a></p>
 			<span class="tagLabel <?=$pet['state']?>"><?=$pet['state'] == 'adopted' ? 'Adopted' : ($pet['state'] == 'ready' ? 'Ready for Adoption' : ($pet['state'] == 'archived' ? 'Archived' : null)) ?></span>
-			<p><?= $pet['description'] ?></p>
+			<p><?= htmlentities($pet['description']) ?></p>
 		</div>
 		<form method="POST" name="updatePet" action="<?= getRootURL() ?>/action/updatePet" enctype="multipart/form-data" id="updatePet">
 			<input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>" />
 			<input type="hidden" id="petId" name="petId" value="<?= $pet['id'] ?>" />
-			<input type="text" id="nameInput" name="name" maxlength="20" value="<?= $pet['name'] ?>" />
-			<input type="text" id="locationInput" name="location" title="Location may only contain letters and spaces, there can not be 2 spaces in a row nor int the beginning/end." pattern="[a-zA-Z]+( [a-zA-Z]+)*" minlength="5" maxlength="20" value="<?= $pet['location'] ?>" />
-			<textarea id="descriptionInput" name="description" minlength="20" maxlength="300"><?= $pet['description'] ?></textarea>
+			<input type="text" id="nameInput" name="name" maxlength="20" value="<?= htmlentities($pet['name']) ?>" />
+			<input type="text" id="locationInput" name="location" title="Location may only contain letters and spaces, there can not be 2 spaces in a row nor int the beginning/end." pattern="[a-zA-Z]+( [a-zA-Z]+)*" minlength="5" maxlength="20" value="<?= htmlentities($pet['location']) ?>" />
+			<textarea id="descriptionInput" name="description" minlength="20" maxlength="300"><?= htmlentities($pet['description']) ?></textarea>
 			<input type="hidden" name="profilePhoto" />
 			
 			<div id="photosInput" style="display: none">

@@ -75,7 +75,7 @@ $userLists = API\getUserLists($user['id']);
                 }
             } 
         } else { ?>
-            <p>@<?=$user['username']?> has no lists.</p>
+            <p>@<?=htmlentities($user['username'])?> has no lists.</p>
         <?php } ?>
     </div>
 </section>

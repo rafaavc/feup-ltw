@@ -26,7 +26,7 @@ $section = isset($GLOBALS['section']) ? $GLOBALS['section'] : "home";
                 <?php } else { ?>
                     <li><a href="<?=getRootUrl()?>/action/signout">Sign Out</a></li>
                     <li><a href="<?=getRootUrl()?>/pets" class="contrastButton">My Pets</a></li>
-                    <li><a href="<?=getRootUrl()?>/user/<?=$loggedInUser['username']?>" class="contrastButton">My Profile</a></li>
+                    <li><a href="<?=getRootUrl()?>/user/<?=htmlentities($loggedInUser['username'])?>" class="contrastButton">My Profile</a></li>
                 <?php } ?>
         </ul>
     </nav>

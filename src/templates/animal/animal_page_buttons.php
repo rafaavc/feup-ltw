@@ -10,7 +10,7 @@
 		</select>
 		<button id ="addToList" class="simpleButton">Add to list</button>
 	<?php } else { ?>
-		<p class="notice">To add this pet to a list, create one in your <a href="<?=getRootUrl()?>/user/<?=$user['username']?>">profile</a>.</p>
+		<p class="notice">To add this pet to a list, create one in your <a href="<?=getRootUrl()?>/user/<?=htmlentities($user['username'])?>">profile</a>.</p>
 
 	<?php }
 	}
@@ -24,15 +24,15 @@
 		$proposedToAdopt = API\getProposedToAdopt($user['id'], $pet['id']);
 
 		if ($proposedToAdopt == false) { ?>
-			<button id="adopt" class="simpleButton contrastButton" data-user-id="<?= $user['id'] ?>" data-username="<?= $user['username'] ?>" data-user-name="<?= $user['name'] ?>">Adopt</button>
+			<button id="adopt" class="simpleButton contrastButton" data-user-id="<?= $user['id'] ?>" data-username="<?= htmlentities($user['username']) ?>" data-user-name="<?= htmlentities($user['name']) ?>">Adopt</button>
 		<?php
 		} else { ?>
-			<p>You've proposed to adopt! <button id="cancel" class="simpleButton contrastButton" data-user-id="<?= $user['id'] ?>" data-username="<?= $user['username'] ?>" data-user-name="<?= $user['name'] ?>">Cancel</button></p>
+			<p>You've proposed to adopt! <button id="cancel" class="simpleButton contrastButton" data-user-id="<?= $user['id'] ?>" data-username="<?= htmlentities($user['username']) ?>" data-user-name="<?= htmlentities($user['name']) ?>">Cancel</button></p>
 		<?php
 		}
 	}
 	if ($adopted) { ?>
-		<p>This pet was adopted by <a href="<?= getRootUrl() ?>/user/<?= $adopted['username'] ?>"><?= htmlentities($adopted['name']) ?></a>.</p>
+		<p>This pet was adopted by <a href="<?= getRootUrl() ?>/user/<?= htmlentities($adopted['username']) ?>"><?= htmlentities($adopted['name']) ?></a>.</p>
 	<?php
 	}
 	?>
