@@ -21,7 +21,7 @@ require_once(dirname(__FILE__) . '/../templates/animal/animal_page_profile.php')
 	for ($i = 0; $i < count($photos); $i++) {
 	?>
 		<div class="ss-child" id="ss-<?= $photos[$i]['photoId'] ?>">
-			<div style="background: url(<?= getRootURL() ?>/images/petPictures/<?= $photos[$i]['photoId'] ?>.jpg); background-size: cover; background-position: 50%"> </div>
+			<div style="background: url(<?= getRootURL() ?>/images/pet_pictures/<?= $photos[$i]['photoId'] ?>.jpg); background-size: cover; background-position: 50%"> </div>
 		</div>
 	<?php
 	}

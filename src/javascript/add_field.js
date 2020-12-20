@@ -44,16 +44,29 @@ export function toggleAddingMode(e, onClickExtender, onRcvExtender) {
             e.preventDefault();
             
             const inputValue = input.value;
-            const regExp = new RegExp(/^[a-zA-Z]+( [a-zA-Z]+)*$/);
-            if (!regExp.test(inputValue)) {
-                input.focus();
-                const pWarning = document.createElement('p');
-                pWarning.classList.add('notice');
-                pWarning.style.marginTop = 0;
-                pWarning.innerHTML = "May only have letters and spaces, and no more than one space in a row."
-                window.setTimeout(() => { pWarning.remove() }, 3000);
-                input.parentNode.appendChild(pWarning);
-                return;
+            if (entity != 'List') {
+                const regExp = new RegExp(/^[a-zA-Z]+( [a-zA-Z]+)*$/);
+                if (!regExp.test(inputValue)) {
+                    input.focus();
+                    const pWarning = document.createElement('p');
+                    pWarning.classList.add('notice');
+                    pWarning.style.marginTop = 0;
+                    pWarning.style.color ="darkred";
+                    pWarning.innerHTML = "May only have letters and spaces, and no more than one space in a row."
+                    window.setTimeout(() => { pWarning.remove() }, 3000);
+                    input.parentNode.appendChild(pWarning);
+                    return;
+                } else if (inputValue.length < 1 || inputValue.length > 20) {
+                    input.focus();
+                    const pWarning = document.createElement('p');
+                    pWarning.classList.add('notice');
+                    pWarning.style.marginTop = 0;
+                    pWarning.style.color ="darkred";
+                    pWarning.innerHTML = "Needs to have more than one character and less that 20 characters";
+                    window.setTimeout(() => { pWarning.remove() }, 3000);
+                    input.parentNode.appendChild(pWarning);
+                    return;
+                }
             }
 
             const option = document.createElement('option');

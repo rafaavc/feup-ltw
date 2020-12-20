@@ -19,7 +19,7 @@ CREATE TABLE List (
 );
 
 CREATE TABLE Pet (
-    id INTEGER PRIMARY KEY, -- Used for profilePhoto on petProfilePictures folder
+    id INTEGER PRIMARY KEY, -- Used for profilePhoto on pet_profile_pictures folder
     userId INTEGER NOT NULL REFERENCES User ON DELETE CASCADE, -- Listed for adoption
     name TEXT CHECK (length(name) <= 20),   -- may not have a name
     birthdate DATE NOT NULL,
@@ -35,20 +35,20 @@ CREATE TABLE Pet (
 
 CREATE TABLE PetColor (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL CHECK(length(name) <= 20 AND length(name >= 1))
 );
 CREATE TABLE PetSize (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL CHECK(length(name) <= 20 AND length(name >= 1))
 );
 CREATE TABLE PetSpecie (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL CHECK(length(name) <= 20 AND length(name >= 1))
 );
 CREATE TABLE PetRace (
     id INTEGER PRIMARY KEY,
     specieId INTEGER NOT NULL REFERENCES PetSpecie ON DELETE CASCADE,
-    name TEXT NOT NULL
+    name TEXT NOT NULL CHECK(length(name) <= 20 AND length(name >= 1))
 );
 
 CREATE TABLE PetPhoto (
@@ -151,6 +151,7 @@ INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES (3
     "It's a male.", "2020-12-01 22:10:06", 4);
 
 INSERT INTO ProposedToAdopt(userId, petId) VALUES(2, 3);
+INSERT INTO ProposedToAdopt(userId, petId) VALUES(4, 3);
 
 INSERT INTO Adopted(userId, petId) VALUES(3, 1);
 INSERT INTO Adopted(userId, petId) VALUES(4, 4);

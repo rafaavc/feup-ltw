@@ -29,24 +29,24 @@ for ($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
         Router\errorBadRequest("Invalid files were sent to the server.");
     }
 	$photoId = API\addPetPhoto($parameters['petId']);
-	$originalPath = getDocRoot()."/images/petPictures/" . $photoId . ".jpg";
+	$originalPath = getDocRoot()."/images/pet_pictures/" . $photoId . ".jpg";
 	move_uploaded_file($tmpPath, $originalPath);
 
 	// the new profile photo is a photo that was just uploaded
 	if ($_FILES['photos']['name'][$i] == $parameters['profilePhoto']) {
-		copy($originalPath, getDocRoot()."/images/petProfilePictures/" . $parameters['petId'] . ".jpg");
+		copy($originalPath, getDocRoot()."/images/pet_profile_pictures/" . $parameters['petId'] . ".jpg");
 	}
 }
 
 // the new profile photo is a photo that already existed
 if ($parameters['profilePhoto'] != '' && is_numeric($parameters['profilePhoto'])) {
-	copy(getDocRoot()."/images/petPictures/".$parameters['profilePhoto'].".jpg", getDocRoot()."/images/petProfilePictures/" . $parameters['petId'] . ".jpg");
+	copy(getDocRoot()."/images/pet_pictures/".$parameters['profilePhoto'].".jpg", getDocRoot()."/images/pet_profile_pictures/" . $parameters['petId'] . ".jpg");
 }
 
 if (isset($parameters['removePhotos'])) {
 	for ($i = 0; $i < sizeof($parameters['removePhotos']); $i++) {
 		API\removePetPhoto($parameters['removePhotos'][$i]);
-		unlink(getDocRoot() . '/images/petPictures/' . $parameters['removePhotos'][$i] . '.jpg');
+		unlink(getDocRoot() . '/images/pet_pictures/' . $parameters['removePhotos'][$i] . '.jpg');
 	}
 }
 

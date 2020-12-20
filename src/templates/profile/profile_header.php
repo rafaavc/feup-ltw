@@ -1,5 +1,5 @@
 <section class="profileHeader">
-    <div style="background-image: url(<?= '../images/userProfilePictures/' . $user['id'] . '.jpg' ?>);"> </div>
+    <div style="background-image: url(<?= '../images/user_profile_pictures/' . $user['id'] . '.jpg' ?>);"> </div>
     <div>
         <header>
             <section class="textButtonPair">

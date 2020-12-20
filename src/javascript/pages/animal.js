@@ -79,7 +79,7 @@ function receiveComment() {
 
 	const image = document.createElement('div');
 	image.className = 'image';
-	image.setAttribute('style', "background-image: url('../../images/userProfilePictures/" + post.userId + ".jpg'");
+	image.setAttribute('style', "background-image: url('../../images/user_profile_pictures/" + post.userId + ".jpg'");
 
 	const content = document.createElement('div');
 
@@ -154,7 +154,7 @@ function changeAdoptButton() {
 
 	const image = document.createElement('div');
 	image.className = 'image';
-	image.style = "background-image: url('../../images/userProfilePictures/" + userId + ".jpg')";
+	image.style = "background-image: url('../../images/user_profile_pictures/" + userId + ".jpg')";
 
 	const a = document.createElement('a');
 	a.href = getRootUrl() + '/user/' + username;
@@ -315,29 +315,26 @@ function updateProfilePic() {
 	this.classList.add('profilePicture');
 }
 
-const select = document.getElementById('selectList');
+const select = document.querySelector('select[name=lists]');
 const addButton = document.getElementById('addToList');
 if (addButton != null) {
 	addButton.addEventListener('click', function () {
 		const petId = document.querySelector('.petProfile').dataset.id;
-		const options = document.getElementsByClassName('listOption');
-		if (options[select.selectedIndex] != null) {
-			sendPostRequest(getRootUrl() + "/api/pet", { petId: petId, listId: options[select.selectedIndex].innerHTML, csrf: getCSRF() }, function () {
-				const tempText = document.getElementById('tempText');
-				let result;
-				try {
-					result = JSON.parse(this.responseText);
-					if (result['value'] == true) {
-						tempText.innerHTML = 'Added successfully';
-						tempText.style.color = 'green';
-						setTimeout(function () { tempText.innerHTML = ''; }, 3000);
-					}
-				} catch (error) {
-					tempText.innerHTML = 'Already on list';
-					tempText.style.color = 'red';
+		sendPostRequest(getRootUrl() + "/api/pet", { petId: petId, listId: select.value, csrf: getCSRF() }, function () {
+			const tempText = document.getElementById('tempText');
+			let result;
+			try {
+				result = JSON.parse(this.responseText);
+				if (result['value'] == true) {
+					tempText.innerHTML = 'Added successfully';
+					tempText.style.color = 'green';
 					setTimeout(function () { tempText.innerHTML = ''; }, 3000);
 				}
-			});
-		}
+			} catch (error) {
+				tempText.innerHTML = 'Already on list';
+				tempText.style.color = 'red';
+				setTimeout(function () { tempText.innerHTML = ''; }, 3000);
+			}
+		});
 	});
 }
