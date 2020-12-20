@@ -48,3 +48,16 @@ export const sendPostRequest = (whereTo, params, onload) => {
 	request.send(encodeForAjax(params));
 }
 
+export const sendPutRequest = (whereTo, params, onload) => {
+    const request = new XMLHttpRequest();
+    console.log('sending', params)
+	request.addEventListener('load', function() {
+        console.log(this.responseText);
+        if (this.status != 200) return;
+        onload.bind(this)();
+    });
+	request.open("PUT", whereTo, true);
+	request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	request.send(encodeForAjax(params));
+}
+

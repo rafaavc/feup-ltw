@@ -1,5 +1,6 @@
 import { initWebsite } from '../init.js'
 import { sendPostRequest, sendDeleteRequest } from '../ajax.js';
+import { getCSRF } from '../utils.js';
 
 initWebsite();
 
@@ -21,14 +22,14 @@ function acceptAdoption() {
     const petId = this.dataset.pet;
     const adopterId = this.dataset.adopter;
     const parent = this.parentNode.parentNode;
-    sendPostRequest(`api/adoption/${petId}`, { adopter: adopterId }, function() { adoptionReplyOnload.bind(this)(parent) });
+    sendPostRequest(`api/adoption/${petId}`, { adopter: adopterId, csrf: getCSRF() }, function() { adoptionReplyOnload.bind(this)(parent) });
 }
 
 function declineAdoption() {
     const petId = this.dataset.pet;
     const adopterId = this.dataset.adopter;
     const parent = this.parentNode.parentNode;
-    sendDeleteRequest(`api/adoption/${petId}/${adopterId}`, function() { adoptionReplyOnload.bind(this)(parent) });
+    sendDeleteRequest(`api/adoption/${petId}/${adopterId}/${getCSRF()}`, function() { adoptionReplyOnload.bind(this)(parent) });
 }
 
 

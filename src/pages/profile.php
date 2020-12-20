@@ -26,10 +26,10 @@ $userLists = API\getUserLists($user['id']);
 <section id="userList" class="petlist">
     <div class="simple-2column-grid">
         <div id="select">
-            <label for="list-select">
+            <label for="listSelect">
                 <h2>Lists</h2>
             </label>
-            <select name="list" id="list-select">
+            <select name="list" id="listSelect">
                 <?php
                 foreach($userLists as $userList) {
                     if (($authenticatedUser && $authenticatedUser['username'] == $user['username'])

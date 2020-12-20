@@ -119,6 +119,7 @@ function handleSearchRequest() {
 }
 
 if (Router\isAPIRequest(__FILE__)) {
+    // no need for csrf verification
     $parameters = getArrayParameters($GLOBALS, ['what', 'specie', 'color', 'size', 'value']);
     if ($parameters != null) handleSearchRequest();
     else Router\errorBadRequest();

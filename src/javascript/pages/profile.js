@@ -1,8 +1,9 @@
 import { getRootUrl, initWebsite } from '../init.js'
-import { sendPostRequest } from '../ajax.js'
+import { sendDeleteRequest, sendPutRequest, sendGetRequest } from '../ajax.js'
 import { createPetTile } from '../tile.js'
 import { toggleAddingMode, showUpdatedField } from '../add_field.js'
 import { escapeHtml } from '../escape.js'
+import { getCSRF } from '../utils.js'
 
 const bioEmptyMessage = "Bio (currently empty)";
 
@@ -38,7 +39,7 @@ forms.forEach(form => {
 });
 
 const lists = document.getElementById('lists');
-const listSelect = document.getElementById('list-select');
+const listSelect = document.getElementById('listSelect');
 const listsPetGrid = lists.querySelector('div.petGrid');
 if (listsPetGrid == null) listSelect.style.display = "none";
 
@@ -96,7 +97,7 @@ function askForDeleteConfirm() {
 }
 
 function removeList() {
-    const listSelect = document.getElementById("list-select");
+    const listSelect = document.getElementById("listSelect");
     const selectedIndex = listSelect.selectedIndex;
 
     //delete element from select
@@ -113,7 +114,7 @@ function removeList() {
         firstChildren.style.display = "grid";
 
     //delete list in database
-    sendPostRequest(getRootUrl() + "/api/user", { listId: listId }, function () { });
+    sendDeleteRequest(`${getRootUrl()}/api/user/${listId}/${getCSRF()}`, function () { });
 }
 
 function editProfile() {
@@ -149,7 +150,7 @@ function editProfile() {
 
 function showSelection(editForm, inputField) {
     editForm.style.display = "flex";
-    editForm.style.margin = "1rem";
+    editForm.style.margin = "0.5rem 0";
     editForm.style.alignItems = "baseline"
     inputField.style.display = "none";
 
@@ -177,7 +178,7 @@ function confirmSelection(editForm, inputField) {
     else
         formText = editForm.getElementsByClassName("edit-data")[0].value;
 
-    sendPostRequest(getRootUrl() + "/api/user", { field: inputField.id, value: formText },
+    sendPutRequest(getRootUrl() + "/api/user", { field: inputField.id, value: formText, csrf: getCSRF() },
         function () {
             const res = JSON.parse(this.responseText);
             if (res.success) {
@@ -213,8 +214,8 @@ function createNewPassword(editForm, inputField) {
         return;
     }
 
-    sendPostRequest(getRootUrl() + "/api/user",
-        { currentPassword: currentPassword, newPassword: newPassword, confirmPassword: confirmPassword },
+    sendPutRequest(getRootUrl() + "/api/user",
+        { currentPassword: currentPassword, newPassword: newPassword, confirmPassword: confirmPassword, csrf: getCSRF() },
         function () {
             const res = JSON.parse(this.responseText);
             console.log(res);
@@ -239,7 +240,7 @@ function resetPassword() {
 
 function createTileLists() {
     const user = document.querySelector("#username > strong");
-    sendPostRequest(getRootUrl() + "/api/user", { userLists: user.innerHTML }, function () {
+    sendGetRequest(`${getRootUrl()}/api/user/${user.innerHTML}/${getCSRF()}`, function () {
         const res = JSON.parse(this.responseText);
         const pets = res.pets;
         const lists = res.lists;

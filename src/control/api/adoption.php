@@ -54,8 +54,8 @@ function handleAdoptionRequest($method, $pet)
         Router\errorBadRequest();
     }
 
-    $pta = getProposedToAdopt($adopter, $pet);
-    echo json_encode($pta);
+
+    responseJSON(array("value" => true));
 }
 
 function acceptAdoptionRequest($pet, $adopter)
@@ -82,21 +82,19 @@ function handleAdoptionReply($method, $pet, $adopter)
         try {
             acceptAdoptionRequest($pet, $adopter);
         } catch (Exception $e) {
-            responseJSON(array("value" => false, "error" => $e->getMessage()));
-            Router\errorBadRequest();
+            Router\errorBadRequest($e->getMessage());
         }
-        responseJSON(array("value" => true));
     } else if ($method == "DELETE") {
         try {
             deleteAdoptionRequest($pet, $adopter);
         } catch (Exception $e) {
-            responseJSON(array("value" => false, "error" => $e->getMessage()));
-            Router\errorBadRequest();
+            Router\errorBadRequest($e->getMessage());
         }
-        responseJSON(array("value" => true));
     } else {
         Router\errorBadRequest();
     }
+
+    responseJSON(array("value" => true));
 }
 
 
@@ -107,7 +105,8 @@ if (Router\isAPIRequest(__FILE__)) {
     $adopter = $adopterPost == null ? $adopterGet : $adopterPost;
 
     $method = $_SERVER['REQUEST_METHOD'];
-
+    
+    verifyCSRF();
     if ($pet != null && $adopter != null) {
         handleAdoptionReply($method, $pet, $adopter);
     } else if ($pet != null) {

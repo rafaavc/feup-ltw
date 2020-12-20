@@ -1,4 +1,4 @@
-<section class="profile_header">
+<section class="profileHeader">
     <div style="background-image: url(<?= '../images/userProfilePictures/' . $user['id'] . '.jpg' ?>);"> </div>
     <div>
         <header>

@@ -1,5 +1,6 @@
 import { sendPostRequest } from "./ajax.js";
 import { getRootUrl } from './init.js';
+import { getCSRF } from "./utils.js";
 
 export function toggleAddingMode(e, onClickExtender, onRcvExtender) {
     if (e != undefined) e.preventDefault();
@@ -41,9 +42,22 @@ export function toggleAddingMode(e, onClickExtender, onRcvExtender) {
         button.appendChild(document.createTextNode(`Add ${entity}`));
         button.addEventListener('click', function(e) {
             e.preventDefault();
+            
+            const inputValue = input.value;
+            const regExp = new RegExp(/^[a-zA-Z]+( [a-zA-Z]+)*$/);
+            if (!regExp.test(inputValue)) {
+                input.focus();
+                const pWarning = document.createElement('p');
+                pWarning.classList.add('notice');
+                pWarning.style.marginTop = 0;
+                pWarning.innerHTML = "May only have letters and spaces, and no more than one space in a row."
+                window.setTimeout(() => { pWarning.remove() }, 3000);
+                input.parentNode.appendChild(pWarning);
+                return;
+            }
 
             const option = document.createElement('option');
-            option.value = input.value;
+            option.value = inputValue;
             option.appendChild(document.createTextNode(input.value));
             option.selected = true;
             
@@ -137,7 +151,7 @@ function createListRequest(entity, input, option, visibilitySelect, description,
 
     option.selected = true;
     sendPostRequest(getRootUrl() + "/api/user", 
-                    {title: input.value, visibility: visibilitySelect.selectedIndex, description: description.innerHTML}, 
+                    {title: input.value, visibility: visibilitySelect.selectedIndex, description: description.innerHTML, csrf: getCSRF()}, 
                     function() {
         const res = JSON.parse(this.responseText);
         option.value = res.id;

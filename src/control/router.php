@@ -111,23 +111,24 @@ function error404() {
     exit();
 }
 
-function httpError($code, $message) {
+function httpError($code, $message, $valueFieldName = "value", $msgFieldName = "error") {
     http_response_code($code);
-    Session\setMessage(Session\error(), $message);
+    Session\setMessage(Session\error(), $code." ".$message);
     if (!isAPIRequest(null)) sendBack();
+    else echo json_encode(array($valueFieldName => false, $msgFieldName => $code." ".$message));
     exit();
 }
 
-function errorForbidden($msg = null) {
-    httpError(403, $msg == null ? "Forbidden request." : $msg); 
+function errorForbidden($msg = null, $valueFieldName = "value", $msgFieldName = "error") {
+    httpError(403, $msg == null ? "Forbidden request." : $msg, $valueFieldName, $msgFieldName); 
 }
 
-function errorUnauthorized($msg = null) {
-    httpError(401, $msg == null ? "Unauthorized request." : $msg);
+function errorUnauthorized($msg = null, $msgFieldName = "error") {
+    httpError(401, $msg == null ? "Unauthorized request." : $msg, $valueFieldName, $msgFieldName);
 }
 
-function errorBadRequest($msg = null) {
-    httpError(400, $msg == null ? "Bad request." : $msg);
+function errorBadRequest($msg = null, $msgFieldName = "error") {
+    httpError(400, $msg == null ? "Bad request." : $msg, $valueFieldName, $msgFieldName);
 }
 
 function sendTo($location) {
