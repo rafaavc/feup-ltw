@@ -162,7 +162,7 @@ function changeAdoptButton() {
 	a.innerHTML = escapeHtml(name);
 
 	const p = document.createElement('p');
-	p.innerHTML = escapeHtml(a.outerHTML) + ' wants to adopt this pet';
+	p.innerHTML = a.outerHTML + ' wants to adopt this pet';
 
 	petProposal.appendChild(image);
 	petProposal.appendChild(p);
