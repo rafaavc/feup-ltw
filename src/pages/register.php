@@ -1,6 +1,7 @@
 <?php
+$pageTitle = "Sign Up";
 $GLOBALS['section'] = 'signup';
-include_once(dirname(__FILE__) ."/../templates/common/header.php");
+require_once(dirname(__FILE__) ."/../templates/common/header.php");
 
 if (Session\isAuthenticated()) { ?>
     <section>
@@ -10,7 +11,7 @@ if (Session\isAuthenticated()) { ?>
 
 <section class="authForm">
     <div>
-        <h1>Sign Up</h1>
+        <h2>Sign Up</h2>
                 
         <p class="notice">All fields marked with * are required.</p>
 
@@ -20,7 +21,7 @@ if (Session\isAuthenticated()) { ?>
                 <p class="<?=$message['type']?>-message"><?=$message['content']?></p>
         <?php } ?>
 
-        <form method="POST" action="<?=getRootURL()?>/control/actions/register.php" enctype="multipart/form-data">
+        <form method="POST" action="<?=getRootURL()?>/action/signup" enctype="multipart/form-data">
             <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>" />
             <div class="formField required">
                 <label for="name">Full Name</label>
@@ -28,13 +29,14 @@ if (Session\isAuthenticated()) { ?>
             </div>
             
             <div class="formField required">
+                <p class="notice">Birthdate</p>
                 <label for="birthdate">Birthdate</label>
-                <input type="text" id="birthdate" name="birthdate" min="<?=date("Y-m-d", getYearsAgo(100))?>" max="<?=date("Y-m-d", getYearsAgo(18))?>" placeholder="Birthdate" required/>
+                <input type="date" id="birthdate" name="birthdate" min="<?=date("Y-m-d", getYearsAgo(100))?>" max="<?=date("Y-m-d", getYearsAgo(18))?>" required/>
             </div>
 
             <div class="formField required">
                 <label for="mail">E-Mail</label>
-                <input type="email" id="mail" pattern="[a-zA-Z0-9_.@]+" name="mail" placeholder="E-Mail" required/>
+                <input type="email" id="mail" pattern="^([a-zA-Z0-9]+(_|\.))*[a-zA-Z0-9]+@([a-zA-Z0-9]+\.)*[a-zA-Z]+$" title="Must be a valid email" name="mail" placeholder="E-Mail" required/>
             </div>
 
             <div class="formField">
@@ -44,7 +46,7 @@ if (Session\isAuthenticated()) { ?>
 
             <div class="formField required">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" pattern="[a-zA-Z0-9_.]+" minlength="5" maxlength="15" placeholder="Username" required/>
+                <input type="text" id="username" name="username" pattern="^[a-zA-Z0-9]+((_|\.)[a-zA-Z0-9]+)*$" title="Must contain only letters numbers, '_' and '.', but the last two can only appear surrounded by letters or numbers" minlength="5" maxlength="15" placeholder="Username" required/>
             </div>
 
             <div class="formField required">
@@ -63,9 +65,9 @@ if (Session\isAuthenticated()) { ?>
             <input type="submit" value="Sign Up" />
         </form>
     </div>
-    <img src="<?=getRootUrl()?>/images/cuteDoggos.jpeg"/>
+    <img src="<?=getRootUrl()?>/images/cuteDoggos.jpeg" alt="Pet image"/>
 </section>
 
 <?php }
 
-include_once(dirname(__FILE__) ."/../templates/common/footer.php"); ?>
+require_once(dirname(__FILE__) ."/../templates/common/footer.php"); ?>

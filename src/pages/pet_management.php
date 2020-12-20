@@ -1,5 +1,6 @@
 <?php 
     require_once(dirname(__FILE__)."/../control/api/pet.php");
+    $pageTitle = "My Pets";
     require_once(dirname(__FILE__)."/../templates/common/header.php"); 
 
     $user = Session\getAuthenticatedUser();
@@ -25,11 +26,17 @@
     <?php } else {
         foreach($pets as $pet) { ?>
         <div class="petManagementPets">
-            <p><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>"><?=$pet['name'] == null || $pet['name'] == '' ? $pet['size']." ".$pet['color']." ".$pet['specie'] : $pet['name']?></a><span class="petState <?=$pet['state']?>"><?=$pet['state'] == 'adopted' ? 'Adopted' : ($pet['state'] == 'ready' ? 'Ready for Adoption' : ($pet['state'] == 'archived' ? 'Archived' : null)) ?></span></p>
+            <p>
+                <a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>">
+                    <?=htmlentities(API\getPetName($pet['id']))?>
+                </a>
+                <span class="tagLabel <?=$pet['state']?>" data-pet-id="<?=$pet['id']?>">
+                    <?=$pet['state'] == 'adopted' ? 'Adopted' : ($pet['state'] == 'ready' ? 'Ready for Adoption' : ($pet['state'] == 'archived' ? 'Archived' : null)) ?>
+                </span>
+            </p>
         </div>
     <?php } 
-    } ?>
-    </table>        
+    } ?>        
 </section>
 
 <section class="petManagement">
@@ -39,7 +46,8 @@
     <?php } else { 
         foreach($petsAdoptionProposals as $proposal) { ?>
         <div class="petManagementAdoption">
-            <p><a href="<?=getRootUrl()?>/user/<?=$proposal['propUserUsername']?>"><?=$proposal['propUserName']?></a> wants to adopt <a href="<?=getRootUrl()?>/pet/<?=$proposal['petId']?>"></a><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>"><?=$pet['name'] == null || $pet['name'] == '' ? $pet['size']." ".$pet['color']." ".$pet['specie'] : $pet['name']?></a></p>
+            <p><a href="<?=getRootUrl()?>/user/<?=htmlentities($proposal['propUserUsername'])?>"><?=htmlentities($proposal['propUserName'])?></a> wants to adopt 
+            <a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>"><?=htmlentities(API\getPetName($pet['id']))?></a></p>
             <p><button data-pet="<?=$proposal['petId']?>" data-adopter="<?=$proposal['propUserId']?>" class="acceptAdoption"><i class="icofont-ui-check"></i></button></p>
             <p><button data-pet="<?=$proposal['petId']?>" data-adopter="<?=$proposal['propUserId']?>" class="declineAdoption"><i class="icofont-ui-close"></i></button></p>
         </div>
@@ -56,10 +64,10 @@
     <?php foreach($petsComments as $comment) { 
         if ($comment['creatorUsername'] == $user['username']) continue; ?>
             <div class="petManagementComments">
-                <div class="image" style="background-image: url('../../images/userProfilePictures/<?= $comment['creatorId'] ?>.jpg')"></div>
+                <div class="image" style="background-image: url('../../images/user_profile_pictures/<?= $comment['creatorId'] ?>.jpg')"></div>
                 <div>
-                    <p><a href="<?=getRootUrl()?>/user/<?=$comment['creatorUsername']?>"><?=$comment['creatorName']?></a> on pet <a href="<?=getRootUrl()?>/pet/<?=$comment['petId']?>"><?=$comment['petName']?></a>:</p>
-                    <p><?=$comment['content']?></p>
+                    <p class="notice"><a href="<?=getRootUrl()?>/user/<?=htmlentities($comment['creatorUsername'])?>"><?=htmlentities($comment['creatorName'])?></a> on pet <a href="<?=getRootUrl()?>/pet/<?=$comment['petId']?>"><?=htmlentities(API\getPetName($comment['petId']))?></a>:</p>
+                    <p><?=htmlentities($comment['content'])?></p>
                 </div>
                 <p><?=elapsedTime(strtotime($comment['postDate']))?> ago</p>
                 <p><a class="simpleButton contrastButton" href="<?=getRootUrl()?>/pet/<?=$comment['petId']?>#post-<?=$comment['postId']?>">Go to comment</a></p>

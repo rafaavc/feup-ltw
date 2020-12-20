@@ -8,6 +8,7 @@ use Session;
 use Exception;
 
 require_once(dirname(__FILE__) . "/user.php");
+require_once(dirname(__FILE__) . "/pet.php");
 
 function makeAdoptionRequest($pet, $adopter)
 {
@@ -36,12 +37,15 @@ function cancelAdoptionRequest($pet, $adopter)
 function handleAdoptionRequest($method, $pet)
 {
     $adopter = Session\getAuthenticatedUser()['id'];
+    $petObj = getPet($pet);
     if ($adopter == false) {
         Router\errorUnauthorized();
-    } else if (ownsPet($adopter, $pet)) {
+    } else if ($petObj == false) {
+        Router\errorBadRequest();
+    } else if (ownsPet($adopter, $pet) || $petObj['state'] == 'adopted') {
         Router\errorForbidden();
     }
-
+    
 
     if ($method == "POST" || $method == "PUT") {
         makeAdoptionRequest($pet, $adopter);
@@ -51,8 +55,20 @@ function handleAdoptionRequest($method, $pet)
         Router\errorBadRequest();
     }
 
-    $pta = getProposedToAdopt($adopter, $pet);
-    echo json_encode($pta);
+
+    responseJSON(array("value" => true));
+}
+
+function rejectAdoptionRequests($petId) {
+    $db = Database::instance()->db();
+    $openProposals = getPetOpenAdoptionProposals($petId);
+    $stmt = $db->prepare('DELETE FROM ProposedToAdopt WHERE petId = ?');
+    $stmt->execute(array($petId));
+
+    foreach($openProposals as $proposal) {
+        $stmt = $db->prepare('INSERT INTO RejectedProposal VALUES (?, ?)');
+        $stmt->execute(array($proposal['userId'], $petId));
+    }
 }
 
 function acceptAdoptionRequest($pet, $adopter)
@@ -73,40 +89,38 @@ function acceptAdoptionRequest($pet, $adopter)
 function handleAdoptionReply($method, $pet, $adopter)
 {
     $owner = Session\getAuthenticatedUser()['id'];
-    if ($owner == false) {
-        Router\errorUnauthorized();
-    }
+    if (!$owner) Router\errorUnauthorized();
 
     if ($method == "POST" || $method == "PUT") {
         try {
             acceptAdoptionRequest($pet, $adopter);
+            rejectAdoptionRequests($pet);
         } catch (Exception $e) {
-            responseJSON(array("value" => false, "error" => $e->getMessage()));
-            Router\errorBadRequest();
+            Router\errorBadRequest($e->getMessage());
         }
-        responseJSON(array("value" => true));
     } else if ($method == "DELETE") {
         try {
             deleteAdoptionRequest($pet, $adopter);
         } catch (Exception $e) {
-            responseJSON(array("value" => false, "error" => $e->getMessage()));
-            Router\errorBadRequest();
+            Router\errorBadRequest($e->getMessage());
         }
-        responseJSON(array("value" => true));
     } else {
         Router\errorBadRequest();
     }
+
+    responseJSON(array("value" => true));
 }
 
 
 if (Router\isAPIRequest(__FILE__)) {
     $pet = $GLOBALS['pet'];
-    $adopterPost = Router\getPostParameter('adopter');
-    $adopterGet = isset($GLOBALS['adopter']) ? $GLOBALS['adopter'] : null;
+    $adopterPost = getArrayParameter($_POST, 'adopter');
+    $adopterGet = getArrayParameter($GLOBALS, 'adopter');
     $adopter = $adopterPost == null ? $adopterGet : $adopterPost;
 
     $method = $_SERVER['REQUEST_METHOD'];
-
+    
+    verifyCSRF();
     if ($pet != null && $adopter != null) {
         handleAdoptionReply($method, $pet, $adopter);
     } else if ($pet != null) {

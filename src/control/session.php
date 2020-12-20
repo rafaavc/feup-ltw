@@ -2,6 +2,8 @@
 namespace Session;
 use API;
 
+$urlComponents = parse_url(getRootUrl());
+session_set_cookie_params(0, isset($urlComponents['path']) ? $urlComponents['path'] : '/', $urlComponents['host'], true, true);
 session_start();
 
 if (!isset($_SESSION['csrf'])) {
@@ -29,5 +31,8 @@ function getAuthenticatedUser() {
 function isAuthenticated(){
     return isset($_SESSION['username']);
 }
+
+
+
 
 ?>

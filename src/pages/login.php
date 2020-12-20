@@ -1,6 +1,7 @@
 <?php
+$pageTitle = "Sign In";
 $GLOBALS['section'] = 'signin';
-include_once(dirname(__FILE__) ."/../templates/common/header.php");
+require_once(dirname(__FILE__) ."/../templates/common/header.php");
 
 if (Session\isAuthenticated()) { ?>
 <section>
@@ -10,7 +11,7 @@ if (Session\isAuthenticated()) { ?>
 
 <section class="authForm">
     <div>
-        <h1>Sign In</h1>
+        <h2>Sign In</h2>
 
         <?php 
             $message = Session\popMessage(); 
@@ -18,7 +19,7 @@ if (Session\isAuthenticated()) { ?>
                 <p class="<?=$message['type']?>-message"><?=$message['content']?></p>
         <?php } ?>
 
-        <form method="POST" action="<?=getRootURL()?>/control/actions/login.php">
+        <form method="POST" action="<?=getRootURL()?>/action/signin">
             <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>" />
             <div class="formField">
                 <label for="username">Username</label>
@@ -32,10 +33,10 @@ if (Session\isAuthenticated()) { ?>
             <input type="submit" value="Sign In" />
         </form>
     </div>
-    <img src="<?=getRootUrl()?>/images/cuteDoggos.jpeg"/>
+    <img src="<?=getRootUrl()?>/images/cuteDoggos.jpeg" alt="Pet image"/>
 </section>
 
 <?php }
-include_once(dirname(__FILE__) ."/../templates/common/footer.php");
+require_once(dirname(__FILE__) ."/../templates/common/footer.php");
 
 ?>

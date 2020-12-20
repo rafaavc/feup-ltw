@@ -4,7 +4,7 @@
     padding-top: 0;
 }
 
-#list-select {
+#listSelect {
     cursor: pointer;
     margin: auto 1rem;
     font-family: 'Lora', serif;
@@ -19,20 +19,28 @@
 .textButtonPair > div{
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .textButtonPair form, .textButtonPair .edit {
     display: none;
 }
-.profile_header {
+.profileHeader {
 	display: grid;
 	grid-template-columns: auto 1fr;
 	grid-gap: 5rem;
 	background-color: var(--lightGrey);
 	align-items: center;
 }
+.profileHeader button:focus {
+    border: none;
+}
 
-.profile_header > div:first-of-type {
+.profileHeader textarea {
+    height: 7rem;
+}
+
+.profileHeader > div:first-of-type {
 	background-size: cover;
 	background-position: 50%;
 
@@ -45,34 +53,32 @@
 	grid-column-end: span 1;
 }
 
-.profile_header header h3 {
+.profileHeader header h3 {
 	font-size: 3rem;
 	margin-top: 0;
 	margin-bottom: 1rem;
 }
 
-.profile_header header > h4, .profile_header header strong {
+.profileHeader header > h4, .profileHeader header strong {
 	font-size: 1.5rem;
 	margin: 0;
 }
 
-.profile_header footer {
+.profileHeader footer {
 	margin-top: 3rem;
 }
 
-.profile_header footer > p {
+.profileHeader footer > p {
 	display: inline;
-	margin-left: 1rem;
 }
 
-.profile_header footer label {
+.profileHeader footer label {
     position: relative;
-    right: 2rem;
     cursor: pointer;
 }
 
-#mailForm {
-    
+.profileHeader input[type=checkbox] {
+    display: none;
 }
 
 .textButtonPair form > input[type="text"], .textButtonPair form > textarea {
@@ -123,6 +129,63 @@
     display: none;
 }
 
+#ListInput {
+    grid-column-end: span 2;
+}
+
+#ListInput + button {
+    grid-column-end: span 2;
+}
+
+#ListInput input, #ListInput select {
+    margin-bottom: 1rem;
+}
+
+.list > p {
+    margin-top: 0;
+}
+
 /* * {
     border: 1px solid;
 } */
+
+
+@media (max-width: 600px) {
+    .profileHeader {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        grid-gap: 1rem;
+        text-align: center;
+    }
+
+    .profileHeader footer {
+        text-align: center;
+        margin: 0;
+    }
+
+    #editProfileLabel {
+        margin-top: 0;
+    }
+
+    .profileHeader header h3 {
+        font-size: 2rem;
+    }
+
+    #userList .simple-2column-grid {
+        grid-template-columns: 1fr;
+        grid-gap: 0;
+    }
+
+    #userList .simple-2column-grid form {
+        margin-top: 1rem;
+    }
+
+    #userList .simple-2column-grid form button {
+        margin-top: 1rem;
+    }
+
+    #lists > .petGrid {
+        grid-template-columns: 1fr;
+    }
+}
+

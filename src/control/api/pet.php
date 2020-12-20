@@ -5,7 +5,7 @@ namespace API;
 use Database;
 use Router;
 
-$GLOBALS['petRaceSpecieQuery'] = "(
+$petRaceSpecieQuery = "(
 	SELECT Pet.id, userId as ownerId, Pet.name, birthdate, description, datePosted, location, PetColor.name as color, PetSize.name as size, PetSpecie.name as specie, null as race, archived FROM
 		(
 			(
@@ -29,16 +29,16 @@ $GLOBALS['petRaceSpecieQuery'] = "(
 	)";
 
 $GLOBALS['petQuery'] = "
-		(SELECT id, ownerId as userId, name, birthdate, description, datePosted, location, color, size, specie, race, 'adopted' as state
-		FROM " . $GLOBALS['petRaceSpecieQuery'] . " JOIN Adopted ON(id = petId)
+		(SELECT id, ownerId as userId, name, birthdate, description, datePosted, location, color, size, specie, race, 'adopted' as state 
+		FROM ".$petRaceSpecieQuery." JOIN Adopted ON(id = petId)
 		UNION
-		SELECT id, ownerId as userId, name, birthdate, description, datePosted, location, color, size, specie, race, 'archived' as state
-		FROM " . $GLOBALS['petRaceSpecieQuery'] . " WHERE archived = 1
+		SELECT id, ownerId as userId, name, birthdate, description, datePosted, location, color, size, specie, race, 'archived' as state 
+		FROM ".$petRaceSpecieQuery." WHERE archived = 1
 		UNION
-		SELECT id, ownerId as userId, name, birthdate, description, datePosted, location, color, size, specie, race, 'ready' as state
-		FROM " . $GLOBALS['petRaceSpecieQuery'] . " WHERE archived != 1 AND
+		SELECT id, ownerId as userId, name, birthdate, description, datePosted, location, color, size, specie, race, 'ready' as state 
+		FROM ".$petRaceSpecieQuery." WHERE archived != 1 AND 
 			id NOT IN (SELECT id
-			FROM " . $GLOBALS['petRaceSpecieQuery'] . " JOIN Adopted ON(id = petId)))
+			FROM ".$petRaceSpecieQuery." JOIN Adopted ON(id = petId)))
 	";
 
 function getPet($petId)
@@ -68,7 +68,7 @@ function getPosts($petId)
 function getLastPost($petId)
 {
 	$db = Database::instance()->db();
-	$stmt = $db->prepare('SELECT Post.petId as petId, Post.userId as userId, User.name as userName, Post.description as description, postDate, answerToPostId
+	$stmt = $db->prepare('SELECT Post.petId as petId, Post.userId as userId, User.name as userName, username as userUsername, Post.description as description, postDate, answerToPostId
 							 FROM Post JOIN User ON User.id = Post.userId WHERE petId=? ORDER BY postDate DESC LIMIT 1');
 	$stmt->execute(array($petId));
 
@@ -136,6 +136,7 @@ function getAdopted($petId)
 function updatePet($petId, $name, $location, $description)
 {
 	$stmt = Database::db()->prepare("UPDATE Pet SET name = :name, location = :location, description = :description WHERE Id = :petId");
+	$name = $name == '' ? null : $name;
 	$stmt->bindParam(':name', $name);
 	$stmt->bindParam(':location', $location);
 	$stmt->bindParam(':description', $description);
@@ -206,10 +207,7 @@ function addPetPhoto($petId) {
 }
 
 function handleIndexTilesRequest() {
-    $method = $_SERVER['REQUEST_METHOD'];
-    if ($method == 'POST') {
-        responseJSON(array('pets' => getArrayFromSTMT(getPets(), $_POST['size'])));
-	}
+	responseJSON(array('pets' => getArrayFromSTMT(getPets(), $GLOBALS['size'])));
 }
 
 function addPet($userId, $name, $birthdate, $specie, $race, $size, $color, $location, $description) {
@@ -234,21 +232,11 @@ function handleSpeciesRequest()
 	$what = $GLOBALS['what'];
 	$arg1 = $GLOBALS['arg1'];
 
-	$method = $_SERVER['REQUEST_METHOD'];
-	if ($what == 'races' && $method == 'GET') {
+	if ($what == 'races') {    // already comes verifyed as GET
 		responseJSON(array('races' => getArrayFromSTMT(getSpeciesRaces($arg1), true)));
-	} /*else if ($type == 'mail' && $method == 'GET') {
-
-		responseJSON(array('value' => emailExists($value)));
-
-    }*/ else {
-		http_response_code(400); // BAD REQUEST
-		exit();
+	} else {
+		Router\errorBadRequest();
 	}
-}
-
-if (Router\isAPIRequest(__FILE__) && isset($GLOBALS['what']) && isset($GLOBALS['arg1'])) {
-	handleSpeciesRequest();
 }
 
 function removePetPhoto($photoId)
@@ -257,22 +245,37 @@ function removePetPhoto($photoId)
 	$stmt->execute(array($photoId));
 	return $stmt;
 }
-if (isset($_POST['size'])) {
-	handleIndexTilesRequest();
-}
 
-function addPetToList($petId, $listTitle){
-	$stmt = Database::db()->prepare("SELECT id FROM List WHERE title = ?");
-	$stmt->execute(array($listTitle));
-	$listId = $stmt->fetch()['id'];
+function addPetToList($petId, $listId){
 	$stmt = Database::db()->prepare("INSERT INTO ListPet VALUES (?, ?)");
 	$stmt->execute(array($listId, $petId));
 	$result['value'] = $stmt != false;
 	return $result;
 }
 
-if (isset($_POST['petId']) && isset($_POST['listId'])){
-	echo json_encode(addPetToList($_POST['petId'], $_POST['listId']));
+function getPetName($petId) {
+	$pet = getPet($petId);
+	return $pet['name'] == null || $pet['name'] == '' ? $pet['size']." ".$pet['color']." ".$pet['specie'] : $pet['name'];
+}
+
+
+if (Router\isAPIRequest(__FILE__)) {
+	$method = $_SERVER['REQUEST_METHOD'];
+	try {
+		if ($method == "GET") {
+			if (getArrayParameters($GLOBALS, ['what', 'arg1']) != null) handleSpeciesRequest();
+			else if (getArrayParameter($GLOBALS, 'size') != null) handleIndexTilesRequest();
+		} else if ($method == "POST" || $method == "PUT") {
+			verifyCSRF();
+			if (getArrayParameters($_POST, ['petId', 'listId']) != null) {
+				responseJSON(addPetToList($_POST['petId'], $_POST['listId']));
+			}
+		} else {
+			Router\errorBadRequest();
+		}
+	} catch(Exception $e) {
+		Router\errorBadRequest();
+	}
 }
 
 ?>

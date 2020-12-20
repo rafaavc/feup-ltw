@@ -46,12 +46,12 @@ export const createTile = (url, imageUrl, title, footer, description, extraSecti
 
 export const createPetTile = (pet) => {
     const spanElem = document.createElement('span');
-    spanElem.classList.add('petState');
+    spanElem.classList.add('tagLabel');
     spanElem.classList.add(pet.state);
     spanElem.appendChild(document.createTextNode(getCurrentState(pet.state)));
 
     const name = pet.name == '' || pet.name == null ? `${pet.size} ${pet.color} ${pet.specie}` : pet.name;
-    return createTile(`pet/${pet.id}`, `images/petProfilePictures/${pet.id}.jpg`, name, null, pet.description, spanElem);
+    return createTile(`pet/${pet.id}`, `images/pet_profile_pictures/${pet.id}.jpg`, name, null, pet.description, spanElem);
 }
 
 
@@ -61,6 +61,6 @@ export const createUserTile = (user) => {
     const footer = document.createElement('span');
     footer.appendChild(document.createTextNode(user.petCount == null ? 0 : user.petCount));
     footer.appendChild(iconElem);
-    return createTile(`user/${user.username}`, `images/userProfilePictures/${user.id}.jpg`, user.name, footer, user.description, null);
+    return createTile(`user/${user.username}`, `images/user_profile_pictures/${user.id}.jpg`, user.name, footer, user.description, null);
 }
 

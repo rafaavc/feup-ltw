@@ -4,7 +4,7 @@ import time
 import signal
 
 def refresh():
-    subprocess.call(["./refresh"])
+    subprocess.call(["./build"]) # build joins the files and minifies them (takes a little longer); refresh only joins them
     print("## Refreshed CSS")
 
 previous = {}

@@ -1,15 +1,18 @@
-import SimpleSlider from '../slider.js'
-import { sendPostRequest, sendDeleteRequest } from '../ajax.js'
+import SimpleSlider from './modules/slider.js'
+import { sendPostRequest, sendDeleteRequest } from './modules/ajax.js'
 import './generic.js'
-import { getRootUrl } from '../init.js'
-import { elapsedTime } from '../utils.js'
+import { getRootUrl } from './modules/init.js'
+import { elapsedTime, getCSRF } from './modules/utils.js'
+import { escapeHtml } from './modules/escape.js'
 
-const commentForm = document.querySelector('#comments > form');
+const commentForm = document.querySelector('.petProfileSection > form');
 const adoptButton = document.querySelector('#adopt');
 const cancelButton = document.querySelector('#cancel');
 const editPetButton = document.getElementById('editPet');
 const submitEditPetButton = document.getElementById('submitEditPet');
 const cancelEditPetButton = document.getElementById('closeEdit');
+const petProfile = document.querySelector('.petProfile');
+const editPetForm = document.querySelector('form[name=updatePet]');
 
 if (commentForm != null) {
 	commentForm.addEventListener('submit', submitComment);
@@ -29,8 +32,7 @@ if (cancelEditPetButton != null) {
 
 
 function editPet() {
-	const form = document.getElementById('updateForm');
-	form.style.display = 'grid';
+	editPetForm.style.display = 'grid';
 
 	const info = document.getElementById('petInfo');
 	info.style.display = 'none';
@@ -47,8 +49,7 @@ function cancelEditPet() {
 	const photos = document.getElementById('photosInput');
 	photos.style.display = 'none';
 
-	const form = document.getElementById('updateForm');
-	form.style.display = 'none';
+	editPetForm.style.display = 'none';
 
 	const info = document.getElementById('petInfo');
 	info.style.display = 'initial';
@@ -61,65 +62,74 @@ function cancelEditPet() {
 function submitComment(event) {
 	event.preventDefault();
 
-	const petId = document.querySelector('.petProfile').dataset.id;
-	const comment = document.getElementById('commentInput').value;
+	const petId = petProfile.dataset.id;
+	const comment = commentForm['text'].value;
 
 	if (comment.length < 1) return;
 
-	sendPostRequest(getRootUrl() + "/control/api/post.php", { petId: petId, comment: comment }, receiveComment);
+	sendPostRequest(getRootUrl() + "/api/pet/comment", { petId: petId, comment: comment, csrf: getCSRF() }, receiveComment);
 }
 
 function receiveComment() {
-	const post = JSON.parse(this.responseText);
-
+	const res = JSON.parse(this.responseText);
+	if (!res.value) return;
+	const post = res.post;
 	const article = document.createElement('article');
 	article.className = 'comment';
 	article.id = `post-${post.id}`;
 
 	const image = document.createElement('div');
 	image.className = 'image';
-	image.setAttribute('style', "background-image: url('../../images/userProfilePictures/" + post.userId + ".jpg'");
+	image.setAttribute('style', "background-image: url('../../images/user_profile_pictures/" + post.userId + ".jpg'");
 
+	const content = document.createElement('div');
 
-	const paragraph = document.createElement('p');
-	paragraph.innerHTML = post.description;
+	const descElem = document.createElement('p');
+	descElem.appendChild(document.createTextNode(post.description));
+	descElem.classList.add('description');
 
-	const user = document.createElement('span');
-	user.className = 'user';
-	user.innerHTML = post.shortUserName;
+	const spanElem = document.createElement('span');
+	spanElem.classList.add('tagLabel');
+	spanElem.classList.add('accent');
+	spanElem.appendChild(document.createTextNode('Original Poster'));
 
-	const date = document.createElement('span');
-	date.className = 'date';
-	date.innerHTML = elapsedTime(post.postDate) + " ago";
+	const footer = document.createElement('footer');
+	const footerContent = document.createTextNode(`${elapsedTime(post.postDate)} ago, by `);
+	const userLink = document.createElement('a');
+	userLink.href = `${getRootUrl()}/user/${post.userUsername}`;
+	userLink.appendChild(document.createTextNode(post.shortUserName));
+	footer.append(footerContent, userLink);
 
-	article.append(image);
-	article.append(paragraph);
-	article.append(user);
-	article.append(date);
+	if (petProfile.dataset.ownerId == post.userId) content.append(spanElem);
+	content.append(descElem, footer);
+	article.append(image, content);
 
-	document.querySelector('#comments').insertBefore(article, commentForm);
-	const noCommentsP = document.querySelector('#comments > p');
-	if (noCommentsP != null)
+	commentForm.parentNode.insertBefore(article, commentForm);
+	const noCommentsP = commentForm.parentNode.querySelector('h3').nextSibling.nextSibling;
+	console.log(noCommentsP)
+	if (noCommentsP.tagName == "P")
 		noCommentsP.style.display = 'none';
 }
 
-const slider = new SimpleSlider("mySlider", 3000, "30vw");
+const slider = new SimpleSlider("mySlider", 3000);
 slider.start();
 
 
 function proposeToAdoptPet(event) {
 	event.preventDefault(event);
 
-	const petId = document.querySelector('.petProfile').attributes['data-id'].value;
+	const petId = document.querySelector('.petProfile').dataset.id;
 
-	sendPostRequest(getRootUrl() + "/api/adoption/" + petId, {}, changeAdoptButton);
+	sendPostRequest(`${getRootUrl()}/api/adoption/${petId}`, { csrf: getCSRF() }, changeAdoptButton);
 }
 
 function changeAdoptButton() {
-	//const proposeToAdopt = JSON.parse(this.responseText);
+	const res = JSON.parse(this.responseText);
+	if (!res.value) return;
 
 	document.querySelector('#adopt').remove();
 	const button = document.createElement('button');
+
 
 	button.id = "cancel";
 	button.className = "simpleButton contrastButton";
@@ -132,9 +142,12 @@ function changeAdoptButton() {
 
 	document.querySelector('.petProfile footer').appendChild(paragraph);
 
-	const userId = adoptButton.attributes['data-user-id'].value;
-	const username = adoptButton.attributes['data-username'].value;
-	const name = adoptButton.attributes['data-user-name'].value;
+	let buttonToUse = adoptButton;
+	if (buttonToUse == null) buttonToUse = cancelButton;
+
+	const userId = buttonToUse.dataset.userId;
+	const username = buttonToUse.dataset.username;
+	const name = buttonToUse.dataset.userName;
 
 	const petProposal = document.createElement('div');
 	petProposal.className = 'petProposal open';
@@ -142,11 +155,11 @@ function changeAdoptButton() {
 
 	const image = document.createElement('div');
 	image.className = 'image';
-	image.style = "background-image: url('../../images/userProfilePictures/" + userId + ".jpg')";
+	image.style = "background-image: url('../../images/user_profile_pictures/" + userId + ".jpg')";
 
 	const a = document.createElement('a');
-	a.href = getRootUrl() + '/user' + username;
-	a.innerHTML = name;
+	a.href = getRootUrl() + '/user/' + username;
+	a.innerHTML = escapeHtml(name);
 
 	const p = document.createElement('p');
 	p.innerHTML = a.outerHTML + ' wants to adopt this pet';
@@ -156,21 +169,22 @@ function changeAdoptButton() {
 
 	document.getElementById('petProposals').appendChild(petProposal);
 	if (document.querySelector('#petProposals > p') != null)
-		document.querySelector('#petProposals > p').style.display = 'none';
+		document.querySelector('#petProposals > p').remove();
 }
 
 function cancelProposeToAdoptPet(event) {
 	event.preventDefault();
 
-	const petId = document.querySelector('.petProfile').attributes['data-id'].value;
+	const petId = document.querySelector('.petProfile').dataset.id;
 
-	sendDeleteRequest(`${getRootUrl()}/api/adoption/${petId}`, changeCancelButton);
+	sendDeleteRequest(`${getRootUrl()}/api/adoption/${petId}/${getCSRF()}`, changeCancelButton);
 }
 
-function changeCancelButton(event) {
-	//const proposeToAdopt = JSON.parse(this.responseText);
+function changeCancelButton() {
+	const res = JSON.parse(this.responseText);
+	if (!res.value) return;
 
-	document.querySelector('.petProfile footer > p').remove();
+	document.querySelector('.petProfile footer > p:last-of-type').remove();
 	const button = document.createElement('button');
 
 	button.id = "adopt";
@@ -180,10 +194,10 @@ function changeCancelButton(event) {
 
 	document.querySelector('.petProfile footer').appendChild(button);
 
-	const userId = document.getElementById('petProposals').attributes['data-user-id'].value;
+	const userId = document.getElementById('petProposals').dataset.userId;
 	let petProposals = Array.from(document.getElementsByClassName('petProposal open'));
 	petProposals.forEach((petProposal) => {
-		if (petProposal.attributes['data-id'].value === userId) {
+		if (petProposal.dataset.id === userId) {
 			petProposal.remove();
 		}
 	});
@@ -214,14 +228,18 @@ addPhotoButton.addEventListener('click', function (e) {
 const removeButtons = Array.from(document.getElementsByClassName('remove'));
 removeButtons.forEach(removeButton => {
 	removeButton.addEventListener('click', function () {
-		const photoId = this.attributes['data-id'].value;
-		const photos = document.querySelector('#updateForm .photos');
+		const photoId = this.dataset.id;
+		const photos = editPetForm.querySelector('.photos');
 
 		const photo = document.createElement('input');
 		photo.name = 'removePhotos[]';
 		photo.type = 'hidden';
 		photo.value = photoId;
 		photos.appendChild(photo);
+		
+		if (this.previousSibling.previousSibling.classList.contains("profilePicture")) {
+			profilePhotoInput.value = '';
+		}
 
 		document.getElementById('photo' + photoId).remove();
 
@@ -236,6 +254,7 @@ function handleFileInput() {
 	nextButton.name = lastButton.name;
 	nextButton.addEventListener('change', handleFileInput);
 	nextButton.style.display = "none";
+	nextButton.accept ="image/jpeg";
 
 	lastButton.style.display = "none";
 
@@ -258,7 +277,7 @@ function handleFileInput() {
 		removeButton.classList.add('remove');
 		removeButton.addEventListener('click', function () {
 			const buttonIdx = fileInputButtons.findIndex((el) => el.id === lastButtonId);
-			if (profilePhotoInput.value === lastButton.files[0].name) {
+			if (this.previousSibling.classList.contains("profilePicture")) {
 				profilePhotoInput.value = '';
 			}
 			fileInputButtons[buttonIdx].obj.remove();
@@ -283,25 +302,26 @@ previousPhotos.forEach((photo) => {
 })
 
 function updateProfilePic() {
-	const photos = document.querySelectorAll('#photosInput > .photos > div > img');
-	photos.forEach((photo) => {
-		if (photo.attributes['data-button-id'].value === profilePhotoInput.value) {
-			photo.style.border = 'none';
-		}
-
-	})
-
-	profilePhotoInput.value = this.attributes['data-button-id'].value;
-	this.style.border = 'solid 0.3rem var(--accentColorDarker)';
+    const prevProfileImage = document.querySelectorAll('img.profilePicture');
+	prevProfileImage.forEach((pi) => pi.classList.remove('profilePicture'));
+	
+	if (this.dataset.buttonId != undefined) {
+		const buttonId = parseInt(this.dataset.buttonId);
+		const button = fileInputButtons.find((button) => button.id === buttonId).obj;
+		profilePhotoInput.value = button.files[0].name;
+	} else {
+		const photoId = parseInt(this.dataset.photoId);
+		profilePhotoInput.value = photoId;
+	}
+	this.classList.add('profilePicture');
 }
 
-const select = document.getElementById('selectList');
+const select = document.querySelector('select[name=lists]');
 const addButton = document.getElementById('addToList');
-addButton.addEventListener('click', function () {
-	const petId = document.querySelector('.petProfile').dataset.id;
-	const options = document.getElementsByClassName('listOption');
-	if (options[select.selectedIndex] != null) {
-		sendPostRequest(getRootUrl() + "/control/api/pet.php", { petId: petId, listId: options[select.selectedIndex].innerHTML }, function () {
+if (addButton != null) {
+	addButton.addEventListener('click', function () {
+		const petId = document.querySelector('.petProfile').dataset.id;
+		sendPostRequest(getRootUrl() + "/api/pet", { petId: petId, listId: select.value, csrf: getCSRF() }, function () {
 			const tempText = document.getElementById('tempText');
 			let result;
 			try {
@@ -317,5 +337,5 @@ addButton.addEventListener('click', function () {
 				setTimeout(function () { tempText.innerHTML = ''; }, 3000);
 			}
 		});
-	}
-});
+	});
+}

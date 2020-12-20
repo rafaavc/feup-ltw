@@ -7,14 +7,14 @@ require_once(dirname(__FILE__)."/../file_upload.php");
 
 $parameters = initAction(['name', 'birthdate', 'location', 'description', 'specie', 'race', 'size', 'color', 'profilePhoto']);
 
-function validateSelectParam($param, $required) {
-    global $parameters;
+
+function validateSelectParam($param, $required, $parameters) {
     if ($required && $parameters[$param] == -1) {
         Session\setMessage(Session\error(), "You didn't select a ".$param.".");
         Router\sendBack();
     }
     if (!is_numeric($parameters[$param])) {
-        if (!preg_match('/^[a-zA-Z ]+$/', $parameters[$param])) {
+        if (!preg_match('/^[a-zA-Z]+( [a-zA-Z]+)*$/', $parameters[$param])) {
             Session\setMessage(Session\error(), "Invalid new ".$param." name.");
             Router\sendBack();
         }
@@ -25,15 +25,15 @@ if (strtotime($parameters['birthdate']) < getYearsAgo(20) || strtotime($paramete
     Router\errorBadRequest("The pet's birthdate is not valid.");
 }
 
-if (!preg_match('/^[a-zA-Z ]+$/', $parameters['location'])) {
+if (!preg_match('/^[a-zA-Z]+( [a-zA-Z]+)*$/', $parameters['location'])) {
     Router\errorBadRequest("The pet's location is not valid.");
 }
 
 // validation
-validateSelectParam('specie', true);
-validateSelectParam('color', true);
-validateSelectParam('size', true);
-validateSelectParam('race', false);
+validateSelectParam('specie', true, $parameters);
+validateSelectParam('color', true, $parameters);
+validateSelectParam('size', true, $parameters);
+validateSelectParam('race', false, $parameters);
 
 // adding selects
 if (!is_numeric($parameters['specie'])) {
@@ -70,18 +70,21 @@ for($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
 }
 if (!$foundProfilePhoto) Router\errorBadRequest("The profile photo was not sent to the server.");
 
-
-$petId = API\addPet(Session\getAuthenticatedUser()['id'], $parameters['name'], $parameters['birthdate'],$parameters['specie'],$parameters['race'],$parameters['size'], $parameters['color'], $parameters['location'], $parameters['description']); // create pet
+try {
+    $petId = API\addPet(Session\getAuthenticatedUser()['id'], $parameters['name'], $parameters['birthdate'],$parameters['specie'],$parameters['race'],$parameters['size'], $parameters['color'], $parameters['location'], $parameters['description']); // create pet
+} catch(Exception $e) {
+    Router\errorBadRequest();
+}
 
 for($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
     $tmpPath = $_FILES['photos']['tmp_name'][$i];
     if ($tmpPath == "") continue;
     $photoId = API\addPetPhoto($petId);
-    $originalPath = "../../images/petPictures/".$photoId.".jpg";
+    $originalPath = getDocRoot()."/images/pet_pictures/".$photoId.".jpg";
     move_uploaded_file($tmpPath, $originalPath);
 
     if ($_FILES['photos']['name'][$i] == $parameters['profilePhoto']) {
-        copy($originalPath, "../../images/petProfilePictures/".$petId.".jpg");
+        copy($originalPath, getDocRoot()."/images/pet_profile_pictures/".$petId.".jpg");
     }
 }
 

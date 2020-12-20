@@ -21,7 +21,7 @@ $sizes = API\getArrayFromSTMT(API\getSizes(), true);
         <select name="species" id="species">
             <option value="-1">All Species</option>
             <?php foreach($species as $specie) { ?>
-                <option value="<?=$specie['id']?>"><?=$specie['name']?></option>
+                <option value="<?=$specie['id']?>"><?=htmlentities($specie['name'])?></option>
             <?php } ?>
         </select>
 
@@ -29,7 +29,7 @@ $sizes = API\getArrayFromSTMT(API\getSizes(), true);
         <select name="colors" id="colors">
             <option value="-1">All Colors</option>
             <?php foreach($colors as $color) { ?>
-                <option value="<?=$color['id']?>"><?=$color['name']?></option>
+                <option value="<?=$color['id']?>"><?=htmlentities($color['name'])?></option>
             <?php } ?>
         </select>
 
@@ -37,7 +37,7 @@ $sizes = API\getArrayFromSTMT(API\getSizes(), true);
         <select name="sizes" id="sizes">
             <option value="-1">All Sizes</option>
             <?php foreach($sizes as $size) { ?>
-                <option value="<?=$size['id']?>"><?=$size['name']?></option>
+                <option value="<?=$size['id']?>"><?=htmlentities($size['name'])?></option>
             <?php } ?>
         </select>
     </form>

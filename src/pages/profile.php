@@ -1,12 +1,18 @@
 <?php
 $GLOBALS['section'] = 'profile';
-include_once(dirname(__FILE__)."/../control/api/user.php");
-include_once(dirname(__FILE__)."/../control/api/pet.php");
-include_once(dirname(__FILE__) . "/../templates/common/header.php");
+require_once(dirname(__FILE__)."/../control/api/user.php");
+require_once(dirname(__FILE__)."/../control/api/pet.php");
 
 $user = API\getUserByUsername($GLOBALS['username']);
+if (!$user) Router\error404();
+$pageTitle = htmlentities($user['shortName']);
 
-include_once(dirname(__FILE__) . "/../templates/profile/profile_header.php");
+require_once(dirname(__FILE__) . "/../templates/common/header.php");
+
+
+$authenticatedUser = Session\getAuthenticatedUser();
+
+require_once(dirname(__FILE__) . "/../templates/profile/profile_header.php");
 
 $userLists = API\getUserLists($user['id']);
 ?>
@@ -23,13 +29,11 @@ $userLists = API\getUserLists($user['id']);
 <section id="userList" class="petlist">
     <div class="simple-2column-grid">
         <div id="select">
-            <label for="list-select">
-                <h1>Lists:</h1>
-            </label>
-            <select name="list" id="list-select">
+        <header><h2>Lists</h2></header>
+            <select name="list" id="listSelect">
                 <?php
                 foreach($userLists as $userList) {
-                    if ((Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username'])
+                    if (($authenticatedUser && $authenticatedUser['username'] == $user['username'])
                         || ($userList['public'] == 1)) {
                 ?>
                     <option value="<?=htmlentities($userList['id'])?>"><?=htmlentities($userList['title'])?></option>
@@ -40,35 +44,53 @@ $userLists = API\getUserLists($user['id']);
             </select>
         </div>
         <?php
-        if ((Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username'])) {
+        if (($authenticatedUser && $authenticatedUser['username'] == $user['username'])) {
         ?>
-        <div>
+        <div id="listButtons">
             <button class="simpleButton" id="addListButton" data-entity="List"><i class="icofont-ui-add"></i>New list</button>
-            <button class="simpleButton" id="removeListButton" data-entity="List"><i class="icofont-ui-delete"></i>Delete list</button>   
+            <?php
+            if (!empty($userLists)) {
+            ?>
+                <button class="simpleButton" id="removeListButton" data-entity="List"><i class="icofont-ui-delete"></i>Delete list</button>   
+            <?php
+            }
+            ?>    
         </div>
-        <?php
-        }
-        ?>
+        <?php } ?>
     </div>
 
     <div id="lists">
         <?php
-        foreach($userLists as $userList){
-            if ((Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username'])
-                    || ($userList['public'] == 1)) {
-        ?>
-            <div class="petGrid" data-id="<?=htmlentities($userList['id'])?>">
-                <div class="arrow left"></div>
-                <div class="petGridContent"></div>
-                <div class="arrow right"></div>
-            </div>
-        <?php
+        $listAmount = sizeof($userLists);
+        if ($user['username'] != $authenticatedUser['username']) {
+            $listAmount = 0;
+            foreach($userLists as $userList) {
+                if ($userList['public']) $listAmount++;
             }
-        } 
-        ?>
+        }
+
+        if ($listAmount != 0) {
+            foreach($userLists as $userList){
+                if (($authenticatedUser && $user['username'] == $authenticatedUser['username'])
+                        || ($userList['public'] == 1)) {
+            ?>
+                <div class="list" data-id="<?=htmlentities($userList['id'])?>">
+                    <p> <?=htmlentities($userList['description'])?> </p>
+                    <div class="petGrid" >
+                        <div class="arrow left"></div>
+                        <div class="petGridContent"></div>
+                        <div class="arrow right"></div>
+                    </div>
+                </div>
+            <?php
+                }
+            } 
+        } else { ?>
+            <p>@<?=htmlentities($user['username'])?> has no <?=$user['username'] != $authenticatedUser['username'] ? 'public' : ''?> lists.</p>
+        <?php } ?>
     </div>
 </section>
 
 <?php
-include_once(dirname(__FILE__) . "/../templates/common/footer.php");
+require_once(dirname(__FILE__) . "/../templates/common/footer.php");
 ?>
