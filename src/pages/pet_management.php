@@ -35,8 +35,7 @@
             </p>
         </div>
     <?php } 
-    } ?>
-    </table>        
+    } ?>        
 </section>
 
 <section class="petManagement">

@@ -10,7 +10,7 @@ if (Session\isAuthenticated()) { ?>
 
 <section class="authForm">
     <div>
-        <h1>Sign In</h1>
+        <h2>Sign In</h2>
 
         <?php 
             $message = Session\popMessage(); 
@@ -32,7 +32,7 @@ if (Session\isAuthenticated()) { ?>
             <input type="submit" value="Sign In" />
         </form>
     </div>
-    <img src="<?=getRootUrl()?>/images/cuteDoggos.jpeg"/>
+    <img src="<?=getRootUrl()?>/images/cuteDoggos.jpeg" alt="Pet image"/>
 </section>
 
 <?php }

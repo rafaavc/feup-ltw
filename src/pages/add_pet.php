@@ -27,8 +27,9 @@
                 </div>
 
                 <div class="formField required">
+                    <p>Birthdate</p>
                     <label for="birthdate">Birthdate</label>
-                    <input type="text" id="birthdate" name="birthdate" min="<?=date("Y-m-d", getYearsAgo(20))?>" max="<?=date('Y-m-d')?>" placeholder="Birthdate" required/>
+                    <input type="date" id="birthdate" name="birthdate" min="<?=date("Y-m-d", getYearsAgo(20))?>" max="<?=date('Y-m-d')?>" required/>
                 </div>
 
                 <div class="formField required">
@@ -44,7 +45,7 @@
                 <label for="specie">Species</label>
                 <div class="simple-2column-grid">
                     <div class="formField required">
-                        <select name="specie" id="specie" required>
+                        <select name="specie" id="specie">
                             <option value="-1">- Select a Species -</option>
                             <?php foreach($species as $specie) { ?>
                                 <option value="<?=$specie['id']?>"><?=$specie['name']?></option>
@@ -70,7 +71,7 @@
                 <label for="size">Size</label>
                 <div class="simple-2column-grid">
                     <div class="formField required">
-                        <select name="size" id="size" required>
+                        <select name="size" id="size">
                             <option value="-1">- Select a Size -</option>
                             <?php foreach($sizes as $size) { ?>
                                 <option value="<?=$size['id']?>"><?=$size['name']?></option>
@@ -85,7 +86,7 @@
                 <label for="color">Color</label>
                 <div class="simple-2column-grid">
                     <div class="formField required">
-                        <select name="color" id="color" required>
+                        <select name="color" id="color">
                             <option value="-1">- Select a Color -</option>
                             <?php foreach($colors as $color) { ?>
                                 <option value="<?=$color['id']?>"><?=$color['name']?></option>
