@@ -4,7 +4,7 @@
     padding-top: 0;
 }
 
-#list-select {
+#listSelect {
     cursor: pointer;
     margin: auto 1rem;
     font-family: 'Lora', serif;
@@ -25,15 +25,22 @@
 .textButtonPair form, .textButtonPair .edit {
     display: none;
 }
-.profile_header {
+.profileHeader {
 	display: grid;
 	grid-template-columns: auto 1fr;
 	grid-gap: 5rem;
 	background-color: var(--lightGrey);
 	align-items: center;
 }
+.profileHeader button:focus {
+    border: none;
+}
 
-.profile_header > div:first-of-type {
+.profileHeader textarea {
+    height: 7rem;
+}
+
+.profileHeader > div:first-of-type {
 	background-size: cover;
 	background-position: 50%;
 
@@ -46,27 +53,27 @@
 	grid-column-end: span 1;
 }
 
-.profile_header header h3 {
+.profileHeader header h3 {
 	font-size: 3rem;
 	margin-top: 0;
 	margin-bottom: 1rem;
 }
 
-.profile_header header > h4, .profile_header header strong {
+.profileHeader header > h4, .profileHeader header strong {
 	font-size: 1.5rem;
 	margin: 0;
 }
 
-.profile_header footer {
+.profileHeader footer {
 	margin-top: 3rem;
 }
 
-.profile_header footer > p {
+.profileHeader footer > p {
 	display: inline;
 	margin-left: 1rem;
 }
 
-.profile_header footer label {
+.profileHeader footer label {
     position: relative;
     right: 2rem;
     cursor: pointer;

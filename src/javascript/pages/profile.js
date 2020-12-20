@@ -39,7 +39,7 @@ forms.forEach(form => {
 });
 
 const lists = document.getElementById('lists');
-const listSelect = document.getElementById('list-select');
+const listSelect = document.getElementById('listSelect');
 const listsPetGrid = lists.querySelector('div.petGrid');
 if (listsPetGrid == null) listSelect.style.display = "none";
 
@@ -97,7 +97,7 @@ function askForDeleteConfirm() {
 }
 
 function removeList() {
-    const listSelect = document.getElementById("list-select");
+    const listSelect = document.getElementById("listSelect");
     const selectedIndex = listSelect.selectedIndex;
 
     //delete element from select
@@ -150,7 +150,7 @@ function editProfile() {
 
 function showSelection(editForm, inputField) {
     editForm.style.display = "flex";
-    editForm.style.margin = "1rem";
+    editForm.style.margin = "0.5rem 0";
     editForm.style.alignItems = "baseline"
     inputField.style.display = "none";
 
