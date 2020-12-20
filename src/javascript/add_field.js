@@ -1,6 +1,7 @@
 import { sendPostRequest } from "./ajax.js";
 import { getRootUrl } from './init.js';
 import { getCSRF } from "./utils.js";
+import { askForDeleteConfirm } from './pages/profile.js'
 
 export function toggleAddingMode(e, onClickExtender, onRcvExtender) {
     if (e != undefined) e.preventDefault();
@@ -162,7 +163,24 @@ function createListRequest(entity, input, option, visibilitySelect, description,
         const p = lists.querySelector('#lists > p');
         if (p != null) p.remove();
         if (onRcvExtender != null) onRcvExtender();
+
+        addDeleteButton();
     });
 
     return true;
+}
+
+function addDeleteButton() {
+    const listButtons = document.getElementById("listButtons");
+    if (document.getElementById("removeListButton") == undefined){
+        console.log("got here");
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "simpleButton";
+        deleteButton.id = "removeListButton";
+        deleteButton.dataset.entity = "List";
+        deleteButton.innerHTML = "<i class='icofont-ui-delete'></i>Delete list";
+        deleteButton.addEventListener('click', askForDeleteConfirm);
+
+        listButtons.appendChild(deleteButton);
+    }
 }

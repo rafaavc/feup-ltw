@@ -59,7 +59,6 @@ if (addListButton != null)
             updateSelectedList();
             listSelect.style.display = "block";
         });
-        addDeleteButton();
     });
 
 const removeListButton = document.getElementById("removeListButton");
@@ -69,21 +68,7 @@ if (removeListButton != null)
 createTileLists();
 initWebsite();
 
-function addDeleteButton() {
-    const listButtons = document.getElementById("listButtons");
-    if (document.getElementById("removeListButton") == undefined){
-        const deleteButton = document.createElement("button");
-        deleteButton.className = "simpleButton";
-        deleteButton.id = "removeListButton";
-        deleteButton.dataset.entity = "List";
-        deleteButton.innerHTML = "<i class='icofont-ui-delete'></i>Delete list";
-        deleteButton.addEventListener('click', askForDeleteConfirm);
-
-        listButtons.appendChild(deleteButton);
-    }
-}
-
-function askForDeleteConfirm() {
+export function askForDeleteConfirm() {
     if (this.dataset.clicked == undefined || this.dataset.clicked === "") {
         this.dataset.clicked = "clicked";
         this.innerHTML = "<i class='icofont-ui-close'></i> Cancel";
