@@ -27,7 +27,7 @@
                 <?php } else { ?>
                     <li><a href="<?=getRootUrl()?>/action/signout">Sign Out</a></li>
                     <li><a href="<?=getRootUrl()?>/pets">My Pets</a></li>
-                    <li><a href="<?=getRootUrl()?>/user/<?=$loggedInUser['username']?>">My Profile</a></li>
+                    <li><a href="<?=getRootUrl()?>/user/<?=htmlentities($loggedInUser['username'])?>">My Profile</a></li>
                 <?php } ?>
             </ul>
         </nav>

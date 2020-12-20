@@ -49,7 +49,7 @@
                         <select name="specie" id="specie">
                             <option value="-1">- Select a Species -</option>
                             <?php foreach($species as $specie) { ?>
-                                <option value="<?=$specie['id']?>"><?=$specie['name']?></option>
+                                <option value="<?=$specie['id']?>"><?=htmlentities($specie['name'])?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -75,7 +75,7 @@
                         <select name="size" id="size">
                             <option value="-1">- Select a Size -</option>
                             <?php foreach($sizes as $size) { ?>
-                                <option value="<?=$size['id']?>"><?=$size['name']?></option>
+                                <option value="<?=$size['id']?>"><?=htmlentities($size['name'])?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -90,7 +90,7 @@
                         <select name="color" id="color">
                             <option value="-1">- Select a Color -</option>
                             <?php foreach($colors as $color) { ?>
-                                <option value="<?=$color['id']?>"><?=$color['name']?></option>
+                                <option value="<?=$color['id']?>"><?=htmlentities($color['name'])?></option>
                             <?php } ?>
                         </select>
                     </div>
