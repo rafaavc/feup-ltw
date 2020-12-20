@@ -3,7 +3,7 @@
 		<?php
 		$userLists = API\getUserLists($user['id']);
 		if (sizeof($userLists) != 0) { ?>
-		<select id="selectList">
+		<select name="lists">
 			<?php foreach ($userLists as $userList) { ?>
 				<option class="listOption" value="<?= htmlentities($userList['id']) ?>"><?= htmlentities($userList['title']) ?></option>
 			<?php } ?>

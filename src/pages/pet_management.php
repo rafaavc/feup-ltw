@@ -25,7 +25,7 @@
     <?php } else {
         foreach($pets as $pet) { ?>
         <div class="petManagementPets">
-            <p><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>"><?=$pet['name'] == null || $pet['name'] == '' ? $pet['size']." ".$pet['color']." ".$pet['specie'] : $pet['name']?></a><span class="tagLabel <?=$pet['state']?>"><?=$pet['state'] == 'adopted' ? 'Adopted' : ($pet['state'] == 'ready' ? 'Ready for Adoption' : ($pet['state'] == 'archived' ? 'Archived' : null)) ?></span></p>
+            <p><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>"><?=API\getPetName($pet['id'])?></a><span class="tagLabel <?=$pet['state']?>"><?=$pet['state'] == 'adopted' ? 'Adopted' : ($pet['state'] == 'ready' ? 'Ready for Adoption' : ($pet['state'] == 'archived' ? 'Archived' : null)) ?></span></p>
         </div>
     <?php } 
     } ?>
@@ -39,7 +39,8 @@
     <?php } else { 
         foreach($petsAdoptionProposals as $proposal) { ?>
         <div class="petManagementAdoption">
-            <p><a href="<?=getRootUrl()?>/user/<?=$proposal['propUserUsername']?>"><?=$proposal['propUserName']?></a> wants to adopt <a href="<?=getRootUrl()?>/pet/<?=$proposal['petId']?>"></a><a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>"><?=$pet['name'] == null || $pet['name'] == '' ? $pet['size']." ".$pet['color']." ".$pet['specie'] : $pet['name']?></a></p>
+            <p><a href="<?=getRootUrl()?>/user/<?=$proposal['propUserUsername']?>"><?=$proposal['propUserName']?></a> wants to adopt 
+            <a href="<?=getRootUrl()?>/pet/<?=$pet['id']?>"><?=API\getPetName($pet['id'])?></a></p>
             <p><button data-pet="<?=$proposal['petId']?>" data-adopter="<?=$proposal['propUserId']?>" class="acceptAdoption"><i class="icofont-ui-check"></i></button></p>
             <p><button data-pet="<?=$proposal['petId']?>" data-adopter="<?=$proposal['propUserId']?>" class="declineAdoption"><i class="icofont-ui-close"></i></button></p>
         </div>
@@ -58,7 +59,7 @@
             <div class="petManagementComments">
                 <div class="image" style="background-image: url('../../images/userProfilePictures/<?= $comment['creatorId'] ?>.jpg')"></div>
                 <div>
-                    <p><a href="<?=getRootUrl()?>/user/<?=$comment['creatorUsername']?>"><?=$comment['creatorName']?></a> on pet <a href="<?=getRootUrl()?>/pet/<?=$comment['petId']?>"><?=$comment['petName']?></a>:</p>
+                    <p><a href="<?=getRootUrl()?>/user/<?=$comment['creatorUsername']?>"><?=$comment['creatorName']?></a> on pet <a href="<?=getRootUrl()?>/pet/<?=$comment['petId']?>"><?=API\getPetName($comment['petId'])?></a>:</p>
                     <p><?=$comment['content']?></p>
                 </div>
                 <p><?=elapsedTime(strtotime($comment['postDate']))?> ago</p>
