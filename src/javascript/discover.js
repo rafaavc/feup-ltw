@@ -1,5 +1,5 @@
-import { sendGetRequest } from '../ajax.js'
-import { createUserTile, createPetTile } from '../tile.js'
+import { sendGetRequest } from './modules/ajax.js'
+import { createUserTile, createPetTile } from './modules/tile.js'
 import './generic.js'
 
 

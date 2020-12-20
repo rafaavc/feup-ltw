@@ -1,6 +1,6 @@
-import { initWebsite } from '../init.js'
-import { sendPostRequest, sendDeleteRequest } from '../ajax.js';
-import { getCSRF } from '../utils.js';
+import { initWebsite } from './modules/init.js'
+import { sendPostRequest, sendDeleteRequest } from './modules/ajax.js';
+import { getCSRF } from './modules/utils.js';
 
 initWebsite();
 

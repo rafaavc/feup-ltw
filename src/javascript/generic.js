@@ -1,6 +1,6 @@
-import { getRootUrl, initWebsite } from '../init.js'
-import { sendGetRequest } from '../ajax.js'
-import { createPetTile } from '../tile.js'
+import { getRootUrl, initWebsite } from './modules/init.js'
+import { sendGetRequest } from './modules/ajax.js'
+import { createPetTile } from './modules/tile.js'
 
 createPetsTileList();
 initWebsite();
