@@ -2,7 +2,7 @@
     <div style="background-image: url(<?= '../images/user_profile_pictures/' . $user['id'] . '.jpg' ?>);"> </div>
     <div>
         <header>
-            <section class="textButtonPair">
+            <div class="textButtonPair">
                 <div id="name">
                     <h3><?=htmlentities($user['name'])?></h3>
                     <button class="edit clickable" id="nameEdit"><i class="icofont-ui-edit"></i></button>
@@ -12,8 +12,8 @@
                     <button class="confirm" name="nameConfirm"><i class="icofont-ui-check"></i></button>
                     <button class="close" name="nameClose"><i class="icofont-ui-close"></i></button>
                 </form>
-            </section>
-            <section class="textButtonPair">
+            </div>
+            <div class="textButtonPair">
                 <div id="username">
                     <strong><?=htmlentities($user['username']) ?></strong>
                     <button class="edit clickable" id="usernameEdit"><i class="icofont-ui-edit"></i></button>
@@ -23,8 +23,8 @@
                     <button class="confirm" name="usernameConfirm"><i class="icofont-ui-check"></i></button>
                     <button class="close" name="usernameClose"><i class="icofont-ui-close"></i></button>
                 </form>
-            </section>
-            <section class="textButtonPair">
+            </div>
+            <div class="textButtonPair">
                 <div id="mail">
                     <p><?=htmlentities($user['mail']) ?></p>
                     <button class="edit clickable" id="mailEdit"><i class="icofont-ui-edit"></i></button>
@@ -34,9 +34,9 @@
                     <button class="confirm" name="mailConfirm"><i class="icofont-ui-check"></i></button>
                     <button class="close" name="mailClose"><i class="icofont-ui-close"></i></button>
                 </form>
-            </section>
+            </div>
         </header>
-        <section class="textButtonPair" id="bioSection">
+        <div class="textButtonPair" id="bioSection">
             <div id="bio">
                 <p><?=htmlentities($user['description']) ?></p>
                 <button class="edit clickable" id="bioEdit"><i class="icofont-ui-edit"></i></button>
@@ -46,8 +46,8 @@
                 <button class="confirm" name="bioConfirm"><i class="icofont-ui-check"></i></button>
                 <button class="close" name="bioClose"><i class="icofont-ui-close"></i></button>
             </form>
-        </section>
-        <section class="textButtonPair" id="passwordSection">
+        </div>
+        <div class="textButtonPair" id="passwordSection">
             <div id="password">
                 <p class="edit">Password</p>
                 <button class="edit clickable" id="passwordEdit"><i class="icofont-ui-edit"></i></button>
@@ -65,7 +65,7 @@
                 <button class="confirm" name="passwordConfirm"><i class="icofont-ui-check"></i></button>
                 <button class="close" name="passwordClose"><i class="icofont-ui-close"></i></button>
             </form>
-        </section>
+        </div>
     <?php
     if (Session\isAuthenticated() && $user['username'] == Session\getAuthenticatedUser()['username']) {
     ?>

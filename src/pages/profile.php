@@ -26,9 +26,7 @@ $userLists = API\getUserLists($user['id']);
 <section id="userList" class="petlist">
     <div class="simple-2column-grid">
         <div id="select">
-            <label for="listSelect">
-                <h2>Lists</h2>
-            </label>
+        <header><h2>Lists</h2></header>
             <select name="list" id="listSelect">
                 <?php
                 foreach($userLists as $userList) {
