@@ -5,7 +5,7 @@ require_once(dirname(__FILE__)."/../control/api/pet.php");
 
 $user = API\getUserByUsername($GLOBALS['username']);
 if (!$user) Router\error404();
-$pageTitle = $user['shortName'];
+$pageTitle = htmlentities($user['shortName']);
 
 require_once(dirname(__FILE__) . "/../templates/common/header.php");
 
