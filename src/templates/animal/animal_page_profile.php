@@ -19,28 +19,24 @@
 			<span class="tagLabel <?=$pet['state']?>"><?=$pet['state'] == 'adopted' ? 'Adopted' : ($pet['state'] == 'ready' ? 'Ready for Adoption' : ($pet['state'] == 'archived' ? 'Archived' : null)) ?></span>
 			<p><?= $pet['description'] ?></p>
 		</div>
-		<form method="POST" name="updatePet" action="<?= getRootURL() ?>/action/updatePet" enctype="multipart/form-data" id="updateForm">
+		<form method="POST" name="updatePet" action="<?= getRootURL() ?>/action/updatePet" enctype="multipart/form-data" id="updatePet">
 			<input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>" />
 			<input type="hidden" id="petId" name="petId" value="<?= $pet['id'] ?>" />
-			<input type="text" id="nameInput" name="name" value="<?= $pet['name'] ?>" />
-			<input type="text" id="locationInput" name="location" value="<?= $pet['location'] ?>" />
-			<textarea id="descriptionInput" name="description"><?= $pet['description'] ?></textarea>
-
+			<input type="text" id="nameInput" name="name" maxlength="20" value="<?= $pet['name'] ?>" />
+			<input type="text" id="locationInput" name="location" title="Location may only contain letters and spaces, there can not be 2 spaces in a row nor int the beginning/end." pattern="[a-zA-Z]+( [a-zA-Z]+)*" minlength="5" maxlength="20" value="<?= $pet['location'] ?>" />
+			<textarea id="descriptionInput" name="description" minlength="20" maxlength="300"><?= $pet['description'] ?></textarea>
+			<input type="hidden" name="profilePhoto" />
+			
 			<div id="photosInput" style="display: none">
-				<input type="hidden" name="profilePhoto" />
 				<div class="photos">
-					<?php
-					foreach ($photos as $photo) {
-					?>
+					<?php foreach ($photos as $photo) { ?>
 						<div id="photo<?= $photo['photoId'] ?>">
-							<img src="<?= getRootURL() ?>/images/petPictures/<?= $photo['photoId'] ?>.jpg" heigth=50 data-button-id="<?= $photo['photoId'] ?>">
+							<img src="<?= getRootURL() ?>/images/petPictures/<?= $photo['photoId'] ?>.jpg" heigth=50 data-photo-id="<?= $photo['photoId'] ?>">
 							<div class="remove" data-id="<?= $photo['photoId'] ?>"><i class="icofont-ui-close"></i></div>
 						</div>
-					<?php
-					}
-					?>
+					<?php } ?>
 				</div>
-				<input type="file" name="photos[]" />
+				<input type="file" name="photos[]" accept="image/jpeg" />
 				<button class="simpleButton" id="addPhotoButton"><i class="icofont-ui-add"></i>Photo</button>
 				<p>To select a profile picture, click on one of the pictures you uploaded.</p>
 			</div>

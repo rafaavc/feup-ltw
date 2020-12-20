@@ -14,6 +14,10 @@ function getRootURL() {
     return $GLOBALS['rootUrl'];
 }
 
+function getDocRoot() {
+    return $_SERVER['DOCUMENT_ROOT'];
+}
+
 require_once(dirname(__FILE__)."/utils.php");
 require_once(dirname(__FILE__)."/session.php");
 require_once(dirname(__FILE__)."/api/api.php");

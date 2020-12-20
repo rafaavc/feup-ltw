@@ -11,6 +11,7 @@ const editPetButton = document.getElementById('editPet');
 const submitEditPetButton = document.getElementById('submitEditPet');
 const cancelEditPetButton = document.getElementById('closeEdit');
 const petProfile = document.querySelector('.petProfile');
+const editPetForm = document.querySelector('form[name=updatePet]');
 
 if (commentForm != null) {
 	commentForm.addEventListener('submit', submitComment);
@@ -30,8 +31,7 @@ if (cancelEditPetButton != null) {
 
 
 function editPet() {
-	const form = document.getElementById('updateForm');
-	form.style.display = 'grid';
+	editPetForm.style.display = 'grid';
 
 	const info = document.getElementById('petInfo');
 	info.style.display = 'none';
@@ -48,8 +48,7 @@ function cancelEditPet() {
 	const photos = document.getElementById('photosInput');
 	photos.style.display = 'none';
 
-	const form = document.getElementById('updateForm');
-	form.style.display = 'none';
+	editPetForm.style.display = 'none';
 
 	const info = document.getElementById('petInfo');
 	info.style.display = 'initial';
@@ -229,13 +228,17 @@ const removeButtons = Array.from(document.getElementsByClassName('remove'));
 removeButtons.forEach(removeButton => {
 	removeButton.addEventListener('click', function () {
 		const photoId = this.dataset.id;
-		const photos = document.querySelector('#updateForm .photos');
+		const photos = editPetForm.querySelector('.photos');
 
 		const photo = document.createElement('input');
 		photo.name = 'removePhotos[]';
 		photo.type = 'hidden';
 		photo.value = photoId;
 		photos.appendChild(photo);
+		
+		if (this.previousSibling.previousSibling.classList.contains("profilePicture")) {
+			profilePhotoInput.value = '';
+		}
 
 		document.getElementById('photo' + photoId).remove();
 
@@ -250,6 +253,7 @@ function handleFileInput() {
 	nextButton.name = lastButton.name;
 	nextButton.addEventListener('change', handleFileInput);
 	nextButton.style.display = "none";
+	nextButton.accept ="image/jpeg";
 
 	lastButton.style.display = "none";
 
@@ -272,7 +276,7 @@ function handleFileInput() {
 		removeButton.classList.add('remove');
 		removeButton.addEventListener('click', function () {
 			const buttonIdx = fileInputButtons.findIndex((el) => el.id === lastButtonId);
-			if (profilePhotoInput.value === lastButton.files[0].name) {
+			if (this.previousSibling.classList.contains("profilePicture")) {
 				profilePhotoInput.value = '';
 			}
 			fileInputButtons[buttonIdx].obj.remove();
@@ -297,16 +301,18 @@ previousPhotos.forEach((photo) => {
 })
 
 function updateProfilePic() {
-	const photos = document.querySelectorAll('#photosInput > .photos > div > img');
-	photos.forEach((photo) => {
-		if (photo.dataset.buttonId === profilePhotoInput.value) {
-			photo.style.border = 'none';
-		}
-
-	})
-
-	profilePhotoInput.value = this.dataset.buttonId;
-	this.style.border = 'solid 0.3rem var(--accentColorDarker)';
+    const prevProfileImage = document.querySelectorAll('img.profilePicture');
+	prevProfileImage.forEach((pi) => pi.classList.remove('profilePicture'));
+	
+	if (this.dataset.buttonId != undefined) {
+		const buttonId = parseInt(this.dataset.buttonId);
+		const button = fileInputButtons.find((button) => button.id === buttonId).obj;
+		profilePhotoInput.value = button.files[0].name;
+	} else {
+		const photoId = parseInt(this.dataset.photoId);
+		profilePhotoInput.value = photoId;
+	}
+	this.classList.add('profilePicture');
 }
 
 const select = document.getElementById('selectList');
