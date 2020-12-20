@@ -183,8 +183,7 @@ function createListRequest(entity, input, option, visibilitySelect, description,
         return true;
     });
 
-    console.log(res);
-    return res;
+    return true;
 }
 
 function addDeleteButton() {
