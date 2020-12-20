@@ -8,5 +8,5 @@
             <a href="<?=getRootUrl()?>/signup" class="simpleButton contrastButton">Sign Up</a>
         </footer>
     </div>
-    <img src="images/cuteCat.jpeg" />        
+    <img src="images/cuteCat.jpeg" alt="Cute cat" />        
 </section>

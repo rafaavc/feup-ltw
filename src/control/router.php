@@ -105,20 +105,6 @@ function hitDestination($destination) {
     require_once($destination);
 }
 
-function getPostParameter($name) {
-    return isset($_POST[$name]) ? $_POST[$name] : null;
-}
-
-function getPostParameters($names) {
-    $res = array();
-    foreach ($names as $name) {
-        $value = getPostParameter($name);
-        if ($value == null) return null;
-        $res[$name] = $value;
-    }
-    return $res;
-}
-
 function error404() {
     http_response_code(404);
     if (!isAPIRequest(null)) header("Location: ".getRootUrl()."/404");

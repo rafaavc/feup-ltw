@@ -17,7 +17,7 @@
                 <p class="<?=$message['type']?>-message"><?=$message['content']?></p>
         <?php } ?>
         
-        <form method="POST" name="addPet" action="<?=getRootURL()?>/control/actions/add_pet.php" enctype="multipart/form-data">
+        <form method="POST" name="addPet" action="<?=getRootURL()?>/action/addPet" enctype="multipart/form-data">
             <div>
                 <input type="hidden" name="csrf" value="<?=$_SESSION['csrf']?>" />
                 

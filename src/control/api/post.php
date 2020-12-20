@@ -1,22 +1,33 @@
 <?php
 
-require_once(dirname(__FILE__). '/../session.php');
-require_once(dirname(__FILE__). '/user.php');
-require_once(dirname(__FILE__). '/../db.php');
+namespace API;
+use Session;
+use Router;
+use Database;
+use Exception;
+
 require_once(dirname(__FILE__). '/pet.php');
 
-$petId = $_POST['petId'];
-$comment = $_POST['comment'];
-$userId = Session\getAuthenticatedUser()['id'];
-
-if ($petId != null && $comment != null) {
+function addComment($petId, $userId, $comment) {
     $db = Database::instance()->db();
-    $stmt = $db->prepare('INSERT INTO Post(petId, userId, description, postDate, answerToPostID) VALUES(?, ?, ?, ?, ?)');
-    $stmt->execute(array($petId, $userId, $comment, date('Y-m-d H:i:s'), null));
+    $stmt = $db->prepare('INSERT INTO Post(petId, userId, description, postDate) VALUES(?, ?, ?, ?)');
+    $stmt->execute(array($petId, $userId, $comment, date('Y-m-d H:i:s')));
+}
 
+if (Router\isAPIRequest(__FILE__)) {
+    $user = Session\getAuthenticatedUser();
+    $parameters = getArrayParameters($_POST, ['petId', 'comment']);
 
-    $post = API\getLastPost($petId);
-    echo json_encode($post);
+    if (!$user) Router\errorUnauthorized("No user is logged in.");
+    if ($parameters == null) Router\errorBadRequest("The required parameters were not received.");
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        try {
+            addComment($parameters['petId'], $user['id'], $parameters['comment']);
+            responseJSON(array("value" => true, "post" => getLastPost($parameters['petId'])));
+        } catch(Exception $e) {
+            Router\errorBadRequest();
+        }
+    } else Router\errorBadRequest();
 }
 
 ?>

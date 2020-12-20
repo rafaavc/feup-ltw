@@ -67,12 +67,13 @@ function submitComment(event) {
 
 	if (comment.length < 1) return;
 
-	sendPostRequest(getRootUrl() + "/control/api/post.php", { petId: petId, comment: comment }, receiveComment);
+	sendPostRequest(getRootUrl() + "/api/pet/comment", { petId: petId, comment: comment }, receiveComment);
 }
 
 function receiveComment() {
-	const post = JSON.parse(this.responseText);
-
+	const res = JSON.parse(this.responseText);
+	if (!res.value) return;
+	const post = res.post;
 	const article = document.createElement('article');
 	article.className = 'comment';
 	article.id = `post-${post.id}`;
@@ -140,9 +141,12 @@ function changeAdoptButton() {
 
 	document.querySelector('.petProfile footer').appendChild(paragraph);
 
-	const userId = adoptButton.attributes['data-user-id'].value;
-	const username = adoptButton.attributes['data-username'].value;
-	const name = adoptButton.attributes['data-user-name'].value;
+	let buttonToUse = adoptButton;
+	if (buttonToUse == null) buttonToUse = cancelButton;
+
+	const userId = buttonToUse.dataset.userId;
+	const username = buttonToUse.dataset.username;
+	const name = buttonToUse.dataset.userName;
 
 	const petProposal = document.createElement('div');
 	petProposal.className = 'petProposal open';
@@ -153,7 +157,7 @@ function changeAdoptButton() {
 	image.style = "background-image: url('../../images/userProfilePictures/" + userId + ".jpg')";
 
 	const a = document.createElement('a');
-	a.href = getRootUrl() + '/user' + username;
+	a.href = getRootUrl() + '/user/' + username;
 	a.innerHTML = name;
 
 	const p = document.createElement('p');

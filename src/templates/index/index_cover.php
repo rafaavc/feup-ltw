@@ -1,5 +1,5 @@
 <section class="simpleGrid indexCover">
-    <img src="images/cuteDoggos.jpeg" />
+    <img src="images/cuteDoggos.jpeg" alt="Cute dogs" />
     <div>
         <header>
             <h2>Find your furry (or not) companion</h2>

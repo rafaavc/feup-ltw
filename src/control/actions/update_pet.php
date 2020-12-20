@@ -3,6 +3,7 @@
 require_once(dirname(__FILE__) . "/action.php");
 require_once(dirname(__FILE__) . "/../api/pet.php");
 require_once(dirname(__FILE__) . "/../api/user.php");
+require_once(dirname(__FILE__) . "/../file_upload.php");
 
 $parameters = initAction(['petId', 'location', 'description']);
 
@@ -18,10 +19,9 @@ $petId = API\updatePet($parameters['petId'], $parameters['name'], $parameters['l
 for ($i = 0; $i < sizeof($_FILES['photos']['name']); $i++) {
 	$tmpPath = $_FILES['photos']['tmp_name'][$i];
 	if ($tmpPath == "") continue;
-	if (finfo_file(finfo_open(FILEINFO_MIME_TYPE), $tmpPath) != 'image/jpeg') {
-		echo "not valid :(";
-		continue;
-	}
+    if (!isJPGImage($tmpPath)) {
+        Router\errorBadRequest("Invalid files were sent to the server.");
+    }
 	$photoId = API\addPetPhoto($parameters['petId']);
 	$originalPath = "../../images/petPictures/" . $photoId . ".jpg";
 	move_uploaded_file($tmpPath, $originalPath);

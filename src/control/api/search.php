@@ -114,13 +114,14 @@ function handleSearchRequest() {
         responseJSON(array('users' => searchUsers($value)));
 
     } else {
-        http_response_code(400); // BAD REQUEST
-        exit();
+        Router\errorBadRequest();
     }
 }
 
-if (Router\isAPIRequest(__FILE__) && isset($GLOBALS['what']) && isset($GLOBALS['specie']) && isset($GLOBALS['color']) && isset($GLOBALS['size']) && isset($GLOBALS['value'])) {
-    handleSearchRequest();
+if (Router\isAPIRequest(__FILE__)) {
+    $parameters = getArrayParameters($GLOBALS, ['what', 'specie', 'color', 'size', 'value']);
+    if ($parameters != null) handleSearchRequest();
+    else Router\errorBadRequest();
 }
 
 ?>

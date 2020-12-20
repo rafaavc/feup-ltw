@@ -1,5 +1,4 @@
 <?php
-
 $GLOBALS['section'] = 'discover';
 require_once(dirname(__FILE__) . '/../control/db.php');
 require_once(dirname(__FILE__) . "/../control/api/pet.php");
@@ -14,7 +13,7 @@ $posts = API\getPosts($pet['id']);
 $user = Session\getAuthenticatedUser();
 $originalOwner = API\getUserById($pet['userId']);
 
-require_once(dirname(__FILE__) . '/../templates/animal/animal_page_petProfile.php');
+require_once(dirname(__FILE__) . '/../templates/animal/animal_page_profile.php');
 ?>
 
 <div id="mySlider" class="ss-parent">
