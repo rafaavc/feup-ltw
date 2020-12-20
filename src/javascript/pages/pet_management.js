@@ -35,6 +35,14 @@ function acceptAdoption() {
             if (button.dataset.pet == petId) button.parentNode.parentNode.remove();
         }
         checkEmpty(container);
+        const petStates = document.querySelectorAll('.tagLabel');
+        for (const state of petStates) {
+            if (state.dataset.petId == petId) {
+                state.classList.remove('ready');
+                state.classList.add('adopted');
+                state.innerHTML = 'Adopted';
+            }
+        }
     });
 }
 
