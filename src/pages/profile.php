@@ -45,9 +45,15 @@ $userLists = API\getUserLists($user['id']);
         <?php
         if (($authenticatedUser && $authenticatedUser['username'] == $user['username'])) {
         ?>
-        <div>
+        <div id="listButtons">
             <button class="simpleButton" id="addListButton" data-entity="List"><i class="icofont-ui-add"></i>New list</button>
-            <button class="simpleButton" id="removeListButton" data-entity="List"><i class="icofont-ui-delete"></i>Delete list</button>   
+            <?php
+            if (!empty($userLists)) {
+            ?>
+                <button class="simpleButton" id="removeListButton" data-entity="List"><i class="icofont-ui-delete"></i>Delete list</button>   
+            <?php
+            }
+            ?>    
         </div>
         <?php } ?>
     </div>
@@ -59,10 +65,13 @@ $userLists = API\getUserLists($user['id']);
                 if (($authenticatedUser && $user['username'] == $authenticatedUser['username'])
                         || ($userList['public'] == 1)) {
             ?>
-                <div class="petGrid" data-id="<?=htmlentities($userList['id'])?>">
-                    <div class="arrow left"></div>
-                    <div class="petGridContent"></div>
-                    <div class="arrow right"></div>
+                <div class="list" data-id="<?=htmlentities($userList['id'])?>">
+                    <p> <?=htmlentities($userList['description'])?> </p>
+                    <div class="petGrid" >
+                        <div class="arrow left"></div>
+                        <div class="petGridContent"></div>
+                        <div class="arrow right"></div>
+                    </div>
                 </div>
             <?php
                 }

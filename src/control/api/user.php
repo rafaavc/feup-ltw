@@ -181,13 +181,17 @@ function updatePassword($password) {
 }
 
 function createList($title, $visibility, $description) {
-    $stmt = Database::db()->prepare("INSERT INTO List(title, description, public, userId) VALUES (:title, :description, :public, :userId);");
-    $stmt->bindParam(':title', $title);
-    $stmt->bindParam(':description', $description);
-    $stmt->bindParam(':public', $visibility);
-    $stmt->bindParam(':userId', Session\getAuthenticatedUser()['id']);
-    $stmt->execute();
-    return $stmt->rowCount();
+    try {
+        $stmt = Database::db()->prepare("INSERT INTO List(title, description, public, userId) VALUES (:title, :description, :public, :userId);");
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':public', $visibility);
+        $stmt->bindParam(':userId', Session\getAuthenticatedUser()['id']);
+        $stmt->execute();
+    } catch(Exception $e) {
+        return array('success' => false, 'message' => 'Title does not fulfill database requirements');
+    }
+    return array('id' => Database::db()->lastInsertId());
 }
 
 function deleteList($listId) {
@@ -215,8 +219,7 @@ function handleListDeletionRequest() {
 }
 
 function handleListCreationRequest() {
-    createList($_POST['title'], $_POST['visibility'], $_POST['description']);
-    responseJSON(array('id' => Database::db()->lastInsertId()));
+    responseJSON(createList($_POST['title'], $_POST['visibility'], $_POST['description']));
 }
 
 function handleTilesRequest() {

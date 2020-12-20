@@ -1,4 +1,4 @@
-import { sendPostRequest } from "./ajax.js";
+import { sendPostRequest, sendDeleteRequest } from "./ajax.js";
 import { getRootUrl } from './init.js';
 import { getCSRF } from "./utils.js";
 
@@ -161,21 +161,113 @@ function createListRequest(entity, input, option, visibilitySelect, description,
         showUpdatedField("List cannot have empty title", form, true, "listTitle");
         return false;
     }
+    if (input.value.length > 20) {
+        showUpdatedField('Title needs to have between 1 and 20 characters', form, true, "listTile");
+        return false;
+    }
 
     option.selected = true;
     sendPostRequest(getRootUrl() + "/api/user", 
-                    {title: input.value, visibility: visibilitySelect.selectedIndex, description: description.innerHTML, csrf: getCSRF()}, 
+                    {title: input.value, visibility: visibilitySelect.selectedIndex, description: description.value, csrf: getCSRF()}, 
                     function() {
         const res = JSON.parse(this.responseText);
         option.value = res.id;
-
         const id = res.id;
-        lists.appendChild(createEmptyTileList(input.value, id));
+
+        const list = document.createElement("div");
+        list.dataset.id = id;
+        list.className = "list";
+        
+        const descriptionBlock = document.createElement("p");
+        descriptionBlock.innerHTML = description.value;
+        descriptionBlock.style.marginTop = "0";
+        list.appendChild(descriptionBlock);
+        list.appendChild(createEmptyTileList(input.value, id));
+        list.style.marginTop = "0";
+
+        lists.appendChild(list);
         
         const p = lists.querySelector('#lists > p');
         if (p != null) p.remove();
         if (onRcvExtender != null) onRcvExtender();
+
+        addDeleteButton();
+        return true;
     });
 
     return true;
+}
+
+function addDeleteButton() {
+    const listButtons = document.getElementById("listButtons");
+    if (document.getElementById("removeListButton") == undefined){
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "simpleButton";
+        deleteButton.id = "removeListButton";
+        deleteButton.dataset.entity = "List";
+        deleteButton.innerHTML = "<i class='icofont-ui-delete'></i>Delete list";
+        deleteButton.addEventListener('click', askForDeleteConfirm);
+
+        listButtons.appendChild(deleteButton);
+    }
+}
+
+export function askForDeleteConfirm() {
+    if (this.dataset.clicked == undefined || this.dataset.clicked === "") {
+        this.dataset.clicked = "clicked";
+        this.innerHTML = "<i class='icofont-ui-close'></i> Cancel";
+
+        const confirm = document.createElement("button");
+        confirm.innerHTML = "Confirm";
+        confirm.className = "contrastButton";
+        confirm.id = "confirmDelete";
+
+        confirm.addEventListener("click", function() {
+            const deleteButton = document.getElementById("removeListButton");
+            deleteButton.dataset.clicked = "";
+            deleteButton.innerHTML = "<i class='icofont-ui-delete'></i> Delete list";
+            this.remove();
+
+            removeList();
+        });
+
+        this.parentNode.appendChild(confirm);
+    }
+    else {
+        this.dataset.clicked = "";
+        this.innerHTML = "<i class='icofont-ui-delete'></i> Delete list";
+        document.getElementById("confirmDelete").remove();
+    }
+}
+
+function removeList() {
+    const listSelect = document.getElementById("listSelect");
+    const selectedIndex = listSelect.selectedIndex;
+
+    //delete element from select
+    const elementToDelete = listSelect.children[selectedIndex];
+    if (elementToDelete == undefined) return;
+    const listId = elementToDelete.value;
+    elementToDelete.remove();
+
+    //delete list
+    document.querySelector("#lists > div[data-id='" + listId + "']").remove();
+    const firstList = document.getElementById("lists");
+    const firstChildren = firstList.children[0];
+    if (firstChildren != undefined && firstChildren.length != 0)
+        firstChildren.style.display = "grid";
+    else {
+        document.getElementById("removeListButton").remove();
+        
+        const lists = document.getElementById("lists");
+        const p = document.createElement("p");
+        p.innerHTML = "@" + document.querySelector("#username > strong").innerHTML + " has no lists";
+        lists.appendChild(p);
+
+        const listSelect = document.getElementById("listSelect");
+        listSelect.style.display = "none";
+    }
+
+    //delete list in database
+    sendDeleteRequest(`${getRootUrl()}/api/user/${listId}/${getCSRF()}`, function () { });
 }
