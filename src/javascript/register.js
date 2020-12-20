@@ -1,4 +1,4 @@
-import { sendGetRequest, sendSyncGetRequest } from '../ajax.js'
+import { sendGetRequest, sendSyncGetRequest } from './modules/ajax.js'
 import './generic.js'
 
 function onElementChange() {

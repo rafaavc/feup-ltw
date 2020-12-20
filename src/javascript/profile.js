@@ -1,9 +1,9 @@
-import { getRootUrl, initWebsite } from '../init.js'
-import { sendPutRequest, sendGetRequest } from '../ajax.js'
-import { createPetTile } from '../tile.js'
-import { toggleAddingMode, showUpdatedField, askForDeleteConfirm } from '../add_field.js'
-import { escapeHtml } from '../escape.js'
-import { getCSRF } from '../utils.js'
+import { getRootUrl, initWebsite } from './modules/init.js'
+import { sendPutRequest, sendGetRequest } from './modules/ajax.js'
+import { createPetTile } from './modules/tile.js'
+import { toggleAddingMode, showUpdatedField, askForDeleteConfirm } from './modules/add_field.js'
+import { escapeHtml } from './modules/escape.js'
+import { getCSRF } from './modules/utils.js'
 
 const bioEmptyMessage = "Bio (currently empty)";
 

@@ -1,8 +1,8 @@
-import SimpleSlider from '../slider.js'
-import { sendPostRequest, sendDeleteRequest } from '../ajax.js'
+import SimpleSlider from './modules/slider.js'
+import { sendPostRequest, sendDeleteRequest } from './modules/ajax.js'
 import './generic.js'
-import { getRootUrl } from '../init.js'
-import { elapsedTime, getCSRF } from '../utils.js'
+import { getRootUrl } from './modules/init.js'
+import { elapsedTime, getCSRF } from './modules/utils.js'
 
 const commentForm = document.querySelector('.petProfileSection > form');
 const adoptButton = document.querySelector('#adopt');

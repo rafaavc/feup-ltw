@@ -1,6 +1,6 @@
-import { sendGetRequest } from '../ajax.js';
-import { getRootUrl } from '../init.js';
-import { toggleAddingMode } from '../add_field.js';
+import { sendGetRequest } from './modules/ajax.js';
+import { getRootUrl } from './modules/init.js';
+import { toggleAddingMode } from './modules/add_field.js';
 import './generic.js'
 
 const raceSelect = document.getElementById('race');
