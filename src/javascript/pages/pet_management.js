@@ -4,25 +4,38 @@ import { getCSRF } from '../utils.js';
 
 initWebsite();
 
-function adoptionReplyOnload(parent) {
+function adoptionReplyOnload(parent, check = true) {
     const res = JSON.parse(this.responseText);
     const container = parent.parentNode;
     if (res.value == true) {
         parent.remove();
     }
+
+    if (check) checkEmpty(container);
+}
+
+function checkEmpty(container) {
     if (container.children.length == 1) {
         const pElem = document.createElement('p');
         pElem.appendChild(document.createTextNode('Your pets have no adoption proposals.'))
         container.appendChild(pElem);
     }
-
 }
 
 function acceptAdoption() {
     const petId = this.dataset.pet;
     const adopterId = this.dataset.adopter;
     const parent = this.parentNode.parentNode;
-    sendPostRequest(`api/adoption/${petId}`, { adopter: adopterId, csrf: getCSRF() }, function() { adoptionReplyOnload.bind(this)(parent) });
+    const container = parent.parentNode;
+    sendPostRequest(`api/adoption/${petId}`, { adopter: adopterId, csrf: getCSRF() }, function() { 
+        adoptionReplyOnload.bind(this)(parent, false);
+        if (!JSON.parse(this.responseText).value) return;
+        const buttons = document.querySelectorAll('.petManagementAdoption > p > button.declineAdoption');
+        for (const button of buttons) {
+            if (button.dataset.pet == petId) button.parentNode.parentNode.remove();
+        }
+        checkEmpty(container);
+    });
 }
 
 function declineAdoption() {

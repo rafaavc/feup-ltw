@@ -8,6 +8,7 @@ use Session;
 use Exception;
 
 require_once(dirname(__FILE__) . "/user.php");
+require_once(dirname(__FILE__) . "/pet.php");
 
 function makeAdoptionRequest($pet, $adopter)
 {
@@ -58,6 +59,18 @@ function handleAdoptionRequest($method, $pet)
     responseJSON(array("value" => true));
 }
 
+function rejectAdoptionRequests($petId) {
+    $db = Database::instance()->db();
+    $openProposals = getPetOpenAdoptionProposals($petId);
+    $stmt = $db->prepare('DELETE FROM ProposedToAdopt WHERE petId = ?');
+    $stmt->execute(array($petId));
+
+    foreach($openProposals as $proposal) {
+        $stmt = $db->prepare('INSERT INTO RejectedProposal VALUES (?, ?)');
+        $stmt->execute(array($proposal['userId'], $petId));
+    }
+}
+
 function acceptAdoptionRequest($pet, $adopter)
 {
     $db = Database::instance()->db();
@@ -81,6 +94,7 @@ function handleAdoptionReply($method, $pet, $adopter)
     if ($method == "POST" || $method == "PUT") {
         try {
             acceptAdoptionRequest($pet, $adopter);
+            rejectAdoptionRequests($pet);
         } catch (Exception $e) {
             Router\errorBadRequest($e->getMessage());
         }
