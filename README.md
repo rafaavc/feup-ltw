@@ -6,11 +6,11 @@ Web Languages and Technologies project 2020/2021
 - Rafael Cristino (201806680)
 - Xavier Pisco (201806134)
 
-## Credentials (username/password)
-- johnalewis (supersecure)
-- rafaavc (mypassword)
-- xamas (safest)
-- TsarkFC (marktsubasa)
+## Credentials (username / password)
+- johnalewis / supersecure
+- rafaavc / mypassword
+- xamas / safest
+- TsarkFC / marktsubasa
 
 ## Features:
 - XSS: yes
