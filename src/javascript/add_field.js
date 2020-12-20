@@ -152,13 +152,24 @@ function createListRequest(entity, input, option, visibilitySelect, description,
 
     option.selected = true;
     sendPostRequest(getRootUrl() + "/api/user", 
-                    {title: input.value, visibility: visibilitySelect.selectedIndex, description: description.innerHTML, csrf: getCSRF()}, 
+                    {title: input.value, visibility: visibilitySelect.selectedIndex, description: description.value, csrf: getCSRF()}, 
                     function() {
         const res = JSON.parse(this.responseText);
         option.value = res.id;
-
         const id = res.id;
-        lists.appendChild(createEmptyTileList(input.value, id));
+
+        const list = document.createElement("div");
+        list.dataset.id = id;
+        list.className = "list";
+        
+        const descriptionBlock = document.createElement("p");
+        descriptionBlock.innerHTML = description.value;
+        descriptionBlock.style.marginTop = "0";
+        list.appendChild(descriptionBlock);
+        list.appendChild(createEmptyTileList(input.value, id));
+        list.style.marginTop = "0";
+
+        lists.appendChild(list);
         
         const p = lists.querySelector('#lists > p');
         if (p != null) p.remove();
@@ -173,7 +184,6 @@ function createListRequest(entity, input, option, visibilitySelect, description,
 function addDeleteButton() {
     const listButtons = document.getElementById("listButtons");
     if (document.getElementById("removeListButton") == undefined){
-        console.log("got here");
         const deleteButton = document.createElement("button");
         deleteButton.className = "simpleButton";
         deleteButton.id = "removeListButton";

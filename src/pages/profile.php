@@ -65,10 +65,13 @@ $userLists = API\getUserLists($user['id']);
                 if (($authenticatedUser && $user['username'] == $authenticatedUser['username'])
                         || ($userList['public'] == 1)) {
             ?>
-                <div class="petGrid" data-id="<?=htmlentities($userList['id'])?>">
-                    <div class="arrow left"></div>
-                    <div class="petGridContent"></div>
-                    <div class="arrow right"></div>
+                <div class="list" data-id="<?=htmlentities($userList['id'])?>">
+                    <p> <?=htmlentities($userList['description'])?> </p>
+                    <div class="petGrid" >
+                        <div class="arrow left"></div>
+                        <div class="petGridContent"></div>
+                        <div class="arrow right"></div>
+                    </div>
                 </div>
             <?php
                 }

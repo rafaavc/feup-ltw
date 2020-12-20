@@ -40,8 +40,9 @@ forms.forEach(form => {
 
 const lists = document.getElementById('lists');
 const listSelect = document.getElementById('listSelect');
-const listsPetGrid = lists.querySelector('div.petGrid');
+const listsPetGrid = lists.querySelector('div.list');
 if (listsPetGrid == null) listSelect.style.display = "none";
+listSelect.addEventListener('change', updateSelectedList);
 
 function updateSelectedList() {
     for (const list of lists.children) {
@@ -50,7 +51,6 @@ function updateSelectedList() {
         else list.style.display = 'none';
     }
 }
-listSelect.addEventListener('change', updateSelectedList);
 
 const addListButton = document.getElementById('addListButton');
 if (addListButton != null)
