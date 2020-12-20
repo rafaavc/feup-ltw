@@ -17,6 +17,10 @@
 	left: -100%;
 }
 
+#mySlider {
+    height: 30vw;
+}
+
 .ss-child > div {
 	margin: 0 auto;
     width: 30vw;
@@ -46,6 +50,15 @@
 	outline: none;
 
 	transition: all .2s;
+}
+
+@media (max-width: 600px) {
+    #mySlider {
+        height: 100vw;
+    }
+    .ss-child > div {
+        width: 100%;
+    }
 }
 
 .ss-nav > button:hover {

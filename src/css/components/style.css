@@ -421,6 +421,7 @@ body > footer a:hover {
 
     body > header > input ~ nav {
         max-height: 0;
+        visibility: hidden;
         opacity: 0;
         transition: all .2s;
         grid-column-end: span 2;
@@ -428,8 +429,10 @@ body > footer a:hover {
     }
     body > header > input ~ nav > ul > li {
         display: block;
+        margin: 0.4rem 0;
     }
     body > header input:checked ~ nav  {
+        visibility: visible;
         max-height: 10rem;
         opacity: 1;
     }

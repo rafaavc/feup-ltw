@@ -203,3 +203,56 @@
 .petProfileSection > form {
 	margin-top: 3rem;
 }
+
+@media (max-width: 600px) {
+    .petProfile {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        grid-gap: 1rem;
+        text-align: center;
+    }
+
+    .petProfile footer {
+        text-align: center;
+        margin: 0;
+	}
+
+	.petProfile footer > select[name=lists] {
+		width: auto;
+	}
+
+	.comment {
+		align-items: center;
+	}
+	
+	.comment div.image {
+		width: 3rem;
+		height: 3rem;
+	}
+
+    /*#editProfileLabel {
+        margin-top: 0;
+    }
+
+    .profileHeader header h3 {
+        font-size: 2rem;
+    }
+
+    #userList .simple-2column-grid {
+        grid-template-columns: 1fr;
+        grid-gap: 0;
+    }
+
+    #userList .simple-2column-grid form {
+        margin-top: 1rem;
+    }
+
+    #userList .simple-2column-grid form button {
+        margin-top: 1rem;
+    }
+
+    #lists > .petGrid {
+        grid-template-columns: 1fr;
+    }*/
+}
+

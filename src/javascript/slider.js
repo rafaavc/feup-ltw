@@ -1,6 +1,6 @@
 // https://github.com/rafaavc/simple-slider
 class SimpleSlider {
-	constructor(elementId, interval = 3000, height = "30vh", firstSlide = 0) {
+	constructor(elementId, interval = 3000, firstSlide = 0) {
 		this.dir = {
 			RIGHT: 0,
 			LEFT: 1
@@ -13,7 +13,7 @@ class SimpleSlider {
 
 		this.sliderElement = document.getElementById(elementId);
 		if (!this.sliderElement) console.log("The slider was not found!");
-		this.sliderElement.style.height = height;
+		//this.sliderElement.style.height = height;
 
 		this.currentSlide = firstSlide;
 
